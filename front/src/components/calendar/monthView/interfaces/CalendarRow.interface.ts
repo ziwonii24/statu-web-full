@@ -9,7 +9,7 @@ export default interface Component {
   handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
-  data?: DataObj[];
+  data: DataObj[];
   rowContainerClassName? : string;
   dayContainerClassName? : string;
   dayDataListClass?: string;

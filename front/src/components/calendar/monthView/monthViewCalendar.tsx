@@ -11,18 +11,14 @@ import './styles/Calendar.scss'
 
 interface Props {
   targetDay: number
-  title: string
   targetMonth: string
-  showMonth: Boolean
   targetDateString: string
   handleState: (targetDay: number, targetDateString: string) => void
   width: string
   onClickDay?: (day: number, dayData: any) => void
   dayComponent?: object
-  data?: DataObj[]
+  data: DataObj[]
   containerClassName: string
-  titleContainerClass: string
-  monthTitleClass: string
   rowContainerClassName: string
   dayContainerClassName?: string
   daysHeaderContainerClass: string
@@ -34,19 +30,16 @@ interface Props {
 }
 
 const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
+  console.log('month calendar view')
   const {
     targetDay,
     targetMonth,
-    showMonth,
     onClickDay,
-    title,
     data,
     handleState,
     targetDateString,
     width,
     containerClassName,
-    titleContainerClass,
-    monthTitleClass,
     rowContainerClassName,
     dayContainerClassName,
     dayDataListClass,
@@ -88,7 +81,6 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
 
   const daysInMonth = dayjs(targetMonth).daysInMonth()
   const targetMonthDayOfWeek = dayOfWeek(targetMonth)
-  const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
   const weeksArray: number[][] = daysArray(daysInMonth, targetMonthDayOfWeek)
 
   return (
@@ -97,20 +89,6 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
       className={`calendarContainer ${containerClassName || ''}`}
       style={{ width: width || '100% ' }}
     >
-      <div
-        data-test="calendarTitle"
-        className={`calendarTitle ${titleContainerClass || ''}`}
-      >
-        {title}
-      </div>
-      {showMonth && (
-        <div
-          data-test="monthTitle"
-          className={`monthTitle ${monthTitleClass || ''}`}
-        >
-          {targetMonthString}
-        </div>
-      )}
       <CalendarHeaders
         data-test="calendarHeaders"
         daysHeaderContainerClass={daysHeaderContainerClass || ''}
