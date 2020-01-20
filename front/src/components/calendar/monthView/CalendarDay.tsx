@@ -50,33 +50,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const check = date.isBefore(now);  // true
   const passed = day && !!colorPastDates && check ? colorPastDates : '';
 
-  const handleData = () => {
-    console.log('event')
-    // dayData.map(item => (
-    //   <li
-    //     data-test="dayDataListItem"
-    //     key={`day-item-${item.day}-${uuid()}`}
-    //     className={`dayDataItem ${dayDataListItemClass}`}
-    //   >
-    //     {item.title}
-    //   </li>
-    //   )
-    // )
-    return (
-      <div>
-        {dayData.map(item => (
-          <div
-            data-test="dayDataListItem"
-            key={`day-item-${item.day}-${uuid()}`}
-            className={`dayDataItem ${dayDataListItemClass}`}
-          >
-            {item.title}
-          </div>
-        ))}
-      </div>
-    )
-  }
-
   return (
     <div
       data-test="calendarDayContainer"
@@ -98,17 +71,17 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         </p>
       )}
       {dayComponent}
-      <div>
+      <ul>
         {dayData && dayData.map(item => (
-          <div
+          <li
             data-test="dayDataListItem"
             key={`day-item-${item.day}-${uuid()}`}
             className={`dayDataItem ${dayDataListItemClass}`}
           >
             {item.title}
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   )
 }
