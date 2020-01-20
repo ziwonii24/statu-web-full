@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { DataObj } from './interfaces/Calendar.interface'
+import { DataObj } from './interfaces/MonthViewCalendar.interface'
 
 import './styles/CalendarDay.scss'
 
@@ -44,7 +44,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const active = day && day === targetDay ? 'calendarActiveDate' : '';
   const activeNumber = day === targetDay ? 'calendarActiveDateNumber' : '';
   const date = dayjs(targetMonth).add(day - 1, 'day');  // 지정시간을 더한 날짜
-  const newDate = date.format('YYYY-MM-DD');
+  // const newDate = date.format('YYYY-MM-DD');
   const now = dayjs();
   const check = date.isBefore(now);  // true
   const passed = day && !!colorPastDates && check ? colorPastDates : '';
@@ -69,7 +69,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
       data-test="calendarDayContainer"
       data-test2={`${active}`}
       onClick={() => {
-        handleState({ targetDay: day, targetDateString: newDate })
+        handleState(day, targetDateString)
         onClickDay && onClickDay(day, dayData)
       }}
       style={{ backgroundColor: active.length ? colorActiveDate : passed }}

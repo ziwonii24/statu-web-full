@@ -1,8 +1,8 @@
-import React, { useState, FunctionComponent } from 'react'
+import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 
-import PageInterface from './interfaces/Calendar.interface'
-import { DataObj } from './interfaces/Calendar.interface'
+import PageInterface from './interfaces/MonthViewCalendar.interface'
+import { DataObj } from './interfaces/MonthViewCalendar.interface'
 import { dayOfWeek, daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
@@ -33,7 +33,7 @@ interface Props {
   colorActiveDate?: string
 }
 
-const monthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
+const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   const {
     targetDay,
     targetMonth,
@@ -122,4 +122,4 @@ const monthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
 }
 
 
-export default monthViewCalendar
+export default MonthViewCalendar

@@ -1,21 +1,17 @@
 import React, { useState, ChangeEvent, FunctionComponent } from 'react';
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
-import MonthViewCalendar from './monthView/monthViewCalendar'
-import Interface from './interfaces/index.interface'
-import { DataObj } from './monthView/interfaces/Calendar.interface'
+import MonthViewCalendar from './monthView/MonthViewCalendar'
+import { DataObj } from './monthView/interfaces/MonthViewCalendar.interface'
 
-const Calendar: FunctionComponent<Interface> = () => {
-  const date: string = dayjs().format('YYYY-MM-DD')
-  const [now, setNow] = useState<number>(dayjs(date).valueOf())
+const Calendar: FunctionComponent<{}> = () => {
   const [targetDay, setTargetDay] = useState<number>(1)
   const [targetDateString, setTargetDateString] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
-
+  
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
-    setTargetMonth(date),
-    setNow(dayjs(date).valueOf())
+    setTargetMonth(date)
   }
 
   const handleState = (targetDay: number, targetDateString: string) => {
@@ -26,11 +22,11 @@ const Calendar: FunctionComponent<Interface> = () => {
     <div className="containerDiv container-fluid">
         <div className="headerContainer">
           <header className="header">
-            <h1 className="mainHeader">simple-react-calendar-component</h1>
-            <p className="caption">
+            <h1 className="mainHeader">I LIKE STUDYING!</h1>
+            {/* <p className="caption">
               (for statefull use, uncomment and pick a day to see the
               differance)
-            </p>
+            </p> */}
           </header>
         </div>
         <MonthViewCalendar

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { DataObj } from './interfaces/Calendar.interface'
+import { DataObj } from './interfaces/MonthViewCalendar.interface'
 
 import CalendarDay from './CalendarDay'
 

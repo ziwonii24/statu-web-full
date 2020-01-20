@@ -1,15 +1,9 @@
-import React, { ChangeEvent, Component } from 'react';
-import dayjs from 'dayjs'
-import indexCalendar from './components/calendar/index'
+import React, { FunctionComponent } from 'react';
+import IndexCalendar from './components/calendar/index'
 
-// import './App.scss'
-
-class App extends Component<{}> {
-  render() {
-    return (
-      
-    );
-  }
+const App: FunctionComponent = () => {
+  return <IndexCalendar />
 }
+
 
 export default App;

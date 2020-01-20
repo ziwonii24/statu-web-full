@@ -1,4 +1,4 @@
-import { DataObj } from './Calendar.interface';
+import { DataObj } from './MonthViewCalendar.interface';
 
 export default interface Component {
   title?: string;
