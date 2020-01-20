@@ -1,42 +1,29 @@
-import React, { ChangeEvent, Component } from 'react';
+import React, { useState, ChangeEvent, FunctionComponent } from 'react';
 import dayjs from 'dayjs'
-import Calendar from './components/calendar/monthView/monthViewCalendar'
-import { DataObj } from './components/calendar/monthView/interfaces/Calendar.interface'
+import localeDe from "dayjs/locale/ko"
+import MonthViewCalendar from './monthView/monthViewCalendar'
+import Interface from './interfaces/index.interface'
+import { DataObj } from './monthView/interfaces/Calendar.interface'
 
-// import './App.scss'
+const Calendar: FunctionComponent<Interface> = () => {
+  const date: string = dayjs().format('YYYY-MM-DD')
+  const [now, setNow] = useState<number>(dayjs(date).valueOf())
+  const [targetDay, setTargetDay] = useState<number>(1)
+  const [targetDateString, setTargetDateString] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
+  const [targetMonth, setTargetMonth] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
 
-class App extends Component<{}> {
-  constructor(props: {}) {
-    super(props);
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
+    setTargetMonth(date),
+    setNow(dayjs(date).valueOf())
   }
 
-  state: StateTypes = {
-    now: dayjs(date).valueOf(),
-    targetDay: 1,
-    targetDateString: '2019-10-01',
-    targetMonth: '2019-10-01',
-  };
-
-  handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      targetMonth: dayjs(e.target.value)
-        .startOf('M')
-        .format('YYYY-MM-DD'),
-      now: dayjs(e.target.value)
-        .startOf('M')
-        .format('YYYY-MM-DD')
-        .valueOf(),
-    });
-  };
-
-  handleState = (data: object) => {
-    this.setState(data);
-  };
-
-  render() {
-    const { targetDay, targetDateString, targetMonth } = this.state;
-    return (
-      <div className="containerDiv container-fluid">
+  const handleState = (targetDay: number, targetDateString: string) => {
+    setTargetDay(targetDay)
+    setTargetDateString(targetDateString)
+  }
+  return (
+    <div className="containerDiv container-fluid">
         <div className="headerContainer">
           <header className="header">
             <h1 className="mainHeader">simple-react-calendar-component</h1>
@@ -46,18 +33,19 @@ class App extends Component<{}> {
             </p>
           </header>
         </div>
-        <Calendar
-          targetDay={this.state.targetDay}
-          targetMonth={this.state.targetMonth}
-          // title="My Custom Header"
-          // titleContainerClass="exampleTitleContainerClass"
-          // showMonth={true}
-          // monthTitleClass="exampleMonthTitleClass"
+        <MonthViewCalendar
+          targetDay={targetDay}
+          targetMonth={targetMonth}
+          targetDateString={targetDateString}
+          title="My Custom Header"
+          titleContainerClass="exampleTitleContainerClass"
+          showMonth={true}
+          monthTitleClass="exampleMonthTitleClass"
           onClickDay={(day: number, data: DataObj) =>
             console.log('onClick', day, data)
           }
           data={data}
-          handleState={this.handleState}
+          handleState={handleState}
           width="92%"
           containerClassName="exampleClassContainer"
           rowContainerClassName="exampleClassRow"
@@ -80,8 +68,8 @@ class App extends Component<{}> {
               <input
                 style={{ marginTop: '20px', marginBottom: '20px' }}
                 type="date"
-                value={this.state.targetMonth}
-                onChange={this.handleOnChange}
+                value={targetMonth}
+                onChange={handleOnChange}
               />
             </div>
           </div>
@@ -90,20 +78,10 @@ class App extends Component<{}> {
           &copy; Created By Stevorated (Shirel Garber)
         </div>
       </div>
-    );
-  }
+  )
 }
 
-export default App;
-
-type StateTypes = {
-  now: number;
-  targetDay: number;
-  targetDateString: string;
-  targetMonth: string;
-};
-
-const date: string = dayjs().format('YYYY-MM-DD');
+export default Calendar
 
 const data: DataObj[] = [
   {

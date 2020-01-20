@@ -12,8 +12,8 @@ interface Props {
   week: number[];
   targetMonth: string;
   targetDay: number;
-  // targetDateString: string;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data?: DataObj[];
@@ -31,7 +31,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     week,
     targetMonth,
     targetDay,
-    // targetDateString,
+    targetDateString,
     handleState,
     onClickDay,
     dayComponent,
@@ -56,7 +56,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           day={day}
           targetMonth={targetMonth}
           targetDay={targetDay}
-          // targetDateString={targetDateString}
+          targetDateString={targetDateString}
           handleState={handleState}
           onClickDay={onClickDay}
           dayComponent={dayComponent}

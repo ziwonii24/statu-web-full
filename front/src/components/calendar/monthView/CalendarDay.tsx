@@ -11,8 +11,8 @@ interface Props {
   day: number;
   targetDay: number;
   targetMonth: string;
-  // targetDateString: string;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data?: DataObj[];
@@ -28,7 +28,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     day,
     targetDay,
     targetMonth,
-    // targetDateString,
+    targetDateString,
     handleState,
     onClickDay,
     dayComponent,
@@ -69,7 +69,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
       data-test="calendarDayContainer"
       data-test2={`${active}`}
       onClick={() => {
-        handleState({ targetDay: day, targetDateString: newDate})
+        handleState({ targetDay: day, targetDateString: newDate })
         onClickDay && onClickDay(day, dayData)
       }}
       style={{ backgroundColor: active.length ? colorActiveDate : passed }}

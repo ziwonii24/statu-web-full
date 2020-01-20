@@ -4,7 +4,8 @@ export default interface Component {
   day: number;
   targetMonth: string;
   targetDay: number;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data?: DataObj[]

@@ -5,8 +5,8 @@ export default interface Component {
   week: number[];
   targetMonth: string;
   targetDay: number;
-  // targetDateString: string;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data?: DataObj[];
