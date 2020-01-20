@@ -1,6 +1,7 @@
 import React, { ChangeEvent, Component } from 'react';
 import dayjs from 'dayjs'
 import Calendar from './components/calendar/Calendar'
+import CalendarNavi from './components/calendar/CalendarNavi'
 import { DataObj } from './components/calendar/interfaces/Calendar.interface'
 
 // import './App.scss'
@@ -33,6 +34,50 @@ class App extends Component<{}> {
     this.setState(data);
   };
 
+  handleMovePrevMonth = (now: string) => {
+    const nowString = now.split('-')
+    let year = parseInt(nowString[0])
+    let month = parseInt(nowString[1]) - 1
+    if(month < 1) {
+      month = 12
+      year = year - 1
+    }
+
+    const prevString = year+'-'+month+'-'+nowString[2]
+
+    this.setState ({
+      targetMonth: dayjs(prevString)
+        .startOf('M')
+        .format('YYYY-MM-DD'),
+      now: dayjs(prevString)
+        .startOf('M')
+        .format('YYYY-MM-DD')
+        .valueOf(),
+    })
+  }
+
+  handleMoveNextMonth = (now: string) => {
+    const nowString = now.split('-')
+    let year = parseInt(nowString[0])
+    let month = parseInt(nowString[1]) + 1
+    if(month > 12) {
+      month = 1
+      year = year + 1
+    }
+
+    const prevString = year+'-'+month+'-'+nowString[2]
+
+    this.setState ({
+      targetMonth: dayjs(prevString)
+        .startOf('M')
+        .format('YYYY-MM-DD'),
+      now: dayjs(prevString)
+        .startOf('M')
+        .format('YYYY-MM-DD')
+        .valueOf(),
+    })
+  }
+
   render() {
     const { targetDay, targetDateString, targetMonth } = this.state;
     return (
@@ -46,6 +91,7 @@ class App extends Component<{}> {
             </p>
           </header>
         </div>
+        <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={this.handleMovePrevMonth} onMoveNextMonth={this.handleMoveNextMonth} />
         <Calendar
           targetDay={this.state.targetDay}
           targetMonth={this.state.targetMonth}
