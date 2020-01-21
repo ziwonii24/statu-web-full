@@ -1,10 +1,11 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
-import MonthViewCalendar from './monthView/MonthViewCalendar'
-import WeekViewCalendar from './weekView/WeekViewCalendar'
-import CalendarNavi from './CalendarNavi'
-import { DataObj } from './monthView/interfaces/MonthViewCalendar.interface'
+import MonthViewCalendar from './MonthView/MonthViewCalendar'
+import WeekViewCalendar from './WeekView/WeekViewCalendar'
+import CalendarNavi from './CalendarNavi/CalendarNavi'
+import Modal from './Modal/Modal'
+import { DataObj } from './MonthView/interfaces/MonthViewCalendar.interface'
 
 const Calendar: FunctionComponent<{}> = () => {
   const date: string = dayjs().format('YYYY-MM-DD')
@@ -14,6 +15,7 @@ const Calendar: FunctionComponent<{}> = () => {
   const [targetMonth, setTargetMonth] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
   const [title, setTitle] = useState<string>('My Custom Header')
   const [showMonth, setShowMonth] = useState<Boolean>(true)
+  const [openModal, setOpenModal] = useState<boolean>(false)
 
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
@@ -25,6 +27,7 @@ const Calendar: FunctionComponent<{}> = () => {
   const handleState = (targetDay: number, targetDateString: string) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
+    setOpenModal(true)
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -58,8 +61,12 @@ const Calendar: FunctionComponent<{}> = () => {
     setNow(dayjs(nextMonth).valueOf())
   }
 
-  const handleOnClick = (e: MouseEvent<HTMLDivElement>) => {
+  const handleShowMonth = (e: MouseEvent<HTMLDivElement>) => {
     setShowMonth(!showMonth)
+  }
+
+  const handleCloseModal = (e: MouseEvent<HTMLDivElement>) => {
+    setOpenModal(false)
   }
 
   // 불러올 데이터
@@ -138,7 +145,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
       {/* 달력 제공 타입 전환 버튼 */}
       <div
-        onClick={handleOnClick}
+        onClick={handleShowMonth}
       >
         {showMonth ? 'Weekly' : 'Monthly'}
       </div>
@@ -191,7 +198,10 @@ const Calendar: FunctionComponent<{}> = () => {
       {/* 풋터 */}
       <div className="footerDiv">
         &copy; Created By Stevorated (Shirel Garber)
-        </div>
+      </div>
+
+      {/* 모달 */}
+      <Modal isOpen={openModal} close={handleCloseModal} />
     </div>
   )
 }
