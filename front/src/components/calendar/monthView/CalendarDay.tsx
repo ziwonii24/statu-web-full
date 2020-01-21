@@ -71,7 +71,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         </p>
       )}
       {dayComponent}
-      <ul>
+      <ul
+        data-test="dayDataList"
+        className={`dayDataList ${dayDataListClass}`}
+      >
         {dayData && dayData.map(item => (
           <li
             data-test="dayDataListItem"
