@@ -9,7 +9,7 @@ import CalendarHeaders from './CalendarHeaders'
 
 import './styles/Calendar.scss'
 
-interface Props {
+interface Props { 
   targetDay: number
   targetMonth: string
   targetDateString: string
