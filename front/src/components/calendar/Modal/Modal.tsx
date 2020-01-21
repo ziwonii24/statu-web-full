@@ -1,21 +1,18 @@
 import React, { FunctionComponent, MouseEvent } from 'react'
-import Interface from './interfaces/Modal.interface'
+import { useSelector, useDispatch } from 'react-redux'
 import './styles/Modal.scss'
+import { RootState } from '../../../store'
 
-interface Props {
-  isOpen: boolean
-  close: void
-}
 
-const Modal: FunctionComponent<Interface> = (props: Props) => {
-  const {
-    isOpen,
-    close
-  } = props
-
+const Modal: FunctionComponent<{}> = () => {
+  let modalState = useSelector((state: RootState) => state.calendar)
+  const dispatch = useDispatch()
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    dispatch(false)
+  }
   return (
     <>
-      {isOpen ?
+      {modalState ?
         <>
           <div className="Modal-overlay" />
           <div className="Modal">
@@ -26,7 +23,7 @@ const Modal: FunctionComponent<Interface> = (props: Props) => {
           </p>
             </div>
             <div className="button-wrap">
-              <div onClick={close}>Confirm</div>
+              <div onClick={handleClick}>Confirm</div>
             </div>
           </div>
         </>

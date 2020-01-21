@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+import { openModal } from '../../store/calendar/actions'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import Modal from './Modal/Modal'
 import { DataObj } from './MonthView/interfaces/MonthViewCalendar.interface'
+import Modal from './Modal/Modal'
 
 const Calendar: FunctionComponent<{}> = () => {
   const date: string = dayjs().format('YYYY-MM-DD')
@@ -15,7 +17,8 @@ const Calendar: FunctionComponent<{}> = () => {
   const [targetMonth, setTargetMonth] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
   const [title, setTitle] = useState<string>('My Custom Header')
   const [showMonth, setShowMonth] = useState<Boolean>(true)
-  const [openModal, setOpenModal] = useState<boolean>(false)
+
+  const dispatch = useDispatch()
 
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
@@ -27,7 +30,7 @@ const Calendar: FunctionComponent<{}> = () => {
   const handleState = (targetDay: number, targetDateString: string) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
-    setOpenModal(true)
+    dispatch(openModal())
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -65,11 +68,7 @@ const Calendar: FunctionComponent<{}> = () => {
     setShowMonth(!showMonth)
   }
 
-  const handleCloseModal = (e: MouseEvent<HTMLDivElement>) => {
-    setOpenModal(false)
-  }
-
-  // 불러올 데이터
+  // 불러올 데이터  
   const data: DataObj[] = [
     {
       day: 1,
@@ -201,7 +200,7 @@ const Calendar: FunctionComponent<{}> = () => {
       </div>
 
       {/* 모달 */}
-      <Modal isOpen={openModal} close={handleCloseModal} />
+      <Modal />
     </div>
   )
 }
