@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { DataObj } from './interfaces/Calendar.interface'
+import { DataObj } from './interfaces/MonthViewCalendar.interface'
 
 import CalendarDay from './CalendarDay'
 
@@ -12,11 +12,11 @@ interface Props {
   week: number[];
   targetMonth: string;
   targetDay: number;
-  // targetDateString: string;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
-  data?: DataObj[];
+  data: DataObj[];
   rowContainerClassName?: string;
   dayContainerClassName?: string;
   dayDataListClass?: string;
@@ -31,7 +31,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     week,
     targetMonth,
     targetDay,
-    // targetDateString,
+    targetDateString,
     handleState,
     onClickDay,
     dayComponent,
@@ -56,7 +56,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           day={day}
           targetMonth={targetMonth}
           targetDay={targetDay}
-          // targetDateString={targetDateString}
+          targetDateString={targetDateString}
           handleState={handleState}
           onClickDay={onClickDay}
           dayComponent={dayComponent}

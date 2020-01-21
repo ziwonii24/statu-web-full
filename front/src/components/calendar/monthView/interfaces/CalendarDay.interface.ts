@@ -1,19 +1,19 @@
-import { DataObj } from './Calendar.interface';
+import { DataObj } from './MonthViewCalendar.interface'
 
 export default interface Component {
-  title?: string;
-  week: number[];
+  day: number;
   targetMonth: string;
   targetDay: number;
-  // targetDateString: string;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
-  data?: DataObj[];
-  rowContainerClassName? : string;
-  dayContainerClassName? : string;
+  data: DataObj[]
+  // for css 
+  dayContainerClassName?: string;
   dayDataListClass?: string;
   dayDataListItemClass?: string;
+  daysHeaderContainer?: string;
   colorPastDates?: string;
   colorActiveDate?: string;
 }

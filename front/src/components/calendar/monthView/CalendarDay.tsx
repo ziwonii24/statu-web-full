@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, HTMLAttributes } from 'react'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { DataObj } from './interfaces/Calendar.interface'
+import { DataObj } from './interfaces/MonthViewCalendar.interface'
 
 import './styles/CalendarDay.scss'
 
@@ -11,11 +11,11 @@ interface Props {
   day: number;
   targetDay: number;
   targetMonth: string;
-  // targetDateString: string;
-  handleState: (data: object) => void;
+  targetDateString: string;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
-  data?: DataObj[];
+  data: DataObj[];
   dayContainerClassName?: string;
   dayDataListClass?: string;
   dayDataListItemClass?: string;
@@ -28,7 +28,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     day,
     targetDay,
     targetMonth,
-    // targetDateString,
+    targetDateString,
     handleState,
     onClickDay,
     dayComponent,
@@ -39,60 +39,52 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     colorPastDates,
     colorActiveDate
   } = props;
-  
+
   const dayData = data && data.filter(item => item.day == day);
+  console.log(dayData.length)
   const active = day && day === targetDay ? 'calendarActiveDate' : '';
   const activeNumber = day === targetDay ? 'calendarActiveDateNumber' : '';
   const date = dayjs(targetMonth).add(day - 1, 'day');  // 지정시간을 더한 날짜
-  const newDate = date.format('YYYY-MM-DD');
+  // const newDate = date.format('YYYY-MM-DD');
   const now = dayjs();
   const check = date.isBefore(now);  // true
   const passed = day && !!colorPastDates && check ? colorPastDates : '';
 
-  const handleData = () => {
-    if ( dayData === undefined ) {
-      return ''
-    }
-    dayData.map(item => (
-      <li
-        data-test="dayDataListItem"
-        key={`day-item-${item.day}-${uuid()}`}
-        className={`dayDataItem ${dayDataListItemClass}`}
-      >
-        {item.component ? item.component : item.title}
-      </li>
-    ))
-  }
-    
   return (
-    <div 
+    <div
       data-test="calendarDayContainer"
       data-test2={`${active}`}
       onClick={() => {
-        handleState({ targetDay: day, targetDateString: newDate})
+        // 날짜 클릭했을 때 달력 전체가 렌더링 되는거 수정 필요
+        handleState(day, targetDateString)
         onClickDay && onClickDay(day, dayData)
       }}
       style={{ backgroundColor: active.length ? colorActiveDate : passed }}
       className={`calendarDayContainer ${active} ${dayContainerClassName}`}
     >
       {day && (
-        <p 
-          data-test="calendarNum" 
-          className={`calendarNum ${activeNumber}`} 
+        <p
+          data-test="calendarNum"
+          className={`calendarNum ${activeNumber}`}
         >
           {day}{' '}
         </p>
       )}
       {dayComponent}
-      {dayData && (
-        <ul
-          data-test="dayDataList"
-          className={`dayDataList ${dayDataListClass}`}
-        >
-          {dayData.length ? handleData() : ''}
-        </ul>
-      )}
-
+      <ul
+        data-test="dayDataList"
+        className={`dayDataList ${dayDataListClass}`}
+      >
+        {dayData && dayData.map(item => (
+          <li
+            data-test="dayDataListItem"
+            key={`day-item-${item.day}-${uuid()}`}
+            className={`dayDataItem ${dayDataListItemClass}`}
+          >
+            {item.title}
+          </li>
+        ))}
+      </ul>
     </div>
   )
 }
