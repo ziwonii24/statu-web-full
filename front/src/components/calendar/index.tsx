@@ -1,6 +1,4 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { openModal } from '../../store/calendar/actions'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
@@ -16,9 +14,8 @@ const Calendar: FunctionComponent<{}> = () => {
   const [targetDateString, setTargetDateString] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
   const [title, setTitle] = useState<string>('My Custom Header')
-  const [showMonth, setShowMonth] = useState<Boolean>(true)
-
-  const dispatch = useDispatch()
+  const [showMonth, setShowMonth] = useState<boolean>(true)
+  const [modalState, setModalState] = useState<boolean>(false)
 
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
@@ -27,10 +24,11 @@ const Calendar: FunctionComponent<{}> = () => {
     setTargetMonth(date)
   }
 
-  const handleState = (targetDay: number, targetDateString: string) => {
+  const handleState = (targetDay: number, targetDateString: string, modalState: boolean) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
-    dispatch(openModal())
+    setModalState(modalState)
+    console.log(modalState)
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -66,6 +64,11 @@ const Calendar: FunctionComponent<{}> = () => {
 
   const handleShowMonth = (e: MouseEvent<HTMLDivElement>) => {
     setShowMonth(!showMonth)
+  }
+
+  const handleCloseModal = (modalState: boolean) => {
+    setModalState(modalState)
+    console.log(modalState)
   }
 
   // 불러올 데이터  
@@ -200,7 +203,12 @@ const Calendar: FunctionComponent<{}> = () => {
       </div>
 
       {/* 모달 */}
-      <Modal />
+      {modalState ?
+        <Modal handleModalState={handleCloseModal}/>
+        :
+        ''
+      }
+      
     </div>
   )
 }

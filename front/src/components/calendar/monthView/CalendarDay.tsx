@@ -1,4 +1,4 @@
-import React, { FunctionComponent, HTMLAttributes } from 'react'
+import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 
@@ -12,7 +12,7 @@ interface Props {
   targetDay: number;
   targetMonth: string;
   targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string) => void;
+  handleState: (targetDay: number, targetDateString: string, modalState: boolean) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data: DataObj[];
@@ -28,7 +28,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     day,
     targetDay,
     targetMonth,
-    targetDateString,
     handleState,
     onClickDay,
     dayComponent,
@@ -45,7 +44,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const active = day && day === targetDay ? 'calendarActiveDate' : '';
   const activeNumber = day === targetDay ? 'calendarActiveDateNumber' : '';
   const date = dayjs(targetMonth).add(day - 1, 'day');  // 지정시간을 더한 날짜
-  // const newDate = date.format('YYYY-MM-DD');
+  const newDate = date.format('YYYY-MM-DD');
   const now = dayjs();
   const check = date.isBefore(now);  // true
   const passed = day && !!colorPastDates && check ? colorPastDates : '';
@@ -56,7 +55,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
       data-test2={`${active}`}
       onClick={() => {
         // 날짜 클릭했을 때 달력 전체가 렌더링 되는거 수정 필요
-        handleState(day, targetDateString)
+        handleState(day, newDate, true)
         onClickDay && onClickDay(day, dayData)
       }}
       style={{ backgroundColor: active.length ? colorActiveDate : passed }}

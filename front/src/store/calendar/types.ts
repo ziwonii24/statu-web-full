@@ -3,4 +3,4 @@ import * as actions from './actions'
 
 export type ModalAction = ActionType<typeof actions>
 
-export type ModalState = boolean
+export type ModalState = {modalState: boolean}

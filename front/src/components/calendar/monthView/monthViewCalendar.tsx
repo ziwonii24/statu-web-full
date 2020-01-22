@@ -13,7 +13,7 @@ interface Props {
   targetDay: number
   targetMonth: string
   targetDateString: string
-  handleState: (targetDay: number, targetDateString: string) => void
+  handleState: (targetDay: number, targetDateString: string, modalState: boolean) => void
   width: string
   onClickDay?: (day: number, dayData: any) => void
   dayComponent?: object
