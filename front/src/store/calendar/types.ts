@@ -1,6 +1,8 @@
 import { ActionType } from 'typesafe-actions'
-import * as actions from './actions'
+import { openModal, closeModal } from './actions'
 
-export type ModalAction = ActionType<typeof actions>
+const modalActions = {openModal, closeModal}
+
+export type ModalAction = ActionType<typeof modalActions>
 
 export type ModalState = {modalState: boolean}
