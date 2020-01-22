@@ -39,7 +39,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     colorActiveDate
   } = props;
 
-  const dayData = data && data.filter(item => item.day == day);
+  const dayData = data && data.filter(item => item.day === day);
   console.log(dayData.length)
   const active = day && day === targetDay ? 'calendarActiveDate' : '';
   const activeNumber = day === targetDay ? 'calendarActiveDateNumber' : '';
