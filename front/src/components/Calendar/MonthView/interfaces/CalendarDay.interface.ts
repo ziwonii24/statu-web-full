@@ -1,4 +1,4 @@
-import { DataObj } from './MonthViewCalendar.interface'
+import DataObj from './MonthViewCalendar.interface'
 
 export default interface Component {
   day: number;
