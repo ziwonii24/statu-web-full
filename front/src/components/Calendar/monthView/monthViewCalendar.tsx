@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
-
 import PageInterface from './interfaces/MonthViewCalendar.interface'
-import { DataObj } from './interfaces/MonthViewCalendar.interface'
+import DataObj from './interfaces/DataObj.interface'
 import { dayOfWeek, daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'

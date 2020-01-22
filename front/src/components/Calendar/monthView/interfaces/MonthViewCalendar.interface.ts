@@ -1,3 +1,5 @@
+import DataObj from './DataObj.interface'
+
 export default interface Component {
   targetDay: number
   targetMonth: string
@@ -16,10 +18,4 @@ export default interface Component {
   dayDataListItemClass?: string
   colorPastDates?: string
   colorActiveDate?: string
-}
-
-export interface DataObj {
-  day: number,
-  title: string,
-  component?: object
 }

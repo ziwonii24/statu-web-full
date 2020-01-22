@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { DataObj } from './interfaces/MonthViewCalendar.interface'
+import DataObj from './interfaces/DataObj.interface'
 
 import './styles/CalendarDay.scss'
 

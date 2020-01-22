@@ -4,7 +4,7 @@ import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { DataObj } from './MonthView/interfaces/MonthViewCalendar.interface'
+import DataObj from './MonthView/interfaces/DataObj.interface'
 import Modal from './Modal/Modal'
 
 const Calendar: FunctionComponent<{}> = () => {
@@ -66,7 +66,7 @@ const Calendar: FunctionComponent<{}> = () => {
     setShowMonth(!showMonth)
   }
 
-  const handleCloseModal = (modalState: boolean) => {
+  const handleModalState = (modalState: boolean) => {
     setModalState(modalState)
     console.log(modalState)
   }
@@ -204,7 +204,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
       {/* 모달 */}
       {modalState ?
-        <Modal handleModalState={handleCloseModal}/>
+        <Modal handleModalState={handleModalState}/>
         :
         ''
       }
