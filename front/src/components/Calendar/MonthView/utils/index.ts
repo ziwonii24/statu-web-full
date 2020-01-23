@@ -61,14 +61,3 @@ export const sliceArray = (arr: string[], chunk: number) => {
   }
   return finalArr
 }
-
-const removeExtraArray = (arr: number[][]) => {
-  return arr.map(week => {
-    if (week.filter(day => day !== null).length === 0) {
-      return []
-    } else {
-      return week
-    }
-  })
-}
-
