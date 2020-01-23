@@ -4,5 +4,5 @@ import { closeModal } from '../../store/modal'
 
 export default function useCloseModal() {
   const dispatch = useDispatch()
-  return useCallback(() => dispatch(closeModal()), [dispatch])
+  return useCallback(() => dispatch(closeModal(false)), [dispatch])
 }

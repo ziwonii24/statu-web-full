@@ -4,5 +4,5 @@ import { openModal } from '../../store/modal'
 
 export default function useOpenModal() {
   const dispatch = useDispatch()
-  return useCallback(() => dispatch(openModal()), [dispatch])
+  return useCallback(() => dispatch(openModal(true)), [dispatch])
 }

@@ -81,7 +81,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
             key={`day-item-${item.date}-${uuid()}`}
             className={`dayDataItem ${dayDataListItemClass}`}
           >
-            {item.title}
+            {item.component}
           </li>
         ))}
       </ul>

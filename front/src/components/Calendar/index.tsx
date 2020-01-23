@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useStore } from 'react-redux'
 import useOpenModal from '../../hooks/modal/useOpenModal'
 import useCloseModal from '../../hooks/modal/useCloseModal'
 import dayjs from 'dayjs'
@@ -12,6 +12,8 @@ import Modal from './Modal/Modal'
 import { RootState } from '../../store';
 
 const Calendar: FunctionComponent<{}> = () => {
+  const store = useStore()
+  console.log(store.getState())
   // const [targetDate, setTargetDate] = useState<dayjs.Dayjs>(dayjs().locale(localeDe))
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
@@ -35,7 +37,7 @@ const Calendar: FunctionComponent<{}> = () => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
     openModal()
-    console.log(modalState)
+    console.log('modalState', modalState)
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -54,7 +56,7 @@ const Calendar: FunctionComponent<{}> = () => {
     setShowMonth(!showMonth)
   }
 
-  const handleModalState = (modalState: boolean) => {
+  const handleCloseModal = () => {
     closeModal()
   }
 
@@ -62,36 +64,52 @@ const Calendar: FunctionComponent<{}> = () => {
   const data: DataObj[] = [
     {
       date: '2020-01-01',
-      title: 'item 1',
+      component: 'item 1',
+      goal: 270,
+      achieve: 167
     },
     {
       date: '2020-01-01',
-      title: 'item 2',
+      component: 'item 2',
+      goal: 70,
+      achieve: 17
     },
     {
       date: '2020-01-01',
-      title: 'item 6',
+      component: 'item 6',
+      goal: 20,
+      achieve: 7
     },
     {
       date: '2020-01-01',
-      title: 'item 7',
+      component: 'item 7',
+      goal: 270,
+      achieve: 167
     },
     {
       date: '2020-01-05',
-      title: 'item 3',
+      component: 'item 3',
+      goal: 270,
+      achieve: 367
     },
     {
       date: '2019-12-31',
-      title: 'item 4',
+      component: 'item 4',
+      goal: 210,
+      achieve: 167
     },
     {
       date: '2020-02-01',
-      title: 'item 5',
+      component: 'item 5',
+      goal: 90,
+      achieve: 67
     },
   ];
 
   return (
-    <div className="containerDiv container-fluid">
+    <div 
+      onClick={handleCloseModal} 
+      className="containerDiv container-fluid">
 
       {/* 달력 헤더 */}
       <div className="headerContainer">
@@ -191,7 +209,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
       {/* 모달 */}
       {modalState ?
-        <Modal handleModalState={handleModalState}/>
+        <Modal handleCloseModal={handleCloseModal}/>
         :
         ''
       }

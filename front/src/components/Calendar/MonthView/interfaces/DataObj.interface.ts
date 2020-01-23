@@ -1,5 +1,6 @@
 export default interface DataObj {
   date: string,
-  title: string,
-  component?: object
+  component: string,
+  goal: number,  // 시간 분 
+  achieve: number,
 }
