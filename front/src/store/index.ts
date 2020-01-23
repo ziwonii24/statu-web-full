@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
-import calendar from './calendar/index'
+import modal from './modal/index'
 import drag from './drag/index'
 
 const rootReducer = combineReducers({
-  calendar,
+  modal,
   drag
 });
 

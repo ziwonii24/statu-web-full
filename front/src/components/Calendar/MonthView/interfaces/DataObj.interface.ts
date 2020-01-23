@@ -1,5 +1,5 @@
 export default interface DataObj {
-  day: number,
+  date: string,
   title: string,
   component?: object
 }

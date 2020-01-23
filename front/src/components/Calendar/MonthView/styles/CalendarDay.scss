@@ -15,9 +15,17 @@
   top: 5%;
 }
 
-.calanderActiveDate {
+.calendarpassedDate {
+  background-color: rgb(224, 224, 224);
+  font-size: 18px;
+  font-weight: 200;
+  color: gray;
+}
+
+.calendarActiveDate {
   background-color: palegoldenrod;
 }
+
 .dayDataList {
   // margin-top: 45%;
   padding: 0;
