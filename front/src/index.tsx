@@ -15,7 +15,6 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
   )
 
-
 ReactDOM.render(
   <Provider store={store}>
     <App />

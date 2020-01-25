@@ -12,7 +12,7 @@ interface Props {
   targetDay: number
   targetMonth: string
   targetDateString: string
-  handleState: (targetDay: number, targetDateString: string, modalState: boolean) => void
+  handleState: (targetDay: number, targetDateString: string) => void
   width: string
   onClickDay?: (day: number, dayData: any) => void
   dayComponent?: object
@@ -49,7 +49,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
     colorPastDates,
   } = props;
 
-  const renderRows = (weeks: number[][]) => {
+  const renderRows = (weeks: string[][]) => {
     let count = 0
     return weeks.map(week => {
       if (!week.length) return '';
@@ -77,10 +77,11 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
       )
     })
   }
-
+  const startDayInMonth = dayjs(targetMonth).date(1)
   const daysInMonth = dayjs(targetMonth).daysInMonth()
   const targetMonthDayOfWeek = dayOfWeek(targetMonth)
-  const weeksArray: number[][] = daysArray(daysInMonth, targetMonthDayOfWeek)
+  console.log('targetMonth, startDayInMonth : ',targetMonth, startDayInMonth)
+  const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthDayOfWeek)
 
   return (
     <div

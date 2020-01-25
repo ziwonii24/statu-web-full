@@ -3,12 +3,12 @@ import { Interface } from './interfaces/Modal.interfaces'
 import './styles/Modal.scss'
 
 interface Props {
-  handleModalState: (modalState: boolean) => void
+  handleCloseModal: () => void
 }
 
 const Modal: FunctionComponent<Interface> = (props: Props) => {
   const {
-    handleModalState,
+    handleCloseModal,
   } = props
   return (
     <>
@@ -21,7 +21,7 @@ const Modal: FunctionComponent<Interface> = (props: Props) => {
           </p>
         </div>
         <div className="button-wrap">
-          <div onClick={() => handleModalState(false)}>Confirm</div>
+          <div onClick={handleCloseModal}>Confirm</div>
         </div>
       </div>
     </>

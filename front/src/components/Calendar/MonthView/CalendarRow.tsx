@@ -9,11 +9,11 @@ import CalendarDay from './CalendarDay'
 import './styles/CalendarRow.scss'
 
 interface Props {
-  week: number[];
+  week: string[];
   targetMonth: string;
   targetDay: number;
   targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string, modalState: boolean) => void;
+  handleState: (targetDay: number, targetDateString: string) => void;
   onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data: DataObj[];
@@ -44,7 +44,8 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     colorActiveDate,
   } = props
 
-  const renderRows = (week: number[]) => {
+  const renderRows = (week: string[]) => {
+    console.log(week)
     return week.map(day => {
       return (
         <CalendarDay
@@ -53,7 +54,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           dayDataListClass={dayDataListClass}
           dayDataListItemClass={dayDataListItemClass}
           key={`day-${day || uuid()}`}
-          day={day}
+          date={day}
           targetMonth={targetMonth}
           targetDay={targetDay}
           targetDateString={targetDateString}

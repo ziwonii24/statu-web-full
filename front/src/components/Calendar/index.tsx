@@ -1,4 +1,7 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
+import { useSelector, useStore } from 'react-redux'
+import useOpenModal from '../../hooks/modal/useOpenModal'
+import useCloseModal from '../../hooks/modal/useCloseModal'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
@@ -6,17 +9,23 @@ import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
 import DataObj from './MonthView/interfaces/DataObj.interface'
 import Modal from './Modal/Modal'
+import { RootState } from '../../store';
 
 const Calendar: FunctionComponent<{}> = () => {
-  const date: string = dayjs().format('YYYY-MM-DD')
-  const [now, setNow] = useState<number>(dayjs(date).valueOf())
-  const [targetDay, setTargetDay] = useState<number>(1)
-  const [targetDateString, setTargetDateString] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
-  const [targetMonth, setTargetMonth] = useState<string>(dayjs().locale(localeDe).format('YYYY-MM-DD'))
-  const [title, setTitle] = useState<string>('My Custom Header')
-  const [showMonth, setShowMonth] = useState<boolean>(true)
-  const [modalState, setModalState] = useState<boolean>(false)
+  const store = useStore()
+  console.log(store.getState())
+  // const [targetDate, setTargetDate] = useState<dayjs.Dayjs>(dayjs().locale(localeDe))
+  const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
+  const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
+  const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
+  const [targetDay, setTargetDay] = useState<number>(targetDate.date())
+  const [title, setTitle] = useState<string>('My Custom Schedule')
 
+  const [showMonth, setShowMonth] = useState<boolean>(true)
+  // const [modalState, setModalState] = useState<boolean>(false)
+  const modalState = useSelector((state: RootState) => state.modal.modalState)
+  const openModal = useOpenModal()
+  const closeModal = useCloseModal()
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,87 +33,83 @@ const Calendar: FunctionComponent<{}> = () => {
     setTargetMonth(date)
   }
 
-  const handleState = (targetDay: number, targetDateString: string, modalState: boolean) => {
+  const handleState = (targetDay: number, targetDateString: string) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
-    setModalState(modalState)
-    console.log(modalState)
+    openModal()
+    console.log('modalState', modalState)
   }
 
   const handleMovePrevMonth = (now: string) => {
-    const nowString = now.split('-')
-    let year = parseInt(nowString[0])
-    let month = parseInt(nowString[1]) - 1
-
-    if (month < 1) {
-      month = 12
-      year = year - 1
-    }
-    const prevString = year + '-' + month + '-' + nowString[2]
-    const prevMonth = dayjs(prevString).startOf('M').format('YYYY-MM-DD')
+    const prevMonth = dayjs(now).add(-1, 'month').format('YYYY-MM-DD')
 
     setTargetMonth(prevMonth)
-    setNow(dayjs(prevMonth).valueOf())
   }
 
   const handleMoveNextMonth = (now: string) => {
-    const nowString = now.split('-')
-    let year = parseInt(nowString[0])
-    let month = parseInt(nowString[1]) + 1
-    if (month > 12) {
-      month = 1
-      year = year + 1
-    }
-    const nextString = year + '-' + month + '-' + nowString[2]
-    const nextMonth = dayjs(nextString).startOf('M').format('YYYY-MM-DD')
+    const nextMonth = dayjs(now).add(1, 'month').format('YYYY-MM-DD')
 
     setTargetMonth(nextMonth)
-    setNow(dayjs(nextMonth).valueOf())
   }
 
   const handleShowMonth = (e: MouseEvent<HTMLDivElement>) => {
     setShowMonth(!showMonth)
   }
 
-  const handleModalState = (modalState: boolean) => {
-    setModalState(modalState)
-    console.log(modalState)
+  const handleCloseModal = () => {
+    closeModal()
   }
 
   // 불러올 데이터  
   const data: DataObj[] = [
     {
-      day: 1,
-      title: 'item 1',
+      date: '2020-01-01',
+      component: 'item 1',
+      goal: 270,
+      achieve: 167
     },
     {
-      day: 1,
-      title: 'item 2',
+      date: '2020-01-01',
+      component: 'item 2',
+      goal: 70,
+      achieve: 17
     },
     {
-      day: 1,
-      title: 'item 6',
+      date: '2020-01-01',
+      component: 'item 6',
+      goal: 20,
+      achieve: 7
     },
     {
-      day: 1,
-      title: 'item 7',
+      date: '2020-01-01',
+      component: 'item 7',
+      goal: 270,
+      achieve: 167
     },
     {
-      day: 2,
-      title: 'item 3',
+      date: '2020-01-05',
+      component: 'item 3',
+      goal: 270,
+      achieve: 367
     },
     {
-      day: 2,
-      title: 'item 4',
+      date: '2019-12-31',
+      component: 'item 4',
+      goal: 210,
+      achieve: 167
     },
     {
-      day: 21,
-      title: 'item 5',
+      date: '2020-02-01',
+      component: 'item 5',
+      goal: 90,
+      achieve: 67
     },
   ];
 
   return (
-    <div className="containerDiv container-fluid">
+    <div 
+      onClick={handleCloseModal} 
+      className="containerDiv container-fluid">
 
       {/* 달력 헤더 */}
       <div className="headerContainer">
@@ -204,7 +209,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
       {/* 모달 */}
       {modalState ?
-        <Modal handleModalState={handleModalState}/>
+        <Modal handleCloseModal={handleCloseModal}/>
         :
         ''
       }
