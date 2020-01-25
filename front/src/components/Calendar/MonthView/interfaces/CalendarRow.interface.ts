@@ -1,8 +1,8 @@
-import { DataObj } from './MonthViewCalendar.interface';
+import DataObj from './DataObj.interface';
 
 export default interface Component {
   title?: string;
-  week: number[];
+  week: string[];
   targetMonth: string;
   targetDay: number;
   targetDateString: string;
