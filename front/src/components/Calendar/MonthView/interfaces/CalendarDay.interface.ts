@@ -6,7 +6,6 @@ export default interface Component {
   targetDay: number;
   targetDateString: string;
   handleState: (targetDay: number, targetDateString: string) => void;
-  onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data: DataObj[]
   // for css 

@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import modal from './modal/index'
-import drag from './drag/index'
+import modal from './modal'
+import drag from './drag'
 
 const rootReducer = combineReducers({
   modal,
