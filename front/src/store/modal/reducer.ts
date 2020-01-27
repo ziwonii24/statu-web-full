@@ -3,7 +3,7 @@ import { createReducer } from 'typesafe-actions'
 import { OPEN_MODAL, CLOSE_MODAL } from './actions'
 
 const initialModalState: ModalState = {
-  modalState: true
+  modalState: false
 }
 
 const modal = createReducer<ModalState, ModalAction>(initialModalState, {

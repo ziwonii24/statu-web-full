@@ -7,7 +7,7 @@ interface Props {
   todo: string
   goal: number
   handleDate: (e: ChangeEvent<HTMLInputElement>) => void
-  handleTodo: (te: ChangeEvent<HTMLInputElement>) => void
+  handleTodo: (e: ChangeEvent<HTMLInputElement>) => void
   handleGoal: (e: ChangeEvent<HTMLInputElement>) => void
 }
 

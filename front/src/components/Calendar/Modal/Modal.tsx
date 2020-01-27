@@ -26,7 +26,7 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   const { onCloseModal } = useModal()
-  const handleClick = () => {
+  const handleCloseModal = () => {
     onCloseModal()
   }
   const handleSubmit = async () => {
@@ -45,12 +45,14 @@ const Modal: FunctionComponent<{}> = () => {
     try {
       // await axios.post(SERVER_IP + '/todo', daySchedule)
       console.log('success')
+      console.log(daySchedule)
     }
     catch (e) {
       console.error(e)
     }
   }
 
+  // overlay 층을 이용해서 모달 바깥 클릭으로도 모달 꺼지도록 설정
   return (
     <>
       <div className="Modal-overlay" />
@@ -66,12 +68,12 @@ const Modal: FunctionComponent<{}> = () => {
         />
         <div className="button-wrap">
           <div onClick={() => {
-            handleClick()
+            handleCloseModal()
             handleSubmit()
           }}>
             Confirm
           </div>
-          <div onClick={handleClick}>Cancel</div>
+          <div onClick={handleCloseModal}>Cancel</div>
         </div>
       </div>
     </>

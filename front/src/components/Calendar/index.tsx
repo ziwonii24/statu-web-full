@@ -122,8 +122,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
   return (
     <div 
-      // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요 
-      // onClick={handleCloseModal}
+      // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
       className="containerDiv container-fluid">
 
       {/* 달력 헤더 */}
