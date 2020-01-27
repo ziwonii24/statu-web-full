@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import IndexCalendar from '../Calendar'
+import IndexCalendar from '../../components/Calendar'
 
 
 const MyPlan: FunctionComponent = () => {

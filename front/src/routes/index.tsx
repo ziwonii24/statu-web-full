@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
-import Home from '../components/Home/Home'
-import MyPlan from '../components/MyPlan/MyPlan'
+import Home from '../views/Home/Home'
+import MyPlan from '../views/MyPlan/MyPlan'
 
 const routes = (
   <div>
