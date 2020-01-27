@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { openModal, closeModal } from '../../store/modal'
-import { RootState } from '../../store'
+import { RootState } from '../../store/reducerIndex'
 
 export default function useModal() {
   const dispatch = useDispatch()
