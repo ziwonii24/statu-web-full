@@ -1,31 +1,25 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useSelector, useStore } from 'react-redux'
-import useOpenModal from '../../hooks/modal/useOpenModal'
-import useCloseModal from '../../hooks/modal/useCloseModal'
+import { useStore } from 'react-redux'
+import useModal from '../../hooks/modal/useModal'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
 import DataObj from './MonthView/interfaces/DataObj.interface'
-import Modal from './Modal/Modal'
-import { RootState } from '../../store';
+import Modal from '../Modal/Modal'
 
 const Calendar: FunctionComponent<{}> = () => {
   const store = useStore()
   console.log(store.getState())
-  // const [targetDate, setTargetDate] = useState<dayjs.Dayjs>(dayjs().locale(localeDe))
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetDay, setTargetDay] = useState<number>(targetDate.date())
   const [title, setTitle] = useState<string>('My Custom Schedule')
-
   const [showMonth, setShowMonth] = useState<boolean>(true)
-  // const [modalState, setModalState] = useState<boolean>(false)
-  const modalState = useSelector((state: RootState) => state.modal.modalState)
-  const openModal = useOpenModal()
-  const closeModal = useCloseModal()
+
+  const { modalState, onCloseModal } = useModal()
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +30,6 @@ const Calendar: FunctionComponent<{}> = () => {
   const handleState = (targetDay: number, targetDateString: string) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
-    openModal()
     console.log('modalState', modalState)
   }
 
@@ -57,48 +50,69 @@ const Calendar: FunctionComponent<{}> = () => {
   }
 
   const handleCloseModal = () => {
-    closeModal()
+    onCloseModal()
   }
 
   // 불러올 데이터  
   const data: DataObj[] = [
     {
+      calendarId: '1',
+      subTitleId: '1',
+      id: '1',
       date: '2020-01-01',
       component: 'item 1',
       goal: 270,
       achieve: 167
     },
     {
+      calendarId: '1',
+      subTitleId: '2',
+      id: '1',
       date: '2020-01-01',
       component: 'item 2',
       goal: 70,
       achieve: 17
     },
     {
+      calendarId: '1',
+      subTitleId: '3',
+      id: '1',
       date: '2020-01-01',
       component: 'item 6',
       goal: 20,
       achieve: 7
     },
     {
+      calendarId: '1',
+      subTitleId: '3',
+      id: '1',
       date: '2020-01-01',
       component: 'item 7',
       goal: 270,
       achieve: 167
     },
     {
+      calendarId: '1',
+      subTitleId: '3',
+      id: '1',
       date: '2020-01-05',
       component: 'item 3',
       goal: 270,
       achieve: 367
     },
     {
+      calendarId: '1',
+      subTitleId: '1',
+      id: '1',
       date: '2019-12-31',
       component: 'item 4',
       goal: 210,
       achieve: 167
     },
     {
+      calendarId: '1',
+      subTitleId: '2',
+      id: '1',
       date: '2020-02-01',
       component: 'item 5',
       goal: 90,
@@ -108,7 +122,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
   return (
     <div 
-      onClick={handleCloseModal} 
+      // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
       className="containerDiv container-fluid">
 
       {/* 달력 헤더 */}
@@ -163,9 +177,6 @@ const Calendar: FunctionComponent<{}> = () => {
           targetDay={targetDay}
           targetMonth={targetMonth}
           targetDateString={targetDateString}
-          onClickDay={(day: number, data: DataObj) =>
-            console.log('onClick', day, data)
-          }
           data={data}
           handleState={handleState}
           width="92%"
@@ -209,7 +220,7 @@ const Calendar: FunctionComponent<{}> = () => {
 
       {/* 모달 */}
       {modalState ?
-        <Modal handleCloseModal={handleCloseModal}/>
+        <Modal />
         :
         ''
       }

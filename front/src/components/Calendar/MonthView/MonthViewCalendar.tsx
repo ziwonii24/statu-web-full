@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 import PageInterface from './interfaces/MonthViewCalendar.interface'
 import DataObj from './interfaces/DataObj.interface'
-import { dayOfWeek, daysArray } from './utils'
+import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
 
@@ -14,7 +14,6 @@ interface Props {
   targetDateString: string
   handleState: (targetDay: number, targetDateString: string) => void
   width: string
-  onClickDay?: (day: number, dayData: any) => void
   dayComponent?: object
   data: DataObj[]
   containerClassName: string
@@ -33,7 +32,6 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   const {
     targetDay,
     targetMonth,
-    onClickDay,
     data,
     handleState,
     targetDateString,
@@ -68,7 +66,6 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
           targetDay={targetDay}
           targetDateString={targetDateString}
           handleState={handleState || handleState}
-          onClickDay={onClickDay}
           // dayComponent={dayComponent}
           data={data}
           colorPastDates={colorPastDates}
@@ -79,8 +76,9 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   }
   const startDayInMonth = dayjs(targetMonth).date(1)
   const daysInMonth = dayjs(targetMonth).daysInMonth()
-  const targetMonthDayOfWeek = dayOfWeek(targetMonth)
-  console.log('targetMonth, startDayInMonth : ',targetMonth, startDayInMonth)
+  const targetMonthDayOfWeek = startDayInMonth.day() + 1
+  // console.log(targetMonth)
+  // console.log('startDayInMonth, daysInMonth, targetMonthDayOfWeek : ',startDayInMonth.day(), daysInMonth, targetMonthDayOfWeek)
   const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthDayOfWeek)
 
   return (

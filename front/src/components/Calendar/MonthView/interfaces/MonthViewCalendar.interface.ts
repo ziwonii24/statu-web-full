@@ -6,7 +6,6 @@ export default interface Component {
   targetDateString: string
   handleState: (targetDay: number, targetDateString: string) => void
   width: string
-  onClickDay?: (day: number, dayData: any) => void
   dayComponent?: object
   data: DataObj[]
   containerClassName: string

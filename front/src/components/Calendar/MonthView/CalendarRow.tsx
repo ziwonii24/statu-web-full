@@ -14,7 +14,6 @@ interface Props {
   targetDay: number;
   targetDateString: string;
   handleState: (targetDay: number, targetDateString: string) => void;
-  onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data: DataObj[];
   rowContainerClassName?: string;
@@ -33,7 +32,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     targetDay,
     targetDateString,
     handleState,
-    onClickDay,
     dayComponent,
     data,
     rowContainerClassName,
@@ -45,7 +43,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
   } = props
 
   const renderRows = (week: string[]) => {
-    console.log(week)
+    // console.log(week)
     return week.map(day => {
       return (
         <CalendarDay
@@ -59,7 +57,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           targetDay={targetDay}
           targetDateString={targetDateString}
           handleState={handleState}
-          onClickDay={onClickDay}
           dayComponent={dayComponent}
           data={data}
           colorPastDates={colorPastDates}

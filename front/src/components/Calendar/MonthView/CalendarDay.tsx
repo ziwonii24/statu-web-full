@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store'
+import useModal from '../../../hooks/modal/useModal'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 
@@ -15,7 +14,6 @@ interface Props {
   targetMonth: string;
   targetDateString: string;
   handleState: (targetDay: number, targetDateString: string) => void;
-  onClickDay?: (day: number, dayData: any) => void;
   dayComponent?: object;
   data: DataObj[];
   dayContainerClassName?: string;
@@ -31,20 +29,21 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     targetMonth,
     targetDateString,
     handleState,
-    onClickDay,
     dayComponent,
     data,
     dayContainerClassName,
     dayDataListClass,
-    dayDataListItemClass,
-    colorActiveDate
+    dayDataListItemClass
   } = props;
 
+  const { modalState, onOpenModal } = useModal()
+  const handleOpenModal = () => {
+    onOpenModal()
+  }
   const dayData = data && data.filter(item => item.date === date);
   const day = dayjs(date).date()
-  const modalState = useSelector((state: RootState) => state.modal.modalState)
   const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
-  console.log(active)
+  // console.log(active)
   const activeNumber = modalState && date === targetDateString ? 'calendarActiveDateNumber' : ''
   const newDate = date
   const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
@@ -57,7 +56,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
       onClick={() => {
         // 날짜 클릭했을 때 달력 전체가 렌더링 되는거 수정 필요
         handleState(day, newDate)
-        onClickDay && onClickDay(day, dayData)
+        handleOpenModal()
       }}
       // style={{ backgroundColor: active ? colorActiveDate : passedDate }}
       className={`calendarDayContainer ${active} ${passedDate} ${dayContainerClassName}`}

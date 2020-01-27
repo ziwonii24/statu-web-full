@@ -1,11 +1,5 @@
 import dayjs from 'dayjs'
 
-export const dayOfWeek = (date: string): number => {
-  const rawDay = dayjs(date).day()  // targetMonth 의 시작인 무슨 요일인지 
-  if (rawDay === 7) return 1;
-  else return rawDay
-}
-
 export const makeMonthArray = (start: number, months: number) => {
   let i: number
   let arr: object[] = [];
