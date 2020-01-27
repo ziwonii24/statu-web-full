@@ -7,7 +7,7 @@ import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
 import DataObj from './MonthView/interfaces/DataObj.interface'
-import Modal from './Modal/Modal'
+import Modal from '../Modal/Modal'
 
 const Calendar: FunctionComponent<{}> = () => {
   const store = useStore()
