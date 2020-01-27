@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react'
 import AddScheduleForm from './AddScheduleForm'
-import useModal from '../../../hooks/modal/useModal'
+import useModal from '../../hooks/modal/useModal'
 // import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'

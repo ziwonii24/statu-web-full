@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 import PageInterface from './interfaces/MonthViewCalendar.interface'
 import DataObj from './interfaces/DataObj.interface'
-import { dayOfWeek, daysArray } from './utils'
+import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
 
@@ -76,8 +76,9 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   }
   const startDayInMonth = dayjs(targetMonth).date(1)
   const daysInMonth = dayjs(targetMonth).daysInMonth()
-  const targetMonthDayOfWeek = dayOfWeek(targetMonth)
-  // console.log('targetMonth, startDayInMonth : ',targetMonth, startDayInMonth)
+  const targetMonthDayOfWeek = startDayInMonth.day() + 1
+  // console.log(targetMonth)
+  // console.log('startDayInMonth, daysInMonth, targetMonthDayOfWeek : ',startDayInMonth.day(), daysInMonth, targetMonthDayOfWeek)
   const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthDayOfWeek)
 
   return (
