@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions'
 import { setStartDate, setEndDate, setTempDate } from './actions'
 
-const dragActions = {setStartDate, setTempDate, setEndDate}
+const dragActions = { setStartDate, setTempDate, setEndDate }
 
 export type DragAction = ActionType<typeof dragActions>
 
