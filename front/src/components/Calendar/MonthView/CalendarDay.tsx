@@ -59,20 +59,17 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
 
   // drag
   const { dragStart, dragOver, dragEnd } = useDrag(newDate)
-  
+
   const store = useStore()
-  // const [draggable, setDraggable] = useState<boolean>(false)
-  var draggable = false
 
   const mouseDownHandler = () => {
-    // dragStart
     console.log("onMouseDown")
     store.dispatch(setStartDate(newDate))
-    draggable = true
+    // 부분 렌더링    
   }
 
   const mouseOverHandler = () => {
-    if(store.getState().drag.startDate !== '') {
+    if (store.getState().drag.startDate !== '') {
       console.log("onMouseOver")
       store.dispatch(setTempDate(newDate))
     }
@@ -82,12 +79,9 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     console.log("onMouseUp")
     store.dispatch(setEndDate(newDate))
     // 모달 띄우고
-    // 모달에서 작업 끝나면
-    store.dispatch(setStartDate(''))
-  }
-
-  const isDraggable = () => {
-    console.log("isDraggable")
+    onOpenModal()
+    // 모달에서 작업 끝나면 store.dispatch(setStartDate(''))
+    store.dispatch(setStartDate(''))  // over때문에 임시로 여기서 초기화
   }
 
   return (
@@ -99,21 +93,19 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         handleState(day, newDate)
         handleOpenModal()
       }}
-      // style={{ backgroundColor: active.length ? colorActiveDate : passed }}
-      style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
-      className={`calendarDayContainer ${active} ${dayContainerClassName}`}
+      className={`calendarDayContainer ${active} ${passedDate} ${dayContainerClassName}`}
       onMouseDown={mouseDownHandler}
       onMouseOver={mouseOverHandler}
       onMouseUp={mouseUpHandler}
     >
       {day && (
-        <p 
-          data-test="calendarNum" 
+        <div
+          data-test="calendarNum"
           className={`calendarNum ${activeNumber}`}
-          /* style={{ user-select: none }} */
         >
           {day}{' '}
         </div>
+
       )}
 
       {dayComponent}
