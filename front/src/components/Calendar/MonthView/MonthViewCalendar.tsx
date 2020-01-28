@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 import PageInterface from './interfaces/MonthViewCalendar.interface'
-import DataObj from './interfaces/DataObj.interface'
+import { DaySchedule } from '../dataSet/DataSet.interface'
 import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
@@ -15,7 +15,7 @@ interface Props {
   handleState: (targetDay: number, targetDateString: string) => void
   width: string
   dayComponent?: object
-  data: DataObj[]
+  daySchedule: DaySchedule[]
   containerClassName: string
   rowContainerClassName: string
   dayContainerClassName?: string
@@ -32,7 +32,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   const {
     targetDay,
     targetMonth,
-    data,
+    daySchedule,
     handleState,
     targetDateString,
     width,
@@ -67,7 +67,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
           targetDateString={targetDateString}
           handleState={handleState || handleState}
           // dayComponent={dayComponent}
-          data={data}
+          daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
         />

@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import DataObj from './interfaces/DataObj.interface'
+import { DaySchedule } from '../dataSet/DataSet.interface'
 
 import './styles/CalendarDay.scss'
 
@@ -15,7 +15,7 @@ interface Props {
   targetDateString: string;
   handleState: (targetDay: number, targetDateString: string) => void;
   dayComponent?: object;
-  data: DataObj[];
+  daySchedule: DaySchedule[];
   dayContainerClassName?: string;
   dayDataListClass?: string;
   dayDataListItemClass?: string;
@@ -30,7 +30,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     targetDateString,
     handleState,
     dayComponent,
-    data,
+    daySchedule,
     dayContainerClassName,
     dayDataListClass,
     dayDataListItemClass
@@ -40,7 +40,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const handleOpenModal = () => {
     onOpenModal()
   }
-  const dayData = data && data.filter(item => item.date === date);
+  const dayData = daySchedule && daySchedule.filter(item => item.date === date);
   const day = dayjs(date).date()
   const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
   // console.log(active)

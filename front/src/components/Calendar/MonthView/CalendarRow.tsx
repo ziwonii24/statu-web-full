@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import DataObj from './interfaces/DataObj.interface'
+import { DaySchedule } from '../dataSet/DataSet.interface'
 
 import CalendarDay from './CalendarDay'
 
@@ -15,7 +15,7 @@ interface Props {
   targetDateString: string;
   handleState: (targetDay: number, targetDateString: string) => void;
   dayComponent?: object;
-  data: DataObj[];
+  daySchedule: DaySchedule[];
   rowContainerClassName?: string;
   dayContainerClassName?: string;
   dayDataListClass?: string;
@@ -33,7 +33,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     targetDateString,
     handleState,
     dayComponent,
-    data,
+    daySchedule,
     rowContainerClassName,
     dayContainerClassName,
     dayDataListClass,
@@ -58,7 +58,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           targetDateString={targetDateString}
           handleState={handleState}
           dayComponent={dayComponent}
-          data={data}
+          daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
         />
