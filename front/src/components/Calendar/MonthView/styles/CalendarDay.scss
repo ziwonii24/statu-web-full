@@ -13,6 +13,10 @@
   margin: 0;
   left: 10%;
   top: 5%;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .calendarpassedDate {
@@ -39,6 +43,10 @@
   padding: 0;
   margin: 0;
   justify-self: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .passedDate {
