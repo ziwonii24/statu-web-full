@@ -8,6 +8,14 @@ import { DaySchedule } from '../dataSet/DataSet.interface'
 
 import './styles/CalendarDay.scss'
 
+// drag
+import useDrag from './hooks/useDrag'
+import { useStore, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
+
+
+
 interface Props {
   date: string;
   targetDay: number;
@@ -49,6 +57,39 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
   const passedDate = check ? 'calendarpassedDate' : ''
 
+  // drag
+  const { dragStart, dragOver, dragEnd } = useDrag(newDate)
+  
+  const store = useStore()
+  // const [draggable, setDraggable] = useState<boolean>(false)
+  var draggable = false
+
+  const mouseDownHandler = () => {
+    // dragStart
+    console.log("onMouseDown")
+    store.dispatch(setStartDate(newDate))
+    draggable = true
+  }
+
+  const mouseOverHandler = () => {
+    if(store.getState().drag.startDate !== '') {
+      console.log("onMouseOver")
+      store.dispatch(setTempDate(newDate))
+    }
+  }
+
+  const mouseUpHandler = () => {
+    console.log("onMouseUp")
+    store.dispatch(setEndDate(newDate))
+    // 모달 띄우고
+    // 모달에서 작업 끝나면
+    store.dispatch(setStartDate(''))
+  }
+
+  const isDraggable = () => {
+    console.log("isDraggable")
+  }
+
   return (
     <div
       data-test="calendarDayContainer"
@@ -58,22 +99,26 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         handleState(day, newDate)
         handleOpenModal()
       }}
-      // style={{ backgroundColor: active ? colorActiveDate : passedDate }}
-      className={`calendarDayContainer ${active} ${passedDate} ${dayContainerClassName}`}
+      // style={{ backgroundColor: active.length ? colorActiveDate : passed }}
+      style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
+      className={`calendarDayContainer ${active} ${dayContainerClassName}`}
+      onMouseDown={mouseDownHandler}
+      onMouseOver={mouseOverHandler}
+      onMouseUp={mouseUpHandler}
     >
       {day && (
-        <div
-          data-test="calendarNum"
+        <p 
+          data-test="calendarNum" 
           className={`calendarNum ${activeNumber}`}
+          /* style={{ user-select: none }} */
         >
           {day}{' '}
         </div>
       )}
+
       {dayComponent}
-      <ul
-        data-test="dayDataList"
-        className={`dayDataList ${dayDataListClass}`}
-      >
+
+      <ul data-test="dayDataList" className={`dayDataList ${dayDataListClass}`}>
         {dayData && dayData.map(item => (
           <li
             data-test="dayDataListItem"

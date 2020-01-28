@@ -5,13 +5,13 @@ import { SET_STARTDATE, SET_TEMPDATE, SET_ENDDATE } from './actions'
 const initialDragState: DragState = {
   startDate: '',
   tempDate: '',
-  endDate: ''
+  endDate: '',
 }
 
 const drag = createReducer<DragState, DragAction>(initialDragState, {
   [SET_STARTDATE]: (state, action) => ({startDate: state.startDate = action.payload, tempDate: state.tempDate, endDate: state.endDate}),
   [SET_TEMPDATE]: (state, action) => ({startDate: state.startDate, tempDate: state.tempDate = action.payload, endDate: state.endDate}),
-  [SET_ENDDATE]: (state, action) => ({startDate: state.startDate, tempDate: state.tempDate, endDate: state.endDate = action.payload}),
+  [SET_ENDDATE]: (state, action) => ({startDate: state.startDate, tempDate: state.tempDate, endDate: state.endDate = action.payload})
 })
 
 export default drag
