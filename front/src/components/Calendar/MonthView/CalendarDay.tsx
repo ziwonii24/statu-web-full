@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react'
+import useModal from '../../../hooks/modal/useModal'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 
@@ -16,12 +17,11 @@ import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
 
 
 interface Props {
-  day: number;
+  date: string;
   targetDay: number;
   targetMonth: string;
   targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string, modalState: boolean) => void;
-  onClickDay?: (day: number, dayData: any) => void;
+  handleState: (targetDay: number, targetDateString: string) => void;
   dayComponent?: object;
   data: DataObj[];
   dayContainerClassName?: string;
@@ -33,28 +33,29 @@ interface Props {
 
 const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const {
-    day,                    // 클릭했을때 날짜(D)
-    targetDay,              // 현재 포커스 되어있는 날짜(D: 보통 1일)
-    targetMonth,            // 현재 포커스 되어있는 날짜(M)
+    date,
+    targetMonth,
+    targetDateString,
     handleState,
-    onClickDay,
     dayComponent,
     data,
     dayContainerClassName,
     dayDataListClass,
-    dayDataListItemClass,
-    colorPastDates,
-    colorActiveDate
+    dayDataListItemClass
   } = props;
 
-  const dayData = data && data.filter(item => item.day === day);  // 비어있는(?) 날짜(객체)
-  const active = day && day === targetDay ? 'calendarActiveDate' : '';
-  const activeNumber = day === targetDay ? 'calendarActiveDateNumber' : '';
-  const date = dayjs(targetMonth).add(day - 1, 'day');  // 지정시간을 더한 날짜 - 클릭했을때 날짜를 받아오는데 (월-1)로 받아옴(객체) 
-  const newDate = date.format('YYYY-MM-DD');            // 클릭했을때 날짜(YYYY-MM-DD)
-  const now = dayjs();                                  // 현재 날짜(객체)
-  const check = date.isBefore(now);  // true
-  const passed = day && !!colorPastDates && check ? colorPastDates : '';
+  const { modalState, onOpenModal } = useModal()
+  const handleOpenModal = () => {
+    onOpenModal()
+  }
+  const dayData = data && data.filter(item => item.date === date);
+  const day = dayjs(date).date()
+  const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
+  // console.log(active)
+  const activeNumber = modalState && date === targetDateString ? 'calendarActiveDateNumber' : ''
+  const newDate = date
+  const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
+  const passedDate = check ? 'calendarpassedDate' : ''
 
   // drag
   const { dragStart, dragOver, dragEnd } = useDrag(newDate)
@@ -95,8 +96,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
       data-test2={`${active}`}
       onClick={() => {
         // 날짜 클릭했을 때 달력 전체가 렌더링 되는거 수정 필요
-        handleState(day, newDate, true)
-        onClickDay && onClickDay(day, dayData)
+        handleState(day, newDate)
+        handleOpenModal()
       }}
       // style={{ backgroundColor: active.length ? colorActiveDate : passed }}
       style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
@@ -112,7 +113,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
           /* style={{ user-select: none }} */
         >
           {day}{' '}
-        </p>
+        </div>
       )}
 
       {dayComponent}
@@ -121,10 +122,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         {dayData && dayData.map(item => (
           <li
             data-test="dayDataListItem"
-            key={`day-item-${item.day}-${uuid()}`}
+            key={`day-item-${item.date}-${uuid()}`}
             className={`dayDataItem ${dayDataListItemClass}`}
           >
-            {item.title}
+            {item.component}
           </li>
         ))}
       </ul>

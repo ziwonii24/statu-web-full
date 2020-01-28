@@ -1,5 +1,9 @@
 export default interface DataObj {
-  day: number,
-  title: string,
-  component?: object
+  calendarId: string,
+  subTitleId: string,
+  id: string,
+  date: string,
+  component: string,
+  goal: number,  // 시간 분 
+  achieve: number,
 }

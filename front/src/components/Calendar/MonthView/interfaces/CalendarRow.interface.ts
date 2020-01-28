@@ -2,12 +2,11 @@ import DataObj from './DataObj.interface';
 
 export default interface Component {
   title?: string;
-  week: number[];
+  week: string[];
   targetMonth: string;
   targetDay: number;
   targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string, modalState: boolean) => void;
-  onClickDay?: (day: number, dayData: any) => void;
+  handleState: (targetDay: number, targetDateString: string) => void;
   dayComponent?: object;
   data: DataObj[];
   rowContainerClassName? : string;
