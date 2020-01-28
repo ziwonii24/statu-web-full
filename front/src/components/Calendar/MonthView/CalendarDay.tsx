@@ -9,7 +9,7 @@ import './styles/CalendarDay.scss'
 
 // drag
 import useDrag from './hooks/useDrag'
-import { useStore } from 'react-redux'
+import { useStore, useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
 interface Props {
@@ -45,7 +45,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   } = props;
 
   const dayData = data && data.filter(item => item.day === day);  // 비어있는(?) 날짜(객체)
-  console.log(dayData.length)
   const active = day && day === targetDay ? 'calendarActiveDate' : '';
   const activeNumber = day === targetDay ? 'calendarActiveDateNumber' : '';
   const date = dayjs(targetMonth).add(day - 1, 'day');  // 지정시간을 더한 날짜 - 클릭했을때 날짜를 받아오는데 (월-1)로 받아옴(객체) 
@@ -64,6 +63,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   const store = useStore()
   console.log(store.getState())
 
+  // const selectedStartDate = useSelector(state => state.drag, [])
+
   return (
     <div
       data-test="calendarDayContainer"
@@ -72,50 +73,26 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         // 날짜 클릭했을 때 달력 전체가 렌더링 되는거 수정 필요
         handleState(day, newDate, true)
         onClickDay && onClickDay(day, dayData)
-        console.log('day: ', day, ', targetDay: ', targetDay, ', targetMonth: ', targetMonth)
-        console.log('datyData: ', dayData, ', date: ', date, ', newDate: ', newDate, ', now: ', now)
       }}
       style={{ backgroundColor: active.length ? colorActiveDate : passed }}
       className={`calendarDayContainer ${active} ${dayContainerClassName}`}
-      // onMouseDown={() => {
-      //   console.log('onMouseDown')
-      //   // 마우스 누른 날짜 = 소목표 시작 날짜
-      //   // TODO : 리덕스 스토어에 저장
-      //   dragStart
-      //   // TODO : css 배경색 변경
-      // }}
       onMouseDown={dragStart}
-      // onMouseOver={() => {
-      //   console.log('onMouseOver')
-      //   // 마우스 누른 후 움직이고 있는 중 = 소목표가 아마도 끝날 날짜
-      //   // TODO : 리덕스 스토어에 저장/업데이트
-      //   // dragOver
-      //   // TODO : onMouseDown이 된후에만 동작할것!
-      //   // TODO : onMouseUp이 되면 동작하면 안됨
-      //   // TODO : css 배경색 변경(끝나는날짜와 시작날짜 사이에 있는 날짜들)
-      // }}
       onMouseOver={dragOver}
-      // onMouseUp={() => {
-      //   console.log('onMouseUp')        
-      //   // 마우스를 뗐을때 날짜 = 소목표 끝날 날짜
-      //   // TODO : 리덕스 스토어에 저장       
-      //   // dragEnd
-      // }}
       onMouseUp={dragEnd}
     >
       {day && (
-        <p
-          data-test="calendarNum"
+        <p 
+          data-test="calendarNum" 
           className={`calendarNum ${activeNumber}`}
+          /* style={{ user-select: none }} */
         >
           {day}{' '}
         </p>
       )}
+
       {dayComponent}
-      <ul
-        data-test="dayDataList"
-        className={`dayDataList ${dayDataListClass}`}
-      >
+
+      <ul data-test="dayDataList" className={`dayDataList ${dayDataListClass}`}>
         {dayData && dayData.map(item => (
           <li
             data-test="dayDataListItem"
