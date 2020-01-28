@@ -10,7 +10,10 @@ import './styles/CalendarDay.scss'
 // drag
 import useDrag from './hooks/useDrag'
 import { useStore, useSelector } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
+
+
 
 interface Props {
   day: number;
@@ -55,15 +58,36 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
 
   // drag
   const { dragStart, dragOver, dragEnd } = useDrag(newDate)
-
-  useEffect(() => (
-    console.log('effect~!', newDate)
-  ), [newDate])
   
   const store = useStore()
-  console.log(store.getState())
+  // const [draggable, setDraggable] = useState<boolean>(false)
+  var draggable = false
 
-  // const selectedStartDate = useSelector(state => state.drag, [])
+  const mouseDownHandler = () => {
+    // dragStart
+    console.log("onMouseDown")
+    store.dispatch(setStartDate(newDate))
+    draggable = true
+  }
+
+  const mouseOverHandler = () => {
+    if(store.getState().drag.startDate !== '') {
+      console.log("onMouseOver")
+      store.dispatch(setTempDate(newDate))
+    }
+  }
+
+  const mouseUpHandler = () => {
+    console.log("onMouseUp")
+    store.dispatch(setEndDate(newDate))
+    // 모달 띄우고
+    // 모달에서 작업 끝나면
+    store.dispatch(setStartDate(''))
+  }
+
+  const isDraggable = () => {
+    console.log("isDraggable")
+  }
 
   return (
     <div
@@ -74,11 +98,12 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         handleState(day, newDate, true)
         onClickDay && onClickDay(day, dayData)
       }}
-      style={{ backgroundColor: active.length ? colorActiveDate : passed }}
+      // style={{ backgroundColor: active.length ? colorActiveDate : passed }}
+      style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
       className={`calendarDayContainer ${active} ${dayContainerClassName}`}
-      onMouseDown={dragStart}
-      onMouseOver={dragOver}
-      onMouseUp={dragEnd}
+      onMouseDown={mouseDownHandler}
+      onMouseOver={mouseOverHandler}
+      onMouseUp={mouseUpHandler}
     >
       {day && (
         <p 

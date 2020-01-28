@@ -1,5 +1,5 @@
 import { ActionType } from 'typesafe-actions'
-import { setStartDate, setEndDate, setTempDate } from './actions'
+import { setStartDate, setTempDate, setEndDate } from './actions'
 
 const dragActions = { setStartDate, setTempDate, setEndDate }
 
