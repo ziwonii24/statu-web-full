@@ -100,14 +100,14 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
         handleOpenModal()
       }}
       // style={{ backgroundColor: active.length ? colorActiveDate : passed }}
-      style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
+      // style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
       className={`calendarDayContainer ${active} ${dayContainerClassName}`}
       onMouseDown={mouseDownHandler}
       onMouseOver={mouseOverHandler}
       onMouseUp={mouseUpHandler}
     >
       {day && (
-        <p 
+        <div
           data-test="calendarNum" 
           className={`calendarNum ${activeNumber}`}
           /* style={{ user-select: none }} */
