@@ -14,6 +14,5 @@ public class SubTitleDto {
     private String startDate;
     private String endDate;
     private String color;
-    private Long[] todos;
 
 }

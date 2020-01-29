@@ -20,7 +20,6 @@ public class CalendarDto {
     private Long[] category1;
     private Long[] category2;
 
-    private Long[] subTitles;
 
 
 }
