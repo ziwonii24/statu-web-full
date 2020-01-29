@@ -1,4 +1,4 @@
 export default interface Component {
-  daysHeaderContainerClass?: string;
-  daysTitleContainerClass?: string;
+  daysHeaderContainerClass?: string
+  daysTitleContainerClass?: string
 }

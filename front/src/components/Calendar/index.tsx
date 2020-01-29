@@ -6,10 +6,8 @@ import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { daySchedule } from './dataSet/dataSet'
-// import { DaySchedule } from './dataSet/DataSet.interface'
+import { daySchedule, subSchedule } from './dataSet/dataSet'
 import Modal from '../Modal/Modal'
-// import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 dotenv.config({ path: path.join(__dirname, '.env') })
@@ -27,6 +25,32 @@ const Calendar: FunctionComponent<{}> = () => {
   const { modalState, onCloseModal } = useModal()
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
+  // 이번달 시작날짜, 끝날짜 계산
+  const daysInMonth = dayjs(targetMonth).daysInMonth()
+  const startDayInMonth = dayjs(targetMonth).date(1)
+  const endDayInMonth = dayjs(targetMonth).date(daysInMonth)
+
+  const targetMonthStartDay = startDayInMonth.day() + 1
+  const targetMonthEndDay = endDayInMonth.day() + 1
+
+  // 시작날짜, 끝날짜를 이용해 이번 달에 렌더링할 캘린더 데이터 필터링
+  const startDay = startDayInMonth.add(-(7 - targetMonthStartDay), 'day')
+  const endDay = endDayInMonth.add((7 - targetMonthEndDay), 'day')
+
+    // 일일 스케줄 데이터 필터링
+  const daySchedules = daySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
+
+    // 소목표 데이터 필터링
+  const subSchedules = subSchedule
+    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
+    .sort(function(a, b) {
+      return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
+    })
+  // console.log(subSchedules)
+
+    //소목표 개수를 이용해서 출력할 높이 지정
+  // const visited
+  // 사용함수
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
     setTargetMonth(date)
@@ -35,7 +59,7 @@ const Calendar: FunctionComponent<{}> = () => {
   const handleState = (targetDay: number, targetDateString: string) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
-    console.log('modalState', modalState)
+    // console.log('modalState', modalState)
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -115,7 +139,8 @@ const Calendar: FunctionComponent<{}> = () => {
           targetDay={targetDay}
           targetMonth={targetMonth}
           targetDateString={targetDateString}
-          daySchedule={daySchedule}
+          subSchedule={subSchedules}
+          daySchedule={daySchedules}
           handleState={handleState}
           width="92%"
           containerClassName="exampleClassContainer"

@@ -3,6 +3,8 @@ import { History } from 'history'
 import { ConnectedRouter } from 'connected-react-router'
 import routes from './routes'
 
+import './styles/scss/App.scss'
+
 interface InterFace {
   history: History
 }

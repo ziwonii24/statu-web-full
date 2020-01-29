@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 import PageInterface from './interfaces/MonthViewCalendar.interface'
-import { DaySchedule } from '../dataSet/DataSet.interface'
+import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
 import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
@@ -15,6 +15,7 @@ interface Props {
   handleState: (targetDay: number, targetDateString: string) => void
   width: string
   dayComponent?: object
+  subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
   containerClassName: string
   rowContainerClassName: string
@@ -32,6 +33,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   const {
     targetDay,
     targetMonth,
+    subSchedule,
     daySchedule,
     handleState,
     targetDateString,
@@ -67,6 +69,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
           targetDateString={targetDateString}
           handleState={handleState || handleState}
           // dayComponent={dayComponent}
+          subSchedule={subSchedule}
           daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
@@ -74,12 +77,13 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
       )
     })
   }
-  const startDayInMonth = dayjs(targetMonth).date(1)
   const daysInMonth = dayjs(targetMonth).daysInMonth()
-  const targetMonthDayOfWeek = startDayInMonth.day() + 1
-  // console.log(targetMonth)
-  // console.log('startDayInMonth, daysInMonth, targetMonthDayOfWeek : ',startDayInMonth.day(), daysInMonth, targetMonthDayOfWeek)
-  const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthDayOfWeek)
+  const startDayInMonth = dayjs(targetMonth).date(1)
+  const targetMonthStartDay = startDayInMonth.day() + 1
+  
+  // console.log('startDayInMonth, daysInMonth, targetMonthStartDay, targetMonthEndDay : ',
+  //   startDayInMonth.day(), daysInMonth, targetMonthStartDay, targetMonthEndDay)
+  const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthStartDay)
 
   return (
     <div

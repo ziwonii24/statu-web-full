@@ -2,28 +2,29 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { DaySchedule } from '../dataSet/DataSet.interface'
+import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
 
 import CalendarDay from './CalendarDay'
 
 import './styles/CalendarRow.scss'
+import { subSchedule } from '../dataSet/dataSet'
 
 interface Props {
-  week: string[];
-  targetMonth: string;
-  targetDay: number;
-  targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string) => void;
-  dayComponent?: object;
-  daySchedule: DaySchedule[];
-  rowContainerClassName?: string;
-  dayContainerClassName?: string;
-  dayDataListClass?: string;
-  dayDataListItemClass?: string;
-  colorPastDates?: string;
-  colorActiveDate?: string;
+  week: string[]
+  targetMonth: string
+  targetDay: number
+  targetDateString: string
+  handleState: (targetDay: number, targetDateString: string) => void
+  dayComponent?: object
+  subSchedule: SubSchedule[]
+  daySchedule: DaySchedule[]
+  rowContainerClassName?: string
+  dayContainerClassName?: string
+  dayDataListClass?: string
+  dayDataListItemClass?: string
+  colorPastDates?: string
+  colorActiveDate?: string
 }
-
 
 const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
   const {
@@ -33,6 +34,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     targetDateString,
     handleState,
     dayComponent,
+    subSchedule,
     daySchedule,
     rowContainerClassName,
     dayContainerClassName,
@@ -43,7 +45,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
   } = props
 
   const renderRows = (week: string[]) => {
-    // console.log(week)
+    console.log(week)
     return week.map(day => {
       return (
         <CalendarDay
@@ -58,6 +60,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           targetDateString={targetDateString}
           handleState={handleState}
           dayComponent={dayComponent}
+          subSchedule={subSchedule}
           daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}

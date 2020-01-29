@@ -1,6 +1,6 @@
 .calendarDayContainer {
   width: 14%;
-  border: 1px solid lightgray;
+  border-bottom: 0.5px solid rgb(233, 233, 233);
   min-height: 10vh;
   position: relative;
   cursor: pointer;
@@ -30,11 +30,26 @@
   background-color: palegoldenrod;
 }
 
+.subDataList {
+  position: relative;
+  margin-top: 1vh;
+}
+
+.subDataItem {
+  position: absolute;
+  border-radius: 0.6vh;
+  padding-left: 1vh;
+  z-index: 50;
+  color: rgb(15, 15, 15);
+  font-size: 1.6vh;
+  font-weight: 700;
+}
+
 .dayDataList {
-  // margin-top: 45%;
+  margin-top: 1vh;
   position: relative;
   padding: 0;
-  font-size: 12px;
+  font-size: 1.5vh;
   font-weight: 100;
 }
 

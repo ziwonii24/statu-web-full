@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { DaySchedule } from '../dataSet/DataSet.interface'
+import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
 
 import './styles/CalendarDay.scss'
 
@@ -17,18 +17,19 @@ import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
 
 
 interface Props {
-  date: string;
-  targetDay: number;
-  targetMonth: string;
-  targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string) => void;
+  date: string
+  targetDay: number
+  targetMonth: string
+  targetDateString: string
+  handleState: (targetDay: number, targetDateString: string) => void
   dayComponent?: object;
-  daySchedule: DaySchedule[];
-  dayContainerClassName?: string;
-  dayDataListClass?: string;
-  dayDataListItemClass?: string;
-  colorPastDates?: string;
-  colorActiveDate?: string;
+  subSchedule: SubSchedule[]
+  daySchedule: DaySchedule[]
+  dayContainerClassName?: string
+  dayDataListClass?: string
+  dayDataListItemClass?: string
+  colorPastDates?: string
+  colorActiveDate?: string
 }
 
 const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
@@ -38,17 +39,20 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     targetDateString,
     handleState,
     dayComponent,
+    subSchedule,
     daySchedule,
     dayContainerClassName,
     dayDataListClass,
     dayDataListItemClass
-  } = props;
+  } = props
 
   const { modalState, onOpenModal } = useModal()
   const handleOpenModal = () => {
     onOpenModal()
   }
-  const dayData = daySchedule && daySchedule.filter(item => item.date === date);
+  const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
+  // console.log('date, subData :', date, subData, subData.length)
+  const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date);
   const day = dayjs(date).date()
   const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
   // console.log(active)
@@ -59,7 +63,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
 
   // drag
   const { dragStart, dragOver, dragEnd } = useDrag(newDate)
-  
+
   const store = useStore()
   // const [draggable, setDraggable] = useState<boolean>(false)
   var draggable = false
@@ -72,7 +76,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   }
 
   const mouseOverHandler = () => {
-    if(store.getState().drag.startDate !== '') {
+    if (store.getState().drag.startDate !== '') {
       console.log("onMouseOver")
       store.dispatch(setTempDate(newDate))
     }
@@ -101,16 +105,16 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
       }}
       // style={{ backgroundColor: active.length ? colorActiveDate : passed }}
       // style={{ backgroundColor: isDraggable ? colorActiveDate : passed }}
-      className={`calendarDayContainer ${active} ${dayContainerClassName}`}
+      className={`calendarDayContainer ${active} ${dayContainerClassName} ${passedDate}`}
       onMouseDown={mouseDownHandler}
       onMouseOver={mouseOverHandler}
       onMouseUp={mouseUpHandler}
     >
       {day && (
         <div
-          data-test="calendarNum" 
+          data-test="calendarNum"
           className={`calendarNum ${activeNumber}`}
-          /* style={{ user-select: none }} */
+        /* style={{ user-select: none }} */
         >
           {day}{' '}
         </div>
@@ -118,14 +122,45 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
 
       {dayComponent}
 
+      {/* subSchedule render */}
+      <div
+        style={{height: `${3 * subData.length}vh`}}
+        className={`subDataList`}
+      >
+        {subData && subData.map(schedule => {
+          if (schedule.startDate === date || dayjs(date).day() === 0) {
+            // 소 목표를 주 단위로 자르기
+            const barLength = Math.min(
+              (dayjs(schedule.endDate).diff(dayjs(date), 'day')) + 1,  // 소목표 끝날짜에서 오늘을 빼고 남은 날
+              (7 - dayjs(date).day())  // 이 주의 마지막 날짜에서 오늘을 빼고 남은 날
+            )
+            return (
+              <div
+                key={schedule.id}
+                style={{ 
+                  backgroundColor: schedule.color, 
+                  top: `${2.3 * (subData.indexOf(schedule))}vh`,
+                  // margin: `0 ${1 * barLength}%`,
+                  width: `${100 * barLength}%`
+                }}
+                className={`subDataItem`}
+              >
+                {schedule.subTitle}
+              </div>
+            )
+          }
+        })}
+      </div>
+
+      {/* daySchedule render */}
       <ul data-test="dayDataList" className={`dayDataList ${dayDataListClass}`}>
-        {dayData && dayData.map(item => (
+        {dayData && dayData.map(schedule => (
           <li
             data-test="dayDataListItem"
-            key={`day-item-${item.date}-${uuid()}`}
+            key={`day-item-${schedule.date}-${uuid()}`}
             className={`dayDataItem ${dayDataListItemClass}`}
           >
-            {item.component}
+            {schedule.component}
           </li>
         ))}
       </ul>

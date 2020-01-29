@@ -1,21 +1,17 @@
 import dayjs from 'dayjs'
 
-export const makeMonthArray = (start: number, months: number) => {
-  let i: number
-  let arr: object[] = [];
-  for (i = 0; i < months + 1; i++) {
-    const monthToAddDate = dayjs(start)
-      .add(i, 'M')
-      .format('YYYY-MM-DD')
-    const monthToAddText = dayjs(start)
-      .add(i, 'M')
-      .format('MMMM YY')
-    arr.push({ monthToAddDate, monthToAddText})
-  }
-  return arr
-}
+// 소목표 주 단위로 자르기
+  // 잘라내기
 
-// 이번달 시작날짜, 이번달의 끝날짜, 이번달 1일의 요일
+  // 추가하기
+  let subDataArray = []
+
+
+
+
+
+// 달력 만들기
+  // 이번달 시작날짜, 이번달의 끝날짜, 이번달 1일의 요일
 export const daysArray = (startDayInMonth: dayjs.Dayjs, max: number, start: number) => {
   let arr: string[] = []
   let i: number = 1
