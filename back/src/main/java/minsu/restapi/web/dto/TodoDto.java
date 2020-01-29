@@ -11,6 +11,6 @@ public class TodoDto {
     private Long subTitleId;
     private String date;
     private String todo;
-    private String goal;
-    private String achieve;
+    private int goal;
+    private int achieve;
 }

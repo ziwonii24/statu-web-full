@@ -32,7 +32,7 @@ public class SubTitle {
     @Column(name = "end_date",nullable = false)
     private String endDate;
 
-    @Column(name = "color",nullable = false, columnDefinition = "varchar(30) default 'gray'")
+    @Column(name = "color", columnDefinition = "varchar(30) default 'gray'")
     private String color;
 
 

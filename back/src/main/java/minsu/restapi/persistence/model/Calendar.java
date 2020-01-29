@@ -36,22 +36,22 @@ public class Calendar {
     @Column(name = "end_date",nullable = false)
     private String endDate;
 
-    @Column(name = "recommend",nullable = false,columnDefinition = "integer default 0")
+    @Column(name = "recommend",columnDefinition = "integer default 0")
     private int recommend;
 
-    @Column(name = "view",nullable = false,columnDefinition = "integer default 0")
+    @Column(name = "view",columnDefinition = "integer default 0")
     private int view;
 
-    @Column(name = "pb",nullable = false,columnDefinition = "boolean default true")
+    @Column(name = "pb",columnDefinition = "boolean default true")
     private boolean pb;
 
-    @Column(name = "progress" ,nullable = false,columnDefinition = "float default 0")
+    @Column(name = "progress",columnDefinition = "float default 0")
     private float progress;
 
     @Column(name = "tag")
     private String tag;
 
-    @Column(name = "represen",nullable = false,columnDefinition = "boolean default false")
+    @Column(name = "represen",columnDefinition = "boolean default false")
     private boolean represen;
 
     @ManyToMany

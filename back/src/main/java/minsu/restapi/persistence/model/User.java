@@ -28,7 +28,7 @@ public class User {
     private String password;
     @Column(name = "name",nullable = false)
     private String name;
-    @Column(name = "img",nullable = false,columnDefinition = "varchar(225) default 'default.png'")
+    @Column(name = "img",nullable = true,columnDefinition = "varchar(225) default 'default.png'")
     private String img;
 
     @ManyToMany
@@ -47,11 +47,11 @@ public class User {
     private String regDate;
     //사용자 타입
     //@Column(columnDefinition="USER")
-    @Column(name = "user_type_code" ,nullable = false, columnDefinition = "varchar(20) default 'user'")
+    @Column(name = "user_type_code", columnDefinition = "varchar(20) default 'user'")
     private String userTypeCode;
     //사용자 상태
     //@Column(columnDefinition="USE")
-    @Column(name = "status_code" ,nullable = false, columnDefinition = "varchar(20) default 'use'")
+    @Column(name = "status_code", columnDefinition = "varchar(20) default 'use'")
     private String statusCode;
 
 

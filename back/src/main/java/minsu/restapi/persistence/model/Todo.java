@@ -32,7 +32,7 @@ public class Todo {
     private String todo;
     @Column(name = "goal",nullable = false)
     private int goal;
-    @Column(name = "achieve",nullable = false, columnDefinition = "integer default 0")
+    @Column(name = "achieve", columnDefinition = "int default 0")
     private int achieve;
 
 }
