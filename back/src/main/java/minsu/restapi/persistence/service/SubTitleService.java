@@ -8,12 +8,15 @@ import java.util.Optional;
 
 public interface SubTitleService {
 
-    List<SubTitle> findAll();
+    public List<SubTitle> findAll();
 
-    Optional<SubTitle> findById(Long titleId);
+    public SubTitle findById(Long titleId);
 
-    List<SubTitle> findByCalendarId(Long calendarId);
+    public List<SubTitle> findByCalendarId(Long calendarId);
 
-    void save(SubTitle subTitle);
+    public void save(SubTitle subTitle);
+
+    public void deleteById(Long subTitleId);
+
 
 }

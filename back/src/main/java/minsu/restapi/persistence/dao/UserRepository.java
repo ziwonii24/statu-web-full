@@ -6,9 +6,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    boolean existsByName(@Param("name") String name);
+    public boolean existsByName(String name);
 
-    boolean existsByEmail(@Param("email") String email);
+    public boolean existsByEmail(String email);
 
-    void deleteByEmail(@Param("email") String email);
+    public void deleteByEmail(String email);
 }

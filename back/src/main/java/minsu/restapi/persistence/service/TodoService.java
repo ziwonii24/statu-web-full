@@ -13,8 +13,6 @@ public interface TodoService {
 
     public void deleteById(Long todoId);
 
-    public void update(Todo todo);
-
     public Optional<Todo> findById(Long todoId);
 
     public List<Todo> findByDateCal(Date date, Long calenderId);

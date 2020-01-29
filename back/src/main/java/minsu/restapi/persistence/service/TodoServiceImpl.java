@@ -16,7 +16,7 @@ import java.util.Optional;
 public class TodoServiceImpl implements TodoService{
 
     @Autowired
-    TodoRepository todoRepository;
+    private TodoRepository todoRepository;
 
     @Override
     public List<Todo> findAll() {
@@ -31,11 +31,6 @@ public class TodoServiceImpl implements TodoService{
     @Override
     public void deleteById(Long todoId) {
         todoRepository.deleteById(todoId);
-    }
-
-    @Override
-    public void update(Todo todo) {
-        todoRepository.save(todo);
     }
 
     @Override

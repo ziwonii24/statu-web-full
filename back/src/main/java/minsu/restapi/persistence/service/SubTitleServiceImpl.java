@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SubTitleServiceImpl implements SubTitleService {
 
     @Autowired
-    SubTitleRepository subTitleRepository;
+    private SubTitleRepository subTitleRepository;
 
     @Override
     public List<SubTitle> findAll() {
@@ -24,8 +24,8 @@ public class SubTitleServiceImpl implements SubTitleService {
     }
 
     @Override
-    public Optional<SubTitle> findById(Long titleId) {
-        return subTitleRepository.findById(titleId);
+    public SubTitle findById(Long titleId) {
+        return subTitleRepository.findById(titleId).get();
     }
 
     @Override
@@ -36,6 +36,11 @@ public class SubTitleServiceImpl implements SubTitleService {
     @Override
     public void save(SubTitle subTitle) {
         subTitleRepository.save(subTitle);
+    }
+
+    @Override
+    public void deleteById(Long subTitleId) {
+        subTitleRepository.deleteById(subTitleId);
     }
 
 

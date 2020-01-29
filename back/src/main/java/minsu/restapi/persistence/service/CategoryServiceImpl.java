@@ -13,25 +13,35 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     @Autowired
-    Category1Repository category1Repository;
+    private Category1Repository category1Repository;
 
     @Autowired
-    Category2Repository category2Repository;
+    private Category2Repository category2Repository;
 
 
     @Override
     public List<Category1> categoryfindAll() {
 
-        List<Category1> categories = category1Repository.findAll();
+        List<Category1> category1s = category1Repository.findAll();
 
-        return categories;
+        return category1s;
     }
 
     @Override
     public List<Category2> subCategoryfindAll() {
 
-        List<Category2> subCategories = category2Repository.findAll();
+        List<Category2> category2s = category2Repository.findAll();
 
-        return subCategories;
+        return category2s;
+    }
+
+    @Override
+    public Category1 findByOneId(Long id) {
+        return category1Repository.findById(id).get();
+    }
+
+    @Override
+    public Category2 findByTwoId(Long id) {
+        return category2Repository.findById(id).get();
     }
 }

@@ -16,25 +16,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public static final String TOKEN_INVALID = "invalidToken";
-    public static final String TOKEN_EXPIRED = "expired";
-    public static final String TOKEN_VALID = "valid";
-
-    public static String QR_PREFIX = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
-    public static String APP_NAME = "SpringRegistration";
-
-    // API
-
     public void save(User user){
         userRepository.save(user);
     }
 
     @Override
     public void deleteByEmail(String email) {
-        System.out.println("check in service");
-        System.out.println(email);
         userRepository.deleteByEmail(email);
-        System.out.println("check in after repository");
     }
 
 

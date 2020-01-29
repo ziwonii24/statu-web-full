@@ -1,7 +1,14 @@
-package minsu.restapi.controller;
+package minsu.restapi.web.controller;
 
+import minsu.restapi.persistence.model.Calendar;
+import minsu.restapi.persistence.model.Category1;
+import minsu.restapi.persistence.model.SubTitle;
 import minsu.restapi.persistence.model.Todo;
+import minsu.restapi.persistence.service.SubTitleService;
 import minsu.restapi.persistence.service.TodoService;
+import minsu.restapi.web.dto.CalendarDto;
+import minsu.restapi.web.dto.TodoDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +24,11 @@ public class TodoController {
     @Autowired
     TodoService todoService;
 
+    @Autowired
+    SubTitleService subTitleService;
 
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/todo")
     public List<Todo> findAll(){
@@ -39,7 +50,14 @@ public class TodoController {
     }
 
     @PostMapping("/todo")
-    public Map<String, String> insertTodo(@RequestBody Todo todo){
+    public Map<String, String> insertTodo(@RequestBody TodoDto todoDto) throws Exception {
+
+        Todo todo = convertToEntity(todoDto);
+        SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
+        todoService.save(todo);
+        subTitle.getTodo().add(todo);
+        subTitleService.save(subTitle);
+
         Map<String, String> map = new HashMap<>();
         todoService.save(todo);
         map.put("result", "success");
@@ -48,13 +66,23 @@ public class TodoController {
     }
 
     @PutMapping("/todo")
-    public Map<String, String> updateTodo(@RequestBody Todo todo){
+    public Map<String, String> updateTodo(@RequestBody TodoDto todoDto) throws Exception {
+        Todo todo = convertToEntity(todoDto);
+        SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
+        todoService.save(todo);
+        subTitle.getTodo().add(todo);
+        subTitleService.save(subTitle);
+
         Map<String, String> map = new HashMap<>();
-        todoService.update(todo);
+        todoService.save(todo);
         map.put("result", "success");
         return map;
 
     }
 
+    private Todo convertToEntity(TodoDto todoDto) throws Exception{
+        Todo todo = modelMapper.map(todoDto, Todo.class);
+        return todo;
+    }
 
 }

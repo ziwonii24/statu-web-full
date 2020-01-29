@@ -20,6 +20,8 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo()).select().paths(PathSelectors.any()).build();
     }
 
+
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("JavaInUse API")
                 .description("MINSU TEST REST API").version("1.0").build();

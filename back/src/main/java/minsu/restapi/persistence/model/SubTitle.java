@@ -9,39 +9,37 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="sub_title")
 public class SubTitle {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    Long id;
-    @Column(name="sub_title")
-    String subTitle;
+    private Long id;
+    @Column(name="sub_title",nullable = false)
+    private String subTitle;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date")
-    private Date startDate;
+    @Column(name = "start_date",nullable = false)
+    private String startDate;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_date")
-    private Date endDate;
+    @Column(name = "end_date",nullable = false)
+    private String endDate;
 
-    @Column(name = "color")
+    @Column(name = "color",nullable = false, columnDefinition = "varchar(30) default 'gray'")
     private String color;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "calendar_id")
     @JsonBackReference
-    Calendar calendar;
+    private Calendar calendar;
 
     @OneToMany(mappedBy="subTitle")
     @JsonManagedReference

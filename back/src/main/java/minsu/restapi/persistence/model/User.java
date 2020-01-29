@@ -8,27 +8,27 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="user")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "email")
+    @Column(name = "email",nullable = false)
     private String email;
-    @Column(name = "password")
+    @Column(name = "password",nullable = false)
     private String password;
-    @Column(name = "name")
+    @Column(name = "name",nullable = false)
     private String name;
-    @Column(name = "img")
+    @Column(name = "img",nullable = false,columnDefinition = "varchar(225) default 'default.png'")
     private String img;
 
     @ManyToMany
@@ -43,16 +43,15 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "sub_category_id"))
     private List<Category2> category2s = new ArrayList<>();
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "reg_date")
-    private Date regDate;
+    @Column(name = "reg_date" ,nullable = false)
+    private String regDate;
     //사용자 타입
     //@Column(columnDefinition="USER")
-    @Column(name = "user_type_code")
+    @Column(name = "user_type_code" ,nullable = false, columnDefinition = "varchar(20) default 'user'")
     private String userTypeCode;
     //사용자 상태
     //@Column(columnDefinition="USE")
-    @Column(name = "status_code")
+    @Column(name = "status_code" ,nullable = false, columnDefinition = "varchar(20) default 'use'")
     private String statusCode;
 
 

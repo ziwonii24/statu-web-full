@@ -7,37 +7,32 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="todo")
 public class Todo {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_title_id")
     @JsonBackReference
-    SubTitle subTitle;
+    private SubTitle subTitle;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "date")
-    Date date;
-    @Column(name = "todo")
-    String todo;
-    @Column(name = "goal")
-    int goal;
-    @Column(name = "achieve")
-    int achieve;
-    @Column(name = "time")
-    String time;
-    @Column(name = "unit")
-    String unit;
+    @Column(name = "date",nullable = false)
+    private String date;
+    @Column(name = "todo",nullable = false)
+    private String todo;
+    @Column(name = "goal",nullable = false)
+    private int goal;
+    @Column(name = "achieve",nullable = false, columnDefinition = "integer default 0")
+    private int achieve;
 
 }

@@ -7,17 +7,16 @@ import java.util.Optional;
 
 public interface UserService {
 
-    boolean checkEmail(String email);
+    public boolean checkEmail(String email);
 
-    boolean checkName(String name);
+    public boolean checkName(String name);
 
-    List<User> findAll();
+    public List<User> findAll();
 
-    User findById(Long id);
+    public User findById(Long id);
 
-    void save(User User);
+    public void save(User User);
 
-    void deleteByEmail(String email);
-
+    public void deleteByEmail(String email);
 
 }

@@ -9,51 +9,49 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "calendar")
 public class Calendar {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id",nullable = false)
     @JsonBackReference
     private User user;
 
-    @Column(name = "title")
+    @Column(name = "title",nullable = false)
     private String title;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date")
-    private Date startDate;
+    @Column(name = "start_date",nullable = false)
+    private String startDate;
 
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_date")
-    private Date endDate;
+    @Column(name = "end_date",nullable = false)
+    private String endDate;
 
-    @Column(name = "recommend")
+    @Column(name = "recommend",nullable = false,columnDefinition = "integer default 0")
     private int recommend;
 
-    @Column(name = "view")
+    @Column(name = "view",nullable = false,columnDefinition = "integer default 0")
     private int view;
 
-    @Column(name = "pb")
+    @Column(name = "pb",nullable = false,columnDefinition = "boolean default true")
     private boolean pb;
 
-    @Column(name = "progress")
+    @Column(name = "progress" ,nullable = false,columnDefinition = "float default 0")
     private float progress;
 
     @Column(name = "tag")
     private String tag;
 
-    @Column(name = "represen")
+    @Column(name = "represen",nullable = false,columnDefinition = "boolean default false")
     private boolean represen;
 
     @ManyToMany

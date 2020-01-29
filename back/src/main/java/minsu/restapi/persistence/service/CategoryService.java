@@ -6,8 +6,10 @@ import minsu.restapi.persistence.model.Category2;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category1> categoryfindAll();
+    public List<Category1> categoryfindAll();
 
-    List<Category2> subCategoryfindAll();
+    public List<Category2> subCategoryfindAll();
 
+    public Category1 findByOneId(Long id);
+    public Category2 findByTwoId(Long id);
 }
