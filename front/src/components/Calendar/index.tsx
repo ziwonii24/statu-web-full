@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useStore } from 'react-redux'
+import { useStore, useSelector } from 'react-redux'
 import useModal from '../../hooks/modal/useModal'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -8,6 +8,7 @@ import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
 import DataObj from './MonthView/interfaces/DataObj.interface'
 import Modal from '../Modal/Modal'
+import { RootState } from '../../store/reducerIndex'
 
 const Calendar: FunctionComponent<{}> = () => {
   const store = useStore()
@@ -51,6 +52,19 @@ const Calendar: FunctionComponent<{}> = () => {
 
   const handleCloseModal = () => {
     onCloseModal()
+  }
+
+  // TODO : 커스텀 hook으로 변경할 것
+  // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
+  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)  
+  const dragStart = dateToNumber(store.getState().drag.startDate) // startDate는 변하지 않음
+  const dragOver = dateToNumber(getSelectedDate)
+  // 소목표를 앞으로 설정하는지 뒤로 설정하는지에 대한 조건 - CalendarDay 컴포넌트까지 내려보냄
+  const isAscending: boolean = dragOver - dragStart + 1 > 0 ? true : false
+
+  function dateToNumber(strDate: string): number {
+    var result = strDate.replace(/\-/g,'')
+    return parseInt(result)
   }
 
   // 불러올 데이터  
@@ -189,6 +203,7 @@ const Calendar: FunctionComponent<{}> = () => {
           daysTitleContainerClass="exampleDaysTitleContainerClass"
           colorActiveDate="palegoldenrod"
           colorPastDates="#f1f1f1"
+          isAscending={isAscending}
         />
         :
         <WeekViewCalendar />

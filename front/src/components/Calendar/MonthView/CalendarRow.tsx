@@ -8,24 +8,7 @@ import CalendarDay from './CalendarDay'
 
 import './styles/CalendarRow.scss'
 
-interface Props {
-  week: string[];
-  targetMonth: string;
-  targetDay: number;
-  targetDateString: string;
-  handleState: (targetDay: number, targetDateString: string) => void;
-  dayComponent?: object;
-  data: DataObj[];
-  rowContainerClassName?: string;
-  dayContainerClassName?: string;
-  dayDataListClass?: string;
-  dayDataListItemClass?: string;
-  colorPastDates?: string;
-  colorActiveDate?: string;
-}
-
-
-const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
+const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   const {
     week,
     targetMonth,
@@ -40,10 +23,10 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
     dayDataListItemClass,
     colorPastDates,
     colorActiveDate,
+    isAscending
   } = props
 
   const renderRows = (week: string[]) => {
-    // console.log(week)
     return week.map(day => {
       return (
         <CalendarDay
@@ -61,6 +44,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Props) => {
           data={data}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
+          isAscending={isAscending}
         />
       )
     })

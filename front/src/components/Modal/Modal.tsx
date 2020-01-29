@@ -5,6 +5,10 @@ import useModal from '../../hooks/modal/useModal'
 import path from 'path'
 import dotenv from 'dotenv'
 import './styles/Modal.scss'
+
+import { useStore } from 'react-redux'
+import { setStartDate } from '../../store/drag'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {
@@ -25,9 +29,12 @@ const Modal: FunctionComponent<{}> = () => {
     console.log(e.target.value)
   }
 
+  const store = useStore()
+
   const { onCloseModal } = useModal()
   const handleCloseModal = () => {
     onCloseModal()
+    store.dispatch(setStartDate(''))
   }
   const handleSubmit = async () => {
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER
