@@ -15,4 +15,5 @@ export default interface Component {
   daysHeaderContainer?: string;
   colorPastDates?: string;
   colorActiveDate?: string;
+  isAscending: boolean;
 }

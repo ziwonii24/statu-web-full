@@ -7,6 +7,10 @@ import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 import './styles/Modal.scss'
+
+import { useStore } from 'react-redux'
+import { setStartDate } from '../../store/drag'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {

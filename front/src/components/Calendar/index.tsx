@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useStore } from 'react-redux'
+import { useStore, useSelector } from 'react-redux'
 import useModal from '../../hooks/modal/useModal'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -57,6 +57,86 @@ const Calendar: FunctionComponent<{}> = () => {
   const handleCloseModal = () => {
     onCloseModal()
   }
+
+  // TODO : 커스텀 hook으로 변경할 것
+  // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
+  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)  
+  const dragStart = dateToNumber(store.getState().drag.startDate) // startDate는 변하지 않음
+  const dragOver = dateToNumber(getSelectedDate)
+  // 소목표를 앞으로 설정하는지 뒤로 설정하는지에 대한 조건 - CalendarDay 컴포넌트까지 내려보냄
+  const isAscending: boolean = dragOver - dragStart + 1 > 0 ? true : false
+
+  function dateToNumber(strDate: string): number {
+    var result = strDate.replace(/\-/g,'')
+    return parseInt(result)
+  }
+
+  // 불러올 데이터  
+  const data: DataObj[] = [
+    {
+      calendarId: '1',
+      subTitleId: '1',
+      id: '1',
+      date: '2020-01-01',
+      component: 'item 1',
+      goal: 270,
+      achieve: 167
+    },
+    {
+      calendarId: '1',
+      subTitleId: '2',
+      id: '1',
+      date: '2020-01-01',
+      component: 'item 2',
+      goal: 70,
+      achieve: 17
+    },
+    {
+      calendarId: '1',
+      subTitleId: '3',
+      id: '1',
+      date: '2020-01-01',
+      component: 'item 6',
+      goal: 20,
+      achieve: 7
+    },
+    {
+      calendarId: '1',
+      subTitleId: '3',
+      id: '1',
+      date: '2020-01-01',
+      component: 'item 7',
+      goal: 270,
+      achieve: 167
+    },
+    {
+      calendarId: '1',
+      subTitleId: '3',
+      id: '1',
+      date: '2020-01-05',
+      component: 'item 3',
+      goal: 270,
+      achieve: 367
+    },
+    {
+      calendarId: '1',
+      subTitleId: '1',
+      id: '1',
+      date: '2019-12-31',
+      component: 'item 4',
+      goal: 210,
+      achieve: 167
+    },
+    {
+      calendarId: '1',
+      subTitleId: '2',
+      id: '1',
+      date: '2020-02-01',
+      component: 'item 5',
+      goal: 90,
+      achieve: 67
+    },
+  ];
 
   return (
     <div 
@@ -127,6 +207,7 @@ const Calendar: FunctionComponent<{}> = () => {
           daysTitleContainerClass="exampleDaysTitleContainerClass"
           colorActiveDate="palegoldenrod"
           colorPastDates="#f1f1f1"
+          isAscending={isAscending}
         />
         :
         <WeekViewCalendar />

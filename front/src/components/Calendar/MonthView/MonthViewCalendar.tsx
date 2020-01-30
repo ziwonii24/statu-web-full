@@ -1,34 +1,14 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
-import PageInterface from './interfaces/MonthViewCalendar.interface'
-import { DaySchedule } from '../dataSet/DataSet.interface'
+import Interface from './interfaces/MonthViewCalendar.interface'
+import DataObj from './interfaces/DataObj.interface'
 import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
 
 import './styles/Calendar.scss'
 
-interface Props { 
-  targetDay: number
-  targetMonth: string
-  targetDateString: string
-  handleState: (targetDay: number, targetDateString: string) => void
-  width: string
-  dayComponent?: object
-  daySchedule: DaySchedule[]
-  containerClassName: string
-  rowContainerClassName: string
-  dayContainerClassName?: string
-  daysHeaderContainerClass: string
-  dayDataListClass?: string
-  daysTitleContainerClass: string
-  dayDataListItemClass?: string
-  colorPastDates?: string
-  colorActiveDate?: string
-}
-
-const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
-  console.log('month calendar view')
+const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     targetDay,
     targetMonth,
@@ -45,8 +25,9 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
     daysTitleContainerClass,
     colorActiveDate,
     colorPastDates,
+    isAscending
   } = props;
-
+  
   const renderRows = (weeks: string[][]) => {
     let count = 0
     return weeks.map(week => {
@@ -70,6 +51,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
           daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
+          isAscending={isAscending}
         />
       )
     })
@@ -77,8 +59,6 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
   const startDayInMonth = dayjs(targetMonth).date(1)
   const daysInMonth = dayjs(targetMonth).daysInMonth()
   const targetMonthDayOfWeek = startDayInMonth.day() + 1
-  // console.log(targetMonth)
-  // console.log('startDayInMonth, daysInMonth, targetMonthDayOfWeek : ',startDayInMonth.day(), daysInMonth, targetMonthDayOfWeek)
   const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthDayOfWeek)
 
   return (
