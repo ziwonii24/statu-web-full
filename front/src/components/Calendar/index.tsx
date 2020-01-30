@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useStore } from 'react-redux'
+import { useStore, useSelector } from 'react-redux'
 import useModal from '../../hooks/modal/useModal'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -10,6 +10,9 @@ import { daySchedule, subSchedule } from './dataSet/dataSet'
 import Modal from '../Modal/Modal'
 import path from 'path'
 import dotenv from 'dotenv'
+
+import { RootState } from '../../store/reducerIndex'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Calendar: FunctionComponent<{}> = () => {
@@ -82,6 +85,19 @@ const Calendar: FunctionComponent<{}> = () => {
     onCloseModal()
   }
 
+  // TODO : 커스텀 hook으로 변경할 것
+  // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
+  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)  
+  const dragStart = dateToNumber(store.getState().drag.startDate) // startDate는 변하지 않음
+  const dragOver = dateToNumber(getSelectedDate)
+  // 소목표를 앞으로 설정하는지 뒤로 설정하는지에 대한 조건 - CalendarDay 컴포넌트까지 내려보냄
+  const isAscending: boolean = dragOver - dragStart + 1 > 0 ? true : false
+
+  function dateToNumber(strDate: string): number {
+    var result = strDate.replace(/\-/g,'')
+    return parseInt(result)
+  }
+
   return (
     <div 
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
@@ -152,6 +168,7 @@ const Calendar: FunctionComponent<{}> = () => {
           daysTitleContainerClass="exampleDaysTitleContainerClass"
           colorActiveDate="palegoldenrod"
           colorPastDates="#f1f1f1"
+          isAscending={isAscending}
         />
         :
         <WeekViewCalendar />

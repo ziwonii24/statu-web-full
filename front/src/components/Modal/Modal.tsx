@@ -7,6 +7,10 @@ import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 import './styles/Modal.scss'
+
+import { useStore } from 'react-redux'
+import { setStartDate, setEndDate } from '../../store/drag'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {
@@ -14,6 +18,9 @@ const Modal: FunctionComponent<{}> = () => {
   const [date, setDate] = useState<string>('')
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
+
+  let startDate = ''
+  let endDate = ''
 
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value)
@@ -41,8 +48,6 @@ const Modal: FunctionComponent<{}> = () => {
   // subSchedule set
   const [subTitle, setSubTitle] = useState<string>('')
   const [color, setColor] = useState<string>('#000000')
-  const [startDate, setStartDate] = useState<string>('')
-  const [endDate, setEndDate] = useState<string>('')
 
   const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setSubTitle(e.target.value)
@@ -53,12 +58,14 @@ const Modal: FunctionComponent<{}> = () => {
     console.log(color)
   }
   const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setStartDate(e.target.value)
-    console.log(e.target.value)
+    startDate = e.target.value
+    store.dispatch(setStartDate(startDate))
+    console.log(startDate)
   }
   const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setEndDate(e.target.value)
-    console.log(e.target.value)
+    endDate = e.target.value
+    store.dispatch(setEndDate(endDate))
+    console.log(endDate)
   }
 
   const subSchedule: SubSchedule = {
@@ -126,9 +133,11 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   // 모달 취소
+  const store = useStore()
   const { onCloseModal } = useModal()
   const handleCloseModal = () => {
     onCloseModal()
+    store.dispatch(setStartDate(''))
   }
 
   // overlay 층을 이용해서 모달 바깥 클릭으로도 모달 꺼지도록 설정

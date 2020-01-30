@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
-import PageInterface from './interfaces/MonthViewCalendar.interface'
+import Interface from './interfaces/MonthViewCalendar.interface'
 import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
 import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
@@ -8,28 +8,7 @@ import CalendarHeaders from './CalendarHeaders'
 
 import './styles/Calendar.scss'
 
-interface Props { 
-  targetDay: number
-  targetMonth: string
-  targetDateString: string
-  handleState: (targetDay: number, targetDateString: string) => void
-  width: string
-  dayComponent?: object
-  subSchedule: SubSchedule[]
-  daySchedule: DaySchedule[]
-  containerClassName: string
-  rowContainerClassName: string
-  dayContainerClassName?: string
-  daysHeaderContainerClass: string
-  dayDataListClass?: string
-  daysTitleContainerClass: string
-  dayDataListItemClass?: string
-  colorPastDates?: string
-  colorActiveDate?: string
-}
-
-const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
-  console.log('month calendar view')
+const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     targetDay,
     targetMonth,
@@ -47,8 +26,9 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
     daysTitleContainerClass,
     colorActiveDate,
     colorPastDates,
+    isAscending
   } = props;
-
+  
   const renderRows = (weeks: string[][]) => {
     let count = 0
     return weeks.map(week => {
@@ -73,6 +53,7 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
           daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
+          isAscending={isAscending}
         />
       )
     })

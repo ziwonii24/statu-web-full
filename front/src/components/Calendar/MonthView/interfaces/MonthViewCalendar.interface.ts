@@ -18,4 +18,5 @@ export default interface Component {
   dayDataListItemClass?: string
   colorPastDates?: string
   colorActiveDate?: string
+  isAscending: boolean
 }
