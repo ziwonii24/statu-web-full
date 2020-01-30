@@ -34,6 +34,7 @@ public class CalendarController {
     @PostMapping("/calendar")
     public Map<String, String> save(@RequestBody CalendarDto calendarDto) throws Exception {
         User user = userService.findById(calendarDto.getUserId());
+        calendarDto.setId(null);
         Calendar calendar = convertToEntity(calendarDto);
         calendarService.save(calendar);
         user.getCalendars().add(calendar);

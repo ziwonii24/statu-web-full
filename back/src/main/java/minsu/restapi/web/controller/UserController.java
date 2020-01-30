@@ -111,6 +111,7 @@ public class UserController {
     @PostMapping("/user/signup")
     @ApiOperation("가입하기")
     public ResponseEntity<Map<String, Object>> postSignUp(@RequestBody UserDto userDto) throws Exception {
+        userDto.setId(null);
         User user = convertToEntity(userDto);
         try {
 

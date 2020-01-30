@@ -49,6 +49,7 @@ public class SubTitleController {
     public Map<String,String> save(@RequestBody SubTitleDto subTitleDto) throws Exception {
 
         Calendar calendar = calendarService.findById(subTitleDto.getCalendarId());
+        subTitleDto.setId(null);
         SubTitle subTitle = convertToEntity(subTitleDto);
         subTitleService.save(subTitle);
         calendar.getSubTitles().add(subTitle);

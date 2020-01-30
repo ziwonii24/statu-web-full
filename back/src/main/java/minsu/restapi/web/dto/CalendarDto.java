@@ -3,10 +3,12 @@ package minsu.restapi.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CalendarDto {
@@ -20,7 +22,5 @@ public class CalendarDto {
     private boolean represent;
     private Long[] category1;
     private Long[] category2;
-
-
 
 }

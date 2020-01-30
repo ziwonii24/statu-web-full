@@ -52,8 +52,8 @@ public class TodoController {
 
     @PostMapping("/todo")
     public Map<String, Long> insertTodo(@RequestBody TodoDto todoDto) throws Exception {
-
         Long id;
+        todoDto.setId(null);
         Todo todo = convertToEntity(todoDto);
         SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
         id = todoService.save(todo);
