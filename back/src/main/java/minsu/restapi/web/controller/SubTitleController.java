@@ -35,12 +35,12 @@ public class SubTitleController {
         return subTitleService.findAll();
     }
 
-    @GetMapping("/subtitle/{subTitleId}")
+    @GetMapping("/subtitle/bysubtitle/{subTitleId}")
     public SubTitle titleById(@PathVariable Long subTitleId){
         return  subTitleService.findById(subTitleId);
     }
 
-    @GetMapping("/subtitle/{calendarId}")
+    @GetMapping("/subtitle/bycalendarid/{calendarId}")
     public List<SubTitle> titleByCalendarId(@PathVariable Long calendarId){
         return  subTitleService.findByCalendarId(calendarId);
     }

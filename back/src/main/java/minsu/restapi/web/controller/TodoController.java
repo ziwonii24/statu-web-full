@@ -8,6 +8,7 @@ import minsu.restapi.persistence.service.SubTitleService;
 import minsu.restapi.persistence.service.TodoService;
 import minsu.restapi.web.dto.CalendarDto;
 import minsu.restapi.web.dto.TodoDto;
+import minsu.restapi.web.dto.TodosDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class TodoController {
         map.put("result", "success");
         return map;
     }
-
+/*
     @PostMapping("/todo")
     public Map<String, String> insertTodo(@RequestBody TodoDto todoDto) throws Exception {
 
@@ -60,6 +61,30 @@ public class TodoController {
 
         Map<String, String> map = new HashMap<>();
         todoService.save(todo);
+        map.put("result", "success");
+        return map;
+
+    }
+ */
+
+    @PostMapping("/todos")
+    public Map<String, String> saveTodos(@RequestBody TodosDto todosDto) throws Exception {
+        Map<String, String> map = new HashMap<>();
+        if(todosDto.getTodos()==null){
+            map.put("result", "failed");
+            return map;
+        }
+        int size = todosDto.getTodos().length;
+
+        for(int i=0; i<size; i++) {
+            TodoDto todoDto = todosDto.getTodos()[i];
+            Todo todo = convertToEntity(todoDto);
+            SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
+            todoService.save(todo);
+            subTitle.getTodo().add(todo);
+            subTitleService.save(subTitle);
+            todoService.save(todo);
+        }
         map.put("result", "success");
         return map;
 
