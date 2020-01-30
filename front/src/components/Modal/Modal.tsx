@@ -19,12 +19,13 @@ const Modal: FunctionComponent<{}> = () => {
   const store = useStore()
 
   // daySchedule set
-  const [date, setDate] = useState<string>('')
+  const [date, setDate] = useState<string>(store.getState().drag.startDate)
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
 
-  let startDate = ''
-  let endDate = ''
+  // let scheduleStartDate = store.getState().drag.startDate
+  const [scheduleStartDate, setScheduleStartDate] = useState<string>(store.getState().drag.startDate)
+  const [scheduleEndDate, setScheduleEndDate] = useState<string>(store.getState().drag.endDate)
 
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value)
@@ -62,14 +63,14 @@ const Modal: FunctionComponent<{}> = () => {
     console.log(color)
   }
   const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-    startDate = e.target.value
-    store.dispatch(setStartDate(startDate))
-    console.log(startDate)
+    setScheduleStartDate(e.target.value)
+    store.dispatch(setStartDate(scheduleStartDate))
+    console.log(scheduleStartDate)
   }
   const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
-    endDate = e.target.value
-    store.dispatch(setEndDate(endDate))
-    console.log(endDate)
+    setScheduleEndDate(e.target.value)
+    store.dispatch(setEndDate(scheduleEndDate))
+    console.log(scheduleEndDate)
   }
 
   const subSchedule: SubSchedule = {
@@ -77,8 +78,8 @@ const Modal: FunctionComponent<{}> = () => {
     "id": 3,
     "subTitle": subTitle,
     "color": color,
-    "startDate": startDate,
-    "endDate": endDate,
+    "startDate": scheduleStartDate,
+    "endDate": scheduleEndDate,
   }
 
   // choose schedule
@@ -87,7 +88,7 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   const isFewDaysSchedule = (): boolean => {
-    if(store.getState().drag.startDate === store.getState().drag.endDate) {
+    if(scheduleStartDate === scheduleEndDate) {
       return false
     }
     return true
@@ -103,8 +104,8 @@ const Modal: FunctionComponent<{}> = () => {
       <SubScheduleForm
         subTitle={subTitle}
         color={color}
-        startDate={startDate}
-        endDate={endDate}
+        startDate={scheduleStartDate}
+        endDate={scheduleEndDate}
         handleSubTitle={handleSubTitle}
         handleColor={handleColor}
         handleStartDate={handleStartDate}
