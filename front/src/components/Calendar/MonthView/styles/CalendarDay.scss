@@ -1,6 +1,8 @@
 .calendarDayContainer {
   width: 14%;
-  border-bottom: 0.5px solid rgb(233, 233, 233);
+  border: 0.5px solid rgb(233, 233, 233);
+  border-left: white;
+  border-right:white;
   min-height: 10vh;
   position: relative;
   cursor: pointer;
@@ -13,10 +15,10 @@
   margin: 0;
   left: 10%;
   top: 5%;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  // -webkit-user-select: none;
+  // -moz-user-select: none;
+  // -ms-user-select: none;
+  // user-select: none;
 }
 
 .calendarpassedDate {
@@ -26,9 +28,9 @@
   color: gray;
 }
 
-.calendarActiveDate {
-  background-color: palegoldenrod;
-}
+// .calendarActiveDate {
+//   background-color: palegoldenrod;
+// }
 
 .subDataList {
   position: relative;
@@ -43,6 +45,8 @@
   color: rgb(15, 15, 15);
   font-size: 1.6vh;
   font-weight: 700;
+  background-repeat:no-repeat;
+  pointer-events:none;
 }
 
 .dayDataList {
@@ -79,6 +83,7 @@
 }
 
 .draggedDays {
+  z-index: 100;
   border-color: #BE3FD188;
   border-width: 1px;
   background-color: #BE3FD110;
