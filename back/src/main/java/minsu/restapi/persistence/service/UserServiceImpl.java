@@ -16,10 +16,28 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void save(User user){
-        userRepository.save(user);
+    public int save(User user) { //가입이 잘 되었으면 i = 1;
+        String email = user.getEmail();
+        if (userRepository.existsByEmail(email)) return 0;
+        else {
+            userRepository.save(user);
+            return 1;
+        }
     }
 
+//    public void save(User user){
+//        userRepository.save(user);
+//    }
+
+    public User signin(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user != null) {
+            return user;
+        } else {
+            throw new RuntimeException("없는 유저");
+        }
+
+    }
     @Override
     public void deleteByEmail(String email) {
         userRepository.deleteByEmail(email);

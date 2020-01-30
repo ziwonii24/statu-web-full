@@ -15,8 +15,10 @@ public interface UserService {
 
     public User findById(Long id);
 
-    public void save(User User);
+    public int save(User User);
 
     public void deleteByEmail(String email);
+
+    public User signin(String email, String password);
 
 }
