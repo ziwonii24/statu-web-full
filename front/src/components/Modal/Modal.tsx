@@ -14,8 +14,36 @@ import { RootState } from '../../store/reducerIndex'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
+
 const Modal: FunctionComponent<{}> = () => {
+<<<<<<< HEAD
   const date = useSelector((state: RootState) => state.drag.startDate)
+=======
+
+  const store = useStore()
+
+  // daySchedule set
+  const [date, setDate] = useState<string>(store.getState().drag.startDate)
+  const [todo, setTodo] = useState<string>('')
+  const [goal, setGoal] = useState<number>(0)
+
+  // let scheduleStartDate = store.getState().drag.startDate
+  const [scheduleStartDate, setScheduleStartDate] = useState<string>(store.getState().drag.startDate)
+  const [scheduleEndDate, setScheduleEndDate] = useState<string>(store.getState().drag.endDate)
+
+  const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
+    setDate(e.target.value)
+    console.log(e.target.value)
+  }
+  const handleTodo = (e: ChangeEvent<HTMLInputElement>) => {
+    setTodo(e.target.value)
+    console.log(e.target.value)
+  }
+  const handleGoal = (e: ChangeEvent<HTMLInputElement>) => {
+    setGoal(parseInt(e.target.value))
+    console.log(e.target.value)
+  }
+>>>>>>> front-dev
 
   // daySchedule set
   const daySchedule: DaySchedule = {
@@ -44,14 +72,14 @@ const Modal: FunctionComponent<{}> = () => {
     console.log(color)
   }
   const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-    startDate = e.target.value
-    store.dispatch(setStartDate(startDate))
-    console.log(startDate)
+    setScheduleStartDate(e.target.value)
+    store.dispatch(setStartDate(scheduleStartDate))
+    console.log(scheduleStartDate)
   }
   const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
-    endDate = e.target.value
-    store.dispatch(setEndDate(endDate))
-    console.log(endDate)
+    setScheduleEndDate(e.target.value)
+    store.dispatch(setEndDate(scheduleEndDate))
+    console.log(scheduleEndDate)
   }
 
   const subSchedule: SubSchedule = {
@@ -59,8 +87,8 @@ const Modal: FunctionComponent<{}> = () => {
     "id": 3,
     "subTitle": subTitle,
     "color": color,
-    "startDate": startDate,
-    "endDate": endDate,
+    "startDate": scheduleStartDate,
+    "endDate": scheduleEndDate,
   }
 
   // choose schedule
@@ -68,8 +96,15 @@ const Modal: FunctionComponent<{}> = () => {
     setCheck(e.target.checked)
   }
 
-  const [check, setCheck] = useState<boolean>(false)
-  const choose = check ? "subSchedule" : "daySchedule"
+  const isFewDaysSchedule = (): boolean => {
+    if(scheduleStartDate === scheduleEndDate) {
+      return false
+    }
+    return true
+  }
+
+  const [check, setCheck] = useState<boolean>(isFewDaysSchedule)
+  const choose = check ? "subSchedule" : "daySchedule" 
   console.log('choose: ', choose)
 
   // choose schedule form
@@ -78,8 +113,8 @@ const Modal: FunctionComponent<{}> = () => {
       <SubScheduleForm
         subTitle={subTitle}
         color={color}
-        startDate={startDate}
-        endDate={endDate}
+        startDate={scheduleStartDate}
+        endDate={scheduleEndDate}
         handleSubTitle={handleSubTitle}
         handleColor={handleColor}
         handleStartDate={handleStartDate}
@@ -114,7 +149,6 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   // 모달 취소
-  const store = useStore()
   const { onCloseModal } = useModal()
   const handleCloseModal = () => {
     onCloseModal()

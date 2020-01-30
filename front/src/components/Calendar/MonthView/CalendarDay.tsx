@@ -32,6 +32,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const { modalState, onOpenModal } = useModal()
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
   // console.log('date, subData :', date, subData)
+<<<<<<< HEAD
   const dayDatas = daySchedule && daySchedule.filter(schedule => schedule.date === date)
   let dayData: DaySchedule[] = []
   const getDayData = () => {
@@ -45,6 +46,9 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   }
   getDayData()
   console.log('dayData', date, dayData)
+=======
+  const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date)
+>>>>>>> front-dev
   const dayItemColors: string[] = []
   const getColors = () => {
     dayData.map(dayItem => {
