@@ -12,6 +12,9 @@ import Modal from '../Modal/Modal'
 // import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
+
+import { RootState } from '../../store/reducerIndex'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Calendar: FunctionComponent<{}> = () => {
@@ -70,73 +73,6 @@ const Calendar: FunctionComponent<{}> = () => {
     var result = strDate.replace(/\-/g,'')
     return parseInt(result)
   }
-
-  // 불러올 데이터  
-  const data: DataObj[] = [
-    {
-      calendarId: '1',
-      subTitleId: '1',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 1',
-      goal: 270,
-      achieve: 167
-    },
-    {
-      calendarId: '1',
-      subTitleId: '2',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 2',
-      goal: 70,
-      achieve: 17
-    },
-    {
-      calendarId: '1',
-      subTitleId: '3',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 6',
-      goal: 20,
-      achieve: 7
-    },
-    {
-      calendarId: '1',
-      subTitleId: '3',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 7',
-      goal: 270,
-      achieve: 167
-    },
-    {
-      calendarId: '1',
-      subTitleId: '3',
-      id: '1',
-      date: '2020-01-05',
-      component: 'item 3',
-      goal: 270,
-      achieve: 367
-    },
-    {
-      calendarId: '1',
-      subTitleId: '1',
-      id: '1',
-      date: '2019-12-31',
-      component: 'item 4',
-      goal: 210,
-      achieve: 167
-    },
-    {
-      calendarId: '1',
-      subTitleId: '2',
-      id: '1',
-      date: '2020-02-01',
-      component: 'item 5',
-      goal: 90,
-      achieve: 67
-    },
-  ];
 
   return (
     <div 
