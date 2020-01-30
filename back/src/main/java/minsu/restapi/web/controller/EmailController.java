@@ -10,10 +10,9 @@ public class EmailController {
     @Autowired
     private MailService mailService;
 
-    @GetMapping("/email")
-    public void sendEmailAction () throws Exception {
-
-        mailService.sendSimpleMessage("dhkem6216@gmail.com","test","this is test");
+    @GetMapping("/email/{email}")
+    public void sendEmailAction (@PathVariable String email) throws Exception {
+        mailService.sendSimpleMessage(email,"test","this is test");
     }
 
 }
