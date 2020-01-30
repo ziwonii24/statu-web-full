@@ -43,7 +43,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "sub_category_id"))
     private List<Category2> category2s = new ArrayList<>();
 
-    @Column(name = "reg_date" ,nullable = false)
+    @Column(name = "reg_date")
     private String regDate;
     //사용자 타입
     //@Column(columnDefinition="USER")

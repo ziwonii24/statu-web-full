@@ -49,23 +49,24 @@ public class TodoController {
         map.put("result", "success");
         return map;
     }
-/*
-    @PostMapping("/todo")
-    public Map<String, String> insertTodo(@RequestBody TodoDto todoDto) throws Exception {
 
+    @PostMapping("/todo")
+    public Map<String, Long> insertTodo(@RequestBody TodoDto todoDto) throws Exception {
+
+        Long id;
         Todo todo = convertToEntity(todoDto);
         SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
-        todoService.save(todo);
+        id = todoService.save(todo);
         subTitle.getTodo().add(todo);
         subTitleService.save(subTitle);
 
-        Map<String, String> map = new HashMap<>();
+        Map<String, Long> map = new HashMap<>();
         todoService.save(todo);
-        map.put("result", "success");
+        map.put("result", 1L);
+        map.put("id",id);
         return map;
 
     }
- */
 
     @PostMapping("/todos")
     public Map<String, String> saveTodos(@RequestBody TodosDto todosDto) throws Exception {

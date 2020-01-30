@@ -24,8 +24,9 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public void save(Todo todo) {
-        todoRepository.save(todo);
+    public Long save(Todo todo) {
+        Long id = todoRepository.save(todo).getId();
+        return id;
     }
 
     @Override

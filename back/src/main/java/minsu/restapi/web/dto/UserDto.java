@@ -17,5 +17,4 @@ public class UserDto {
     private String img;
     private Long[] category1;
     private Long[] category2;
-    private String regDate;
 }

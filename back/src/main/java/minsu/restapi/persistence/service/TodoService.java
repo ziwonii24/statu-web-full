@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface TodoService {
     public List<Todo> findAll();
 
-    public void save(Todo todo);
+    public Long save(Todo todo);
 
     public void deleteById(Long todoId);
 

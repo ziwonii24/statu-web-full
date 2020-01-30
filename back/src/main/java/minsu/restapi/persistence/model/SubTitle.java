@@ -21,7 +21,7 @@ public class SubTitle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Long id;
     @Column(name="sub_title",nullable = false)
     private String subTitle;
