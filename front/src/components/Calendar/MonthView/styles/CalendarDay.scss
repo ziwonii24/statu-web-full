@@ -1,0 +1,90 @@
+.calendarDayContainer {
+  width: 14%;
+  border: 0.5px solid rgb(233, 233, 233);
+  border-left: white;
+  border-right:white;
+  min-height: 10vh;
+  position: relative;
+  cursor: pointer;
+}
+
+.calendarNum {
+  font-size: 2vh;
+  font-weight: 500;
+  position: relative;
+  margin: 0;
+  left: 10%;
+  top: 5%;
+  // -webkit-user-select: none;
+  // -moz-user-select: none;
+  // -ms-user-select: none;
+  // user-select: none;
+}
+
+.calendarpassedDate {
+  background-color: rgb(224, 224, 224);
+  font-size: 18px;
+  font-weight: 200;
+  color: gray;
+}
+
+// .calendarActiveDate {
+//   background-color: palegoldenrod;
+// }
+
+.subDataList {
+  position: relative;
+  margin-top: 1vh;
+}
+
+.subDataItem {
+  position: absolute;
+  border-radius: 0.6vh;
+  padding-left: 1vh;
+  z-index: 50;
+  color: rgb(15, 15, 15);
+  font-size: 1.6vh;
+  font-weight: 700;
+  background-repeat:no-repeat;
+  pointer-events:none;
+}
+
+.dayDataList {
+  margin-top: 1vh;
+  position: relative;
+  padding: 0;
+  font-size: 1.5vh;
+  font-weight: 400;
+}
+
+.dayDataItem {
+  list-style-type: none;
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+  justify-self: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.dayListCircle {
+  display: inline-block;
+  margin: 0 1vh;
+  width: 0.9vh;
+  height: 0.9vh;
+  border-radius: 50vh;
+  opacity: 90%;
+}
+
+.passedDate {
+  background-color: lightgrey;
+}
+
+.draggedDays {
+  z-index: 100;
+  border-color: #BE3FD188;
+  border-width: 1px;
+  background-color: #BE3FD110;
+}
