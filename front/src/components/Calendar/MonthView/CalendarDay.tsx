@@ -127,6 +127,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
       {/* subSchedule render */}
       <div
+        style={{ height: `${2.5 * subScheduleLength}vh` }}
         className={`subDataList`}
       >
         {subData && subData.map(schedule => {
