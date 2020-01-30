@@ -13,7 +13,11 @@ import { setStartDate, setEndDate } from '../../store/drag'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
+
 const Modal: FunctionComponent<{}> = () => {
+
+  const store = useStore()
+
   // daySchedule set
   const [date, setDate] = useState<string>('')
   const [todo, setTodo] = useState<string>('')
@@ -82,8 +86,15 @@ const Modal: FunctionComponent<{}> = () => {
     setCheck(e.target.checked)
   }
 
-  const [check, setCheck] = useState<boolean>(false)
-  const choose = check ? "subSchedule" : "daySchedule"
+  const isFewDaysSchedule = (): boolean => {
+    if(store.getState().drag.startDate === store.getState().drag.endDate) {
+      return false
+    }
+    return true
+  }
+
+  const [check, setCheck] = useState<boolean>(isFewDaysSchedule)
+  const choose = check ? "subSchedule" : "daySchedule" 
   console.log('choose: ', choose)
 
   // choose schedule form
@@ -133,7 +144,6 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   // 모달 취소
-  const store = useStore()
   const { onCloseModal } = useModal()
   const handleCloseModal = () => {
     onCloseModal()

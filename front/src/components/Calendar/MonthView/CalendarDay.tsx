@@ -32,11 +32,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const store = useStore()
 
   const { modalState, onOpenModal } = useModal()
-  const handleOpenModal = () => {
-    onOpenModal()
-  }
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
-  console.log('date, subData :', date, subData)
+  // console.log('date, subData :', date, subData)
   const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date)
   const dayItemColors: string[] = []
   const getColors = () => {
