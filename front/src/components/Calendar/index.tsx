@@ -6,9 +6,13 @@ import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import DataObj from './MonthView/interfaces/DataObj.interface'
+import { daySchedule } from './dataSet/dataSet'
+// import { DaySchedule } from './dataSet/DataSet.interface'
 import Modal from '../Modal/Modal'
-import { RootState } from '../../store/reducerIndex'
+// import axios from 'axios'
+import path from 'path'
+import dotenv from 'dotenv'
+dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Calendar: FunctionComponent<{}> = () => {
   const store = useStore()
@@ -191,7 +195,7 @@ const Calendar: FunctionComponent<{}> = () => {
           targetDay={targetDay}
           targetMonth={targetMonth}
           targetDateString={targetDateString}
-          data={data}
+          daySchedule={daySchedule}
           handleState={handleState}
           width="92%"
           containerClassName="exampleClassContainer"

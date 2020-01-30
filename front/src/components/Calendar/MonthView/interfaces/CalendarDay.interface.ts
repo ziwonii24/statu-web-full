@@ -1,4 +1,4 @@
-import DataObj from './DataObj.interface'
+import { DaySchedule } from '../../dataSet/DataSet.interface'
 
 export default interface Component {
   date: string;
@@ -7,7 +7,7 @@ export default interface Component {
   targetDateString: string;
   handleState: (targetDay: number, targetDateString: string) => void;
   dayComponent?: object;
-  data: DataObj[]
+  daySchedule: DaySchedule[]
   // for css 
   dayContainerClassName?: string;
   dayDataListClass?: string;

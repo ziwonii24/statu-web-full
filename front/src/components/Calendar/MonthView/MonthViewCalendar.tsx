@@ -12,7 +12,7 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     targetDay,
     targetMonth,
-    data,
+    daySchedule,
     handleState,
     targetDateString,
     width,
@@ -48,7 +48,7 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
           targetDateString={targetDateString}
           handleState={handleState || handleState}
           // dayComponent={dayComponent}
-          data={data}
+          daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
           isAscending={isAscending}

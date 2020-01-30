@@ -1,5 +1,5 @@
 import React, { FunctionComponent, ChangeEvent } from 'react'
-import Interface from './interfaces/AddScheduleForm.interface'
+import Interface from './interfaces/DayScheduleForm.interface'
 
 interface Props {
   // 날짜 대신에 기간이 와야함 
@@ -11,7 +11,7 @@ interface Props {
   handleGoal: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
-const AddScheduleForm: FunctionComponent<Interface> = (props: Props) => {
+const DayScheduleForm: FunctionComponent<Interface> = (props: Props) => {
   const {
     date,
     todo,
@@ -45,4 +45,4 @@ const AddScheduleForm: FunctionComponent<Interface> = (props: Props) => {
   )
 }
 
-export default AddScheduleForm
+export default DayScheduleForm
