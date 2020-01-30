@@ -7,6 +7,7 @@ export default interface Component {
   targetDateString: string
   handleState: (targetDay: number, targetDateString: string) => void
   dayComponent?: object
+  subScheduleLength: number
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
   // for css 

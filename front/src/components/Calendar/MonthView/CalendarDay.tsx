@@ -25,6 +25,7 @@ interface Props {
   dayComponent?: object;
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
+  subScheduleLength: number
   dayContainerClassName?: string
   dayDataListClass?: string
   dayDataListItemClass?: string
@@ -40,6 +41,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     handleState,
     dayComponent,
     subSchedule,
+    subScheduleLength,
     daySchedule,
     dayContainerClassName,
     dayDataListClass,
@@ -52,7 +54,24 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
   }
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
   // console.log('date, subData :', date, subData, subData.length)
-  const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date);
+  const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date)
+  const dayItemColors: string[] = []
+  const getColors = () => {
+    dayData.map((dayItem) => {
+      let find = false
+      for (let i = 0; i < subData.length; i++) {
+        if (dayItem.subTitleId === subData[i].id) {
+          dayItemColors.push(subData[i].color)
+          find = true
+          break
+        }
+      }
+      if (!find) {
+        dayItemColors.push('#AAAAAA')
+      }
+    })
+    // console.log(dayItemColors)
+  }
   const day = dayjs(date).date()
   const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
   // console.log(active)
@@ -94,6 +113,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
     console.log("isDraggable")
   }
 
+  getColors()
+
   return (
     <div
       data-test="calendarDayContainer"
@@ -124,7 +145,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
 
       {/* subSchedule render */}
       <div
-        style={{height: `${3 * subData.length}vh`}}
+        style={{ height: `${2.5 * subScheduleLength}vh` }}
         className={`subDataList`}
       >
         {subData && subData.map(schedule => {
@@ -137,8 +158,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
             return (
               <div
                 key={schedule.id}
-                style={{ 
-                  backgroundColor: schedule.color, 
+                style={{
+                  backgroundColor: schedule.color,
                   top: `${2.3 * (subData.indexOf(schedule))}vh`,
                   // margin: `0 ${1 * barLength}%`,
                   width: `${100 * barLength}%`
@@ -154,15 +175,20 @@ const CalendarDay: FunctionComponent<Interface> = (props: Props) => {
 
       {/* daySchedule render */}
       <ul data-test="dayDataList" className={`dayDataList ${dayDataListClass}`}>
-        {dayData && dayData.map(schedule => (
+        {dayData && dayData.map((schedule, idx) => (
           <li
             data-test="dayDataListItem"
             key={`day-item-${schedule.date}-${uuid()}`}
             className={`dayDataItem ${dayDataListItemClass}`}
           >
+            <div
+              className='dayListCircle'
+              style={{ backgroundColor: dayItemColors[idx] }}
+            />
             {schedule.component}
           </li>
-        ))}
+        )
+        )}
       </ul>
     </div>
   )

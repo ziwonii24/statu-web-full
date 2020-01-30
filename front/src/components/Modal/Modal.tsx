@@ -29,9 +29,9 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   const daySchedule: DaySchedule = {
-    "calendarId": '1',
-    "subTitleId": '1',
-    "id": '2',
+    "calendarId": 1,
+    "subTitleId": 1,
+    "id": 2,
     "date": date,
     "component": todo,
     "goal": goal,
@@ -62,12 +62,12 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   const subSchedule: SubSchedule = {
-    "calenderId": '1',
-    "id": '3',
-    "subTitle": '알고리즘',
-    "color": '#3D0099',
-    "startDate": '2020-1-6',
-    "endDate": '2020-1-20',
+    "calenderId": 1,
+    "id": 3,
+    "subTitle": subTitle,
+    "color": color,
+    "startDate": startDate,
+    "endDate": endDate,
   }
 
   // choose schedule
