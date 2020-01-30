@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
+import { SubSchedule } from '../dataSet/DataSet.interface'
 
 import CalendarDay from './CalendarDay'
 
@@ -40,6 +40,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         .map(schedule => schedule.id)
 
       subScheduleLengthInWeek = Math.max(subScheduleLengthInWeek, weekSubSchedule.length)
+      return day  // arrow function 은 return 값을 기대함
     })
 
 
@@ -92,6 +93,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
             assignedNumber.push(scheduleId)
           }
         }
+        return scheduleId
       })
 
       // CalendarDay로 보내줄 소목표 정의
@@ -101,7 +103,9 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
           if ( scheduleId === schedule.id ) {
             newSubSchedule.push(schedule)
           }
+          return schedule
         })
+        return scheduleId
       })
       // console.log(day, newSubSchedule)
 

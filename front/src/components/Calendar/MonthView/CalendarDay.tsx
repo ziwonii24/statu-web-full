@@ -4,15 +4,12 @@ import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
 
-import './styles/CalendarDay.scss'
-
-import { useStore } from 'react-redux'
+import { useStore, useSelector } from 'react-redux'
+import { RootState } from '../../../store/reducerIndex'
 import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
 
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/reducerIndex'
+import './styles/CalendarDay.scss'
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -32,15 +29,12 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const store = useStore()
 
   const { modalState, onOpenModal } = useModal()
-  const handleOpenModal = () => {
-    onOpenModal()
-  }
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
-  console.log('date, subData :', date, subData)
+  // console.log('date, subData :', date, subData)
   const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date)
   const dayItemColors: string[] = []
   const getColors = () => {
-    dayData.map((dayItem) => {
+    dayData.map(dayItem => {
       let find = false
       for (let i = 0; i < subData.length; i++) {
         if (dayItem.subTitleId === subData[i].id) {
@@ -52,8 +46,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       if (!find) {
         dayItemColors.push('#AAAAAA')
       }
+      return dayItem
     })
-    // console.log(dayItemColors)
   }
   const day = dayjs(date).date()
   const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
@@ -99,7 +93,14 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const mouseUpHandler = () => {
     store.dispatch(setEndDate(newDate))
-    onOpenModal()
+
+    let subDataIdColor:Array<[number, string]> = []
+    subData.map(subItem => {
+      subDataIdColor.push([subItem.id, subItem.color])
+      return subItem
+    })
+    subDataIdColor.push([0, '#AAAAAA'])
+    onOpenModal(subDataIdColor)
   }
 
   getColors()

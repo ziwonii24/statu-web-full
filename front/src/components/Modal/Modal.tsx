@@ -8,23 +8,26 @@ import path from 'path'
 import dotenv from 'dotenv'
 import './styles/Modal.scss'
 
-import { useStore } from 'react-redux'
+import { useStore, useSelector } from 'react-redux'
 import { setStartDate, setEndDate } from '../../store/drag'
+import { RootState } from '../../store/reducerIndex'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {
+  console.log('openModal')
   // daySchedule set
-  const [date, setDate] = useState<string>('')
+  const date = useSelector((state: RootState) => state.drag.startDate)
+  const [subTitleId, setSubTitleId] = useState<number>(0)
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
 
   let startDate = ''
   let endDate = ''
 
-  const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
-    setDate(e.target.value)
-    console.log(e.target.value)
+  const handleSubTitleId = (id: number) => {
+    setSubTitleId(id)
+    console.log(id)
   }
   const handleTodo = (e: ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value)
@@ -37,7 +40,7 @@ const Modal: FunctionComponent<{}> = () => {
 
   const daySchedule: DaySchedule = {
     "calendarId": 1,
-    "subTitleId": 1,
+    "subTitleId": subTitleId,
     "id": 2,
     "date": date,
     "component": todo,
@@ -103,7 +106,7 @@ const Modal: FunctionComponent<{}> = () => {
         date={date}
         todo={todo}
         goal={goal}
-        handleDate={handleDate}
+        handleSubTitleId={handleSubTitleId}
         handleTodo={handleTodo}
         handleGoal={handleGoal} />
 

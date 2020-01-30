@@ -25,7 +25,7 @@ const Calendar: FunctionComponent<{}> = () => {
   const [title, setTitle] = useState<string>('My Custom Schedule')
   const [showMonth, setShowMonth] = useState<boolean>(true)
 
-  const { modalState, onCloseModal } = useModal()
+  const { modalState } = useModal()
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
   // 이번달 시작날짜, 끝날짜 계산
@@ -79,10 +79,6 @@ const Calendar: FunctionComponent<{}> = () => {
 
   const handleShowMonth = (e: MouseEvent<HTMLDivElement>) => {
     setShowMonth(!showMonth)
-  }
-
-  const handleCloseModal = () => {
-    onCloseModal()
   }
 
   // TODO : 커스텀 hook으로 변경할 것

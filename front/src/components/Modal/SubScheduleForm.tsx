@@ -1,21 +1,10 @@
-import React, { FunctionComponent, ChangeEvent, MouseEvent, useState } from 'react'
+import React, { FunctionComponent, MouseEvent, useState } from 'react'
 import Interface from './interfaces/SubScheduleForm.interface'
 import { colors } from '../Calendar/dataSet/dataSet'
 
 import './styles/SubScheduleForm.scss'
 
-interface Props {
-  subTitle: string
-  color: string
-  startDate: string
-  endDate: string
-  handleSubTitle: (e: ChangeEvent<HTMLInputElement>) => void
-  handleColor: (color: string) => void
-  handleStartDate: (e: ChangeEvent<HTMLInputElement>) => void
-  handleEndDate: (e: ChangeEvent<HTMLInputElement>) => void
-}
-
-const SubScheduleForm: FunctionComponent<Interface> = (props: Props) => {
+const SubScheduleForm: FunctionComponent<Interface> = (props: Interface) => {
   const {
     subTitle,
     color,

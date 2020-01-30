@@ -5,4 +5,7 @@ const modalActions = {openModal, closeModal}
 
 export type ModalAction = ActionType<typeof modalActions>
 
-export type ModalState = {modalState: boolean}
+export type ModalState = {
+  modalState: boolean
+  subScheduleIdColor: [number, string][]
+}

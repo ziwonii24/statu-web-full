@@ -1,30 +1,27 @@
 import React, { FunctionComponent } from 'react'
 import Interface from './interfaces/DayScheduleInput.interface'
 
-const MainScheduleForm: FunctionComponent<Interface> = (props: Interface) => {
+const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
   const {
-    // date,
     todo,
     goal,
-    // handleDate,
+    color,
     handleTodo,
     handleGoal
   } = props
 
   return (
     <div className="content">
-      {/* <input
-        type="date"
-        placeholder="날짜를 입력하세요."
-        value={date}
-        // onChange={handleDate}
-      /> <br/> */}
+      <div
+        className={`colorContainer`}
+        style={{backgroundColor: color}}
+      />
       <input
         type="text"
         placeholder="목표를 입력하세요."
         value={todo}
         onChange={handleTodo}
-      />  <br/>
+      /> <br/>
       <input
         type="number"
         placeholder="목표시간을 입력하세요."
@@ -35,4 +32,4 @@ const MainScheduleForm: FunctionComponent<Interface> = (props: Interface) => {
   )
 }
 
-export default MainScheduleForm
+export default DayScheduleInput

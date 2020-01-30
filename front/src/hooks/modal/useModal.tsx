@@ -7,7 +7,7 @@ export default function useModal() {
   const dispatch = useDispatch()
 
   const modalState = useSelector((state: RootState) => state.modal.modalState)
-  const onOpenModal = useCallback(() => dispatch(openModal()), [dispatch])
+  const onOpenModal = useCallback((array) => dispatch(openModal(array)), [dispatch])
   const onCloseModal = useCallback(() => dispatch(closeModal()), [dispatch])
 
   return {

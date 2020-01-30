@@ -1,47 +1,41 @@
-import React, { FunctionComponent, ChangeEvent } from 'react'
+import React, { FunctionComponent } from 'react'
+import DayScheduleInput from './DayScheduleInput'
 import Interface from './interfaces/DayScheduleForm.interface'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/reducerIndex'
 
-interface Props {
-  // 날짜 대신에 기간이 와야함 
-  date: string
-  todo: string
-  goal: number
-  handleDate: (e: ChangeEvent<HTMLInputElement>) => void
-  handleTodo: (e: ChangeEvent<HTMLInputElement>) => void
-  handleGoal: (e: ChangeEvent<HTMLInputElement>) => void
-}
+import './styles/DayScheduleForm.scss'
 
-const DayScheduleForm: FunctionComponent<Interface> = (props: Props) => {
+const DayScheduleForm: FunctionComponent<Interface> = (props: Interface) => {
   const {
     date,
     todo,
     goal,
-    handleDate,
+    handleSubTitleId,
     handleTodo,
     handleGoal
   } = props
 
+  const subScheduleIdColor = useSelector((state: RootState) => state.modal.subScheduleIdColor)
+
+  const getDayScheduleInput = () => subScheduleIdColor.map(subSchedule => {
+    handleSubTitleId(subSchedule[0])
+    return (
+      <DayScheduleInput
+      key={subSchedule[0]}
+      color={subSchedule[1]}
+      todo={todo}
+      goal={goal}
+      handleTodo={handleTodo}
+      handleGoal={handleGoal}
+    />
+    )
+  })
   return (
-    <div className="content">
-      <input
-        type="date"
-        placeholder="날짜를 입력하세요."
-        value={date}
-        onChange={handleDate}
-      /> <br/>
-      <input
-        type="text"
-        placeholder="목표를 입력하세요."
-        value={todo}
-        onChange={handleTodo}
-      />  <br/>
-      <input
-        type="number"
-        placeholder="목표시간을 입력하세요."
-        value={goal}
-        onChange={handleGoal}
-      />
-    </div>
+    <>
+      <h1>{date}</h1>
+      {getDayScheduleInput()}
+    </>
   )
 }
 
