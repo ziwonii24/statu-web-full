@@ -10,6 +10,7 @@ import { RootState } from '../../../store/reducerIndex'
 import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
 
 import './styles/CalendarDay.scss'
+import { DaySchedule } from '../dataSet/DataSet.interface'
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -31,7 +32,19 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const { modalState, onOpenModal } = useModal()
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
   // console.log('date, subData :', date, subData)
-  const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date)
+  const dayDatas = daySchedule && daySchedule.filter(schedule => schedule.date === date)
+  let dayData: DaySchedule[] = []
+  const getDayData = () => {
+    subData.map(subItem => {
+      const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === subItem.id)
+      dayData = dayData.concat(newDayDatas)
+    })
+    const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === 0)
+    dayData = dayData.concat(newDayDatas)
+    console.log(newDayDatas)
+  }
+  getDayData()
+  console.log('dayData', date, dayData)
   const dayItemColors: string[] = []
   const getColors = () => {
     dayData.map(dayItem => {
@@ -56,18 +69,18 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
   const passedDate = check ? 'calendarpassedDate' : ''
 
-  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)  
+  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)
   const dragStart = store.getState().drag.startDate
 
-  const dateCur = dateToNumber(date)  
+  const dateCur = dateToNumber(date)
   const dateDragStart = dateToNumber(dragStart)
   const dateDragOver = dateToNumber(getSelectedDate)
- 
+
   const draggedDays = isSelected(isAscending) ? 'draggedDays' : ''
 
   function isSelected(isAscending: boolean) {
-     // 앞으로 갈 경우
-    if(isAscending) {
+    // 앞으로 갈 경우
+    if (isAscending) {
       return dateCur >= dateDragStart && dateCur <= dateDragOver
     }
     // 뒤로 갈 경우
@@ -75,7 +88,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   function dateToNumber(strDate: string): number {
-    var result = strDate.replace(/\-/g,'')
+    var result = strDate.replace(/\-/g, '')
     return parseInt(result)
   }
 
@@ -94,7 +107,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const mouseUpHandler = () => {
     store.dispatch(setEndDate(newDate))
 
-    let subDataIdColor:Array<[number, string]> = []
+    let subDataIdColor: Array<[number, string]> = []
     subData.map(subItem => {
       subDataIdColor.push([subItem.id, subItem.color])
       return subItem

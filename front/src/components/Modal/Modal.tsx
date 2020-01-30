@@ -15,42 +15,25 @@ import { RootState } from '../../store/reducerIndex'
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {
-  console.log('openModal')
-  // daySchedule set
   const date = useSelector((state: RootState) => state.drag.startDate)
-  const [subTitleId, setSubTitleId] = useState<number>(0)
-  const [todo, setTodo] = useState<string>('')
-  const [goal, setGoal] = useState<number>(0)
 
-  let startDate = ''
-  let endDate = ''
-
-  const handleSubTitleId = (id: number) => {
-    setSubTitleId(id)
-    console.log(id)
-  }
-  const handleTodo = (e: ChangeEvent<HTMLInputElement>) => {
-    setTodo(e.target.value)
-    console.log(e.target.value)
-  }
-  const handleGoal = (e: ChangeEvent<HTMLInputElement>) => {
-    setGoal(parseInt(e.target.value))
-    console.log(e.target.value)
-  }
-
+  // daySchedule set
   const daySchedule: DaySchedule = {
     "calendarId": 1,
-    "subTitleId": subTitleId,
-    "id": 2,
-    "date": date,
-    "component": todo,
-    "goal": goal,
+    "subTitleId": 0,
+    "id": 0,
+    "date": '',
+    "component": '',
+    "goal": 0,
     "achieve": 0,
   }
 
   // subSchedule set
   const [subTitle, setSubTitle] = useState<string>('')
   const [color, setColor] = useState<string>('#000000')
+
+  let startDate = ''
+  let endDate = ''
 
   const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setSubTitle(e.target.value)
@@ -103,12 +86,7 @@ const Modal: FunctionComponent<{}> = () => {
         handleEndDate={handleEndDate} />,
     "daySchedule":
       <DayScheduleForm
-        date={date}
-        todo={todo}
-        goal={goal}
-        handleSubTitleId={handleSubTitleId}
-        handleTodo={handleTodo}
-        handleGoal={handleGoal} />
+        date={date} />
 
   }
 

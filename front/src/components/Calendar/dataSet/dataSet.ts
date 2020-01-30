@@ -141,7 +141,7 @@ export const daySchedule: DaySchedule[] = [
   },
   {
     calendarId: 1,
-    subTitleId: 4,
+    subTitleId: 0,
     id: 7,
     date: '2020-02-01',
     component: 'item 7',
@@ -159,7 +159,7 @@ export const daySchedule: DaySchedule[] = [
   },
   {
     calendarId: 1,
-    subTitleId: 20,
+    subTitleId: 0,
     id: 9,
     date: '2020-03-01',
     component: 'item 9',
