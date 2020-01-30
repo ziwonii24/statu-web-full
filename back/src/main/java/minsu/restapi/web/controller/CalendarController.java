@@ -1,6 +1,7 @@
 package minsu.restapi.web.controller;
 
 import minsu.restapi.persistence.model.*;
+import minsu.restapi.web.dto.CalendarResponseDto;
 import org.modelmapper.ModelMapper;
 import minsu.restapi.persistence.service.CalendarService;
 import minsu.restapi.persistence.service.CategoryService;
@@ -9,6 +10,7 @@ import minsu.restapi.web.dto.CalendarDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,19 +59,29 @@ public class CalendarController {
     }
 
     @GetMapping("/calendar")
-    public List<Calendar> findAll(){
-        return calendarService.findAll();
+    public List<CalendarResponseDto> findAll(){
+        List<Calendar> temp = calendarService.findAll();
+        List<CalendarResponseDto> list = new ArrayList<>();
+        for(int i=0; i<temp.size(); i++){
+            list.add(convertToResponseDto(temp.get(i)));
+        }
+        return list;
     }
 
 
     @GetMapping("/calendar/findall/{userid}")
-    public List<Calendar> findByUserId(@PathVariable Long userid){
-        return calendarService.findByUserId(userid);
+    public List<CalendarResponseDto> findByUserId(@PathVariable Long userid){
+        List<Calendar> temp = calendarService.findByUserId(userid);
+        List<CalendarResponseDto> list = new ArrayList<>();
+        for(int i=0; i<temp.size(); i++){
+            list.add(convertToResponseDto(temp.get(i)));
+        }
+        return list;
     }
 
     @GetMapping("/calendar/represen/{userid}")
-    public Calendar findByUserIdAndRepresen(@PathVariable Long userid){
-        return calendarService.findByUserIdAndRepresen(userid);
+    public CalendarResponseDto findByUserIdAndRepresen(@PathVariable Long userid){
+        return convertToResponseDto(calendarService.findByUserIdAndRepresen(userid));
     }
 
     @DeleteMapping("/calendar/{calendarId}")
@@ -81,10 +93,12 @@ public class CalendarController {
     }
 
 
-    private CalendarDto convertToDto(Calendar calendar){
-        CalendarDto calendarDto = modelMapper.map(calendar, CalendarDto.class);
+    private CalendarResponseDto convertToResponseDto(Calendar calendar){
+        CalendarResponseDto calendarResponseDto = modelMapper.map(calendar, CalendarResponseDto.class);
         //set
-        return calendarDto;
+        String temp[] = calendar.getTag().split(",");
+        calendarResponseDto.setTag(temp);
+        return calendarResponseDto;
     }
 
     private Calendar convertToEntity(CalendarDto calendarDto) throws Exception{
@@ -99,16 +113,16 @@ public class CalendarController {
         calendar.setTag(temp);
 
         if(calendarDto.getCategory1()!=null){
-            Category1 category1 = new Category1();
             for (int i = 0; i < calendarDto.getCategory1().length; i++) {
+                Category1 category1 = new Category1();
                 category1.setId(calendarDto.getCategory1()[i]);
                 calendar.getCategory1s().add(category1);
             }
         }
 
         if(calendarDto.getCategory2()!=null){
-            Category2 category2 = new Category2();
             for (int i = 0; i < calendarDto.getCategory2().length; i++) {
+                Category2 category2 = new Category2();
                 category2.setId(calendarDto.getCategory2()[i]);
                 calendar.getCategory2s().add(category2);
             }

@@ -101,16 +101,16 @@ public class UserController {
 
         //set
         if(userDto.getCategory1()!=null){
-            Category1 category1 = new Category1();
             for (int i = 0; i < userDto.getCategory1().length; i++) {
+                Category1 category1 = new Category1();
                 category1.setId(userDto.getCategory1()[i]);
                 user.getCategory1s().add(category1);
             }
         }
 
         if(userDto.getCategory2()!=null){
-            Category2 category2 = new Category2();
             for (int i = 0; i < userDto.getCategory2().length; i++) {
+                Category2 category2 = new Category2();
                 category2.setId(userDto.getCategory2()[i]);
                 user.getCategory2s().add(category2);
             }

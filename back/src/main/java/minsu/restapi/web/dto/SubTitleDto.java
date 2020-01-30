@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubTitleDto {
+    private Long id;
     private Long calendarId;
     private String subTitle;
     private String startDate;

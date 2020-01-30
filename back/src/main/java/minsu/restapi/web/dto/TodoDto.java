@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TodoDto {
+    private Long id;
     private Long subTitleId;
     private String date;
     private String todo;

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CalendarDto {
+    private Long id;
     private Long userId;
     private String title;
     private String startDate;
