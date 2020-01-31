@@ -1,4 +1,4 @@
-import DataObj from './DataObj.interface'
+import { DaySchedule, SubSchedule } from '../../dataSet/DataSet.interface'
 
 export default interface Component {
   targetDay: number
@@ -7,7 +7,8 @@ export default interface Component {
   handleState: (targetDay: number, targetDateString: string) => void
   width: string
   dayComponent?: object
-  data: DataObj[]
+  subSchedule: SubSchedule[]
+  daySchedule: DaySchedule[]
   containerClassName: string
   rowContainerClassName: string
   dayContainerClassName?: string
@@ -17,4 +18,5 @@ export default interface Component {
   dayDataListItemClass?: string
   colorPastDates?: string
   colorActiveDate?: string
+  isAscending: boolean
 }

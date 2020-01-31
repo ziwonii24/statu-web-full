@@ -1,17 +1,28 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
 import { useStore } from 'react-redux'
-import useModal from '../../hooks/modal/useModal'
+import useModal from '../../hooks/useModal'
+import useDrag from '../../hooks/useDrag'
+import { useDaySchedule, useSubSchedule } from '../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import DataObj from './MonthView/interfaces/DataObj.interface'
+import { dayScheduleData, subScheduleData } from './dataSet/dataSet'  // local data
 import Modal from '../Modal/Modal'
+import path from 'path'
+import dotenv from 'dotenv'
+
+dotenv.config({ path: path.join(__dirname, '.env') })
+
 
 const Calendar: FunctionComponent<{}> = () => {
+  console.log('Calendar View')
   const store = useStore()
   console.log(store.getState())
+  const { startDate, tempDate } = useDrag()
+  const { daySchedule, onGetDaySchedule } = useDaySchedule()
+  const { subSchedule, onGetSubSchedule } = useSubSchedule()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
@@ -19,8 +30,68 @@ const Calendar: FunctionComponent<{}> = () => {
   const [title, setTitle] = useState<string>('My Custom Schedule')
   const [showMonth, setShowMonth] = useState<boolean>(true)
 
-  const { modalState, onCloseModal } = useModal()
+  const { modalState } = useModal()
   const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
+
+  // 이번달 시작날짜, 끝날짜 계산
+  const daysInMonth = dayjs(targetMonth).daysInMonth()
+  const startDayInMonth = dayjs(targetMonth).date(1)
+  const endDayInMonth = dayjs(targetMonth).date(daysInMonth)
+
+  const targetMonthStartDay = startDayInMonth.day() + 1
+  const targetMonthEndDay = endDayInMonth.day() + 1
+
+  // 시작날짜, 끝날짜를 이용해 이번 달에 렌더링할 캘린더 데이터 필터링
+  const startDay = startDayInMonth.add(-(targetMonthStartDay - 1), 'day')
+  const endDay = endDayInMonth.add((7 - targetMonthEndDay), 'day')
+  // console.log('startday', startDay, 7, targetMonthStartDay, (targetMonthStartDay - 1))
+  // console.log('endday', endDay)
+
+    // 일일 스케줄 데이터 필터링
+  // onGetDaySchedule(dayScheduleData) // local data
+  const daySchedules = daySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
+
+    // 소목표 데이터 필터링
+  // onGetSubSchedule(subScheduleData) // local data
+  const subSchedules = subSchedule
+    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
+    .sort(function(a, b) {
+      // return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
+      if (sortDate(a.startDate, b.startDate) === 0) {
+        console.log('b, a, compare endDate', b.subTitle, a.subTitle, b.endDate, a.endDate)
+        return sortDate(b.endDate, a.endDate)
+      } else {
+        console.log('a, b, compare startDate', a.subTitle, b.subTitle, a.startDate, b.startDate)
+        return sortDate(a.startDate, b.startDate)
+      }
+    })
+  // console.log(subSchedules)
+
+  // 사용함수
+  function sortDate(first: string, second :string) {
+    const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
+    const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
+
+    if (firstYear < secondYear) {
+      return -1
+    } else if (firstYear > secondYear) {
+      return 1
+    } else {
+      if (firstMonth < secondMonth) {
+        return -1
+      } else if (firstMonth > secondMonth) {
+        return 1
+      } else {
+        if (firstDay < secondDay) {
+          return -1
+        } else if (firstDay > secondDay) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    }
+  }
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
@@ -30,7 +101,7 @@ const Calendar: FunctionComponent<{}> = () => {
   const handleState = (targetDay: number, targetDateString: string) => {
     setTargetDay(targetDay)
     setTargetDateString(targetDateString)
-    console.log('modalState', modalState)
+    // console.log('modalState', modalState)
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -49,76 +120,18 @@ const Calendar: FunctionComponent<{}> = () => {
     setShowMonth(!showMonth)
   }
 
-  const handleCloseModal = () => {
-    onCloseModal()
-  }
+  // TODO : 커스텀 hook으로 변경할 것
+  // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
+  const getSelectedDate = tempDate  
+  const dragStart = dateToNumber(startDate) // startDate는 변하지 않음
+  const dragOver = dateToNumber(getSelectedDate)
+  // 소목표를 앞으로 설정하는지 뒤로 설정하는지에 대한 조건 - CalendarDay 컴포넌트까지 내려보냄
+  const isAscending: boolean = dragOver - dragStart + 1 > 0 ? true : false
 
-  // 불러올 데이터  
-  const data: DataObj[] = [
-    {
-      calendarId: '1',
-      subTitleId: '1',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 1',
-      goal: 270,
-      achieve: 167
-    },
-    {
-      calendarId: '1',
-      subTitleId: '2',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 2',
-      goal: 70,
-      achieve: 17
-    },
-    {
-      calendarId: '1',
-      subTitleId: '3',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 6',
-      goal: 20,
-      achieve: 7
-    },
-    {
-      calendarId: '1',
-      subTitleId: '3',
-      id: '1',
-      date: '2020-01-01',
-      component: 'item 7',
-      goal: 270,
-      achieve: 167
-    },
-    {
-      calendarId: '1',
-      subTitleId: '3',
-      id: '1',
-      date: '2020-01-05',
-      component: 'item 3',
-      goal: 270,
-      achieve: 367
-    },
-    {
-      calendarId: '1',
-      subTitleId: '1',
-      id: '1',
-      date: '2019-12-31',
-      component: 'item 4',
-      goal: 210,
-      achieve: 167
-    },
-    {
-      calendarId: '1',
-      subTitleId: '2',
-      id: '1',
-      date: '2020-02-01',
-      component: 'item 5',
-      goal: 90,
-      achieve: 67
-    },
-  ];
+  function dateToNumber(strDate: string): number {
+    var result = strDate.replace(/\-/g,'')
+    return parseInt(result)
+  }
 
   return (
     <div 
@@ -177,7 +190,8 @@ const Calendar: FunctionComponent<{}> = () => {
           targetDay={targetDay}
           targetMonth={targetMonth}
           targetDateString={targetDateString}
-          data={data}
+          subSchedule={subSchedules}
+          daySchedule={daySchedules}
           handleState={handleState}
           width="92%"
           containerClassName="exampleClassContainer"
@@ -189,6 +203,7 @@ const Calendar: FunctionComponent<{}> = () => {
           daysTitleContainerClass="exampleDaysTitleContainerClass"
           colorActiveDate="palegoldenrod"
           colorPastDates="#f1f1f1"
+          isAscending={isAscending}
         />
         :
         <WeekViewCalendar />

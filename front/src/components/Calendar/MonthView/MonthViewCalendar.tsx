@@ -1,38 +1,18 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
-import PageInterface from './interfaces/MonthViewCalendar.interface'
-import DataObj from './interfaces/DataObj.interface'
+import Interface from './interfaces/MonthViewCalendar.interface'
 import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
 
 import './styles/Calendar.scss'
 
-interface Props { 
-  targetDay: number
-  targetMonth: string
-  targetDateString: string
-  handleState: (targetDay: number, targetDateString: string) => void
-  width: string
-  dayComponent?: object
-  data: DataObj[]
-  containerClassName: string
-  rowContainerClassName: string
-  dayContainerClassName?: string
-  daysHeaderContainerClass: string
-  dayDataListClass?: string
-  daysTitleContainerClass: string
-  dayDataListItemClass?: string
-  colorPastDates?: string
-  colorActiveDate?: string
-}
-
-const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
-  console.log('month calendar view')
+const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     targetDay,
     targetMonth,
-    data,
+    subSchedule,
+    daySchedule,
     handleState,
     targetDateString,
     width,
@@ -45,8 +25,9 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
     daysTitleContainerClass,
     colorActiveDate,
     colorPastDates,
+    isAscending
   } = props;
-
+  
   const renderRows = (weeks: string[][]) => {
     let count = 0
     return weeks.map(week => {
@@ -67,19 +48,22 @@ const MonthViewCalendar: FunctionComponent<PageInterface> = (props: Props) => {
           targetDateString={targetDateString}
           handleState={handleState || handleState}
           // dayComponent={dayComponent}
-          data={data}
+          subSchedule={subSchedule}
+          daySchedule={daySchedule}
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
+          isAscending={isAscending}
         />
       )
     })
   }
-  const startDayInMonth = dayjs(targetMonth).date(1)
   const daysInMonth = dayjs(targetMonth).daysInMonth()
-  const targetMonthDayOfWeek = startDayInMonth.day() + 1
-  // console.log(targetMonth)
-  // console.log('startDayInMonth, daysInMonth, targetMonthDayOfWeek : ',startDayInMonth.day(), daysInMonth, targetMonthDayOfWeek)
-  const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthDayOfWeek)
+  const startDayInMonth = dayjs(targetMonth).date(1)
+  const targetMonthStartDay = startDayInMonth.day() + 1
+  
+  // console.log('startDayInMonth, daysInMonth, targetMonthStartDay, targetMonthEndDay : ',
+  //   startDayInMonth.day(), daysInMonth, targetMonthStartDay, targetMonthEndDay)
+  const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthStartDay)
 
   return (
     <div
