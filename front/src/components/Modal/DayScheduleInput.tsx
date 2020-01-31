@@ -4,12 +4,12 @@ import { DaySchedule } from '../Calendar/dataSet/DataSet.interface'
 import { useDaySchedule } from '../../hooks/useSchedule'
 
 const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
-  // daySchedule set
   const {
     date,
     subTitleId,
     color,
   } = props
+  
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
 

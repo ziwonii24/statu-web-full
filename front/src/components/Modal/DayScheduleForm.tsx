@@ -3,20 +3,15 @@ import DayScheduleInput from './DayScheduleInput'
 // import Interface from './interfaces/DayScheduleForm.interface'
 import useDrag from '../../hooks/useDrag'
 import useModal from '../../hooks/useModal'
-import { useDaySchedule } from '../../hooks/useSchedule'
 import { RootState } from '../../store/reducerIndex'
 import { useSelector } from 'react-redux'
 
 import './styles/DayScheduleForm.scss'
 
 const DayScheduleForm: FunctionComponent<{}> = () => {
-  // const {
-  //   date,
-  // } = props
-
   const subScheduleIdColor = useSelector((state: RootState) => state.modal.subScheduleIdColor)
   const { onCloseModal } = useModal()
-  const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
+  const { startDate, onSetStartDate, onSetEndDate } = useDrag()
 
   const handleCloseModal = () => {
     onCloseModal()
@@ -42,7 +37,6 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       <div className="button-wrap">
         <div onClick={() => {
           handleCloseModal()
-          // handleSubmit(daySchedule)
         }}>
           Confirm
           </div>
