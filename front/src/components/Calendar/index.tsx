@@ -42,8 +42,10 @@ const Calendar: FunctionComponent<{}> = () => {
   const targetMonthEndDay = endDayInMonth.day() + 1
 
   // 시작날짜, 끝날짜를 이용해 이번 달에 렌더링할 캘린더 데이터 필터링
-  const startDay = startDayInMonth.add(-(7 - targetMonthStartDay), 'day')
+  const startDay = startDayInMonth.add(-(targetMonthStartDay - 1), 'day')
   const endDay = endDayInMonth.add((7 - targetMonthEndDay), 'day')
+  // console.log('startday', startDay, 7, targetMonthStartDay, (targetMonthStartDay - 1))
+  // console.log('endday', endDay)
 
     // 일일 스케줄 데이터 필터링
   // onGetDaySchedule(dayScheduleData) // local data

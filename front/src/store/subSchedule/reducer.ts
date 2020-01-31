@@ -3,19 +3,19 @@ import { createReducer } from 'typesafe-actions'
 import { GET_SUBSCHEDULE, POST_SUBSCHEDULE, PUT_SUBSCHEDULE, DELETE_SUBSCHEDULE } from './actions'
 import { subScheduleData } from '../../components/Calendar/dataSet/dataSet'
 
-const testData = subScheduleData
-// const initialData = [
-//   {
-//     id: 1,
-//     calenderId: 1,
-//     subTitle: '',
-//     color: '#',
-//     startDate: '',
-//     endDate: '',
-//   },
-// ]
+// const testData = subScheduleData
+const initialData = [
+  {
+    id: 1,
+    calenderId: 1,
+    subTitle: '',
+    color: '#',
+    startDate: '',
+    endDate: '',
+  },
+]
 
-const initialDaySchedulesState: SubSchedulesState = testData
+const initialDaySchedulesState: SubSchedulesState = initialData
 
 const subSchedule = createReducer<SubSchedulesState, SubScheduleActions>(initialDaySchedulesState, {
   [GET_SUBSCHEDULE]: (state, { payload: subSchedules }) => subSchedules,
