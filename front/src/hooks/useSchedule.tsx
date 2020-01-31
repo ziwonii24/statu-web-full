@@ -1,11 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { getDaySchedule, postDaySchedule, putDaySchedule, deleteDaySchedule, DaySchedule } from '../store/daySchedule'
-import { dayScheduleData, subScheduleData } from '../components/Calendar/dataSet/dataSet'
 import { getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, SubSchedule } from '../store/subSchedule'
 import { RootState } from '../store/reducerIndex'
 
-import axios from 'axios'
+// import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
@@ -23,17 +22,17 @@ export function useDaySchedule() {
   const onDeleteDaySchedule = useCallback((id:number) => dispatch(deleteDaySchedule(id)), [dispatch])
   
   // 수정 필요
-  const onGetDayScheduleFromDB = async () => {
-    const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+  // const onGetDayScheduleFromDB = async () => {
+  //   const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
-    try {
-      await axios.get(SERVER_IP + '/todo')
-      console.log('success')
-    }
-    catch (e) {
-      console.error(e)
-    }
-  }
+  //   try {
+  //     await axios.get(SERVER_IP + '/todo')
+  //     console.log('success')
+  //   }
+  //   catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 
   return {
     daySchedule, onGetDaySchedule, onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule
@@ -52,17 +51,17 @@ export function useSubSchedule() {
   const onDeleteSubSchedule = useCallback((id:number) => dispatch(deleteSubSchedule(id)), [dispatch])
   
   // 수정 필요
-  const onGetSubScheduleFromDB = async () => {
-    const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+  // const onGetSubScheduleFromDB = async () => {
+  //   const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
-    try {
-      await axios.get(SERVER_IP + '/todo')
-      console.log('success')
-    }
-    catch (e) {
-      console.error(e)
-    }
-  }
+  //   try {
+  //     await axios.get(SERVER_IP + '/todo')
+  //     console.log('success')
+  //   }
+  //   catch (e) {
+  //     console.error(e)
+  //   }
+  // }
 
   return {
     subSchedule, onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule

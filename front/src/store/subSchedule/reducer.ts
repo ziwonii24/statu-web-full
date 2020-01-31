@@ -4,16 +4,16 @@ import { GET_SUBSCHEDULE, POST_SUBSCHEDULE, PUT_SUBSCHEDULE, DELETE_SUBSCHEDULE 
 import { subScheduleData } from '../../components/Calendar/dataSet/dataSet'
 
 const testData = subScheduleData
-const initialData = [
-  {
-    id: 1,
-    calenderId: 1,
-    subTitle: '',
-    color: '#',
-    startDate: '',
-    endDate: '',
-  },
-]
+// const initialData = [
+//   {
+//     id: 1,
+//     calenderId: 1,
+//     subTitle: '',
+//     color: '#',
+//     startDate: '',
+//     endDate: '',
+//   },
+// ]
 
 const initialDaySchedulesState: SubSchedulesState = testData
 

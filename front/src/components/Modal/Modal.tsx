@@ -19,48 +19,47 @@ const Modal: FunctionComponent<{}> = () => {
   // console.log('redux state', store.getState())
 
   const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
-  const date = startDate
 
   // daySchedule set
-  const daySchedule: DaySchedule = {
-    "calendarId": 1,
-    "subTitleId": 0,
-    "id": 0,
-    "date": '',
-    "component": '',
-    "goal": 0,
-    "achieve": 0,
-  }
+  // const daySchedule: DaySchedule = {
+  //   "calendarId": 1,
+  //   "subTitleId": 0,
+  //   "id": 0,
+  //   "date": '',
+  //   "component": '',
+  //   "goal": 0,
+  //   "achieve": 0,
+  // }
 
-  // subSchedule set
-  const [subTitle, setSubTitle] = useState<string>('')
-  const [color, setColor] = useState<string>('#000000')
+  // // subSchedule set
+  // const [subTitle, setSubTitle] = useState<string>('')
+  // const [color, setColor] = useState<string>('#000000')
 
-  const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setSubTitle(e.target.value)
-    console.log(e.target.value)
-  }
-  const handleColor = (color: string) => {
-    setColor(color)
-    console.log(color)
-  }
-  const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-    onSetStartDate(e.target.value)
-    console.log(startDate)
-  }
-  const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
-    onSetEndDate(e.target.value)
-    console.log(endDate)
-  }
+  // const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setSubTitle(e.target.value)
+  //   console.log(e.target.value)
+  // }
+  // const handleColor = (color: string) => {
+  //   setColor(color)
+  //   console.log(color)
+  // }
+  // const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
+  //   onSetStartDate(e.target.value)
+  //   console.log(startDate)
+  // }
+  // const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
+  //   onSetEndDate(e.target.value)
+  //   console.log(endDate)
+  // }
 
-  const subSchedule: SubSchedule = {
-    "calenderId": 1,
-    "id": 0,
-    "subTitle": subTitle,
-    "color": color,
-    "startDate": startDate,
-    "endDate": endDate,
-  }
+  // const subSchedule: SubSchedule = {
+  //   "calenderId": 1,
+  //   "id": 0,
+  //   "subTitle": subTitle,
+  //   "color": color,
+  //   "startDate": startDate,
+  //   "endDate": endDate,
+  // }
 
   // choose schedule
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,30 +75,12 @@ const Modal: FunctionComponent<{}> = () => {
 
   // choose schedule form
   const chosenScheduleForm = {
-    "subSchedule":
-      <SubScheduleForm
-        subTitle={subTitle}
-        color={color}
-        startDate={startDate}
-        endDate={endDate}
-        handleSubTitle={handleSubTitle}
-        handleColor={handleColor}
-        handleStartDate={handleStartDate}
-        handleEndDate={handleEndDate} />,
-    "daySchedule":
-      <DayScheduleForm
-        date={date} />
-
+    "subSchedule": <SubScheduleForm />,
+    "daySchedule": <DayScheduleForm />
   }
-
   const scheduleForm = chosenScheduleForm[choose]
 
   // choose schedule data
-  const chosenScheduleData = {
-    "subSchedule": subSchedule,
-    "daySchedule": daySchedule
-  }
-  const schedule = chosenScheduleData[choose]
 
   // 모달 확인 버튼(제출)
   // const handleSubmit = async (schedule: DaySchedule | SubSchedule) => {
@@ -153,7 +134,7 @@ const Modal: FunctionComponent<{}> = () => {
         ''
         }
         {scheduleForm}
-        <div className="button-wrap">
+        {/* <div className="button-wrap">
           <div onClick={() => {
             handleCloseModal()
             handleSubmit(schedule)
@@ -161,7 +142,7 @@ const Modal: FunctionComponent<{}> = () => {
             Confirm
           </div>
           <div onClick={handleCloseModal}>Cancel</div>
-        </div>
+        </div> */}
       </div>
     </>
   )

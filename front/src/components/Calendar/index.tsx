@@ -17,6 +17,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 
 const Calendar: FunctionComponent<{}> = () => {
+  console.log('Calendar View')
   const store = useStore()
   console.log(store.getState())
   const { startDate, tempDate } = useDrag()
@@ -53,11 +54,43 @@ const Calendar: FunctionComponent<{}> = () => {
   const subSchedules = subSchedule
     .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
     .sort(function(a, b) {
-      return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
+      // return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
+      if (sortDate(a.startDate, b.startDate) === 0) {
+        console.log('b, a, compare endDate', b.subTitle, a.subTitle, b.endDate, a.endDate)
+        return sortDate(b.endDate, a.endDate)
+      } else {
+        console.log('a, b, compare startDate', a.subTitle, b.subTitle, a.startDate, b.startDate)
+        return sortDate(a.startDate, b.startDate)
+      }
     })
   // console.log(subSchedules)
 
   // 사용함수
+  function sortDate(first: string, second :string) {
+    const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
+    const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
+
+    if (firstYear < secondYear) {
+      return -1
+    } else if (firstYear > secondYear) {
+      return 1
+    } else {
+      if (firstMonth < secondMonth) {
+        return -1
+      } else if (firstMonth > secondMonth) {
+        return 1
+      } else {
+        if (firstDay < secondDay) {
+          return -1
+        } else if (firstDay > secondDay) {
+          return 1
+        } else {
+          return 0
+        }
+      }
+    }
+  }
+
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
     setTargetMonth(date)
