@@ -1,16 +1,16 @@
 import React, { FunctionComponent } from 'react'
-import useModal from '../../../hooks/modal/useModal'
+import useModal from '../../../hooks/useModal'
+import useDrag from '../../../hooks/useDrag'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
+import { DaySchedule } from '../dataSet/DataSet.interface'
 
 import { useStore, useSelector } from 'react-redux'
 import { RootState } from '../../../store/reducerIndex'
-import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
 
 import './styles/CalendarDay.scss'
-import { DaySchedule } from '../dataSet/DataSet.interface'
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -27,30 +27,68 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     isAscending
   } = props;
 
-  const store = useStore()
 
+  const store = useStore()
   const { modalState, onOpenModal } = useModal()
+  const { startDate, tempDate, endDate, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
+
+  // 소목표, 일일목표 관련 변수
+  const day = dayjs(date).date()
+  const newDate = date
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
-  // console.log('date, subData :', date, subData)
-<<<<<<< HEAD
   const dayDatas = daySchedule && daySchedule.filter(schedule => schedule.date === date)
-  let dayData: DaySchedule[] = []
-  const getDayData = () => {
+  const dayData = getDayData()
+  const dayItemColors = getColors()
+
+  // 사용자와 상호작용을 보여주기 위한 변수
+  const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
+  const activeNumber = modalState && date === targetDateString ? 'calendarActiveDateNumber' : ''
+  const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
+  const passedDate = check ? 'calendarpassedDate' : ''
+
+  // 드래그 관련 변수
+  const dateCur = dateToNumber(date)
+  const dateDragStart = dateToNumber(startDate)
+  const dateDragOver = dateToNumber(tempDate)
+  const draggedDays = isSelected(isAscending) ? 'draggedDays' : ''
+
+
+  // HTML 렌더에 사용되는 핸들러
+  const mouseDownHandler = () => {
+    onSetStartDate(newDate)
+    onSetTempDate(newDate)
+  }
+
+  const mouseOverHandler = () => {
+    // mouse down을 한번 한 상태에서만 mouse over 가능
+    if (startDate !== '') {
+      onSetTempDate(newDate)
+    }
+  }
+
+  const mouseUpHandler = () => {
+    onSetEndDate(newDate)
+    onOpenModal(setSubDataIdColor())
+  }
+
+
+  // 사용 함수
+  // 소목표 순서에 맞게 일일 목표 정렬
+  function getDayData() {
+    let dayData: DaySchedule[] = []
     subData.map(subItem => {
       const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === subItem.id)
       dayData = dayData.concat(newDayDatas)
+      return subItem
     })
-    const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === 0)
+    const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === 1)
     dayData = dayData.concat(newDayDatas)
-    console.log(newDayDatas)
+    return dayData
   }
-  getDayData()
-  console.log('dayData', date, dayData)
-=======
-  const dayData = daySchedule && daySchedule.filter(schedule => schedule.date === date)
->>>>>>> front-dev
-  const dayItemColors: string[] = []
-  const getColors = () => {
+
+  // dayData 의 subtitleId 를 통해 소목표의 색을 찾고 dayData의 순서에 맞게 색을 dayItemColors에 추가
+  function getColors() {
+    const dayItemColors: string[] = []
     dayData.map(dayItem => {
       let find = false
       for (let i = 0; i < subData.length; i++) {
@@ -65,23 +103,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       }
       return dayItem
     })
+    return dayItemColors
   }
-  const day = dayjs(date).date()
-  const active = modalState && (date === targetDateString) ? 'calendarActiveDate' : ''
-  const activeNumber = modalState && date === targetDateString ? 'calendarActiveDateNumber' : ''
-  const newDate = date
-  const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
-  const passedDate = check ? 'calendarpassedDate' : ''
 
-  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)
-  const dragStart = store.getState().drag.startDate
-
-  const dateCur = dateToNumber(date)
-  const dateDragStart = dateToNumber(dragStart)
-  const dateDragOver = dateToNumber(getSelectedDate)
-
-  const draggedDays = isSelected(isAscending) ? 'draggedDays' : ''
-
+  // 드래그 관련 함수
   function isSelected(isAscending: boolean) {
     // 앞으로 갈 경우
     if (isAscending) {
@@ -96,31 +121,18 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     return parseInt(result)
   }
 
-  const mouseDownHandler = () => {
-    store.dispatch(setStartDate(newDate))
-    store.dispatch(setTempDate(newDate))
-  }
-
-  const mouseOverHandler = () => {
-    // mouse down을 한번 한 상태에서만 mouse over 가능
-    if (store.getState().drag.startDate !== '') {
-      store.dispatch(setTempDate(newDate))
-    }
-  }
-
-  const mouseUpHandler = () => {
-    store.dispatch(setEndDate(newDate))
-
+  // 모달을 열었을 때 보여줄 소목표들 색 설정
+  function setSubDataIdColor() {
     let subDataIdColor: Array<[number, string]> = []
     subData.map(subItem => {
       subDataIdColor.push([subItem.id, subItem.color])
       return subItem
     })
-    subDataIdColor.push([0, '#AAAAAA'])
-    onOpenModal(subDataIdColor)
+    subDataIdColor.push([1, '#AAAAAA'])
+    return subDataIdColor
   }
+  
 
-  getColors()
 
   return (
     <div

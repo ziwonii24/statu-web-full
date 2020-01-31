@@ -1,23 +1,27 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
-import { useStore, useSelector } from 'react-redux'
-import useModal from '../../hooks/modal/useModal'
+import { useStore } from 'react-redux'
+import useModal from '../../hooks/useModal'
+import useDrag from '../../hooks/useDrag'
+import { useDaySchedule, useSubSchedule } from '../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { daySchedule, subSchedule } from './dataSet/dataSet'
+import { dayScheduleData, subScheduleData } from './dataSet/dataSet'  // local data
 import Modal from '../Modal/Modal'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { RootState } from '../../store/reducerIndex'
-
 dotenv.config({ path: path.join(__dirname, '.env') })
+
 
 const Calendar: FunctionComponent<{}> = () => {
   const store = useStore()
   console.log(store.getState())
+  const { startDate, tempDate } = useDrag()
+  const { daySchedule, onGetDaySchedule } = useDaySchedule()
+  const { subSchedule, onGetSubSchedule } = useSubSchedule()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
@@ -41,9 +45,11 @@ const Calendar: FunctionComponent<{}> = () => {
   const endDay = endDayInMonth.add((7 - targetMonthEndDay), 'day')
 
     // 일일 스케줄 데이터 필터링
+  // onGetDaySchedule(dayScheduleData) // local data
   const daySchedules = daySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
 
     // 소목표 데이터 필터링
+  // onGetSubSchedule(subScheduleData) // local data
   const subSchedules = subSchedule
     .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
     .sort(function(a, b) {
@@ -51,8 +57,6 @@ const Calendar: FunctionComponent<{}> = () => {
     })
   // console.log(subSchedules)
 
-    //소목표 개수를 이용해서 출력할 높이 지정
-  // const visited
   // 사용함수
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
@@ -83,8 +87,8 @@ const Calendar: FunctionComponent<{}> = () => {
 
   // TODO : 커스텀 hook으로 변경할 것
   // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
-  const getSelectedDate = useSelector((state: RootState) => state.drag.tempDate)  
-  const dragStart = dateToNumber(store.getState().drag.startDate) // startDate는 변하지 않음
+  const getSelectedDate = tempDate  
+  const dragStart = dateToNumber(startDate) // startDate는 변하지 않음
   const dragOver = dateToNumber(getSelectedDate)
   // 소목표를 앞으로 설정하는지 뒤로 설정하는지에 대한 조건 - CalendarDay 컴포넌트까지 내려보냄
   const isAscending: boolean = dragOver - dragStart + 1 > 0 ? true : false

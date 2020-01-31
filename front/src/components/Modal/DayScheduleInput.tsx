@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react'
 import Interface from './interfaces/DayScheduleInput.interface'
 import { DaySchedule } from '../Calendar/dataSet/DataSet.interface'
-import Axios from 'axios'
 
 const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
   // daySchedule set

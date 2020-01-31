@@ -1,6 +1,6 @@
 import { DaySchedule, SubSchedule, MainSchedule } from './DataSet.interface'
 
-export const mainschedule: MainSchedule[] = [
+export const mainScheduleData: MainSchedule[] = [
   {
     id: 1,
     userId: 1,
@@ -41,9 +41,9 @@ export const mainschedule: MainSchedule[] = [
   },
 ]
 
-export const subSchedule: SubSchedule[] = [
+export const subScheduleData: SubSchedule[] = [
   {
-    id: 1,
+    id: 6,
     calenderId: 1,
     subTitle: '인적성',
     color: '#FFE4C4',
@@ -84,7 +84,7 @@ export const subSchedule: SubSchedule[] = [
   },
 ]
 
-export const daySchedule: DaySchedule[] = [
+export const dayScheduleData: DaySchedule[] = [
   {
     calendarId: 1,
     subTitleId: 2,
@@ -114,7 +114,7 @@ export const daySchedule: DaySchedule[] = [
   },
   {
     calendarId: 1,
-    subTitleId: 0,
+    subTitleId: 1,
     id: 4,
     date: '2020-01-01',
     component: 'item 4',
@@ -123,7 +123,7 @@ export const daySchedule: DaySchedule[] = [
   },
   {
     calendarId: 1,
-    subTitleId: 1,
+    subTitleId: 6,
     id: 5,
     date: '2020-01-05',
     component: 'item 5',
@@ -141,7 +141,7 @@ export const daySchedule: DaySchedule[] = [
   },
   {
     calendarId: 1,
-    subTitleId: 0,
+    subTitleId: 1,
     id: 7,
     date: '2020-02-01',
     component: 'item 7',
@@ -159,7 +159,7 @@ export const daySchedule: DaySchedule[] = [
   },
   {
     calendarId: 1,
-    subTitleId: 0,
+    subTitleId: 1,
     id: 9,
     date: '2020-03-01',
     component: 'item 9',

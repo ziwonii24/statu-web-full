@@ -7,6 +7,7 @@ import { SubSchedule } from '../dataSet/DataSet.interface'
 import CalendarDay from './CalendarDay'
 
 import './styles/CalendarRow.scss'
+import { subScheduleData } from '../dataSet/dataSet'
 
 const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -93,6 +94,9 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
             assignedNumber.push(scheduleId)
           }
         }
+        // subScheduleOrder.sort(function(a, b) {
+        //   if a.s
+        // })
         return scheduleId
       })
 
@@ -107,7 +111,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         })
         return scheduleId
       })
-      // console.log(day, newSubSchedule)
+      console.log(day, weekSubSchedule, subScheduleOrder)
 
       return (
         <CalendarDay
