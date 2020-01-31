@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react'
+import DayScheduleList from './DayScheduleList'
 import Interface from './interfaces/DayScheduleInput.interface'
 import { DaySchedule } from '../Calendar/dataSet/DataSet.interface'
 import { useDaySchedule } from '../../hooks/useSchedule'
+import useModal from '../../hooks/useModal'
 
 const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -9,9 +11,11 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
     subTitleId,
     color,
   } = props
-  
+
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
+  const { daySchedules } = useModal()
+  const dayScheduleList = getDayScheduleList()
 
   const daySchedule: DaySchedule = {
     "calendarId": 1,
@@ -33,9 +37,15 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const { onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule } = useDaySchedule()
+
   const handleSubmit = (schedule: DaySchedule) => {
-    onPostDaySchedule(daySchedule)
+    onPostDaySchedule(schedule)
+    // dayScheduleList.push(schedule)
     console.log(schedule)
+  }
+
+  function getDayScheduleList() {
+    return daySchedules.filter(schedule => schedule.subTitleId === subTitleId)
   }
 
   return (
@@ -57,10 +67,22 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
         onChange={handleGoal}
       />
       <div
+        style={{ display: `inline-block` }}
         onClick={() => handleSubmit(daySchedule)}
       >
         +
       </div>
+      {dayScheduleList.map(schedule => (
+        <DayScheduleList
+          baseCalendarId={schedule.calendarId}
+          baseSubTitleId={schedule.subTitleId}
+          baseId={schedule.id}
+          baseTodo={schedule.component}
+          baseGoal={schedule.goal}
+          date={schedule.date}
+        />
+      ))}
+      <hr/>
     </div>
   )
 }

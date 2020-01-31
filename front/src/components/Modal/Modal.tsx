@@ -1,18 +1,19 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react'
 import SubScheduleForm from './SubScheduleForm'
 import DayScheduleForm from './DayScheduleForm'
-import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
-// import axios from 'axios'
+import useModal from '../../hooks/useModal'
 import path from 'path'
 import dotenv from 'dotenv'
 import './styles/Modal.scss'
+import { useStore } from 'react-redux'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
-
 const Modal: FunctionComponent<{}> = () => {
-  const { startDate, endDate } = useDrag()
+  const store = useStore()
+  console.log(store.getState())
+  const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
 
   // choose schedule
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +32,19 @@ const Modal: FunctionComponent<{}> = () => {
   }
   const scheduleForm = chosenScheduleForm[choose]
 
-  // overlay 층을 이용해서 모달 바깥 클릭으로도 모달 꺼지도록 설정
+  const { onCloseModal } = useModal()
+  const handleCloseModal = () => {
+    onCloseModal()
+    onSetStartDate('')
+    onSetEndDate('')
+  }
+
   return (
     <>
-      <div className="Modal-overlay" />
+      <div 
+        onClick={handleCloseModal}
+        className="Modal-overlay" 
+      />
       <div className="Modal">
         <p className="title">계획 추가</p>
         {!isFewDaysSchedule ?

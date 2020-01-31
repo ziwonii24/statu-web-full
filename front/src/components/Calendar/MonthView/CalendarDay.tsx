@@ -7,9 +7,6 @@ import uuid from 'uuid'
 import Interface from './interfaces/CalendarDay.interface'
 import { DaySchedule } from '../dataSet/DataSet.interface'
 
-import { useStore, useSelector } from 'react-redux'
-import { RootState } from '../../../store/reducerIndex'
-
 import './styles/CalendarDay.scss'
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
@@ -27,8 +24,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     isAscending
   } = props;
 
-
-  const store = useStore()
   const { modalState, onOpenModal } = useModal()
   const { startDate, tempDate, endDate, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
 
@@ -68,7 +63,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const mouseUpHandler = () => {
     onSetEndDate(newDate)
-    onOpenModal(setSubDataIdColor())
+    onOpenModal([subData, dayData])
   }
 
 

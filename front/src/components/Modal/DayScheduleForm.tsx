@@ -3,36 +3,40 @@ import DayScheduleInput from './DayScheduleInput'
 // import Interface from './interfaces/DayScheduleForm.interface'
 import useDrag from '../../hooks/useDrag'
 import useModal from '../../hooks/useModal'
-import { RootState } from '../../store/reducerIndex'
-import { useSelector } from 'react-redux'
 
 import './styles/DayScheduleForm.scss'
 
 const DayScheduleForm: FunctionComponent<{}> = () => {
-  const subScheduleIdColor = useSelector((state: RootState) => state.modal.subScheduleIdColor)
-  const { onCloseModal } = useModal()
+  const { subSchedules, onCloseModal } = useModal()
   const { startDate, onSetStartDate, onSetEndDate } = useDrag()
-
   const handleCloseModal = () => {
     onCloseModal()
     onSetStartDate('')
     onSetEndDate('')
   }
 
-  const getDayScheduleInput = () => subScheduleIdColor.map(subSchedule => {
+  const getDayScheduleInput = () => subSchedules.map(schedule => {
     return (
       <DayScheduleInput
-        key={subSchedule[0]}
+        key={schedule.id}
         date={startDate}
-        subTitleId={subSchedule[0]}
-        color={subSchedule[1]}
+        subTitleId={schedule.id}
+        color={schedule.color}
       />
     )
   })
+  
   return (
     <>
       <h1>{startDate}</h1>
       {getDayScheduleInput()}
+      {/* 기타 */}
+      <DayScheduleInput
+        key={1}
+        date={startDate}
+        subTitleId={1}
+        color={'#AAAAAA'}
+      />
 
       <div className="button-wrap">
         <div onClick={() => {
