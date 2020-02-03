@@ -24,6 +24,6 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("JavaInUse API")
-                .description("MINSU TEST REST API").version("1.0").build();
+                .description("MINSU & ZEROZERO REST API").version("1.0").build();
     }
 }

@@ -33,12 +33,12 @@ public class CalendarController {
 
     @PostMapping("/calendar")
     public Map<String, String> save(@RequestBody CalendarDto calendarDto) throws Exception {
-        User user = userService.findById(calendarDto.getUserId());
+        //User user = userService.findById(calendarDto.getUserId());
         calendarDto.setId(null);
         Calendar calendar = convertToEntity(calendarDto);
         calendarService.save(calendar);
-        user.getCalendars().add(calendar);
-        userService.save(user);
+        //user.getCalendars().add(calendar);
+        //userService.save(user);
 
         Map<String, String> map = new HashMap<>();
         map.put("result", "success");
@@ -48,11 +48,11 @@ public class CalendarController {
     @PutMapping("/calendar")
     public Map<String, String> modify(@RequestBody CalendarDto calendarDto) throws Exception {
 
-        User user = userService.findById(calendarDto.getUserId());
+        //User user = userService.findById(calendarDto.getUserId());
         Calendar calendar = convertToEntity(calendarDto);
         calendarService.save(calendar);
-        user.getCalendars().add(calendar);
-        userService.save(user);
+        //user.getCalendars().add(calendar);
+        //userService.save(user);
         Map<String, String> map = new HashMap<>();
 
         map.put("result", "success");

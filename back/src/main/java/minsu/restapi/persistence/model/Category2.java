@@ -1,5 +1,6 @@
 package minsu.restapi.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,13 @@ public class Category2 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="category1_id",nullable = false)
+    @JsonBackReference
+    private Category1 category1;
+
+
     @Column(name="name")
     private String name;
 }

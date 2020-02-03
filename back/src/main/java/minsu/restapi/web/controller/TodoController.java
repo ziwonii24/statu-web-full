@@ -55,10 +55,10 @@ public class TodoController {
         Long id;
         todoDto.setId(null);
         Todo todo = convertToEntity(todoDto);
-        SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
+        //SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
         id = todoService.save(todo);
-        subTitle.getTodo().add(todo);
-        subTitleService.save(subTitle);
+        //subTitle.getTodo().add(todo);
+        //subTitleService.save(subTitle);
 
         Map<String, Long> map = new HashMap<>();
         todoService.save(todo);
@@ -80,10 +80,10 @@ public class TodoController {
         for(int i=0; i<size; i++) {
             TodoDto todoDto = todosDto.getTodos()[i];
             Todo todo = convertToEntity(todoDto);
-            SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
+            //SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
             todoService.save(todo);
-            subTitle.getTodo().add(todo);
-            subTitleService.save(subTitle);
+            //subTitle.getTodo().add(todo);
+            //subTitleService.save(subTitle);
             todoService.save(todo);
         }
         map.put("result", "success");
@@ -94,10 +94,10 @@ public class TodoController {
     @PutMapping("/todo")
     public Map<String, String> updateTodo(@RequestBody TodoDto todoDto) throws Exception {
         Todo todo = convertToEntity(todoDto);
-        SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
+        //SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
         todoService.save(todo);
-        subTitle.getTodo().add(todo);
-        subTitleService.save(subTitle);
+        //subTitle.getTodo().add(todo);
+        //subTitleService.save(subTitle);
 
         Map<String, String> map = new HashMap<>();
         todoService.save(todo);

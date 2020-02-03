@@ -48,12 +48,12 @@ public class SubTitleController {
     @PostMapping("/subtitle")
     public Map<String,String> save(@RequestBody SubTitleDto subTitleDto) throws Exception {
 
-        Calendar calendar = calendarService.findById(subTitleDto.getCalendarId());
+        //Calendar calendar = calendarService.findById(subTitleDto.getCalendarId());
         subTitleDto.setId(null);
         SubTitle subTitle = convertToEntity(subTitleDto);
         subTitleService.save(subTitle);
-        calendar.getSubTitles().add(subTitle);
-        calendarService.save(calendar);
+        //calendar.getSubTitles().add(subTitle);
+        //calendarService.save(calendar);
 
         Map<String,String> map = new HashMap<>();
         map.put("result","succdss");
@@ -63,11 +63,11 @@ public class SubTitleController {
     @PutMapping("/subtitle")
     public Map<String,String> modify(@RequestBody SubTitleDto subTitleDto) throws Exception {
 
-        Calendar calendar = calendarService.findById(subTitleDto.getCalendarId());
+        //Calendar calendar = calendarService.findById(subTitleDto.getCalendarId());
         SubTitle subTitle = convertToEntity(subTitleDto);
         subTitleService.save(subTitle);
-        calendar.getSubTitles().add(subTitle);
-        calendarService.save(calendar);
+        //calendar.getSubTitles().add(subTitle);
+        //calendarService.save(calendar);
 
         Map<String,String> map = new HashMap<>();
         map.put("result","succdss");
