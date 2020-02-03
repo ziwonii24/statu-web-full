@@ -1,6 +1,6 @@
 import { MainSchedulesState, MainScheduleActions } from './types'
 import { createReducer } from 'typesafe-actions'
-import { GET_MAINBSCHEDULE, POST_MAINSCHEDULE, PUT_MAINSCHEDULE, DELETE_MAINSCHEDULE } from './actions'
+import { GET_MAINSCHEDULE, POST_MAINSCHEDULE, PUT_MAINSCHEDULE, DELETE_MAINSCHEDULE } from './actions'
 
 const initialDaySchedulesState: MainSchedulesState = [
   {
@@ -21,8 +21,12 @@ const initialDaySchedulesState: MainSchedulesState = [
 ]
 
 const mainSchedule = createReducer<MainSchedulesState, MainScheduleActions>(initialDaySchedulesState, {
-  [GET_MAINBSCHEDULE]: (state, { payload: mainSchedules }) => mainSchedules,
-  [POST_MAINSCHEDULE]: (state, { payload: mainSchedule }) => state.concat(mainSchedule),
+  [GET_MAINSCHEDULE]: (state, { payload: mainSchedules }) => mainSchedules,
+  [POST_MAINSCHEDULE]: (state, { payload: mainSchedule }) => 
+    state.concat({
+      ...mainSchedule,
+      id: Math.max(...state.map(schedule => schedule.id)) + 1
+    }),
   [PUT_MAINSCHEDULE]: (state, { payload: mainSchedule }) => state.map(schedule => schedule.id === mainSchedule.id ? mainSchedule : schedule),
   [DELETE_MAINSCHEDULE]: (state, { payload: id }) => state.filter(schedule => schedule.id !== id)
 })

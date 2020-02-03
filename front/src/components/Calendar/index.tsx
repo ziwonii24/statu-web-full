@@ -1,13 +1,15 @@
 import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
+import Modal from '../Modal/Modal'
 import { useStore } from 'react-redux'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
-import { useDaySchedule, useSubSchedule } from '../../hooks/useSchedule'
-import dayjs from 'dayjs'
-import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import Modal from '../Modal/Modal'
+import { SubSchedule } from '../../store/subSchedule';
+import { DaySchedule } from '../../store/daySchedule';
+
+import dayjs from 'dayjs'
+import localeDe from "dayjs/locale/ko"
 import path from 'path'
 import dotenv from 'dotenv'
 
@@ -16,18 +18,32 @@ import './styles/Calendar.scss'
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 
-const Calendar: FunctionComponent<{}> = () => {
+interface Interface {
+  calendarId: number
+  initialTitle: string
+  subSchedule: SubSchedule[]
+  daySchedule: DaySchedule[]
+}
+
+
+const Calendar: FunctionComponent<Interface> = (props: Interface) => {
+  const {
+    calendarId,
+    initialTitle,
+    subSchedule,
+    daySchedule,
+  } = props
+
   console.log('Calendar View')
   // const store = useStore()
   // console.log(store.getState())
   const { startDate, tempDate } = useDrag()
-  const { daySchedule, onGetDaySchedule } = useDaySchedule()
-  const { subSchedule, onGetSubSchedule } = useSubSchedule()
+  // const { daySchedule, onGetDaySchedule } = useDaySchedule()
+  // const { subSchedule, onGetSubSchedule } = useSubSchedule()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
-  const [targetDay, setTargetDay] = useState<number>(targetDate.date())
-  const [title, setTitle] = useState<string>('My Custom Schedule')
+  const [title, setTitle] = useState<string>(initialTitle)
   const [showMonth, setShowMonth] = useState<boolean>(true)
 
   const { modalState } = useModal()
@@ -97,8 +113,7 @@ const Calendar: FunctionComponent<{}> = () => {
     setTargetMonth(date)
   }
 
-  const handleState = (targetDay: number, targetDateString: string) => {
-    setTargetDay(targetDay)
+  const handleState = (targetDateString: string) => {
     setTargetDateString(targetDateString)
     // console.log('modalState', modalState)
   }
@@ -157,7 +172,6 @@ const Calendar: FunctionComponent<{}> = () => {
 
           {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
           <MonthViewCalendar
-            targetDay={targetDay}
             targetMonth={targetMonth}
             targetDateString={targetDateString}
             subSchedule={subSchedules}

@@ -7,7 +7,6 @@ import CalendarHeaders from './CalendarHeaders'
 
 const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
-    targetDay,
     targetMonth,
     subSchedule,
     daySchedule,
@@ -41,7 +40,6 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
           key={key}
           week={week}
           targetMonth={targetMonth}
-          targetDay={targetDay}
           targetDateString={targetDateString}
           handleState={handleState || handleState}
           // dayComponent={dayComponent}
