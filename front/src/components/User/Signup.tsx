@@ -1,8 +1,11 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 import { UserDto } from './interfaces/UserInfo.interface'
+import { mainCategoryData } from './dataSet/dataSet'
+import SubCategoryGroup from './SubCategoryGroup'
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
+import { mainCategory } from './interfaces/DataSet.interface'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -17,6 +20,7 @@ const Signup: FunctionComponent = () => {
         'name': name,
         'password': password,
     }
+    const mainCategoryList: mainCategory[] = mainCategoryData
     
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
@@ -65,6 +69,10 @@ const Signup: FunctionComponent = () => {
         }
     }
 
+    const mainCategoryCheckHandler = () => {
+        console.log('check handler')
+    }
+
     return (
         <div>
             <h1>회원가입</h1>
@@ -92,7 +100,18 @@ const Signup: FunctionComponent = () => {
                     프로필 사진 첨부
                 </div>
                 <div>
-                    카테고리 지정<br/>                    
+                    카테고리 지정<br/> 
+                    <div>
+                        {/* {mainCategoryList}.map((name, id) => {
+                            <div>
+                                name
+                                <input type='check' key={} onChange={mainCategoryCheckHandler} />
+                            </div>
+                        }) */}
+                    </div>
+                    <div>
+                        {/* <SubCategoryGroup group={mainCategoryId} /> */}
+                    </div>               
                 </div>
                 <div>
                     <button type='submit' onClick={signupSubmitHandler}>회원가입</button>

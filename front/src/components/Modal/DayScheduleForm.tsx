@@ -1,47 +1,52 @@
-import React, { FunctionComponent, ChangeEvent } from 'react'
-import Interface from './interfaces/DayScheduleForm.interface'
+import React, { FunctionComponent } from 'react'
+import DayScheduleInput from './DayScheduleInput'
+// import Interface from './interfaces/DayScheduleForm.interface'
+import useDrag from '../../hooks/useDrag'
+import useModal from '../../hooks/useModal'
 
-interface Props {
-  // 날짜 대신에 기간이 와야함 
-  date: string
-  todo: string
-  goal: number
-  handleDate: (e: ChangeEvent<HTMLInputElement>) => void
-  handleTodo: (e: ChangeEvent<HTMLInputElement>) => void
-  handleGoal: (e: ChangeEvent<HTMLInputElement>) => void
-}
+import './styles/DayScheduleForm.scss'
 
-const DayScheduleForm: FunctionComponent<Interface> = (props: Props) => {
-  const {
-    date,
-    todo,
-    goal,
-    handleDate,
-    handleTodo,
-    handleGoal
-  } = props
+const DayScheduleForm: FunctionComponent<{}> = () => {
+  const { subSchedules, onCloseModal } = useModal()
+  const { startDate, onSetStartDate, onSetEndDate } = useDrag()
+  const handleCloseModal = () => {
+    onCloseModal()
+    onSetStartDate('')
+    onSetEndDate('')
+  }
 
-  return (
-    <div className="content">
-      <input
-        type="date"
-        placeholder="날짜를 입력하세요."
-        value={date}
-        onChange={handleDate}
-      /> <br/>
-      <input
-        type="text"
-        placeholder="목표를 입력하세요."
-        value={todo}
-        onChange={handleTodo}
-      />  <br/>
-      <input
-        type="number"
-        placeholder="목표시간을 입력하세요."
-        value={goal}
-        onChange={handleGoal}
+  const getDayScheduleInput = () => subSchedules.map(schedule => {
+    return (
+      <DayScheduleInput
+        key={schedule.id}
+        date={startDate}
+        subTitleId={schedule.id}
+        color={schedule.color}
       />
-    </div>
+    )
+  })
+  
+  return (
+    <>
+      <h1>{startDate}</h1>
+      {getDayScheduleInput()}
+      {/* 기타 */}
+      <DayScheduleInput
+        key={1}
+        date={startDate}
+        subTitleId={1}
+        color={'#AAAAAA'}
+      />
+
+      <div className="button-wrap">
+        <div onClick={() => {
+          handleCloseModal()
+        }}>
+          Confirm
+          </div>
+        <div onClick={handleCloseModal}>Cancel</div>
+      </div>
+    </>
   )
 }
 

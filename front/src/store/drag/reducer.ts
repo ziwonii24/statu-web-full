@@ -6,12 +6,28 @@ const initialDragState: DragState = {
   startDate: '',
   tempDate: '',
   endDate: '',
+  mouseOverState: false,
 }
 
 const drag = createReducer<DragState, DragAction>(initialDragState, {
-  [SET_STARTDATE]: (state, action) => ({startDate: state.startDate = action.payload, tempDate: state.tempDate, endDate: state.endDate}),
-  [SET_TEMPDATE]: (state, action) => ({startDate: state.startDate, tempDate: state.tempDate = action.payload, endDate: state.endDate}),
-  [SET_ENDDATE]: (state, action) => ({startDate: state.startDate, tempDate: state.tempDate, endDate: state.endDate = action.payload})
+  [SET_STARTDATE]: ({endDate}, {payload: date}) => ({
+    startDate: date, 
+    tempDate: date, 
+    endDate: endDate, 
+    mouseOverState: false
+  }),
+  [SET_TEMPDATE]: ({startDate, endDate}, {payload: date}) => ({
+    startDate: startDate, 
+    tempDate: date, 
+    endDate: endDate, 
+    mouseOverState: true
+  }),
+  [SET_ENDDATE]: ({startDate, tempDate}, {payload: date}) => ({
+    startDate: startDate, 
+    tempDate: tempDate, 
+    endDate: date, 
+    mouseOverState: false
+  })
 })
 
 export default drag

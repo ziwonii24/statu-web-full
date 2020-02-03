@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
 import Interface from './interfaces/MonthViewCalendar.interface'
-import { DaySchedule, SubSchedule } from '../dataSet/DataSet.interface'
 import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
