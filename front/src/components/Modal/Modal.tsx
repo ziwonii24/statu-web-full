@@ -12,7 +12,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {
   const store = useStore()
-  console.log(store.getState())
+  console.log('modal', store.getState())
   const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
 
   // choose schedule

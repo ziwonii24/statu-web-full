@@ -16,13 +16,6 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
     handleState,
     targetDateString,
     width,
-    containerClassName,
-    rowContainerClassName,
-    dayContainerClassName,
-    dayDataListClass,
-    dayDataListItemClass,
-    daysHeaderContainerClass,
-    daysTitleContainerClass,
     colorActiveDate,
     colorPastDates,
     isAscending
@@ -37,10 +30,6 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
       return (
         <CalendarRow
           data-test="calendarRow"
-          rowContainerClassName={rowContainerClassName || ''}
-          dayContainerClassName={dayContainerClassName || ''}
-          dayDataListClass={dayDataListClass || ''}
-          dayDataListItemClass={dayDataListItemClass || ''}
           key={key}
           week={week}
           targetMonth={targetMonth}
@@ -68,13 +57,11 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div
       data-test="calendarContainer"
-      className={`calendarContainer ${containerClassName || ''}`}
+      className={`calendarContainer`}
       style={{ width: width || '100% ' }}
     >
       <CalendarHeaders
         data-test="calendarHeaders"
-        daysHeaderContainerClass={daysHeaderContainerClass || ''}
-        daysTitleContainerClass={daysTitleContainerClass || ''}
       />
       {renderRows(weeksArray)}
     </div>

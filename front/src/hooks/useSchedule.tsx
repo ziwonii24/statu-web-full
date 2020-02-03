@@ -14,7 +14,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 export function useDaySchedule() {
   const dispatch = useDispatch()
 
-  const daySchedule = useSelector((state: RootState) => state.daySchedule)
+  const allDaySchedule = useSelector((state: RootState) => state.daySchedule)
 
   const onGetDaySchedule = useCallback((daySchedules:DaySchedule[]) => dispatch(getDaySchedule(daySchedules)), [dispatch])
   const onPostDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(postDaySchedule(daySchedule)), [dispatch])
@@ -35,7 +35,7 @@ export function useDaySchedule() {
   // }
 
   return {
-    daySchedule, onGetDaySchedule, onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule
+    allDaySchedule, onGetDaySchedule, onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule
   }
 }
 
@@ -43,7 +43,7 @@ export function useDaySchedule() {
 export function useSubSchedule() {
   const dispatch = useDispatch()
 
-  const subSchedule = useSelector((state: RootState) => state.subSchedule)
+  const allSubSchedule = useSelector((state: RootState) => state.subSchedule)
 
   const onGetSubSchedule = useCallback((subSchedules:SubSchedule[]) => dispatch(getSubSchedule(subSchedules)), [dispatch])
   const onPostSubSchedule = useCallback((subSchedule:SubSchedule) => dispatch(postSubSchedule(subSchedule)), [dispatch])
@@ -64,6 +64,6 @@ export function useSubSchedule() {
   // }
 
   return {
-    subSchedule, onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule
+    allSubSchedule, onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule
   }
 }

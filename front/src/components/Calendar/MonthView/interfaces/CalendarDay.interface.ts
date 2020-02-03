@@ -10,11 +10,6 @@ export default interface Component {
   subScheduleLength: number
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
-  // for css 
-  dayContainerClassName?: string;
-  dayDataListClass?: string;
-  dayDataListItemClass?: string;
-  daysHeaderContainer?: string;
   colorPastDates?: string;
   colorActiveDate?: string;
   isAscending: boolean;

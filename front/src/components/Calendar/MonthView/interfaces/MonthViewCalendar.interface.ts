@@ -9,13 +9,6 @@ export default interface Component {
   dayComponent?: object
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
-  containerClassName: string
-  rowContainerClassName: string
-  dayContainerClassName?: string
-  daysHeaderContainerClass: string
-  dayDataListClass?: string
-  daysTitleContainerClass: string
-  dayDataListItemClass?: string
   colorPastDates?: string
   colorActiveDate?: string
   isAscending: boolean

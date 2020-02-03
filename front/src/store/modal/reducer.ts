@@ -1,65 +1,65 @@
 import { ModalState, ModalAction } from './types'
 import { createReducer } from 'typesafe-actions'
-import {
-  OPEN_MODAL, CLOSE_MODAL,
-  POST_DAYSCHEDULE_ON_MODAL, PUT_DAYSCHEDULE_ON_MODAL, DELETE_DAYSCHEDULE_ON_MODAL,
-  POST_SUBSCHEDULE_ON_MODAL, PUT_SUBSCHEDULE_ON_MODAL, DELETE_SUBSCHEDULE_ON_MODAL
-} from './actions'
+import { OPEN_MODAL, CLOSE_MODAL, OPEN_DAY_MODAL, OPEN_SUB_MODAL, PUT_DAYSCHEDULE_ON_MODAL, PUT_SUBSCHEDULE_ON_MODAL } from './actions'
 
 const initialSubSchedules = [
   {
     id: 1,
     calenderId: 1,
     subTitle: '',
-    color: '',
+    color: '#AAAAAA',
     startDate: '',
     endDate: '',
   },
 ]
 
-const initialDaySchedules = [
-  {
-    calendarId: 1,
-    subTitleId: 2,
-    id: 1,
-    date: '2020-01-01',
-    component: 'item 1',
-    goal: 270,
-    achieve: 167
-  },
-]
+const initialSubSchedule = {
+  id: 0,
+  calenderId: 0,
+  subTitle: '',
+  color: '',
+  startDate: '',
+  endDate: '',
+}
+
+const initialDaySchedule = {
+  calendarId: 0,
+  subTitleId: 0,
+  id: 0,
+  date: '',
+  component: '',
+  goal: 0,
+  achieve: 0
+}
+
 
 const initialModalState: ModalState = {
   modalState: false,
-  schedules: [initialSubSchedules, initialDaySchedules]
+  schedules: [initialSubSchedules, initialSubSchedule, initialDaySchedule]
 }
 
 const modal = createReducer<ModalState, ModalAction>(initialModalState, {
-  [OPEN_MODAL]: ({}, { payload: scheduleDatas }) => ({
-    modalState: true, schedules: scheduleDatas
+  [OPEN_MODAL]: (state, { payload: [subSchedules, initialSubSchedule, initialDaySchedule] }) => ({
+    modalState: true, schedules: [initialSubSchedules.concat(subSchedules), initialSubSchedule, initialDaySchedule]
   }),
   [CLOSE_MODAL]: () => ({
     modalState: false,
-    schedules: [initialSubSchedules, initialDaySchedules]
+    schedules: [initialSubSchedules, initialSubSchedule, initialDaySchedule]
   }),
-  [POST_DAYSCHEDULE_ON_MODAL]: ({ modalState, schedules: [subSchedules, daySchedules] }, { payload: daySchedule }) => ({
-    modalState: modalState, schedules: [subSchedules, daySchedules.concat({id: Math.max(...daySchedules.map(schedule => schedule.id)) + 1, ...daySchedule})]
+  [OPEN_DAY_MODAL]: (state, { payload: [subSchedules, daySchedule] }) => ({
+    modalState: true,
+    schedules: [initialSubSchedules.concat(subSchedules), initialSubSchedule, daySchedule]
   }),
-  [PUT_DAYSCHEDULE_ON_MODAL]: ({ modalState, schedules: [subSchedules, daySchedules] }, { payload: daySchedule }) => ({ 
-    modalState: modalState, schedules: [subSchedules, daySchedules.map(schedule => schedule.id === daySchedule.id ? daySchedule : schedule)]
+  [OPEN_SUB_MODAL]: (state, { payload: subSchedule }) => ({
+    modalState: true,
+    schedules: [initialSubSchedules, subSchedule, initialDaySchedule]
   }),
-  [DELETE_DAYSCHEDULE_ON_MODAL]: ({ modalState, schedules: [subSchedules, daySchedules] }, { payload: id }) => ({ 
-    modalState: modalState, schedules: [subSchedules, daySchedules.filter(schedule => schedule.id !== id)]
+  [PUT_DAYSCHEDULE_ON_MODAL]: (state, { payload: daySchedule }) => ({
+    modalState: false, schedules: [initialSubSchedules, initialSubSchedule, daySchedule]
   }),
-  [POST_SUBSCHEDULE_ON_MODAL]: ({ modalState, schedules: [subSchedules, daySchedules] }, { payload: subSchedule }) => ({
-    modalState: modalState, schedules: [subSchedules.concat({id: Math.max(...subSchedules.map(schedule => schedule.id)) + 1, ...subSchedule}), daySchedules]
+  [PUT_SUBSCHEDULE_ON_MODAL]: (state, { payload: subSchedule }) => ({
+    modalState: false, schedules: [initialSubSchedules, subSchedule, initialDaySchedule]
   }),
-  [PUT_SUBSCHEDULE_ON_MODAL]: ({ modalState, schedules: [subSchedules, daySchedules] }, { payload: subSchedule }) => ({ 
-    modalState: modalState, schedules: [subSchedules.map(schedule => schedule.id === subSchedule.id ? subSchedule : schedule), daySchedules]
-  }),
-  [DELETE_SUBSCHEDULE_ON_MODAL]: ({ modalState, schedules: [subSchedules, daySchedules] }, { payload: id }) => ({ 
-    modalState: modalState, schedules: [subSchedules.filter(schedule => schedule.id !== id), daySchedules]
-  })
 })
 
 

@@ -19,10 +19,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
     dayComponent,
     subSchedule,
     daySchedule,
-    rowContainerClassName,
-    dayContainerClassName,
-    dayDataListClass,
-    dayDataListItemClass,
     colorPastDates,
     colorActiveDate,
     isAscending
@@ -130,9 +126,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
       return (
         <CalendarDay
           data-test="calendarDay"
-          dayContainerClassName={dayContainerClassName}
-          dayDataListClass={dayDataListClass}
-          dayDataListItemClass={dayDataListItemClass}
           key={`day-${day || uuid()}`}
           date={day}
           targetMonth={targetMonth}
@@ -153,7 +146,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div
       data-test="calendarRowContainer"
-      className={`calendarRow ${rowContainerClassName}`}
+      className={`calendarRow`}
     >
       {renderRows(week)}
     </div>

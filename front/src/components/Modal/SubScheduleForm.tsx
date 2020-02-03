@@ -1,5 +1,4 @@
 import React, { FunctionComponent, MouseEvent, useState, ChangeEvent } from 'react'
-import SubScheduleList from './SubScheduleList'
 import { colors } from '../Calendar/dataSet/dataSet'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
@@ -9,35 +8,39 @@ import { SubSchedule } from '../../store/subSchedule'
 import './styles/SubScheduleForm.scss'
 
 const SubScheduleForm: FunctionComponent<{}> = () => {
-  // subSchedule set
-  const [subTitle, setSubTitle] = useState<string>('')
-  const [color, setColor] = useState<string>('#000000')
-  const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
+  const { onPostSubSchedule, onPutSubSchedule } = useSubSchedule()
+  const { subSchedule, onCloseModal } = useModal()
+  const { onSetStartDate, onSetEndDate} = useDrag()
 
-  const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setSubTitle(e.target.value)
-    console.log(e.target.value)
-  }
-  const handleColor = (color: string) => {
-    setColor(color)
-    console.log(color)
-  }
-  const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
-    onSetStartDate(e.target.value)
-    console.log(startDate)
-  }
-  const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
-    onSetEndDate(e.target.value)
-    console.log(endDate)
-  }
+  const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
+  const [color, setColor] = useState<string>(subSchedule.color)
+  const [startDate, setStartDate] = useState<string>(subSchedule.startDate)
+  const [endDate, setEndDate] = useState<string>(subSchedule.endDate)
 
-  const subSchedule: SubSchedule = {
-    "calenderId": 1,
-    "id": 0,
+  const subScheduleData: SubSchedule = {
+    "calenderId": subSchedule.calenderId,
+    "id": subSchedule.id,
     "subTitle": subTitle,
     "color": color,
     "startDate": startDate,
     "endDate": endDate,
+  }
+
+  const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setSubTitle(e.target.value)
+    // console.log(e.target.value)
+  }
+  const handleColor = (color: string) => {
+    setColor(color)
+    // console.log(color)
+  }
+  const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
+    setStartDate(e.target.value)
+    // console.log(startDate)
+  }
+  const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
+    setEndDate(e.target.value)
+    // console.log(endDate)
   }
 
   // color dropdown menu
@@ -47,15 +50,13 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     console.log(e.target)
   }
 
-  // CRUD
-  const { onPostSubSchedule } = useSubSchedule()
-  const { subSchedules, onPostSubScheduleOnModal, onCloseModal } = useModal()
-
-  console.log(subSchedules)
 
   const handleSubmit = (schedule: SubSchedule) => {
-    onPostSubSchedule(schedule)
-    onPostSubScheduleOnModal(schedule)
+    if (schedule.id === 0) {
+      onPostSubSchedule(schedule)
+    } else {
+      onPutSubSchedule(schedule)
+    }
     console.log(schedule)
   }
 
@@ -109,23 +110,10 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
         value={endDate}
         onChange={handleEndDate}
       />
-      <br/>
-      <hr/>
-      {subSchedules.map(schedule => (
-        <SubScheduleList
-          key={schedule.id}
-          baseCalendarId={schedule.calenderId}
-          baseId={schedule.id}
-          baseSubTitleId={schedule.subTitle}
-          baseColor={schedule.color}
-          baseStartDate={schedule.startDate}
-          baseEndDate={schedule.endDate}
-        />
-      ))}
       <div className="button-wrap">
         <div onClick={() => {
           handleCloseModal()
-          handleSubmit(subSchedule)
+          handleSubmit(subScheduleData)
         }}>
           Confirm
           </div>

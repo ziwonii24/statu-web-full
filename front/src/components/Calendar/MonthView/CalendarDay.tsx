@@ -6,7 +6,8 @@ import dayjs from 'dayjs'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { DaySchedule } from '../dataSet/DataSet.interface'
+import { SubSchedule } from '../../../store/subSchedule'
+import { DaySchedule } from '../../../store/daySchedule'
 
 import './styles/CalendarDay.scss'
 
@@ -19,13 +20,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     subSchedule,
     subScheduleLength,
     daySchedule,
-    dayContainerClassName,
-    dayDataListClass,
-    dayDataListItemClass,
     isAscending
   } = props;
 
-  const { modalState, onOpenModal, onDeleteSubScheduleOnModal, onDeleteDayScheduleOnModal } = useModal()
+  const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
   const { onDeleteSubSchedule } = useSubSchedule()
   const { onDeleteDaySchedule } = useDaySchedule()
@@ -37,6 +35,25 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const dayDatas = daySchedule && daySchedule.filter(schedule => schedule.date === date)
   const dayData = getDayData()
   const dayItemColors = getColors()
+
+  const initialSubSchedule = {
+    id: 0,
+    calenderId: 0,
+    subTitle: '',
+    color: '#AAAAAA',
+    startDate: startDate,
+    endDate: tempDate,
+  }
+
+  const initialDaySchedule = {
+    calendarId: 0,
+    subTitleId: 0,
+    id: 0,
+    date: '',
+    component: '',
+    goal: 0,
+    achieve: 0
+  }
 
   // 드래그 관련 변수
   const dateCur = dateToNumber(date)
@@ -55,64 +72,76 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const passedDate = check ? 'calendarpassedDate' : ''
   const pointerNone = mouseOverState ? 'pointerNone' : ''
 
-  
+
 
   // HTML 렌더에 사용되는 핸들러
-  const mouseDownHandler = (e: MouseEvent) => {
+  const handleMouseDown = (e: MouseEvent) => {
     if (e.target !== e.currentTarget) {
       return
     }
     onSetStartDate(newDate)
     onSetTempDate(newDate)
-    console.log('mouseDown')
+    console.log('mouseDown', modalState)
   }
 
-  // console.log(mouseOverState)
-  const mouseOverHandler = (e: MouseEvent) => {
+  const handleMouseOver = (e: MouseEvent) => {
     // mouse down을 한번 한 상태에서만 mouse over 가능
     // if (e.target !== e.currentTarget) {
     //   return
     // }
     if (startDate !== '') {
       onSetTempDate(newDate)
-      console.log('mouseOverState', mouseOverState)
-      console.log('mouseOver', e.target)
+      // console.log('mouseOverState', mouseOverState)
+      // console.log('mouseOver', e.target)
     }
   }
 
-  const mouseUpHandler = (e: MouseEvent) => {
+  const handleMouseUp = (e: MouseEvent) => {
     // if (e.target !== e.currentTarget) {
     //   return
     // }
     onSetEndDate(newDate)
-    console.log('mouseUp', mouseOverState)
+    // console.log('mouseUp', mouseOverState)
     if (startDate) {
-      onOpenModal([subData, dayData])
-      console.log('mouseUp')
+      onOpenModal([subData, initialSubSchedule, initialDaySchedule])
+      // console.log('mouseUp')
     }
+  }
+
+  const handleOpenDayModal = (subSchedules: SubSchedule[], daySchedule: DaySchedule) => {
+    onOpenDayModal(subSchedules, daySchedule)
+    console.log('openDayModal', modalState)
+  }
+
+  const handleOpenSubModal = (subSchedule: SubSchedule) => {
+    onOpenSubModal(subSchedule)
+    console.log('openSubModal', modalState)
   }
 
   const handleDeleteSubSchedule = (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteSubSchedule(id)
+    console.log('deleteSub', modalState)
   }
 
-  const handleDeleteDaySchedule = (id: number) => {
+  const handleDeleteDaySchedule = (e: MouseEvent, id: number) => {
+    e.stopPropagation()
     onDeleteDaySchedule(id)
+    console.log('deleteDay', modalState)
   }
 
   const handleMouseEnter = (id: number) => {
     if (!startDate) {
       setHoverState(true)
       setHoverItemId(id)
-      console.log('mouseEnter', hoverState)
+      console.log('mouseEnter', modalState)
     }
   }
 
   const handleMouseLeave = () => {
     setHoverState(false)
     setHoverItemId(0)
-    console.log('mouseLeave', hoverState)
+    console.log('mouseLeave', modalState)
   }
 
 
@@ -182,10 +211,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     <div
       data-test="calendarDayContainer"
       data-test2={`${active}`}
-      className={`calendarDayContainer ${draggedDays} ${active} ${passedDate} ${dayContainerClassName}`}
-      onMouseDown={mouseDownHandler}
-      onMouseOver={mouseOverHandler}
-      onMouseUp={mouseUpHandler}
+      className={`calendarDayContainer ${draggedDays} ${active} ${passedDate}`}
+      onMouseDown={handleMouseDown}
+      onMouseOver={handleMouseOver}
+      onMouseUp={handleMouseUp}
     >
       {day && (
         <div
@@ -203,7 +232,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       <div
         style={{ height: `${2.5 * subScheduleLength}vh`, width: `${101}%` }}
         className={`subDataList`}
-        onMouseOver={mouseOverHandler}
+        onMouseOver={handleMouseOver}
       >
         {subData && subData.map(schedule => {
           if (schedule.startDate === date || dayjs(date).day() === 0) {
@@ -224,13 +253,14 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
                 className={`subDataItem ${pointerNone}`}
                 onMouseEnter={() => handleMouseEnter(schedule.id)}
                 onMouseLeave={() => handleMouseLeave()}
+                onClick={() => handleOpenSubModal(schedule)}
               >
                 {schedule.subTitle}
                 {
                   hoverState && schedule.id === hoverItemId ?
                     <div
-                      onMouseUp={(e) => handleDeleteSubSchedule(e, schedule.id)}
-                      style={{display: `inline-block`}}
+                      onClick={(e) => handleDeleteSubSchedule(e, schedule.id)}
+                      style={{ display: `inline-block` }}
                     >
                       x
                   </div>
@@ -244,14 +274,15 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       </div>
 
       {/* daySchedule render */}
-      <ul data-test="dayDataList" className={`dayDataList ${dayDataListClass}`}>
+      <div data-test="dayDataList" className={`dayDataList`}>
         {dayData && dayData.map((schedule, idx) => (
-          <li
+          <div
             data-test="dayDataListItem"
             key={`day-item-${schedule.date}-${uuid()}`}
-            className={`dayDataItem ${dayDataListItemClass}`}
+            className={`dayDataItem ${pointerNone}`}
             onMouseEnter={() => handleMouseEnter(schedule.id)}
             onMouseLeave={() => handleMouseLeave()}
+            onClick={() => handleOpenDayModal(subData, schedule)}
           >
             <div
               className='dayListCircle'
@@ -261,21 +292,18 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
             {
               hoverState && schedule.id === hoverItemId ?
                 <div
-                  onMouseUp={() => handleDeleteDaySchedule(schedule.id)}
-                  style={{display: `inline-block`}}
+                  onMouseUp={(e) => handleDeleteDaySchedule(e, schedule.id)}
+                  style={{ display: `inline-block` }}
                 >
                   x
-              </div>
+                </div>
                 :
                 ''
             }
-          </li>
+          </div>
         )
         )}
-        <div
-          style={{height: `${2.5}vh`}}
-        />
-      </ul>
+      </div>
     </div>
   )
 }
