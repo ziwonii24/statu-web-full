@@ -2,9 +2,15 @@ package minsu.restapi.persistence.service;
 
 import minsu.restapi.persistence.dao.UserRepository;
 import minsu.restapi.persistence.model.User;
+import minsu.restapi.spring.MailUtils;
+import minsu.restapi.spring.TempKey;
+import minsu.restapi.web.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -16,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     public int save(User user) { //가입이 잘 되었으면 i = 1;
 
@@ -78,5 +87,34 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(id).get();
         return user;
     }
+
+
+    @Transactional
+    public void sendEmail(User user) throws Exception {
+
+        // 임의의 authkey 생성
+        String authkey = new TempKey().getKey(50, false);
+
+        user.setAuthKey(authkey);
+        userRepository.save(user);
+
+        // mail 작성 관련
+        MailUtils sendMail = new MailUtils(mailSender);
+
+        sendMail.setSubject("[Hoon's Board v2.0] 회원가입 이메일 인증");
+        sendMail.setText(new StringBuffer().append("<h1>[이메일 인증]</h1>")
+                .append("<p>아래 링크를 클릭하시면 이메일 인증이 완료됩니다.</p>")
+                .append("<a href='http://13.124.208.26:8080/joinConfirm")
+                .append("/")
+                .append(user.getId())
+                .append("/")
+                .append(authkey)
+                .append("' target='_blenk'>이메일 인증 확인</a>")
+                .toString());
+        sendMail.setFrom("ilovestudying302@gmail.com", "Statu");
+        sendMail.setTo(user.getEmail());
+        sendMail.send();
+    }
+
 
 }

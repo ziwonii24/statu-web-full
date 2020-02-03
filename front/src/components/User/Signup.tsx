@@ -35,7 +35,7 @@ const Signup: FunctionComponent = () => {
         alert(`email 버튼 눌렸다: ${email}`)
         try {
             await axios.get(`${SERVER_IP}/user/checkmail/${email}`)
-                    .then(res => console.log(`result = ${JSON.stringify(res.data)}`))
+                    .then(res => alert(`result = ${JSON.stringify(res.data)}`))
         }
         catch(e) {
             alert(e)
@@ -70,15 +70,20 @@ const Signup: FunctionComponent = () => {
             <h1>회원가입</h1>
             <form>
                 <div>
+                    이메일&nbsp;&nbsp;
                     <input type='text' placeholder='이메일' value={email} onChange={handleEmailInputChange}/>
-                    <button onClick={emailCheckHandler}>인증</button>
+                    <button onClick={emailCheckHandler}>중복체크</button> false가 중복없는것임.
                 </div>
                 <div>
+                    닉네임&nbsp;&nbsp;
                     <input type='text' placeholder='닉네임' value={name} onChange={handleNameInputChange}/>
-                    <button onClick={nameCheckHandler}>중복체크</button>
+                    <button onClick={nameCheckHandler}>중복체크</button> false가 중복없는것임.
                 </div>
                 <div>
-                    <input type='password' placeholder='비밀번호' value={password} onChange={handlePasswordInputChange}/>
+                    비밀번호&nbsp;&nbsp;
+                    <input type='password' placeholder='비밀번호' value={password} onChange={handlePasswordInputChange}/><br/>
+                    비밀번호 확인 &nbsp;&nbsp;
+                    <input type='password' placeholder='만들어주세요'/>
                 </div>
                 {/* <div>
                     <input type='password' placeholder='비밀번호 확인' />

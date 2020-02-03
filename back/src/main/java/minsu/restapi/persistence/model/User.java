@@ -1,10 +1,7 @@
 package minsu.restapi.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="user")
@@ -49,9 +47,14 @@ public class User {
     //@Column(columnDefinition="USER")
     @Column(name = "user_type_code", columnDefinition = "varchar(20) default 'user'")
     private String userTypeCode;
+
+    @Column(name="auth_key")
+    private String authKey;
+
+
     //사용자 상태
     //@Column(columnDefinition="USE")
-    @Column(name = "status_code", columnDefinition = "varchar(20) default 'use'")
+    @Column(name = "status_code", columnDefinition = "varchar(20) default 'not_checked'")
     private String statusCode;
 
 

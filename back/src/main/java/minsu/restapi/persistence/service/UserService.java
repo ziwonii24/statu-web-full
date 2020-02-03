@@ -21,4 +21,5 @@ public interface UserService {
 
     public User signin(String email, String password);
 
+    public void sendEmail(User user) throws Exception;
 }

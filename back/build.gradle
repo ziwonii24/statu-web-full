@@ -29,8 +29,10 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     //runtimeOnly 'com.h2database:h2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
     //mail
-    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework:spring-context-support:5.2.2.RELEASE'
+    implementation 'com.sun.mail:javax.mail:1.6.1'
 
     //jwt
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
