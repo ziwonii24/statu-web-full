@@ -5,7 +5,6 @@ export default interface Component {
   targetMonth: string
   targetDateString: string
   handleState: (targetDay: number, targetDateString: string) => void
-  width: string
   dayComponent?: object
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]

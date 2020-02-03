@@ -2,57 +2,24 @@ import React, { FunctionComponent } from 'react';
 
 import Interface from './interfaces/CalendarHeaders.interface';
 
-import './styles/CalendarHeaders.scss';
+import '../styles/CalendarHeaders.scss';
 
 const CalendarHeaders: FunctionComponent<Interface> = props => {
   const { daysHeaderContainerClass, daysTitleContainerClass } = props;
+  const CalendarDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
   return (
     <div
-      data-test="calendarDaysContainer"
-      className={`calendarDaysContainer ${daysHeaderContainerClass}`}
+      className={`calendarDaysContainer`}
     >
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Sun
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Mon
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Tue
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Wed
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Thu
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Fri
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
-      >
-        Sat
-      </div>
+      {CalendarDays.map(day => (
+        <div
+          className={`calendarHeaderContainer`}
+          style={{width: `${100/7}%`}}
+        >
+          {day}
+        </div>
+      ))}
     </div>
   );
 };

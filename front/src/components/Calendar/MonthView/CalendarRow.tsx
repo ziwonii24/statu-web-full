@@ -6,8 +6,7 @@ import { SubSchedule } from '../dataSet/DataSet.interface'
 
 import CalendarDay from './CalendarDay'
 
-import './styles/CalendarRow.scss'
-import { subScheduleData } from '../dataSet/dataSet'
+import '../styles/CalendarRow.scss'
 
 const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   const {

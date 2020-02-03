@@ -8,7 +8,7 @@ import uuid from 'uuid'
 import Interface from './interfaces/CalendarDay.interface'
 import { DaySchedule } from '../dataSet/DataSet.interface'
 
-import './styles/CalendarDay.scss'
+import '../styles/CalendarDay.scss'
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -55,7 +55,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const passedDate = check ? 'calendarpassedDate' : ''
   const pointerNone = mouseOverState ? 'pointerNone' : ''
 
-  
+
 
   // HTML 렌더에 사용되는 핸들러
   const mouseDownHandler = (e: MouseEvent) => {
@@ -183,6 +183,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       data-test="calendarDayContainer"
       data-test2={`${active}`}
       className={`calendarDayContainer ${draggedDays} ${active} ${passedDate} ${dayContainerClassName}`}
+      style={{ width: `${100 / 7}%` }}
       onMouseDown={mouseDownHandler}
       onMouseOver={mouseOverHandler}
       onMouseUp={mouseUpHandler}
@@ -201,7 +202,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
       {/* subSchedule render */}
       <div
-        style={{ height: `${2.5 * subScheduleLength}vh`, width: `${101}%` }}
+        style={{ height: `${2.5 * subScheduleLength}vh`, width: `${100}%` }}
         className={`subDataList`}
         onMouseOver={mouseOverHandler}
       >
@@ -230,7 +231,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
                   hoverState && schedule.id === hoverItemId ?
                     <div
                       onMouseUp={(e) => handleDeleteSubSchedule(e, schedule.id)}
-                      style={{display: `inline-block`}}
+                      style={{ display: `inline-block` }}
                     >
                       x
                   </div>
@@ -262,7 +263,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
               hoverState && schedule.id === hoverItemId ?
                 <div
                   onMouseUp={() => handleDeleteDaySchedule(schedule.id)}
-                  style={{display: `inline-block`}}
+                  style={{ display: `inline-block` }}
                 >
                   x
               </div>
@@ -272,10 +273,11 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
           </li>
         )
         )}
-        <div
-          style={{height: `${2.5}vh`}}
-        />
       </ul>
+      <div
+        className={`pointerInherit`}
+        style={{ height: `${2.5}vh` }}
+      />
     </div>
   )
 }

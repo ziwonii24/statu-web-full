@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react'
-import IndexCalendar from '../../components/Calendar'
+import Calendar from '../../components/Calendar'
 
 
 const MyPlan: FunctionComponent = () => {
-  return <IndexCalendar />
+  return <Calendar />
 }
 
 export default MyPlan

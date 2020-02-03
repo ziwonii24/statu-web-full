@@ -6,12 +6,12 @@ import { useDaySchedule, useSubSchedule } from '../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
-import WeekViewCalendar from './WeekView/WeekViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { dayScheduleData, subScheduleData } from './dataSet/dataSet'  // local data
 import Modal from '../Modal/Modal'
 import path from 'path'
 import dotenv from 'dotenv'
+
+import './styles/Calendar.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -31,7 +31,6 @@ const Calendar: FunctionComponent<{}> = () => {
   const [showMonth, setShowMonth] = useState<boolean>(true)
 
   const { modalState } = useModal()
-  const targetMonthString: string = dayjs(targetMonth).format('MMMM YYYY')
 
   // 이번달 시작날짜, 끝날짜 계산
   const daysInMonth = dayjs(targetMonth).daysInMonth()
@@ -47,15 +46,15 @@ const Calendar: FunctionComponent<{}> = () => {
   // console.log('startday', startDay, 7, targetMonthStartDay, (targetMonthStartDay - 1))
   // console.log('endday', endDay)
 
-    // 일일 스케줄 데이터 필터링
+  // 일일 스케줄 데이터 필터링
   // onGetDaySchedule(dayScheduleData) // local data
   const daySchedules = daySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
 
-    // 소목표 데이터 필터링
+  // 소목표 데이터 필터링
   // onGetSubSchedule(subScheduleData) // local data
   const subSchedules = subSchedule
     .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
-    .sort(function(a, b) {
+    .sort(function (a, b) {
       // return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
       if (sortDate(a.startDate, b.startDate) === 0) {
         // console.log('b, a, compare endDate', b.subTitle, a.subTitle, b.endDate, a.endDate)
@@ -68,7 +67,7 @@ const Calendar: FunctionComponent<{}> = () => {
   // console.log(subSchedules)
 
   // 사용함수
-  function sortDate(first: string, second :string) {
+  function sortDate(first: string, second: string) {
     const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
     const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
 
@@ -106,140 +105,88 @@ const Calendar: FunctionComponent<{}> = () => {
 
   const handleMovePrevMonth = (now: string) => {
     const prevMonth = dayjs(now).add(-1, 'month').format('YYYY-MM-DD')
-
     setTargetMonth(prevMonth)
   }
 
   const handleMoveNextMonth = (now: string) => {
     const nextMonth = dayjs(now).add(1, 'month').format('YYYY-MM-DD')
-
     setTargetMonth(nextMonth)
   }
 
-  const handleShowMonth = (e: MouseEvent<HTMLDivElement>) => {
+  const handleShowMonth = () => {
     setShowMonth(!showMonth)
   }
 
   // TODO : 커스텀 hook으로 변경할 것
   // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
-  const getSelectedDate = tempDate  
+  const getSelectedDate = tempDate
   const dragStart = dateToNumber(startDate) // startDate는 변하지 않음
   const dragOver = dateToNumber(getSelectedDate)
   // 소목표를 앞으로 설정하는지 뒤로 설정하는지에 대한 조건 - CalendarDay 컴포넌트까지 내려보냄
   const isAscending: boolean = dragOver - dragStart + 1 > 0 ? true : false
 
   function dateToNumber(strDate: string): number {
-    var result = strDate.replace(/\-/g,'')
+    var result = strDate.replace(/\-/g, '')
     return parseInt(result)
   }
 
   return (
-    <div 
+    <div
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
-      className="containerDiv container-fluid">
+      className="calendarContainer">
 
       {/* 달력 헤더 */}
-      <div className="headerContainer">
+      <div
+        className="headerContainer"
+        onClick={handleShowMonth}
+      >
         <header className="header">
-          <h1 className="mainHeader">I LIKE STUDYING!</h1>
-          {/* <p className="caption">
-              (for statefull use, uncomment and pick a day to see the
-              differance)
-            </p> */}
-
           <div
             data-test="calendarTitle"
-            className={`calendarTitle ${'exampleTitleContainerClass' || ''}`}
+            className={`calendarTitle`}
           >
             {title}
           </div>
-
-          {/* 달력 제공 타입에 따른 헤더 전환 */}
-          {showMonth ?
-            <div
-              data-test="monthTitle"
-              className={`monthTitle ${'exampleMonthTitleClass' || ''}`}
-            >
-              {targetMonthString}
-            </div>
-            :
-            <div
-              data-test="weekTitle"
-              className={`weekTitle ${'exampleWeekTitleClass' || ''}`}
-            >
-              {/* {targetMonthString} */}
-              '몇 주차 입니다.'
-            </div>
-          }
         </header>
       </div>
 
-      {/* 달력 저번달 다음달 전환 버튼 */}
-      <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} />
-
-      {/* 달력 제공 타입 전환 버튼 */}
-      <div
-        onClick={handleShowMonth}
-      >
-        {showMonth ? 'Weekly' : 'Monthly'}
-      </div>
-
-      {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
       {showMonth ?
-        <MonthViewCalendar
-          targetDay={targetDay}
-          targetMonth={targetMonth}
-          targetDateString={targetDateString}
-          subSchedule={subSchedules}
-          daySchedule={daySchedules}
-          handleState={handleState}
-          width="92%"
-          containerClassName="exampleClassContainer"
-          rowContainerClassName="exampleClassRow"
-          dayContainerClassName="exampleClassDay"
-          dayDataListClass="exampleDayDataListClass"
-          dayDataListItemClass="exampleDayDataListItemClass"
-          daysHeaderContainerClass="exampleDaysHeaderContainerClass"
-          daysTitleContainerClass="exampleDaysTitleContainerClass"
-          colorActiveDate="palegoldenrod"
-          colorPastDates="#f1f1f1"
-          isAscending={isAscending}
-        />
-        :
-        <WeekViewCalendar />
-      }
+        <>
+          {/* 달력 저번달 다음달 전환 버튼 */}
+          <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} />
 
-      {/* 선택된 날짜에 대한 정보 제공 */}
-      <div className="stateStatsContainer">
-        <div className="stateStats">
-          <p className="caption">targetDay: {targetDay}</p>
-          <p className="caption">
-            targetDateString: {dayjs(targetDateString).format('DD/MM/YYYY')}
-          </p>
-          <div>
-            <label className="inputLabel caption">Pick a Month</label>
-            <input
-              style={{ marginTop: '20px', marginBottom: '20px' }}
-              type="date"
-              value={targetMonth}
-              onChange={handleOnChange}
-            />
-          </div>
-        </div>
-      </div>
+          {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
+          <MonthViewCalendar
+            targetDay={targetDay}
+            targetMonth={targetMonth}
+            targetDateString={targetDateString}
+            subSchedule={subSchedules}
+            daySchedule={daySchedules}
+            handleState={handleState}
+            containerClassName="exampleClassContainer"
+            rowContainerClassName="exampleClassRow"
+            dayContainerClassName="exampleClassDay"
+            dayDataListClass="exampleDayDataListClass"
+            dayDataListItemClass="exampleDayDataListItemClass"
+            daysHeaderContainerClass="exampleDaysHeaderContainerClass"
+            daysTitleContainerClass="exampleDaysTitleContainerClass"
+            colorActiveDate="palegoldenrod"
+            colorPastDates="#f1f1f1"
+            isAscending={isAscending}
+          />
 
-      {/* 풋터 */}
-      <div className="footerDiv">
-        &copy; Created By Stevorated (Shirel Garber)
-      </div>
-
-      {/* 모달 */}
-      {modalState ?
-        <Modal />
+          {/* 모달 */}
+          {modalState ?
+            <Modal />
+            :
+            ''
+          }
+        </>
         :
         ''
       }
-      
+
+
     </div>
   )
 }

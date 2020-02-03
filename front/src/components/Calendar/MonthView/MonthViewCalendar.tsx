@@ -5,8 +5,6 @@ import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
 
-import './styles/Calendar.scss'
-
 const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     targetDay,
@@ -15,7 +13,6 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
     daySchedule,
     handleState,
     targetDateString,
-    width,
     containerClassName,
     rowContainerClassName,
     dayContainerClassName,
@@ -67,9 +64,8 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div
-      data-test="calendarContainer"
-      className={`calendarContainer ${containerClassName || ''}`}
-      style={{ width: width || '100% ' }}
+      // data-test="calendarContainer"
+      // className={`calendarContainer ${containerClassName || ''}`}
     >
       <CalendarHeaders
         data-test="calendarHeaders"

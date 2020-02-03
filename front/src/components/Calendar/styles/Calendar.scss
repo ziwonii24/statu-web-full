@@ -1,14 +1,22 @@
 .calendarContainer {
+  // display: flex;
+  // justify-content: ;
   padding: 0;
-  margin: 0;
+  margin: 4vw;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
+.calendarNavi {
+  display: flex;
+  justify-content: center ;
+}
+
 .calendarTitle {
-  font-size: 40px;
+  text-align: center;
+  font-size: 4vw;
 }
 
 .monthTitle {
