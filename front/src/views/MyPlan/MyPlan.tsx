@@ -3,6 +3,8 @@ import Calendar from '../../components/Calendar'
 import { mainScheduleData, subScheduleData, dayScheduleData } from '../../components/Calendar/dataSet/dataSet'
 import { useMainSchedule, useSubSchedule, useDaySchedule } from '../../hooks/useSchedule'
 
+import './styles/MyPlan.scss'
+
 
 const MyPlan: FunctionComponent = () => {
   const { onGetMainSchedule, onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule, mainSchedule } = useMainSchedule()
@@ -46,42 +48,45 @@ const MyPlan: FunctionComponent = () => {
     category2: []
   }
 
-  const representCalendar = mainSchedule.filter(schedule => schedule.represent === true)
+  const RepresentCalendar = mainSchedule.map(schedule => {
+    if (schedule.represent === true) {
+      console.log(schedule)
+      return (
+        <Calendar
+          key={schedule.id}
+          calendarId={schedule.id}
+          defaultTitle={schedule.title}
+          subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calenderId)}
+          daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
+          represent={true}
+        />
+      )
+    }
+  })
+
+  const CalendarList = mainSchedule.map(schedule => {
+    if (schedule.represent !== true) {
+      return (
+        <Calendar
+          key={schedule.id}
+          calendarId={schedule.id}
+          defaultTitle={schedule.title}
+          subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calenderId)}
+          daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
+          represent={false}
+        />
+      )
+    }
+  })
 
   return (
     <>
-      <div>
-      {representCalendar.map(schedule => {
-          if (schedule.represent === true) {
-            return (
-              <Calendar
-                key={schedule.id}
-                calendarId={schedule.id}
-                initialTitle={schedule.title}
-                subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calenderId)}
-                daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
-                represent={true}
-              />
-            )
-          }
-        })}
+      <div
+       className={`RepresentCalendar`}
+      >
+        {RepresentCalendar}
       </div>
-      <div>
-        {mainSchedule.map(schedule => {
-          if (schedule.represent !== true) {
-            return (
-              <Calendar
-                key={schedule.id}
-                calendarId={schedule.id}
-                initialTitle={schedule.title}
-                subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calenderId)}
-                daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
-                represent={false}
-              />
-            )
-          }
-        })}
-      </div>
+      {CalendarList}
     </>
   )
 }

@@ -4,7 +4,7 @@ export const mainScheduleData: MainSchedule[] = [
   {
     id: 1,
     userId: 1,
-    title: '취업하자',
+    title: '취업',
     startDate: '2019-12-26',
     endDate: '2019-02-26',
     recommend: 14,
@@ -42,7 +42,7 @@ export const mainScheduleData: MainSchedule[] = [
   {
     id: 3,
     userId: 1,
-    title: '취뽀하자',
+    title: '합격하자',
     startDate: '2019-01-26',
     endDate: '2019-03-26',
     recommend: 14,

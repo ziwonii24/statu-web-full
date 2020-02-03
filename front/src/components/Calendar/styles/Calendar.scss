@@ -14,9 +14,17 @@
   justify-content: center ;
 }
 
+.header {
+  display: flex;
+  justify-content: center;
+}
+
 .calendarTitle {
-  text-align: center;
+  display: inline-flex;
+  justify-content: center;
+  // text-align: center;
   font-size: 4vw;
+  background-color: saturate($color: #ebf394, $amount: 100);
 }
 
 .monthTitle {

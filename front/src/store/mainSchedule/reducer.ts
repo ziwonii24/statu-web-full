@@ -1,11 +1,11 @@
-import { MainSchedulesState, MainScheduleActions } from './types'
+import { MainSchedulesState, MainScheduleActions, MainSchedule } from './types'
 import { createReducer } from 'typesafe-actions'
 import { GET_MAINSCHEDULE, POST_MAINSCHEDULE, PUT_MAINSCHEDULE, DELETE_MAINSCHEDULE } from './actions'
 
-const initialDaySchedulesState: MainSchedulesState = [
+const initilaMainSchedules = [
   {
-    id: 1,
-    userId: 1,
+    id: 0,
+    userId: 0,
     title: '',
     startDate: '',
     endDate: '',
@@ -20,8 +20,10 @@ const initialDaySchedulesState: MainSchedulesState = [
   },
 ]
 
+const initialDaySchedulesState: MainSchedulesState = initilaMainSchedules
+
 const mainSchedule = createReducer<MainSchedulesState, MainScheduleActions>(initialDaySchedulesState, {
-  [GET_MAINSCHEDULE]: (state, { payload: mainSchedules }) => mainSchedules,
+  [GET_MAINSCHEDULE]: (state, { payload: mainSchedules }) => (state = mainSchedules),
   [POST_MAINSCHEDULE]: (state, { payload: mainSchedule }) => 
     state.concat({
       ...mainSchedule,

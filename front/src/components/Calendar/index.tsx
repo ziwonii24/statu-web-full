@@ -20,7 +20,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 interface Interface {
   calendarId: number
-  initialTitle: string
+  defaultTitle: string
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
   represent: boolean
@@ -30,22 +30,18 @@ interface Interface {
 const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     calendarId,
-    initialTitle,
+    defaultTitle,
     subSchedule,
     daySchedule,
     represent,
   } = props
 
   console.log('Calendar View')
-  // const store = useStore()
-  // console.log(store.getState())
   const { startDate, tempDate } = useDrag()
-  // const { daySchedule, onGetDaySchedule } = useDaySchedule()
-  // const { subSchedule, onGetSubSchedule } = useSubSchedule()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
-  const [title, setTitle] = useState<string>(initialTitle)
+  const [title, setTitle] = useState<string>(defaultTitle)
   const [showMonth, setShowMonth] = useState<boolean>(represent)
 
   const { modalState } = useModal()
@@ -131,7 +127,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const handleShowMonth = () => {
-    setShowMonth(!showMonth)
+    if (represent !== true) {
+      setShowMonth(!showMonth)
+    }
   }
 
   // TODO : 커스텀 hook으로 변경할 것
@@ -159,7 +157,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       >
         <header className="header">
           <div
-            data-test="calendarTitle"
             className={`calendarTitle`}
           >
             {title}
