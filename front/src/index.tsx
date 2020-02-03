@@ -6,6 +6,9 @@ import { Provider } from 'react-redux'
 import configureStore, { history } from './configureStore'
 
 import './styles/scss/index.scss'
+// bootstrap 사용
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 // import rootReducer from './store/reducerIndex'
 // import createSagaMiddleware from 'redux-saga'
 
