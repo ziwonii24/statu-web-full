@@ -35,7 +35,7 @@ const initialModalState: ModalState = {
 }
 
 const modal = createReducer<ModalState, ModalAction>(initialModalState, {
-  [OPEN_MODAL]: ({ modalState, schedules }, { payload: scheduleDatas }) => ({
+  [OPEN_MODAL]: ({}, { payload: scheduleDatas }) => ({
     modalState: true, schedules: scheduleDatas
   }),
   [CLOSE_MODAL]: () => ({

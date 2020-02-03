@@ -19,7 +19,7 @@ const testData = dayScheduleData
 const initialDaySchedulesState: DaySchedulesState = testData
 
 const daySchedule = createReducer<DaySchedulesState, DayScheduleActions>(initialDaySchedulesState, {
-  [GET_DAYSCHEDULE]: (state, { payload: daySchedules }) => daySchedules,
+  [GET_DAYSCHEDULE]: ({}, { payload: daySchedules }) => daySchedules,
   [POST_DAYSCHEDULE]: (state, { payload: daySchedule }) => state.concat({
     calendarId: daySchedule.calendarId,
     subTitleId: daySchedule.subTitleId,

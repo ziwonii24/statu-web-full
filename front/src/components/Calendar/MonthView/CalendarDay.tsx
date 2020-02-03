@@ -270,9 +270,11 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
                 ''
             }
           </li>
-          
         )
         )}
+        <div
+          style={{height: `${2.5}vh`}}
+        />
       </ul>
     </div>
   )
