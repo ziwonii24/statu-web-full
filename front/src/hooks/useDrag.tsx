@@ -9,12 +9,13 @@ export default function useModal() {
   const startDate = useSelector((state: RootState) => state.drag.startDate)
   const tempDate = useSelector((state: RootState) => state.drag.tempDate)
   const endDate = useSelector((state: RootState) => state.drag.endDate)
+  const mouseOverState = useSelector((state: RootState) => state.drag.mouseOverState)
 
   const onSetStartDate = useCallback((date) => dispatch(setStartDate(date)), [dispatch])
   const onSetTempDate = useCallback((date) => dispatch(setTempDate(date)), [dispatch])
   const onSetEndDate = useCallback((date) => dispatch(setEndDate(date)), [dispatch])
 
   return {
-    startDate, tempDate, endDate, onSetStartDate, onSetTempDate, onSetEndDate
+    startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate
   }
 }

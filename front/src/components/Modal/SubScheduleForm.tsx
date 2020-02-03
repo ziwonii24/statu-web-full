@@ -1,5 +1,5 @@
 import React, { FunctionComponent, MouseEvent, useState, ChangeEvent } from 'react'
-// import Interface from './interfaces/SubScheduleForm.interface'
+import SubScheduleList from './SubScheduleList'
 import { colors } from '../Calendar/dataSet/dataSet'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
@@ -9,14 +9,9 @@ import { SubSchedule } from '../../store/subSchedule'
 import './styles/SubScheduleForm.scss'
 
 const SubScheduleForm: FunctionComponent<{}> = () => {
-  // const {
-  //   startDate,
-  //   endDate,
-  // } = props
-
+  // subSchedule set
   const [subTitle, setSubTitle] = useState<string>('')
   const [color, setColor] = useState<string>('#000000')
-  const { onCloseModal } = useModal()
   const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
 
   const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,18 +40,25 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     "endDate": endDate,
   }
 
+  // color dropdown menu
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const handleColorMenu = (e: MouseEvent<HTMLDivElement>) => {
     setShowMenu(!showMenu)
     console.log(e.target)
   }
-  
-  const { onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule }  = useSubSchedule()
+
+  // CRUD
+  const { onPostSubSchedule } = useSubSchedule()
+  const { subSchedules, onPostSubScheduleOnModal, onCloseModal } = useModal()
+
+  console.log(subSchedules)
+
   const handleSubmit = (schedule: SubSchedule) => {
     onPostSubSchedule(schedule)
+    onPostSubScheduleOnModal(schedule)
     console.log(schedule)
   }
-  
+
   const handleCloseModal = () => {
     onCloseModal()
     onSetStartDate('')
@@ -65,13 +67,6 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
 
   return (
     <div className="content">
-      <input
-        type="text"
-        placeholder="소목표 입력하세요."
-        value={subTitle}
-        onChange={handleSubTitle}
-      /> <br />
-
       <div
         className={`colorContainer`}
         onClick={handleColorMenu}
@@ -94,7 +89,14 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
         :
         ''
       }
-
+      <br />
+      <input
+        type="text"
+        placeholder="소목표 입력하세요."
+        value={subTitle}
+        onChange={handleSubTitle}
+      />
+      <br/>
       <input
         type="date"
         placeholder="시작일자를 선택하세요."
@@ -107,15 +109,28 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
         value={endDate}
         onChange={handleEndDate}
       />
+      <br/>
+      <hr/>
+      {subSchedules.map(schedule => (
+        <SubScheduleList
+          key={schedule.id}
+          baseCalendarId={schedule.calenderId}
+          baseId={schedule.id}
+          baseSubTitleId={schedule.subTitle}
+          baseColor={schedule.color}
+          baseStartDate={schedule.startDate}
+          baseEndDate={schedule.endDate}
+        />
+      ))}
       <div className="button-wrap">
-          <div onClick={() => {
-            handleCloseModal()
-            handleSubmit(subSchedule)
-          }}>
-            Confirm
+        <div onClick={() => {
+          handleCloseModal()
+          handleSubmit(subSchedule)
+        }}>
+          Confirm
           </div>
-          <div onClick={handleCloseModal}>Cancel</div>
-        </div>
+        <div onClick={handleCloseModal}>Cancel</div>
+      </div>
     </div>
   )
 }

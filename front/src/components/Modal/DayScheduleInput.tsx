@@ -14,7 +14,7 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
 
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
-  const { daySchedules } = useModal()
+  const { daySchedules, onPostDayScheduleOnModal } = useModal()
   const dayScheduleList = getDayScheduleList()
 
   const daySchedule: DaySchedule = {
@@ -29,19 +29,21 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleTodo = (e: ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value)
-    console.log(e.target.value)
+    // console.log(e.target.value)
   }
   const handleGoal = (e: ChangeEvent<HTMLInputElement>) => {
     setGoal(parseInt(e.target.value))
-    console.log(e.target.value)
+    // console.log(e.target.value)
   }
 
-  const { onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule } = useDaySchedule()
+  const { onPostDaySchedule } = useDaySchedule()
 
   const handleSubmit = (schedule: DaySchedule) => {
     onPostDaySchedule(schedule)
-    // dayScheduleList.push(schedule)
-    console.log(schedule)
+    onPostDayScheduleOnModal(schedule)
+    setTodo('')
+    setGoal(0)
+    // console.log(schedule)
   }
 
   function getDayScheduleList() {
@@ -74,6 +76,7 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
       </div>
       {dayScheduleList.map(schedule => (
         <DayScheduleList
+          key={schedule.id}
           baseCalendarId={schedule.calendarId}
           baseSubTitleId={schedule.subTitleId}
           baseId={schedule.id}
