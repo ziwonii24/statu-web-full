@@ -18,8 +18,8 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Calendar: FunctionComponent<{}> = () => {
   console.log('Calendar View')
-  const store = useStore()
-  console.log(store.getState())
+  // const store = useStore()
+  // console.log(store.getState())
   const { startDate, tempDate } = useDrag()
   const { daySchedule, onGetDaySchedule } = useDaySchedule()
   const { subSchedule, onGetSubSchedule } = useSubSchedule()
@@ -58,10 +58,10 @@ const Calendar: FunctionComponent<{}> = () => {
     .sort(function(a, b) {
       // return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
       if (sortDate(a.startDate, b.startDate) === 0) {
-        console.log('b, a, compare endDate', b.subTitle, a.subTitle, b.endDate, a.endDate)
+        // console.log('b, a, compare endDate', b.subTitle, a.subTitle, b.endDate, a.endDate)
         return sortDate(b.endDate, a.endDate)
       } else {
-        console.log('a, b, compare startDate', a.subTitle, b.subTitle, a.startDate, b.startDate)
+        // console.log('a, b, compare startDate', a.subTitle, b.subTitle, a.startDate, b.startDate)
         return sortDate(a.startDate, b.startDate)
       }
     })

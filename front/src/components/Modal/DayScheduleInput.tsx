@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useState, ChangeEvent } from 'react'
+import DayScheduleList from './DayScheduleList'
 import Interface from './interfaces/DayScheduleInput.interface'
 import { DaySchedule } from '../Calendar/dataSet/DataSet.interface'
 import { useDaySchedule } from '../../hooks/useSchedule'
+import useModal from '../../hooks/useModal'
 
 const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -9,9 +11,11 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
     subTitleId,
     color,
   } = props
-  
+
   const [todo, setTodo] = useState<string>('')
   const [goal, setGoal] = useState<number>(0)
+  const { daySchedules, onPostDayScheduleOnModal } = useModal()
+  const dayScheduleList = getDayScheduleList()
 
   const daySchedule: DaySchedule = {
     "calendarId": 1,
@@ -25,17 +29,25 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleTodo = (e: ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value)
-    console.log(e.target.value)
+    // console.log(e.target.value)
   }
   const handleGoal = (e: ChangeEvent<HTMLInputElement>) => {
     setGoal(parseInt(e.target.value))
-    console.log(e.target.value)
+    // console.log(e.target.value)
   }
 
-  const { onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule } = useDaySchedule()
+  const { onPostDaySchedule } = useDaySchedule()
+
   const handleSubmit = (schedule: DaySchedule) => {
-    onPostDaySchedule(daySchedule)
-    console.log(schedule)
+    onPostDaySchedule(schedule)
+    onPostDayScheduleOnModal(schedule)
+    setTodo('')
+    setGoal(0)
+    // console.log(schedule)
+  }
+
+  function getDayScheduleList() {
+    return daySchedules.filter(schedule => schedule.subTitleId === subTitleId)
   }
 
   return (
@@ -57,10 +69,23 @@ const DayScheduleInput: FunctionComponent<Interface> = (props: Interface) => {
         onChange={handleGoal}
       />
       <div
+        style={{ display: `inline-block` }}
         onClick={() => handleSubmit(daySchedule)}
       >
         +
       </div>
+      {dayScheduleList.map(schedule => (
+        <DayScheduleList
+          key={schedule.id}
+          baseCalendarId={schedule.calendarId}
+          baseSubTitleId={schedule.subTitleId}
+          baseId={schedule.id}
+          baseTodo={schedule.component}
+          baseGoal={schedule.goal}
+          date={schedule.date}
+        />
+      ))}
+      <hr/>
     </div>
   )
 }

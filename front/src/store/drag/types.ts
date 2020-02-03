@@ -9,4 +9,5 @@ export type DragState = {
   startDate: string
   tempDate: string
   endDate: string
+  mouseOverState: boolean
 }
