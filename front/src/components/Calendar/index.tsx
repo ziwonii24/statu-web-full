@@ -23,6 +23,7 @@ interface Interface {
   initialTitle: string
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
+  represent: boolean
 }
 
 
@@ -32,6 +33,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     initialTitle,
     subSchedule,
     daySchedule,
+    represent,
   } = props
 
   console.log('Calendar View')
@@ -44,7 +46,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [title, setTitle] = useState<string>(initialTitle)
-  const [showMonth, setShowMonth] = useState<boolean>(true)
+  const [showMonth, setShowMonth] = useState<boolean>(represent)
 
   const { modalState } = useModal()
 
