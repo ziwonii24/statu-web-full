@@ -15,9 +15,11 @@ interface Props {
 
 const App: FunctionComponent<InterFace> = ({history}: Props) => {
   return (
-    <ConnectedRouter history={history}>
-      { routes }
-    </ConnectedRouter>
+    <>
+      <ConnectedRouter history={history}>
+        { routes }
+      </ConnectedRouter>
+    </>
   )
 }
 
