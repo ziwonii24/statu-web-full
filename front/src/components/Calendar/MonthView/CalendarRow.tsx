@@ -6,14 +6,12 @@ import { SubSchedule } from '../dataSet/DataSet.interface'
 
 import CalendarDay from './CalendarDay'
 
-import './styles/CalendarRow.scss'
-import { subScheduleData } from '../dataSet/dataSet'
+import '../styles/CalendarRow.scss'
 
 const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   const {
     week,
     targetMonth,
-    targetDay,
     targetDateString,
     handleState,
     dayComponent,
@@ -129,7 +127,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
           key={`day-${day || uuid()}`}
           date={day}
           targetMonth={targetMonth}
-          targetDay={targetDay}
           targetDateString={targetDateString}
           handleState={handleState}
           dayComponent={dayComponent}

@@ -9,7 +9,7 @@ import Interface from './interfaces/CalendarDay.interface'
 import { SubSchedule } from '../../../store/subSchedule'
 import { DaySchedule } from '../../../store/daySchedule'
 
-import './styles/CalendarDay.scss'
+import '../styles/CalendarDay.scss'
 
 import { useStore } from 'react-redux'
 import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
@@ -221,6 +221,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       data-test="calendarDayContainer"
       data-test2={`${active}`}
       className={`calendarDayContainer ${draggedDays} ${active} ${passedDate}`}
+      style={{ width: `${100 / 7}%` }}
       onMouseDown={handleMouseDown}
       onMouseOver={handleMouseOver}
       onMouseUp={handleMouseUp}
@@ -239,7 +240,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
       {/* subSchedule render */}
       <div
-        style={{ height: `${2.5 * subScheduleLength}vh`, width: `${101}%` }}
+        style={{ height: `${2.5 * subScheduleLength}vh`, width: `${100}%` }}
         className={`subDataList`}
         onMouseOver={handleMouseOver}
       >
@@ -313,6 +314,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
         )
         )}
       </div>
+      {/* <div
+        className={`pointerInherit`}
+        style={{ height: `${2.5}vh` }}
+      /> */}
     </div>
   )
 }

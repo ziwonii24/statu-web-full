@@ -2,56 +2,25 @@ import React, { FunctionComponent } from 'react';
 
 import Interface from './interfaces/CalendarHeaders.interface';
 
-import './styles/CalendarHeaders.scss';
+import '../styles/CalendarHeaders.scss';
 
-const CalendarHeaders: FunctionComponent<Interface> = (props: Interface) => {
+const CalendarHeaders: FunctionComponent<Interface> = () => {
+  // const { daysHeaderContainerClass, daysTitleContainerClass } = props;
+  const CalendarDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
   return (
     <div
-      data-test="calendarDaysContainer"
       className={`calendarDaysContainer`}
     >
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Sun
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Mon
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Tue
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Wed
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Thu
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Fri
-      </div>
-      <div
-        data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer`}
-      >
-        Sat
-      </div>
+      {CalendarDays.map(day => (
+        <div
+          key={day}
+          className={`calendarHeaderContainer`}
+          style={{width: `${100/7}%`}}
+        >
+          {day}
+        </div>
+      ))}
     </div>
   );
 };

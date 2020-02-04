@@ -1,5 +1,4 @@
 .calendarDayContainer {
-  width: 14%;
   border: 0.5px solid rgb(233, 233, 233);
   border-left: white;
   border-right:white;
@@ -16,10 +15,6 @@
   margin: 0;
   left: 10%;
   top: 5%;
-  // -webkit-user-select: none;
-  // -moz-user-select: none;
-  // -ms-user-select: none;
-  // user-select: none;
 }
 
 .calendarpassedDate {
@@ -29,9 +24,9 @@
   color: gray;
 }
 
-// .calendarActiveDate {
-//   background-color: palegoldenrod;
-// }
+.indent {
+  width: 1.5vh;
+}
 
 .subDataList {
   position: relative;
@@ -44,7 +39,7 @@
   position: absolute;
   margin-top: 0.5vh;
   border-radius: 0.6vh;
-  padding-left: 1vh;
+  // padding-left: 1vh;
   z-index: 50;
   color: rgb(15, 15, 15);
   font-size: 1.6vh;
@@ -99,4 +94,8 @@
 
 .pointerNone {
   pointer-events: none;
+}
+
+.pointerInherit {
+  pointer-events: inherit;
 }

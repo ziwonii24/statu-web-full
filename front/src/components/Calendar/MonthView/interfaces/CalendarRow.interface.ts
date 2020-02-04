@@ -4,9 +4,8 @@ export default interface Component {
   title?: string
   week: string[]
   targetMonth: string
-  targetDay: number
   targetDateString: string
-  handleState: (targetDay: number, targetDateString: string) => void
+  handleState: (targetDateString: string) => void
   dayComponent?: object
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]

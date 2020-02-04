@@ -4,7 +4,7 @@ export const mainScheduleData: MainSchedule[] = [
   {
     id: 1,
     userId: 1,
-    title: '취업하자',
+    title: '취업',
     startDate: '2019-12-26',
     endDate: '2019-02-26',
     recommend: 14,
@@ -31,7 +31,26 @@ export const mainScheduleData: MainSchedule[] = [
     public: true,
     progress: 15.7,
     tag: ['영어', '알고리즘', '인적성'],
-    represent: true,
+    represent: false,
+    category1: [
+      1, 2,
+    ],  // large
+    category2: [
+      3, 4,
+    ]  // small
+  },
+  {
+    id: 3,
+    userId: 1,
+    title: '합격하자',
+    startDate: '2019-01-26',
+    endDate: '2019-03-26',
+    recommend: 14,
+    view: 169,
+    public: true,
+    progress: 15.7,
+    tag: ['영어', '알고리즘', '인적성'],
+    represent: false,
     category1: [
       1, 2,
     ],  // large
@@ -44,7 +63,7 @@ export const mainScheduleData: MainSchedule[] = [
 export const subScheduleData: SubSchedule[] = [
   {
     id: 6,
-    calenderId: 1,
+    calenderId: 2,
     subTitle: '인적성',
     color: '#FFE4C4',
     startDate: '2020-01-03',

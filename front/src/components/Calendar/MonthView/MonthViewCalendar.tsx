@@ -5,17 +5,13 @@ import { daysArray } from './utils'
 import CalendarRow from './CalendarRow'
 import CalendarHeaders from './CalendarHeaders'
 
-import './styles/Calendar.scss'
-
 const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
-    targetDay,
     targetMonth,
     subSchedule,
     daySchedule,
     handleState,
     targetDateString,
-    width,
     colorActiveDate,
     colorPastDates,
     isAscending
@@ -33,7 +29,6 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
           key={key}
           week={week}
           targetMonth={targetMonth}
-          targetDay={targetDay}
           targetDateString={targetDateString}
           handleState={handleState || handleState}
           // dayComponent={dayComponent}
@@ -56,9 +51,8 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div
-      data-test="calendarContainer"
-      className={`calendarContainer`}
-      style={{ width: width || '100% ' }}
+      // data-test="calendarContainer"
+      // className={`calendarContainer ${containerClassName || ''}`}
     >
       <CalendarHeaders
         data-test="calendarHeaders"
