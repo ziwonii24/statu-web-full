@@ -15,7 +15,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   const [date, setDate] = useState<string>(daySchedule.date)
   const [component, setComponent] = useState<string>(daySchedule.component)
   const [goal, setGoal] = useState<number>(daySchedule.goal)
-  const color = getColor()
+  const [color, setColor] = useState<string>(defaultColor())
 
   const dayScheduleData: DaySchedule = {
     "calendarId": daySchedule.calendarId,
@@ -27,6 +27,8 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     "achieve": daySchedule.achieve,
   }
 
+  console.log(dayScheduleData)
+
   // color dropdown menu
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const handleColorMenu = (e: MouseEvent<HTMLDivElement>) => {
@@ -34,8 +36,9 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   }
 
   // input handler
-  const handleColor = (e: MouseEvent<HTMLDivElement>, subTitleId: number) => {
+  const handleColor = (e: MouseEvent<HTMLDivElement>, subTitleId: number, color: string) => {
     setSubTitleId(subTitleId)
+    setColor(color)
     setShowMenu(!showMenu)
   }
   const handleComponent = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,16 +67,12 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     onSetEndDate('')
   }
 
-
-  function getColor() {
-    subSchedules.map(schedule => {
-      if (schedule.id === daySchedule.id) {
-        return schedule.color
-      }
-      return schedule
-    })
+  function defaultColor() {
+    const scheduleColor = subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)
+    return scheduleColor[0].color
   }
 
+  
   return (
     <>
       <h1>{startDate}</h1>
@@ -91,7 +90,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
               className={`colorContainer`}
               style={{ backgroundColor: `${schedule.color}` }}
               onClick={(e) => {
-                handleColor(e, schedule.id)
+                handleColor(e, schedule.id, schedule.color)
               }}
             >
             </div>

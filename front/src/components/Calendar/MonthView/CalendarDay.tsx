@@ -76,9 +76,9 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   // HTML 렌더에 사용되는 핸들러
   const handleMouseDown = (e: MouseEvent) => {
-    if (e.target !== e.currentTarget) {
-      return
-    }
+    // if (e.target !== e.currentTarget) {
+    //   return
+    // }
     onSetStartDate(newDate)
     onSetTempDate(newDate)
     console.log('mouseDown', modalState)
@@ -91,7 +91,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     // }
     if (startDate !== '') {
       onSetTempDate(newDate)
-      // console.log('mouseOverState', mouseOverState)
+      console.log('mouseOverState', mouseOverState)
       // console.log('mouseOver', e.target)
     }
   }
@@ -101,19 +101,21 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     //   return
     // }
     onSetEndDate(newDate)
-    // console.log('mouseUp', mouseOverState)
+    console.log('mouseUp', mouseOverState)
     if (startDate) {
       onOpenModal([subData, initialSubSchedule, initialDaySchedule])
       // console.log('mouseUp')
     }
   }
 
-  const handleOpenDayModal = (subSchedules: SubSchedule[], daySchedule: DaySchedule) => {
+  const handleOpenDayModal = (e: MouseEvent, subSchedules: SubSchedule[], daySchedule: DaySchedule) => {
+    e.stopPropagation()
     onOpenDayModal(subSchedules, daySchedule)
     console.log('openDayModal', modalState)
   }
 
-  const handleOpenSubModal = (subSchedule: SubSchedule) => {
+  const handleOpenSubModal = (e: MouseEvent, subSchedule: SubSchedule) => {
+    e.stopPropagation()
     onOpenSubModal(subSchedule)
     console.log('openSubModal', modalState)
   }
@@ -253,13 +255,13 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
                 className={`subDataItem ${pointerNone}`}
                 onMouseEnter={() => handleMouseEnter(schedule.id)}
                 onMouseLeave={() => handleMouseLeave()}
-                onClick={() => handleOpenSubModal(schedule)}
+                onMouseDown={(e) => handleOpenSubModal(e, schedule)}
               >
                 {schedule.subTitle}
                 {
                   hoverState && schedule.id === hoverItemId ?
                     <div
-                      onClick={(e) => handleDeleteSubSchedule(e, schedule.id)}
+                      onMouseDown={(e) => handleDeleteSubSchedule(e, schedule.id)}
                       style={{ display: `inline-block` }}
                     >
                       x
@@ -282,7 +284,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
             className={`dayDataItem ${pointerNone}`}
             onMouseEnter={() => handleMouseEnter(schedule.id)}
             onMouseLeave={() => handleMouseLeave()}
-            onClick={() => handleOpenDayModal(subData, schedule)}
+            onMouseDown={(e) => handleOpenDayModal(e, subData, schedule)}
           >
             <div
               className='dayListCircle'
@@ -292,7 +294,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
             {
               hoverState && schedule.id === hoverItemId ?
                 <div
-                  onMouseUp={(e) => handleDeleteDaySchedule(e, schedule.id)}
+                  onMouseDown={(e) => handleDeleteDaySchedule(e, schedule.id)}
                   style={{ display: `inline-block` }}
                 >
                   x

@@ -14,13 +14,17 @@ const Modal: FunctionComponent<{}> = () => {
   const store = useStore()
   console.log('modal', store.getState())
   const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
+  const { daySchedule, subSchedule, onCloseModal } = useModal()
 
   // choose schedule
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCheck(e.target.checked)
   }
 
-  const isFewDaysSchedule: boolean = startDate === endDate ? false : true
+  let isFewDaysSchedule: boolean = 
+    daySchedule.id !== 0 ? false :
+    (subSchedule.id !== 0 ? true :
+    (startDate !== endDate ? true : false))
 
   const [check, setCheck] = useState<boolean>(isFewDaysSchedule)
   const choose = check ? "subSchedule" : "daySchedule" 
@@ -32,7 +36,6 @@ const Modal: FunctionComponent<{}> = () => {
   }
   const scheduleForm = chosenScheduleForm[choose]
 
-  const { onCloseModal } = useModal()
   const handleCloseModal = () => {
     onCloseModal()
     onSetStartDate('')

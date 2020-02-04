@@ -58,6 +58,7 @@
   margin-top: 1vh;
   margin-bottom: 2.5vh;
   padding: 0;
+  z-index: 50;
   font-size: 1.5vh;
   font-weight: 400;
 }
@@ -68,6 +69,7 @@
   list-style-position: inside;
   padding: 0;
   margin: 0;
+  z-index: 50;
   justify-self: center;
   -webkit-user-select: none;
   -moz-user-select: none;
