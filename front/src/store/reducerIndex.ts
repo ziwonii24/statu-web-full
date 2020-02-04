@@ -7,7 +7,15 @@ import daySchedule, { DaySchedulesState } from './daySchedule'
 import subSchedule, { SubSchedulesState } from './subSchedule'
 import mainSchedule, { MainSchedulesState } from './mainSchedule'
 
+import auth from './auth';
+// import user, { userSaga } from '../store/auth/user';
+// import loading from './auth/loading'
+
 const rootReducer = (history: History) => combineReducers({
+  auth,
+  user,
+  loading,
+  
   modal,
   drag,
   daySchedule,
