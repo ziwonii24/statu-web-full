@@ -5,38 +5,20 @@ import { getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, Sub
 import { getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule, MainSchedule } from '../store/mainSchedule'
 import { RootState } from '../store/reducerIndex'
 
-// import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({ path: path.join(__dirname, '.env') })
-
 
 export function useDaySchedule() {
+  // redux
   const dispatch = useDispatch()
 
-  const allDaySchedule = useSelector((state: RootState) => state.daySchedule)
-
+  const daySchedule = useSelector((state: RootState) => state.daySchedule).filter(schedule => schedule.id !== 0)
+  
   const onGetDaySchedule = useCallback((daySchedules:DaySchedule[]) => dispatch(getDaySchedule(daySchedules)), [dispatch])
   const onPostDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(postDaySchedule(daySchedule)), [dispatch])
   const onPutDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(putDaySchedule(daySchedule)), [dispatch])
   const onDeleteDaySchedule = useCallback((id:number) => dispatch(deleteDaySchedule(id)), [dispatch])
-  
-  // 수정 필요
-  // const onGetDayScheduleFromDB = async () => {
-  //   const SERVER_IP = process.env.REACT_APP_TEST_SERVER
-
-  //   try {
-  //     await axios.get(SERVER_IP + '/todo')
-  //     console.log('success')
-  //   }
-  //   catch (e) {
-  //     console.error(e)
-  //   }
-  // }
 
   return {
-    allDaySchedule, onGetDaySchedule, onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule
+    daySchedule, onGetDaySchedule, onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule,
   }
 }
 
@@ -44,7 +26,7 @@ export function useDaySchedule() {
 export function useSubSchedule() {
   const dispatch = useDispatch()
 
-  const allSubSchedule = useSelector((state: RootState) => state.subSchedule)
+  const subSchedule = useSelector((state: RootState) => state.subSchedule).filter(schedule => schedule.id !== 0)
 
   const onGetSubSchedule = useCallback((subSchedules:SubSchedule[]) => dispatch(getSubSchedule(subSchedules)), [dispatch])
   const onPostSubSchedule = useCallback((subSchedule:SubSchedule) => dispatch(postSubSchedule(subSchedule)), [dispatch])
@@ -52,7 +34,7 @@ export function useSubSchedule() {
   const onDeleteSubSchedule = useCallback((id:number) => dispatch(deleteSubSchedule(id)), [dispatch])
 
   return {
-    allSubSchedule, onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule
+    subSchedule, onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule,
   }
 }
 
@@ -60,7 +42,7 @@ export function useSubSchedule() {
 export function useMainSchedule() {
   const dispatch = useDispatch()
 
-  const mainSchedule = useSelector((state: RootState) => state.mainSchedule)
+  const mainSchedule = useSelector((state: RootState) => state.mainSchedule).filter(schedule => schedule.id !== 0)
 
   const onGetMainSchedule = useCallback((mainSchedules:MainSchedule[]) => dispatch(getMainSchedule(mainSchedules)), [dispatch])
   const onPostMainSchedule = useCallback((mainSchedule:MainSchedule) => dispatch(postMainSchedule(mainSchedule)), [dispatch])
@@ -68,6 +50,6 @@ export function useMainSchedule() {
   const onDeleteMainSchedule = useCallback((id:number) => dispatch(deleteMainSchedule(id)), [dispatch])
 
   return {
-    mainSchedule, onGetMainSchedule, onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule
+    mainSchedule, onGetMainSchedule, onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule,
   }
 }
