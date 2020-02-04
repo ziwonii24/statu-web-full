@@ -5,11 +5,7 @@ import path from 'path'
 import dotenv from 'dotenv'
 
 import { UserDto } from './interfaces/UserInfo.interface'
-import { mainCategory } from './interfaces/DataSet.interface'
-import { mainCategoryData } from './dataSet/dataSet'
-import SubCategoryGroup from './SubCategoryGroup'
 
-import { Link } from 'react-router-dom'
 import { history } from '../../configureStore'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
@@ -17,6 +13,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const Signup: FunctionComponent = () => {
 
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+
     const [ email, setEmail ] = useState<string>('')
     const [ name, setName ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
@@ -25,7 +22,6 @@ const Signup: FunctionComponent = () => {
         'name': name,
         'password': password,
     }
-    const mainCategoryList: mainCategory[] = mainCategoryData
     
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
@@ -42,25 +38,27 @@ const Signup: FunctionComponent = () => {
     const emailCheckHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
         alert(`email 버튼 눌렸다: ${email}`)
-        try {
-            await axios.get(`${SERVER_IP}/user/checkmail/${email}`)
-                    .then(res => console.log(`result = ${JSON.stringify(res.data)}`))
-        }
-        catch(e) {
-            alert(e)
-        }
+
+        // try {
+        //     await axios.get(`${SERVER_IP}/user/checkmail/${email}`)
+        //             .then(res => console.log(`result = ${JSON.stringify(res.data)}`))
+        // }
+        // catch(e) {
+        //     alert(e)
+        // }
     }
 
     const nameCheckHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
         alert(`name 버튼 눌렸다: ${name}`)
-        try {
-            await axios.get(`${SERVER_IP}/user/checkname/${name}`)
-                    .then(res => alert(`result = ${JSON.stringify(res.data)}`))
-        }
-        catch(e) {
-            alert(e)
-        }
+
+        // try {
+        //     await axios.get(`${SERVER_IP}/user/checkname/${name}`)
+        //             .then(res => alert(`result = ${JSON.stringify(res.data)}`))
+        // }
+        // catch(e) {
+        //     alert(e)
+        // }
     }
 
     const signupSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
@@ -92,10 +90,6 @@ const Signup: FunctionComponent = () => {
                 console.log("signup fail")
             } */
         })
-    }
-
-    const mainCategoryCheckHandler = () => {
-        console.log('check handler')
     }
 
     return (

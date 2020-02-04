@@ -15,6 +15,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const Login: FunctionComponent = () => {
 
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER  
+
     const [ email, setEmail ] = useState<string>('')  
     const [ password, setPassword ] = useState<string>('')
     const user: UserDto = {
@@ -31,14 +32,6 @@ const Login: FunctionComponent = () => {
     }
 
     const loginSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
-        // try {
-        //     await axios.post(`${SERVER_IP}/user/signin`, user)
-        //             .then(res => alert(`result = ${JSON.stringify(res)}`))
-        // }
-        // catch(e) {
-        //     alert(e)
-        // }
-
         e.preventDefault()
         // alert('로그인 버튼 눌렸다' + JSON.stringify(user))
 

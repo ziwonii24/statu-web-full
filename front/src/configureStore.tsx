@@ -5,7 +5,7 @@ import { routerMiddleware } from 'connected-react-router'
 
 // root reducer, root saga
 import createRootReducer from './store/reducerIndex'
-import { rootSaga } from './store/sagaIndex'
+// import { rootSaga } from './store/sagaIndex'
 
 
 export const history = createBrowserHistory()
@@ -24,7 +24,7 @@ export default function configureStore(preloadedState?: any) {
     ),
   )
 
-  sagaMiddleware.run(rootSaga)
+  // sagaMiddleware.run(rootSaga)
 
   // Hot reloading
   // if (module.hot) {

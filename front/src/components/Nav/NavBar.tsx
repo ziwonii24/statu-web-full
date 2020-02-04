@@ -5,8 +5,8 @@ const NavBar: FunctionComponent = () => {
 
     return (
         <div>
-            <Link to='/user/signup'>Signup</Link>
-            <Link to='/user/login'>Login</Link>
+            <Link to='/signup'>Signup</Link>
+            <Link to='/login'>Login</Link>
         </div>
     )
 }
