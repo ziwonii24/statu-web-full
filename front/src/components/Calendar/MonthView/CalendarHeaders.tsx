@@ -4,52 +4,51 @@ import Interface from './interfaces/CalendarHeaders.interface';
 
 import './styles/CalendarHeaders.scss';
 
-const CalendarHeaders: FunctionComponent<Interface> = props => {
-  const { daysHeaderContainerClass, daysTitleContainerClass } = props;
+const CalendarHeaders: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div
       data-test="calendarDaysContainer"
-      className={`calendarDaysContainer ${daysHeaderContainerClass}`}
+      className={`calendarDaysContainer`}
     >
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Sun
       </div>
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Mon
       </div>
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Tue
       </div>
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Wed
       </div>
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Thu
       </div>
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Fri
       </div>
       <div
         data-test="calendarHeaderContainer"
-        className={`calendarHeaderContainer ${daysTitleContainerClass}`}
+        className={`calendarHeaderContainer`}
       >
         Sat
       </div>

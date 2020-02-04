@@ -21,8 +21,8 @@ const Calendar: FunctionComponent<{}> = () => {
   // const store = useStore()
   // console.log(store.getState())
   const { startDate, tempDate } = useDrag()
-  const { daySchedule, onGetDaySchedule } = useDaySchedule()
-  const { subSchedule, onGetSubSchedule } = useSubSchedule()
+  const { allDaySchedule, onGetDaySchedule } = useDaySchedule()
+  const { allSubSchedule, onGetSubSchedule } = useSubSchedule()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
@@ -49,11 +49,11 @@ const Calendar: FunctionComponent<{}> = () => {
 
     // 일일 스케줄 데이터 필터링
   // onGetDaySchedule(dayScheduleData) // local data
-  const daySchedules = daySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
+  const daySchedules = allDaySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
 
     // 소목표 데이터 필터링
   // onGetSubSchedule(subScheduleData) // local data
-  const subSchedules = subSchedule
+  const subSchedules = allSubSchedule
     .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
     .sort(function(a, b) {
       // return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
@@ -194,13 +194,6 @@ const Calendar: FunctionComponent<{}> = () => {
           daySchedule={daySchedules}
           handleState={handleState}
           width="92%"
-          containerClassName="exampleClassContainer"
-          rowContainerClassName="exampleClassRow"
-          dayContainerClassName="exampleClassDay"
-          dayDataListClass="exampleDayDataListClass"
-          dayDataListItemClass="exampleDayDataListItemClass"
-          daysHeaderContainerClass="exampleDaysHeaderContainerClass"
-          daysTitleContainerClass="exampleDaysTitleContainerClass"
           colorActiveDate="palegoldenrod"
           colorPastDates="#f1f1f1"
           isAscending={isAscending}
