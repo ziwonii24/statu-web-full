@@ -156,6 +156,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
           {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
           <MonthViewCalendar
+            calendarId={calendarId}
             targetMonth={targetMonth}
             targetDateString={targetDateString}
             subSchedule={subSchedules}

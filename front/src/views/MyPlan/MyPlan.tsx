@@ -139,7 +139,7 @@ const MyPlan: FunctionComponent = () => {
     try {
       const response = await axios.post(SERVER_IP + '/calendar', initialMainSchedule)
       console.log('response', response)
-      mainPostResponse = response.data
+      mainPostResponse = response.data.id
       mainPostLoading = true
       console.log('success', mainPostResponse)
     }

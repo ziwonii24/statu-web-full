@@ -20,6 +20,7 @@ import { RootState } from '../../../store/reducerIndex'
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const {
+    calendarId,
     date,
     targetMonth,
     targetDateString,
@@ -45,7 +46,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const initialSubSchedule = {
     id: 0,
-    calenderId: 0,
+    calenderId: calendarId,
     subTitle: '',
     color: '#AAAAAA',
     startDate: startDate,
@@ -53,7 +54,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const initialDaySchedule = {
-    calendarId: 0,
+    calendarId: calendarId,
     subTitleId: 0,
     id: 0,
     date: '',
