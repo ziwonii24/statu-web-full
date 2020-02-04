@@ -1,0 +1,28 @@
+.study {
+    justify-content: space-around;
+    background-color: lightsalmon;
+    width: 90%;
+    align-items: center;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.studybox {
+    width: 40%;
+    border: 3px solid darkslateblue;
+    height: 280px;
+    display: inline-block;
+    margin: 1rem;
+}
+
+.grass {
+    justify-content: space-around;
+    text-align: center;
+    border: 3px solid rgb(8, 94, 8);
+    width: 90%;
+    height: 80px;
+    margin: 0 auto;
+    margin-bottom: 1rem;
+}

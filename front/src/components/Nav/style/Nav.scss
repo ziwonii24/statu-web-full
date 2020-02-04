@@ -1,0 +1,31 @@
+
+.content {
+    justify-content: space-between;
+    background-color: darkgray;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem; 
+}
+
+.toggle {
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.left {
+    display: inline-block;
+    background-color: darkolivegreen;
+}
+
+.right {
+    display: inline-block;
+    background-color: darkslateblue;
+}
+
+.menu {
+    display: inline-block;
+    margin: 0.5rem;
+}
