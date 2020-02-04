@@ -1,25 +1,31 @@
+
 .content {
-    background-color: black;
     justify-content: space-between;
+    background-color: darkgray;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem; 
+}
+
+.toggle {
+    width: 50%;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 10px;
 }
 
 .left {
     display: inline-block;
-    background-color: red;
-    margin: 10px;
+    background-color: darkolivegreen;
 }
 
 .right {
-    justify-content: space-between;
     display: inline-block;
-    align-items: flex-end;
-    background-color: blue;
-    margin: 10px;
-    justify-content: flex-end;
+    background-color: darkslateblue;
 }
 
 .menu {
-    background-color: lightcoral;
-    padding: 8px;
-    
+    display: inline-block;
+    margin: 0.5rem;
 }
