@@ -10,6 +10,7 @@ import '../styles/CalendarRow.scss'
 
 const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   const {
+    calendarId,
     week,
     targetMonth,
     targetDateString,
@@ -95,16 +96,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
             assignedNumber.push(schedule.id)
           }
         }
-        // subScheduleOrder = subScheduleOrder.sort(function (a, b) {
-        //   if (a.startDate === b.startDate) {
-        //     console.log('compare endDate', day, parseInt(b.endDate) - parseInt(a.endDate))
-        //     return parseInt(b.endDate) - parseInt(a.endDate)
-        //   } else {
-        //     console.log('compare startDate', day, parseInt(a.startDate) - parseInt(b.startDate))
-        //     return parseInt(a.startDate) - parseInt(b.startDate)
-        //   }
-          
-        // })
         return schedule
       })
 
@@ -119,12 +110,12 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         })
         return scheduleOrder
       })
-      // console.log(day, weekSubSchedule, subScheduleOrder)
 
       return (
         <CalendarDay
           data-test="calendarDay"
           key={`day-${day || uuid()}`}
+          calendarId={calendarId}
           date={day}
           targetMonth={targetMonth}
           targetDateString={targetDateString}

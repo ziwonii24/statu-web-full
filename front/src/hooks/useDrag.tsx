@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import { setStartDate, setTempDate, setEndDate } from '../store/drag'
 import { RootState } from '../store/reducerIndex'
 
-export default function useModal() {
+export default function useDrag() {
   const dispatch = useDispatch()
 
   const startDate = useSelector((state: RootState) => state.drag.startDate)

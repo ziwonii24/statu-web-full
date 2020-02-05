@@ -20,8 +20,8 @@
 }
 
 .calendarTitle {
-  display: inline-flex;
-  justify-content: center;
+  display: block;
+  // justify-content: center;
   // text-align: center;
   font-size: 4vw;
   background-color: saturate($color: #ebf394, $amount: 100);

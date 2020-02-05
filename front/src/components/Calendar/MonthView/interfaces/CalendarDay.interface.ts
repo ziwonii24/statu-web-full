@@ -1,6 +1,7 @@
 import { DaySchedule, SubSchedule } from '../../dataSet/DataSet.interface'
 
 export default interface Component {
+  calendarId: number
   date: string
   targetMonth: string
   targetDateString: string

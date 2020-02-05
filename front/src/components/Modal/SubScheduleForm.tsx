@@ -4,10 +4,15 @@ import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
 import { useSubSchedule } from '../../hooks/useSchedule'
 import { SubSchedule } from '../../store/subSchedule'
+import axios from 'axios'
 
 import './styles/SubScheduleForm.scss'
 
 const SubScheduleForm: FunctionComponent<{}> = () => {
+  const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+
+  let subPostResponse: number | null = null; let subPostLoading: boolean = false; let subPostError: Error | null = null
+
   const { onPostSubSchedule, onPutSubSchedule } = useSubSchedule()
   const { subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
@@ -17,7 +22,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const [startDate, setStartDate] = useState<string>(subSchedule.startDate)
   const [endDate, setEndDate] = useState<string>(subSchedule.endDate)
 
-  const subScheduleData: SubSchedule = {
+  const initialSubSchedule: SubSchedule = {
     "calenderId": subSchedule.calenderId,
     "id": subSchedule.id,
     "subTitle": subTitle,
@@ -50,10 +55,10 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     console.log(e.target)
   }
 
-
   const handleSubmit = (schedule: SubSchedule) => {
+    console.log(schedule.id)
     if (schedule.id === 0) {
-      onPostSubSchedule(schedule)
+      postSubScheduleData()
     } else {
       onPutSubSchedule(schedule)
     }
@@ -64,6 +69,33 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     onCloseModal()
     onSetStartDate('')
     onSetEndDate('')
+  }
+
+  async function postSubScheduleData() {
+    try {
+      const response = await axios.post(SERVER_IP + '/subtitle', initialSubSchedule)
+      console.log('response', response)
+      subPostResponse = response.data.id
+      subPostLoading = true
+      console.log('success', subPostResponse)
+    }
+    catch (e) {
+      subPostError = e
+      console.error('error', subPostError)
+    }
+    subPostLoading = false
+    if (!subPostResponse) return 'null'
+    console.log('post', {...initialSubSchedule, id: subPostResponse})
+    onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
+  }
+
+  // 함수 결과값 확인
+  function postsubScheduleDataResult() {
+    if (subPostLoading) return 'loading'
+    if (subPostError) return 'error'
+    if (!subPostResponse) return 'null'
+    // onPostSubSchedule(subPostResponse)
+    return 'success'
   }
 
   return (
@@ -113,7 +145,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       <div className="button-wrap">
         <div onClick={() => {
           handleCloseModal()
-          handleSubmit(subScheduleData)
+          handleSubmit(initialSubSchedule)
         }}>
           Confirm
           </div>
