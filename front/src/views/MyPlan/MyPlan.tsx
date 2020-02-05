@@ -36,11 +36,9 @@ const MyPlan: FunctionComponent = () => {
   let dayGetResponse: DaySchedule[] | null = null; let dayGetLoading: boolean = false; let dayGetError: Error | null = null
   let mainPostResponse: number | null = null; let mainPostLoading: boolean = false; let mainPostError: Error | null = null
 
-  const getMainScheduleResult = getMainScheduleDataResult()
-
-  console.log(mainSchedule)
-  console.log(subSchedule)
-  console.log(daySchedule)
+  console.log('main', mainSchedule)
+  console.log('sub', subSchedule)
+  console.log('day', daySchedule)
 
   const handleAddCalendar = () => {
     postMainScheduleData()
@@ -60,7 +58,7 @@ const MyPlan: FunctionComponent = () => {
       const response = await axios.get(SERVER_IP + '/calendar')
       mainGetResponse = response.data
       mainGetLoading = true
-      console.log('success', mainGetResponse)
+      // console.log('success', mainGetResponse)
     }
     catch (e) {
       mainGetError = e
@@ -68,16 +66,8 @@ const MyPlan: FunctionComponent = () => {
     }
     if (!mainGetResponse) return 'null'
     onGetMainSchedule(mainGetResponse)
+    // console.log('get', mainGetResponse)
     mainGetLoading = false
-  }
-
-  // 함수 결과값 확인
-  function getMainScheduleDataResult() {
-    if (mainGetLoading) return 'loading'
-    if (mainGetError) return 'error'
-    if (!mainGetResponse) return 'null'
-    // onGetMainSchedule(mainGetResponse)
-    return mainGetResponse.length
   }
 
   // DB의 소목표 정보를 redux에 추가
@@ -97,20 +87,10 @@ const MyPlan: FunctionComponent = () => {
     subGetLoading = false
   }
 
-  // 함수 결과값 확인
-  function getSubScheduleDataResult() {
-    console.log(subGetResponse)
-    if (subGetLoading) return 'loading'
-    if (subGetError) return 'error'
-    if (!subGetResponse) return 'null'
-    // onGetSubSchedule(subGetResponse)
-    return subGetResponse.length
-  }
-
   // DB의 일일목표 정보를 redux에 추가
   async function getDayScheduleData() {
     try {
-      const response = await axios.get(SERVER_IP + '/subtitle')
+      const response = await axios.get(SERVER_IP + '/todo')
       dayGetResponse = response.data
       dayGetLoading = true
       // console.log('success', dayGetResponse)
@@ -122,16 +102,6 @@ const MyPlan: FunctionComponent = () => {
     if (!dayGetResponse) return 'null'
     onGetDaySchedule(dayGetResponse)
     dayGetLoading = false
-  }
-
-  // 함수 결과값 확인
-  function getDayScheduleDataResult() {
-    console.log(dayGetResponse)
-    if (dayGetLoading) return 'loading'
-    if (dayGetError) return 'error'
-    if (!dayGetResponse) return 'null'
-    // onGetDaySchedule(dayGetResponse)
-    return dayGetResponse.length
   }
 
   // 캘린더 추가 버튼을 눌렀을 때 캘린더 DB와 redux에 추가
@@ -153,15 +123,6 @@ const MyPlan: FunctionComponent = () => {
     onPostMainSchedule({...initialMainSchedule, id: mainPostResponse})
   }
 
-  // 함수 결과값 확인
-  function postMainScheduleDataResult() {
-    if (mainPostLoading) return 'loading'
-    if (mainPostError) return 'error'
-    if (!mainPostResponse) return 'null'
-    // onPostMainSchedule(mainPostResponse)
-    return 'success'
-  }
-
   // 화면에 렌더링할 컴포넌트 생성
   const RepresentCalendar = useMemo(() =>
     mainSchedule.map(schedule => {
@@ -171,9 +132,10 @@ const MyPlan: FunctionComponent = () => {
             key={schedule.id}
             calendarId={schedule.id}
             defaultTitle={schedule.title}
-            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calenderId)}
+            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calendarId)}
             daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={true}
+            tags={schedule.tags}
           />
         )
       } else {
@@ -190,9 +152,10 @@ const MyPlan: FunctionComponent = () => {
             key={schedule.id}
             calendarId={schedule.id}
             defaultTitle={schedule.title}
-            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calenderId)}
+            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calendarId)}
             daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={false}
+            tags={schedule.tags}
           />
         )
       } else {
@@ -202,16 +165,12 @@ const MyPlan: FunctionComponent = () => {
   ), [mainSchedule])
 
   const NullCalendar = useMemo(() => {
-    if (getMainScheduleResult === 'loading') {
-      return <div>loading</div>
-    } else if (getMainScheduleResult === 'error') {
-      return <div>error</div>
-    } else if (getMainScheduleResult === 'null') {
+    if (mainSchedule.length === 0) {
       return <div>시간표를 추가해주세요.</div>
     } else {
       return <div></div>
     }
-  }, [getMainScheduleResult])
+  }, [mainSchedule])
 
 
   return (

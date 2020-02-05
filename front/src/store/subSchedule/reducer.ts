@@ -7,7 +7,7 @@ import { subScheduleData } from '../../components/Calendar/dataSet/dataSet'
 const initialData = [
   {
     id: 0,
-    calenderId: 0,
+    calendarId: 0,
     subTitle: '',
     color: '',
     startDate: '',

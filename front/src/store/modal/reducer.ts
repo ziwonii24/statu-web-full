@@ -5,7 +5,7 @@ import { OPEN_MODAL, CLOSE_MODAL, OPEN_DAY_MODAL, OPEN_SUB_MODAL, PUT_DAYSCHEDUL
 const initialSubSchedules = [
   {
     id: 1,
-    calenderId: 1,
+    calendarId: 1,
     subTitle: '',
     color: '#AAAAAA',
     startDate: '',
@@ -15,7 +15,7 @@ const initialSubSchedules = [
 
 const initialSubSchedule = {
   id: 0,
-  calenderId: 0,
+  calendarId: 0,
   subTitle: '',
   color: '',
   startDate: '',

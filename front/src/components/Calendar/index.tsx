@@ -1,12 +1,14 @@
-import React, { useState, FunctionComponent } from 'react';
+import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback, useMemo } from 'react';
 import Modal from '../Modal/Modal'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
+import { useMainSchedule } from '../../hooks/useSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
 import { SubSchedule } from '../../store/subSchedule';
 import { DaySchedule } from '../../store/daySchedule';
 
+import axios from 'axios';
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import path from 'path'
@@ -15,7 +17,7 @@ import dotenv from 'dotenv'
 import './styles/Calendar.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
-
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 interface Interface {
   calendarId: number
@@ -23,6 +25,7 @@ interface Interface {
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
   represent: boolean
+  tags: string[]
 }
 
 
@@ -33,17 +36,24 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     subSchedule,
     daySchedule,
     represent,
+    tags,
   } = props
 
-  console.log('Calendar View')
+  console.log(calendarId, 'Calendar View')
   const { startDate, tempDate } = useDrag()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [title, setTitle] = useState<string>(defaultTitle)
+  const [hashTagName, setHashTagName] = useState<string>('')
   const [showMonth, setShowMonth] = useState<boolean>(represent)
+  const [editMode, setEditMode] = useState<boolean>(false)
 
   const { modalState } = useModal()
+
+  // 마우스 호버 변수
+  const [hoverState, setHoverState] = useState<boolean>(false)
+  const [hoverItemId, setHoverItemId] = useState<number>(0)
 
   // 이번달 시작날짜, 끝날짜 계산
   const daysInMonth = dayjs(targetMonth).daysInMonth()
@@ -71,7 +81,13 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       }
     })
 
+  // 해시태그 리스트
+  const hashTagList = tags
+
   // 사용함수
+  const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useMainSchedule()
+  let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
+
   function sortDate(first: string, second: string) {
     const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
     const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
@@ -117,6 +133,117 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
+  // 캘린더 헤더 쪽에 있는 버튼 함수
+  const handleMouseEnter = (id: number) => {
+    setHoverState(true)
+    setHoverItemId(id)
+    console.log('mouseEnter', hoverState, hoverItemId)
+  }
+
+  const handleMouseLeave = () => {
+    setHoverState(false)
+    setHoverItemId(0)
+    console.log('mouseLeave', hoverState, hoverItemId)
+  }
+
+  const handleHashTag = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setHashTagName(e.target.value)
+  }, [])
+
+  const handleAddHashtag = async (e: MouseEvent) => {
+    e.stopPropagation()
+
+    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
+    hashTagList.push(hashTagName)
+    initialMainCalendar.tags = hashTagList
+
+    onPutMainSchedule(initialMainCalendar)
+    try {
+      await axios.put(SERVER_IP + '/calendar', initialMainCalendar)
+    }
+    catch (e) {
+      console.error(e)
+    }
+    setHashTagName('')
+  }
+
+  const handleDeleteHashtag = async (e: MouseEvent, id: number) => {
+    e.stopPropagation()
+
+    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
+    hashTagList.splice(id, 1)
+    initialMainCalendar.tags = hashTagList
+
+    onPutMainSchedule(initialMainCalendar)
+    try {
+      await axios.put(SERVER_IP + '/calendar', initialMainCalendar)
+    }
+    catch (e) {
+      console.error(e)
+    }
+    console.log('deleteHashTag')
+  }
+
+  const handleDeleteCalendar = async (e: MouseEvent) => {
+    e.stopPropagation()
+    onDeleteMainSchedule(calendarId)
+    try {
+      const response =
+        await axios.delete(SERVER_IP + '/calendar/' + calendarId)
+      mainPutResponse = response.data
+      mainPutLoading = true
+      console.log('success', mainPutResponse)
+    }
+    catch (e) {
+      // mainPutError = e
+      // console.error(mainPutError)
+      console.error(e)
+    }
+  }
+
+  const handleMakeRepresent = async (e: MouseEvent) => {
+    e.stopPropagation()
+    onMakeRepresentSchedule(calendarId)
+    try {
+      await axios.put(SERVER_IP + '/representset/' + calendarId)
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
+
+  const handlePublicToggle = async (e: MouseEvent) => {
+    e.stopPropagation()
+    onMakePublicSchedule(calendarId)
+    try {
+      await axios.put(SERVER_IP + '/pbtoggle/' + calendarId)
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
+
+  const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value)
+  }
+
+  const handleInputClick = (e: MouseEvent) => {
+    e.stopPropagation()
+  }
+
+  const handleEditTitle = (e: MouseEvent) => {
+    e.stopPropagation()
+    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
+    initialMainCalendar.title = title
+    onPutMainSchedule(initialMainCalendar)
+    setEditMode(false)
+  }
+
+  const handleEditMode = (e: MouseEvent) => {
+    e.stopPropagation()
+    setEditMode(true)
+  }
+
   // TODO : 커스텀 hook으로 변경할 것
   // store.getState().drag.tempDate 로 tempDate가져오면 느림!(계속 변하기 때문인듯)
   const getSelectedDate = tempDate
@@ -130,6 +257,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     return parseInt(result)
   }
 
+  // 사용자와 상호작용을 보여주기 위한 변수
+  const headerBorder = showMonth ? '' : 'headerBorder'
+
   return (
     <div
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
@@ -140,11 +270,109 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         className="headerContainer"
         onClick={handleShowMonth}
       >
-        <header className="header">
+        <header
+          className={`header ${headerBorder}`}
+        >
           <div
             className={`calendarTitle`}
           >
-            {title}
+            {!editMode ?
+              title
+              :
+              <>
+                <div
+                  className={`calendarHeader`}
+                  onClick={handleInputClick}
+                >
+                  <input
+                  type="text"
+                  value={title}
+                  onChange={handleTitle}
+                  />
+                </div>
+                <div
+                  className={`calendarHeader`}
+                  onClick={handleEditTitle}
+                >
+                  수정
+                </div>
+              </>
+            }
+          </div>
+          <div className={`calendarHeader hashTagBox`}>
+            <div
+              className={`calendarHeader hashTagList`}>
+              {/* {hashTagComponents} */}
+              {
+                hashTagList.map((hashTag, idx) =>
+                <div
+                  key={idx}
+                  className={`calendarHeader hashTagItem`}
+                  onMouseEnter={() => handleMouseEnter(idx)}
+                  onMouseLeave={() => handleMouseLeave()}
+                >
+                  {hashTag}
+                  {hoverState && idx === hoverItemId ?
+                  <div
+                    className={`calendarHeader xsButton`}
+                    onClick={(e) => handleDeleteHashtag(e, idx)}
+                  >
+                    x
+                  </div>
+                  :
+                  ''
+                  }
+                </div>)
+              }
+            </div>
+            <div
+              className={`calendarHeader`}
+            >
+              <div
+                className={`calendarHeader`}
+                onClick={handleInputClick}
+              >
+                <input
+                type="text"
+                placeholder="태그입력"
+                value={hashTagName}
+                onChange={handleHashTag}
+                />
+              </div>
+              <div
+                className={`calendarHeader xsButton`}
+                onClick={handleAddHashtag}
+              >
+                +
+              </div>
+            </div>
+          </div>
+
+          <div className={`calendarHeader`}>
+            <div
+              className={`calendarHeader calendarHeaderButton`}
+              onClick={handleEditMode}
+            >
+              수정
+            </div>
+            <div
+              className={`calendarHeader calendarHeaderButton`}
+              onClick={handleDeleteCalendar}
+            >
+              삭제
+            </div>
+            <div
+              className={`calendarHeader calendarHeaderButton`}
+              onClick={handleMakeRepresent}
+            >
+              대표
+            </div>
+            <div
+              className={`calendarHeader calendarHeaderButton`}
+              onClick={handlePublicToggle}
+            >
+              공유
+            </div>
           </div>
         </header>
       </div>

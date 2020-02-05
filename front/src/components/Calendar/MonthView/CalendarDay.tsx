@@ -11,12 +11,6 @@ import { DaySchedule } from '../../../store/daySchedule'
 
 import '../styles/CalendarDay.scss'
 
-import { useStore } from 'react-redux'
-import { setStartDate, setTempDate, setEndDate } from '../../../store/drag'
-
-import { useSelector } from 'react-redux'
-import { RootState } from '../../../store/reducerIndex'
-
 
 const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const {
@@ -46,7 +40,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const initialSubSchedule = {
     id: 0,
-    calenderId: calendarId,
+    calendarId: calendarId,
     subTitle: '',
     color: '#AAAAAA',
     startDate: startDate,

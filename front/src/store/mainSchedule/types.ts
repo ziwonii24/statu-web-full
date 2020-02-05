@@ -1,7 +1,7 @@
 import { ActionType } from 'typesafe-actions'
-import { getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule } from './actions'
+import { getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule, makeRepresentSchedule, makePublicSchedule } from './actions'
 
-const mainScheduleActions = {getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule}
+const mainScheduleActions = {getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule, makeRepresentSchedule, makePublicSchedule}
 
 export type MainScheduleActions = ActionType<typeof mainScheduleActions>
 

@@ -7,7 +7,7 @@ export type SubScheduleActions = ActionType<typeof subScheduleActions>
 
 export type SubSchedule = {
   id: number
-  calenderId: number
+  calendarId: number
   subTitle: string
   color: string
   startDate: string  // date인데 test 할 때는 string
