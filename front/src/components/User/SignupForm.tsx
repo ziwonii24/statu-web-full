@@ -4,7 +4,7 @@ import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserDto } from './interfaces/UserInfo.interface'
+import { UserInfo } from './interfaces/UserInfo.interface'
 
 import { history } from '../../configureStore'
 
@@ -17,7 +17,7 @@ const Signup: FunctionComponent = () => {
     const [ email, setEmail ] = useState<string>('')
     const [ name, setName ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
-    const user: UserDto = {
+    const user: UserInfo = {
         'email': email,
         'name': name,
         'password': password,

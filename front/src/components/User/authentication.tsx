@@ -1,6 +1,13 @@
+import jwt_decode from 'jwt-decode';
+import { TokenInfo } from './interfaces/UserInfo.interface'
+
+
 export const login = (token: string) => {
     console.log('token: ', token)
     localStorage.setItem('token', token)
+
+    const tokenDecoded: TokenInfo = jwt_decode(token);
+    return tokenDecoded
 }
 
 export const logout = () => {

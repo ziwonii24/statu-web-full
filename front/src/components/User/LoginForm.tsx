@@ -4,7 +4,8 @@ import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserDto } from './interfaces/UserInfo.interface'
+import { UserInfo, TokenInfo } from './interfaces/UserInfo.interface'
+import useUser from '../../hooks/useUser'
 
 import { Link } from 'react-router-dom'
 import { history } from '../../configureStore'
@@ -16,19 +17,20 @@ const Login: FunctionComponent = () => {
 
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER  
 
-    const [ email, setEmail ] = useState<string>('')  
-    const [ password, setPassword ] = useState<string>('')
-    const user: UserDto = {
-        'email': email,
-        'password': password,
+    const [ userEmail, setUserEmail ] = useState<string>('')  
+    const [ userPass, setUserPass ] = useState<string>('')
+    const userInput: UserInfo = {
+        'email': userEmail,
+        'password': userPass,
     }
+    const { getUserInfo, onSetUserInfo } = useUser()
 
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value)
+        setUserEmail(e.target.value)
     }
 
     const handlePasswordInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value)
+        setUserPass(e.target.value)
     }
 
     const loginSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
@@ -38,14 +40,22 @@ const Login: FunctionComponent = () => {
         fetch(`${SERVER_IP}/user/signin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
+            body: JSON.stringify(userInput)
         }).then(res => {
             console.log(res)
 
             res.json().then(response => {
                 console.log(response)
                 console.log(response.data.jwt)
-                login(response.data.jwt)
+
+                // localStorage에 token 저장 후 디코딩
+                const tokenDecoded = login(response.data.jwt)    
+                console.log('LoginForm에서 tokenDecoded : ', tokenDecoded)
+                
+                // redux store에 user 정보 저장
+                const user = tokenDecoded.user
+                console.log('LoginForm에서 tokenDecoded.user : ', tokenDecoded.user)
+                onSetUserInfo(user)
             })
             
             // TODO: res 기반으로 validation check
@@ -67,10 +77,10 @@ const Login: FunctionComponent = () => {
             <h1>로그인</h1>
             <form>
                 <div>
-                    <input type='text' placeholder='이메일' value={email} onChange={handleEmailInputChange}/>
+                    <input type='text' placeholder='이메일' value={userEmail} onChange={handleEmailInputChange}/>
                 </div>
                 <div>
-                    <input type='password' placeholder='비밀번호' value={password} onChange={handlePasswordInputChange}/>
+                    <input type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
                 </div>
                 <div>
                     <button type='submit' onClick={loginSubmitHandler}>로그인</button>
