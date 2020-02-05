@@ -1,6 +1,5 @@
-import React, { useState, ChangeEvent, FunctionComponent, MouseEvent } from 'react';
+import React, { useState, FunctionComponent } from 'react';
 import Modal from '../Modal/Modal'
-import { useStore } from 'react-redux'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
@@ -57,28 +56,20 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   // 시작날짜, 끝날짜를 이용해 이번 달에 렌더링할 캘린더 데이터 필터링
   const startDay = startDayInMonth.add(-(targetMonthStartDay - 1), 'day')
   const endDay = endDayInMonth.add((7 - targetMonthEndDay), 'day')
-  // console.log('startday', startDay, 7, targetMonthStartDay, (targetMonthStartDay - 1))
-  // console.log('endday', endDay)
 
   // 일일 스케줄 데이터 필터링
-  // onGetDaySchedule(dayScheduleData) // local data
   const daySchedules = daySchedule.filter(schedule => dayjs(schedule.date) >= startDay && dayjs(schedule.date) <= endDay)
 
   // 소목표 데이터 필터링
-  // onGetSubSchedule(subScheduleData) // local data
   const subSchedules = subSchedule
     .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
     .sort(function (a, b) {
-      // return parseInt(a.startDate) - parseInt(b.startDate)  // 시작 날짜가 이른 순서
       if (sortDate(a.startDate, b.startDate) === 0) {
-        // console.log('b, a, compare endDate', b.subTitle, a.subTitle, b.endDate, a.endDate)
         return sortDate(b.endDate, a.endDate)
       } else {
-        // console.log('a, b, compare startDate', a.subTitle, b.subTitle, a.startDate, b.startDate)
         return sortDate(a.startDate, b.startDate)
       }
     })
-  // console.log(subSchedules)
 
   // 사용함수
   function sortDate(first: string, second: string) {
@@ -106,14 +97,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const date: string = dayjs(e.target.value).startOf('M').format('YYYY-MM-DD')
-    setTargetMonth(date)
-  }
-
   const handleState = (targetDateString: string) => {
     setTargetDateString(targetDateString)
-    // console.log('modalState', modalState)
   }
 
   const handleMovePrevMonth = (now: string) => {
@@ -148,7 +133,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
-      className="calendarContainer">
+      className={`calendarContainer`}>
 
       {/* 달력 헤더 */}
       <div
@@ -171,6 +156,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
           {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
           <MonthViewCalendar
+            calendarId={calendarId}
             targetMonth={targetMonth}
             targetDateString={targetDateString}
             subSchedule={subSchedules}

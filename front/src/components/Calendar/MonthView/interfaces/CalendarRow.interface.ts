@@ -2,6 +2,7 @@ import { DaySchedule, SubSchedule } from '../../dataSet/DataSet.interface';
 
 export default interface Component {
   title?: string
+  calendarId: number
   week: string[]
   targetMonth: string
   targetDateString: string
