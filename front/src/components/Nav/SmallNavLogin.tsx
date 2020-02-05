@@ -6,7 +6,7 @@ import '../Nav/style/Nav.scss'
 import Navbar from 'react-bootstrap/Navbar';
 import pengsu from '../../pengsu.png'
 
-const SmallNavBar: FunctionComponent = () => {
+const SmallNavBarLogin: FunctionComponent = () => {
   return (
     <Navbar bg="light" variant="light" expand="lg">
       <Navbar.Brand href="/">STATU</Navbar.Brand>
@@ -17,9 +17,9 @@ const SmallNavBar: FunctionComponent = () => {
           <input className="search" type="text" placeholder="시간표 찾기"/>
           <button>🔍</button>
           <br/>
-          <div className="menu"><Link to='/user/signup'>Signup</Link></div>
+          <div className="menu"><Link to='/myplan'>내 공부</Link></div>
           <br/>
-          <div className="menu"><Link to='/user/login'>login</Link></div>
+          <div className="menu"><Link to='/'>가져온 공부</Link></div>
           <br/>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
           <br/>
@@ -30,4 +30,4 @@ const SmallNavBar: FunctionComponent = () => {
   )
 }
 
-export default SmallNavBar
+export default SmallNavBarLogin

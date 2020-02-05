@@ -9,7 +9,7 @@ import Form from 'react-bootstrap/Form'
 
 import pengsu from '../../pengsu.png'
 
-const LargeNavBar: FunctionComponent = () => {
+const LargeNavBarLogin: FunctionComponent = () => {
   return (
     <div className="navBar">
 
@@ -21,8 +21,8 @@ const LargeNavBar: FunctionComponent = () => {
           {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>
         <Form inline>
-          <div className="menu"><Link to='/user/signup'>Signup</Link></div>
-          <div className="menu"><Link to='/user/login'>login</Link></div>
+          <div className="menu"><Link to='/myplan'>내 공부</Link></div>
+          <div className="menu"><Link to='/'>가져온 공부</Link></div>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </Form>
@@ -31,4 +31,4 @@ const LargeNavBar: FunctionComponent = () => {
   )
 }
 
-export default LargeNavBar
+export default LargeNavBarLogin

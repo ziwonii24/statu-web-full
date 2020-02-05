@@ -1,5 +1,5 @@
 
-.content {
+.navBar {
     justify-content: space-between;
     background-color: darkgray;
     width: 100%;
@@ -9,7 +9,6 @@
 }
 
 .toggle {
-    width: 50%;
     text-align: center;
     margin: 0 auto;
     margin-top: 10px;
@@ -29,3 +28,16 @@
     display: inline-block;
     margin: 0.5rem;
 }
+
+img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+// .img {
+//     height: 40px;
+//     width: 40px;
+//     border-radius: 20px;
+//     margin: 0.5rem;
+// }
