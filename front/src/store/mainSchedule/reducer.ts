@@ -13,7 +13,7 @@ const initilaMainSchedules = [
     view: 0,
     pb: false,
     progress: 0,
-    tag: [],
+    tags: [],
     represent: true,
     category1: [],  // large<number>
     category2: []  // small<number>

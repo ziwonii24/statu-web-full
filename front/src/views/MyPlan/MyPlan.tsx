@@ -22,7 +22,7 @@ const MyPlan: FunctionComponent = () => {
     'startDate': '',
     'endDate': '',
     'pb': false,
-    'tag': [''],
+    'tags': [''],
     'represent': false,
   }
 
@@ -208,6 +208,8 @@ const MyPlan: FunctionComponent = () => {
       return <div>error</div>
     } else if (getMainScheduleResult === 'null') {
       return <div>시간표를 추가해주세요.</div>
+    } else {
+      return <div></div>
     }
   }, [getMainScheduleResult])
 

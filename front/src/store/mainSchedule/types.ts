@@ -15,7 +15,7 @@ export interface MainSchedule {
   view?: number
   pb: boolean
   progress?: number // float type 으로 받아야하는데 float 라이브러리를 쓸 것인지 고민
-  tag: Array<string>
+  tags: Array<string>
   represent: boolean
   category1?: Array<number>  // large
   category2?: Array<number>  // small
