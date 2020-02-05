@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './styles/scss/index.scss'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
+
 import configureStore, { history } from './configureStore'
 
 import './styles/scss/index.scss'
