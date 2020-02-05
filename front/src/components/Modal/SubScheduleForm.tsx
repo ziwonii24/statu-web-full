@@ -19,7 +19,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const { onSetStartDate, onSetEndDate} = useDrag()
 
   const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
-  const [color, setColor] = useState<string>(colors[0])
+  const [color, setColor] = useState<string>(subSchedule.id !== 0 ? subSchedule.color : colors[0])
   const [startDate, setStartDate] = useState<string>(subSchedule.startDate)
   const [endDate, setEndDate] = useState<string>(subSchedule.endDate)
 
@@ -113,9 +113,8 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       <div
         className={`colorContainer`}
         onClick={handleColorMenu}
-        style={{ backgroundColor: color }}
-      >
-      </div >
+        style={{ backgroundColor: color, marginRight: `${1.5}vh` }}
+      />
       {showMenu ?
         colors.map(colorIncolors => {
           if (colorIncolors !== color) {
@@ -128,8 +127,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
                   handleColor(colorIncolors)
                   setShowMenu(!showMenu)
                 }}
-              >
-              </div>
+              />
             )
           }
         })

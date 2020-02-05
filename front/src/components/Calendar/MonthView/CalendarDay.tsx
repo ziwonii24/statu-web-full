@@ -4,6 +4,7 @@ import useDrag from '../../../hooks/useDrag'
 import { useSubSchedule, useDaySchedule } from '../../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
+import axios from 'axios'
 
 import Interface from './interfaces/CalendarDay.interface'
 import { SubSchedule } from '../../../store/subSchedule'
@@ -25,6 +26,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     isAscending
   } = props;
 
+  const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+
   // console.log(subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
@@ -35,6 +38,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const day = dayjs(date).date()
   const newDate = date
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
+  const etcSubData = subSchedule && subSchedule.filter(schedule => schedule.startDate === '9999-99-99')[0]
   const dayDatas = daySchedule && daySchedule.filter(schedule => schedule.date === date)
   const dayData = getDayData()
   const dayItemColors = getColors()
@@ -123,15 +127,39 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     // console.log('openSubModal', modalState)
   }
 
-  const handleDeleteSubSchedule = (e: MouseEvent, id: number) => {
+  const handleDeleteSubSchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteSubSchedule(id)
+    try {
+      // const response =
+      await axios.delete(SERVER_IP + '/subtitle/' + id)
+      // mainPutResponse = response.data
+      // mainPutLoading = true
+      // console.log('success', mainPutResponse)
+    }
+    catch (e) {
+      // mainPutError = e
+      // console.error(mainPutError)
+      console.error(e)
+    }
     // console.log('deleteSub', modalState)
   }
 
-  const handleDeleteDaySchedule = (e: MouseEvent, id: number) => {
+  const handleDeleteDaySchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteDaySchedule(id)
+    try {
+      // const response =
+      await axios.delete(SERVER_IP + '/todo/' + id)
+      // mainPutResponse = response.data
+      // mainPutLoading = true
+      // console.log('success', mainPutResponse)
+    }
+    catch (e) {
+      // mainPutError = e
+      // console.error(mainPutError)
+      console.error(e)
+    }
     // console.log('deleteDay', modalState)
   }
 
@@ -159,8 +187,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       dayData = dayData.concat(newDayDatas)
       return subItem
     })
-    // const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === 1)
-    // dayData = dayData.concat(newDayDatas)
+    const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === etcSubData.id)
+    dayData = dayData.concat(newDayDatas)
     return dayData
   }
 
@@ -241,7 +269,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
                 key={schedule.id}
                 style={{
                   backgroundColor: schedule.color,
-                  top: `${2.3 * (subData.indexOf(schedule))}vh`,
+                  top: `${2.5 * (subData.indexOf(schedule))}vh`,
                   width: `${100 * barLength}%`
                 }}
                 className={`subDataItem ${pointerNone}`}
@@ -276,7 +304,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
             className={`dayDataItem ${pointerNone}`}
             onMouseEnter={() => handleMouseEnter(schedule.id)}
             onMouseLeave={() => handleMouseLeave()}
-            onMouseDown={(e) => handleOpenDayModal(e, subData, schedule)}
+            onMouseDown={(e) => handleOpenDayModal(e, subSchedule, schedule)}
           >
             <div
               className='dayListCircle'

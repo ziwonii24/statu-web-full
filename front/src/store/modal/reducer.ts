@@ -4,10 +4,10 @@ import { OPEN_MODAL, CLOSE_MODAL, OPEN_DAY_MODAL, OPEN_SUB_MODAL, PUT_DAYSCHEDUL
 
 const initialSubSchedules = [
   {
-    id: 1,
-    calendarId: 1,
+    id: 0,
+    calendarId: 0,
     subTitle: '',
-    color: '#AAAAAA',
+    color: '',
     startDate: '',
     endDate: '',
   },
@@ -40,7 +40,7 @@ const initialModalState: ModalState = {
 
 const modal = createReducer<ModalState, ModalAction>(initialModalState, {
   [OPEN_MODAL]: (state, { payload: [subSchedules, initialSubSchedule, initialDaySchedule] }) => ({
-    modalState: true, schedules: [initialSubSchedules.concat(subSchedules), initialSubSchedule, initialDaySchedule]
+    modalState: true, schedules: [subSchedules, initialSubSchedule, initialDaySchedule]
   }),
   [CLOSE_MODAL]: () => ({
     modalState: false,
@@ -48,7 +48,7 @@ const modal = createReducer<ModalState, ModalAction>(initialModalState, {
   }),
   [OPEN_DAY_MODAL]: (state, { payload: [subSchedules, daySchedule] }) => ({
     modalState: true,
-    schedules: [initialSubSchedules.concat(subSchedules), initialSubSchedule, daySchedule]
+    schedules: [subSchedules, initialSubSchedule, daySchedule]
   }),
   [OPEN_SUB_MODAL]: (state, { payload: subSchedule }) => ({
     modalState: true,

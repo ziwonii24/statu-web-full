@@ -112,11 +112,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         return scheduleOrder
       })
 
-      // 기타를 제일 뒤로 보내기
-      // const etc = newSubSchedule.filter(schedule => schedule.startDate === '9999-99-99')[0]
-      // console.log(etc)
-      // newSubSchedule.push(etc)
-      // console.log(newSubSchedule)
 
       return (
         <CalendarDay

@@ -17,14 +17,16 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   const { startDate, onSetStartDate, onSetEndDate } = useDrag()
   const { onPostDaySchedule, onPutDaySchedule } = useDaySchedule()
 
-  const [subTitleId, setSubTitleId] = useState<number>(daySchedule.subTitleId)
+  const subSchedule = daySchedule.id !== 0 ? subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)[0] : subSchedules[0]
+
+  const [subTitleId, setSubTitleId] = useState<number>(subSchedule.id)
   const [date, setDate] = useState<string>(daySchedule.date)
+  // In HTML, form elements such as <input>, <textarea>, and <select> typically maintain their own state and update it based on user input.
   const [component, setComponent] = useState<string>(daySchedule.todo)
   const [goal, setGoal] = useState<number>(daySchedule.goal)
-  const [color, setColor] = useState<string>(subSchedules[subSchedules.length - 1].color)
+  const [color, setColor] = useState<string>(subSchedule.color)
 
-  console.log('subschedules', subSchedules)
-
+  // console.log('subschedules', subSchedules)
   const initialDaySchedule: DaySchedule = {
     "calendarId": daySchedule.calendarId,
     "subTitleId": subTitleId,
@@ -74,7 +76,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   }
 
   async function postDayScheduleData() {
-    console.log('in post', initialDaySchedule)
+    // console.log('in post', initialDaySchedule)
     try {
       const response = await axios.post(SERVER_IP + '/todo', initialDaySchedule)
       // console.log('response', response)
@@ -108,34 +110,16 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     onPutDaySchedule(initialDaySchedule)
   }
 
-  // function defaultColor() {
-  //   const scheduleColor = subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)
-  //   if (scheduleColor.length === 0) {
-  //     return '#AAAAAA'
-  //   } else {
-  //     return scheduleColor[0].color
-  //   }
-  // }
-
 
   return (
     <>
       <h1>{startDate}</h1>
       <div className="content">
-        {subSchedules.map(schedule => {
-          if (schedule.color !== color) {
-            return (
-              <div
-              key={schedule.id}
-              className={`colorContainer`}
-              style={{ backgroundColor: `${schedule.color}`, marginRight: `${1.5}vh` }}
-              onClick={handleColorMenu}
-
-            >
-            </div>
-            )
-          }
-        })}
+        <div
+          className={`colorContainer`}
+          style={{ backgroundColor: color, marginRight: `${1.5}vh` }}
+          onClick={handleColorMenu}
+        />
         {showMenu ?
           subSchedules.map(schedule => {
             if (schedule.color !== color) {
@@ -147,8 +131,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
                   onClick={(e) => {
                     handleColor(e, schedule.id, schedule.color)
                   }}
-                >
-                </div>
+                />
               )
             }
           })
