@@ -17,10 +17,10 @@ export const mainScheduleData: MainSchedule[] = [
     tags: ['영어', '알고리즘', '인적성'],
     represent: true,
     category1: [
-      1, 2,
+      '1', '2',
     ],  // large
     category2: [
-      3, 4,
+      '3', '4',
     ]  // small
   },
   {
@@ -36,10 +36,10 @@ export const mainScheduleData: MainSchedule[] = [
     tags: ['영어', '알고리즘', '인적성'],
     represent: false,
     category1: [
-      1, 2,
+      '1', '2',
     ],  // large
     category2: [
-      3, 4,
+      '3', '4',
     ]  // small
   },
   {
@@ -55,10 +55,10 @@ export const mainScheduleData: MainSchedule[] = [
     tags: ['영어', '알고리즘', '인적성'],
     represent: false,
     category1: [
-      1, 2,
+      '1', '2',
     ],  // large
     category2: [
-      3, 4,
+      '3', '4',
     ]  // small
   },
 ]
@@ -112,7 +112,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 2,
     id: 1,
     date: '2020-01-01',
-    component: 'item 1',
+    todo: 'item 1',
     goal: 270,
     achieve: 167
   },
@@ -121,7 +121,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 2,
     id: 2,
     date: '2020-01-01',
-    component: 'item 2',
+    todo: 'item 2',
     goal: 70,
     achieve: 17
   },
@@ -130,7 +130,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 2,
     id: 3,
     date: '2020-01-01',
-    component: 'item 3',
+    todo: 'item 3',
     goal: 20,
     achieve: 7
   },
@@ -139,7 +139,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 1,
     id: 4,
     date: '2020-01-01',
-    component: 'item 4',
+    todo: 'item 4',
     goal: 270,
     achieve: 167
   },
@@ -148,7 +148,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 6,
     id: 5,
     date: '2020-01-05',
-    component: 'item 5',
+    todo: 'item 5',
     goal: 270,
     achieve: 367
   },
@@ -157,7 +157,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 2,
     id: 6,
     date: '2019-12-31',
-    component: 'item 6',
+    todo: 'item 6',
     goal: 210,
     achieve: 167
   },
@@ -166,7 +166,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 1,
     id: 7,
     date: '2020-02-01',
-    component: 'item 7',
+    todo: 'item 7',
     goal: 90,
     achieve: 67
   },
@@ -175,7 +175,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 2,
     id: 8,
     date: '2020-01-01',
-    component: 'item 8',
+    todo: 'item 8',
     goal: 120,
     achieve: 90
   },
@@ -184,7 +184,7 @@ export const dayScheduleData: DaySchedule[] = [
     subTitleId: 1,
     id: 9,
     date: '2020-03-01',
-    component: 'item 9',
+    todo: 'item 9',
     goal: 120,
     achieve: 90
   },

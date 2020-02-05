@@ -27,7 +27,7 @@ const initialDaySchedule = {
   subTitleId: 0,
   id: 0,
   date: '',
-  component: '',
+  todo: '',
   goal: 0,
   achieve: 0
 }

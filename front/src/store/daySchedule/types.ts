@@ -10,7 +10,7 @@ export type DaySchedule = {
   subTitleId: number,
   id: number,
   date: string,
-  component: string,
+  todo: string,
   goal: number,  // 시간 분 
   achieve: number,
 }

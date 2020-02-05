@@ -44,7 +44,6 @@ export function useMainSchedule() {
   const dispatch = useDispatch()
 
   const mainSchedule = useSelector((state: RootState) => state.mainSchedule).filter(schedule => schedule.id !== 0)
-  // const mainSchedule = mainSchedulse
 
   const onGetMainSchedule = useCallback((mainSchedules:MainSchedule[]) => dispatch(getMainSchedule(mainSchedules)), [dispatch])
   const onPostMainSchedule = useCallback((mainSchedule:MainSchedule) => dispatch(postMainSchedule(mainSchedule)), [dispatch])

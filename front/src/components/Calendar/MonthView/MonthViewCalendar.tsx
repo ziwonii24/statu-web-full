@@ -17,7 +17,7 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
     colorPastDates,
     isAscending
   } = props;
-  
+
   const renderRows = (weeks: string[][]) => {
     let count = 0
     return weeks.map(week => {

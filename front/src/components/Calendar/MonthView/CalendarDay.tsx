@@ -25,6 +25,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     isAscending
   } = props;
 
+  // console.log(subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
   const { onDeleteSubSchedule } = useSubSchedule()
@@ -51,7 +52,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     calendarId: calendarId,
     subTitleId: 0,
     id: 0,
-    date: '',
+    date: startDate,
     component: '',
     goal: 0,
     achieve: 0
@@ -83,7 +84,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     // }
     onSetStartDate(newDate)
     onSetTempDate(newDate)
-    console.log('mouseDown', modalState)
+    // console.log('mouseDown', modalState)
   }
 
   const handleMouseOver = (e: MouseEvent) => {
@@ -93,7 +94,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     // }
     if (startDate !== '') {
       onSetTempDate(newDate)
-      console.log('mouseOverState', mouseOverState)
+      // console.log('mouseOverState', mouseOverState)
       // console.log('mouseOver', e.target)
     }
   }
@@ -103,9 +104,9 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     //   return
     // }
     onSetEndDate(newDate)
-    console.log('mouseUp', mouseOverState)
+    // console.log('mouseUp', mouseOverState)
     if (startDate) {
-      onOpenModal([subData, initialSubSchedule, initialDaySchedule])
+      onOpenModal([subSchedule, initialSubSchedule, initialDaySchedule])
       // console.log('mouseUp')
     }
   }
@@ -113,39 +114,39 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const handleOpenDayModal = (e: MouseEvent, subSchedules: SubSchedule[], daySchedule: DaySchedule) => {
     e.stopPropagation()
     onOpenDayModal(subSchedules, daySchedule)
-    console.log('openDayModal', modalState)
+    // console.log('openDayModal', modalState)
   }
 
   const handleOpenSubModal = (e: MouseEvent, subSchedule: SubSchedule) => {
     e.stopPropagation()
     onOpenSubModal(subSchedule)
-    console.log('openSubModal', modalState)
+    // console.log('openSubModal', modalState)
   }
 
   const handleDeleteSubSchedule = (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteSubSchedule(id)
-    console.log('deleteSub', modalState)
+    // console.log('deleteSub', modalState)
   }
 
   const handleDeleteDaySchedule = (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteDaySchedule(id)
-    console.log('deleteDay', modalState)
+    // console.log('deleteDay', modalState)
   }
 
   const handleMouseEnter = (id: number) => {
     if (!startDate) {
       setHoverState(true)
       setHoverItemId(id)
-      console.log('mouseEnter', modalState)
+      // console.log('mouseEnter', modalState)
     }
   }
 
   const handleMouseLeave = () => {
     setHoverState(false)
     setHoverItemId(0)
-    console.log('mouseLeave', modalState)
+    // console.log('mouseLeave', modalState)
   }
 
 
@@ -158,8 +159,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       dayData = dayData.concat(newDayDatas)
       return subItem
     })
-    const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === 1)
-    dayData = dayData.concat(newDayDatas)
+    // const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === 1)
+    // dayData = dayData.concat(newDayDatas)
     return dayData
   }
 
@@ -176,7 +177,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
         }
       }
       if (!find) {
-        dayItemColors.push('#AAAAAA')
+        dayItemColors.push(subSchedule[0].color)
       }
       return dayItem
     })
@@ -197,18 +198,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     var result = strDate.replace(/\-/g, '')
     return parseInt(result)
   }
-
-  // 모달을 열었을 때 보여줄 소목표들 색 설정
-  function setSubDataIdColor() {
-    let subDataIdColor: Array<[number, string]> = []
-    subData.map(subItem => {
-      subDataIdColor.push([subItem.id, subItem.color])
-      return subItem
-    })
-    subDataIdColor.push([1, '#AAAAAA'])
-    return subDataIdColor
-  }
-
 
 
   return (
@@ -240,7 +229,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
         onMouseOver={handleMouseOver}
       >
         {subData && subData.map(schedule => {
-          if (schedule.startDate === date || dayjs(date).day() === 0) {
+          if (schedule.startDate !== '9999-99-99' && (schedule.startDate === date || dayjs(date).day() === 0)) {
             // 소 목표를 주 단위로 자르기
             const barLength = Math.min(
               (dayjs(schedule.endDate).diff(dayjs(date), 'day')) + 1,  // 소목표 끝날짜에서 오늘을 빼고 남은 날
@@ -293,7 +282,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
               className='dayListCircle'
               style={{ backgroundColor: dayItemColors[idx] }}
             />
-            {schedule.component}
+            {schedule.todo}
             {
               hoverState && schedule.id === hoverItemId ?
                 <div

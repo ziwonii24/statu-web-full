@@ -17,8 +17,8 @@ export interface MainSchedule {
   progress?: number // float type 으로 받아야하는데 float 라이브러리를 쓸 것인지 고민
   tags: Array<string>
   represent: boolean
-  category1?: Array<number>  // large
-  category2?: Array<number>  // small
+  category1?: Array<string>  // large
+  category2?: Array<string>  // small
 }
 
 export type MainSchedulesState = MainSchedule[]

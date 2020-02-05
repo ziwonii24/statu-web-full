@@ -72,7 +72,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   // 소목표 데이터 필터링
   const subSchedules = subSchedule
-    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay))  // 이번 달에 있는 일정
+    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay)||schedule.startDate === '9999-99-99')  // 이번 달에 있는 일정
     .sort(function (a, b) {
       if (sortDate(a.startDate, b.startDate) === 0) {
         return sortDate(b.endDate, a.endDate)
@@ -80,6 +80,13 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         return sortDate(a.startDate, b.startDate)
       }
     })
+  
+    // subSchedule.map(schedule => {
+    //   if () {
+    //     subSchedules.push(schedule)
+    //   }
+    //   return schedule
+    // })
 
   // 해시태그 리스트
   const hashTagList = tags
@@ -137,13 +144,13 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleMouseEnter = (id: number) => {
     setHoverState(true)
     setHoverItemId(id)
-    console.log('mouseEnter', hoverState, hoverItemId)
+    // console.log('mouseEnter', hoverState, hoverItemId)
   }
 
   const handleMouseLeave = () => {
     setHoverState(false)
     setHoverItemId(0)
-    console.log('mouseLeave', hoverState, hoverItemId)
+    // console.log('mouseLeave', hoverState, hoverItemId)
   }
 
   const handleHashTag = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -192,7 +199,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         await axios.delete(SERVER_IP + '/calendar/' + calendarId)
       mainPutResponse = response.data
       mainPutLoading = true
-      console.log('success', mainPutResponse)
+      // console.log('success', mainPutResponse)
     }
     catch (e) {
       // mainPutError = e

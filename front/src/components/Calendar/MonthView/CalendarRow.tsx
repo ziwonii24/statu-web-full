@@ -36,6 +36,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         .map(schedule => schedule.id)
 
       subScheduleLengthInWeek = Math.max(subScheduleLengthInWeek, weekSubSchedule.length)
+      // console.log(subScheduleLengthInWeek)
       return day  // arrow function 은 return 값을 기대함
     })
 
@@ -43,11 +44,11 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
     return week.map(day => {
       // 이번주 소목표들의 순서 결정(이번주 소목표들 중에 끝난 목표 제거 및 새로운 목표 추가)
       const weekSubSchedule = subSchedule
-        .filter(schedule => schedule.startDate <= day && schedule.endDate >= day)
+        .filter(schedule => (schedule.startDate <= day && schedule.endDate >= day)||schedule.startDate === '9999-99-99')
 
       // 기존에 추가되어 있는 일정 중에 끝난 일정이 있다면 값을 0으로 변경하여 나중에 스케줄 추가할 때 빈자리에 들어갈 수 있도록 조정
       const newSubScheduleOrder = subScheduleOrder.map(schedule => {
-        if (schedule.id === 0) {
+        if (schedule.startDate === '9999-99-99') {
           return schedule
         }
 
@@ -110,6 +111,12 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         })
         return scheduleOrder
       })
+
+      // 기타를 제일 뒤로 보내기
+      // const etc = newSubSchedule.filter(schedule => schedule.startDate === '9999-99-99')[0]
+      // console.log(etc)
+      // newSubSchedule.push(etc)
+      // console.log(newSubSchedule)
 
       return (
         <CalendarDay

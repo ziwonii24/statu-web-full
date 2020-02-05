@@ -14,10 +14,10 @@ const initilaMainSchedules = [
     view: 0,
     pb: false,
     progress: 0,
-    tags: [],
+    tags: [''],
     represent: true,
-    category1: [],  // large<number>
-    category2: []  // small<number>
+    category1: [''],  // large<number>
+    category2: ['']  // small<number>
   },
 ]
 

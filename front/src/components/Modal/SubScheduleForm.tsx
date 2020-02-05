@@ -12,13 +12,14 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
   let subPostResponse: number | null = null; let subPostLoading: boolean = false; let subPostError: Error | null = null
+  let subPutResponse: number | null = null; let subPutLoading: boolean = false; let subPutError: Error | null = null
 
   const { onPostSubSchedule, onPutSubSchedule } = useSubSchedule()
   const { subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
 
   const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
-  const [color, setColor] = useState<string>(subSchedule.color)
+  const [color, setColor] = useState<string>(colors[0])
   const [startDate, setStartDate] = useState<string>(subSchedule.startDate)
   const [endDate, setEndDate] = useState<string>(subSchedule.endDate)
 
@@ -52,17 +53,17 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const handleColorMenu = (e: MouseEvent<HTMLDivElement>) => {
     setShowMenu(!showMenu)
-    console.log(e.target)
+    // console.log(e.target)
   }
 
   const handleSubmit = (schedule: SubSchedule) => {
-    console.log(schedule.id)
+    // console.log(schedule.id)
     if (schedule.id === 0) {
       postSubScheduleData()
     } else {
-      onPutSubSchedule(schedule)
+      putSubScheduleData()
     }
-    console.log(schedule)
+    // console.log(schedule)
   }
 
   const handleCloseModal = () => {
@@ -74,19 +75,37 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   async function postSubScheduleData() {
     try {
       const response = await axios.post(SERVER_IP + '/subtitle', initialSubSchedule)
-      console.log('response', response)
+      // console.log('response', response)
       subPostResponse = response.data.id
       subPostLoading = true
-      console.log('success', subPostResponse)
+      // console.log('success', subPostResponse)
     }
     catch (e) {
       subPostError = e
-      console.error('error', subPostError)
+      // console.error('error', subPostError)
     }
     subPostLoading = false
     if (!subPostResponse) return 'null'
-    console.log('post', {...initialSubSchedule, id: subPostResponse})
+    // console.log('post', {...initialSubSchedule, id: subPostResponse})
     onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
+  }
+
+  async function putSubScheduleData() {
+    try {
+      const response = await axios.put(SERVER_IP + '/subtitle', initialSubSchedule)
+      // console.log('response', response)
+      subPutResponse = response.data
+      subPutLoading = true
+      // console.log('success', subPutResponse)
+    }
+    catch (e) {
+      subPutError = e
+      // console.error('error', subPutError)
+    }
+    subPutLoading = false
+    if (!subPutResponse) return 'null'
+    // console.log('post', {...initialSubSchedule, id: subPostResponse})
+    onPutSubSchedule(initialSubSchedule)
   }
 
   return (
@@ -98,18 +117,22 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       >
       </div >
       {showMenu ?
-        colors.map(color => (
-          <div
-            key={color}
-            className={`colorContainer`}
-            style={{ backgroundColor: color }}
-            onClick={() => {
-              handleColor(color)
-              setShowMenu(!showMenu)
-            }}
-          >
-          </div>
-        ))
+        colors.map(colorIncolors => {
+          if (colorIncolors !== color) {
+            return (
+              <div
+                key={colorIncolors}
+                className={`colorContainer`}
+                style={{ backgroundColor: colorIncolors }}
+                onClick={() => {
+                  handleColor(colorIncolors)
+                  setShowMenu(!showMenu)
+                }}
+              >
+              </div>
+            )
+          }
+        })
         :
         ''
       }

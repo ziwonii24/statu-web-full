@@ -24,6 +24,8 @@ const MyPlan: FunctionComponent = () => {
     'pb': false,
     'tags': [''],
     'represent': false,
+    'category1': [''],
+    'category2': ['']
   }
 
   const { onGetMainSchedule, onPostMainSchedule, mainSchedule } = useMainSchedule()
@@ -40,16 +42,24 @@ const MyPlan: FunctionComponent = () => {
   console.log('sub', subSchedule)
   console.log('day', daySchedule)
 
+  // mainSchedule.map(main =>
+  //   subSchedule.map(sub => {
+  //     if (main.id === sub.calendarId) {
+  //       console.log(main, sub)
+  //     }
+  //   })
+  //   )
+
   const handleAddCalendar = () => {
     postMainScheduleData()
     console.log('postMainSchedule')
   }
 
   // 임시 함수
-  const handleGetCalendar = () => {
-    getMainScheduleData()
-    getSubScheduleData()
-    getDayScheduleData()
+  const handleGetCalendar = async () => {
+    await getMainScheduleData()
+    await getSubScheduleData()
+    await getDayScheduleData()
   }
 
   // DB의 캘린더 정보를 redux에 추가
@@ -108,17 +118,17 @@ const MyPlan: FunctionComponent = () => {
   async function postMainScheduleData() {
     try {
       const response = await axios.post(SERVER_IP + '/calendar', initialMainSchedule)
-      console.log('response', response)
+      // console.log('response', response)
       mainPostResponse = response.data.id
       mainPostLoading = true
-      console.log('success', mainPostResponse)
+      // console.log('success', mainPostResponse)
     }
     catch (e) {
       mainPostError = e
       console.error(mainPostError)
     }
     mainPostLoading = false
-    console.log('post', mainPostResponse)
+    // console.log('post', mainPostResponse)
     if (!mainPostResponse) return 'null'
     onPostMainSchedule({...initialMainSchedule, id: mainPostResponse})
   }
