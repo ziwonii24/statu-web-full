@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { SubSchedule } from '../dataSet/DataSet.interface'
+import { SubSchedule } from '../../../store/subSchedule'
 
 import CalendarDay from './CalendarDay'
 
@@ -63,7 +63,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
           assignedNumber.splice(removeIdx, 1)
           const emptySchedule = {
             id: 0,
-            calenderId: 0,
+            calendarId: 0,
             subTitle: '',
             color: '',
             startDate: '',

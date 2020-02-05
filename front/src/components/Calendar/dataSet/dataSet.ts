@@ -1,4 +1,7 @@
-import { DaySchedule, SubSchedule, MainSchedule } from './DataSet.interface'
+import { MainSchedule } from '../../../store/mainSchedule'
+import { SubSchedule } from '../../../store/subSchedule'
+import { DaySchedule } from '../../../store/daySchedule'
+
 
 export const mainScheduleData: MainSchedule[] = [
   {
@@ -9,9 +12,9 @@ export const mainScheduleData: MainSchedule[] = [
     endDate: '2019-02-26',
     recommend: 14,
     view: 169,
-    public: true,
+    pb: true,
     progress: 15.7,
-    tag: ['영어', '알고리즘', '인적성'],
+    tags: ['영어', '알고리즘', '인적성'],
     represent: true,
     category1: [
       1, 2,
@@ -28,9 +31,9 @@ export const mainScheduleData: MainSchedule[] = [
     endDate: '2019-03-26',
     recommend: 14,
     view: 169,
-    public: true,
+    pb: true,
     progress: 15.7,
-    tag: ['영어', '알고리즘', '인적성'],
+    tags: ['영어', '알고리즘', '인적성'],
     represent: false,
     category1: [
       1, 2,
@@ -47,9 +50,9 @@ export const mainScheduleData: MainSchedule[] = [
     endDate: '2019-03-26',
     recommend: 14,
     view: 169,
-    public: true,
+    pb: true,
     progress: 15.7,
-    tag: ['영어', '알고리즘', '인적성'],
+    tags: ['영어', '알고리즘', '인적성'],
     represent: false,
     category1: [
       1, 2,
@@ -63,7 +66,7 @@ export const mainScheduleData: MainSchedule[] = [
 export const subScheduleData: SubSchedule[] = [
   {
     id: 6,
-    calenderId: 2,
+    calendarId: 2,
     subTitle: '인적성',
     color: '#FFE4C4',
     startDate: '2020-01-03',
@@ -71,7 +74,7 @@ export const subScheduleData: SubSchedule[] = [
   },
   {
     id: 2,
-    calenderId: 1,
+    calendarId: 1,
     subTitle: '영어',
     color: '#D2691E',
     startDate: '2019-12-26',
@@ -79,7 +82,7 @@ export const subScheduleData: SubSchedule[] = [
   },
   {
     id: 3,
-    calenderId: 1,
+    calendarId: 1,
     subTitle: '알고리즘',
     color: '#8FBC8F',
     startDate: '2020-01-06',
@@ -87,7 +90,7 @@ export const subScheduleData: SubSchedule[] = [
   },
   {
     id: 4,
-    calenderId: 1,
+    calendarId: 1,
     subTitle: '프로젝트',
     color: '#ADD8E6',
     startDate: '2020-02-10',
@@ -95,7 +98,7 @@ export const subScheduleData: SubSchedule[] = [
   },
   {
     id: 5,
-    calenderId: 1,
+    calendarId: 1,
     subTitle: '달력만들기',
     color: '#E6E6FA',
     startDate: '2020-01-28',

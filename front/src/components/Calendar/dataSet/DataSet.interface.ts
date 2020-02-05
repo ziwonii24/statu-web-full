@@ -14,14 +14,14 @@ export interface MainSchedule {
   category2: Array<number>  // small
 }
 
-export interface SubSchedule {
-  id: number
-  calenderId: number
-  subTitle: string
-  color: string
-  startDate: string  // date인데 test 할 때는 string
-  endDate: string
-}
+// export interface SubSchedule {
+//   id: number
+//   calendarId: number
+//   subTitle: string
+//   color: string
+//   startDate: string  // date인데 test 할 때는 string
+//   endDate: string
+// }
 
 export interface DaySchedule {
   calendarId: number,

@@ -69,7 +69,11 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
   function defaultColor() {
     const scheduleColor = subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)
-    return scheduleColor[0].color
+    if (scheduleColor.length === 0) {
+      return '#AAAAAA'
+    } else {
+      return scheduleColor[0].color
+    }
   }
 
   

@@ -2,7 +2,7 @@
   // display: flex;
   // justify-content: ;
   padding: 0;
-  margin: 4vw;
+  margin: 0 4vw;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -14,21 +14,45 @@
   justify-content: center ;
 }
 
-.header {
-  display: flex;
-  justify-content: center;
+.calendarHeader {
+  display: inline-block;
+}
+
+.headerBorder {
+  border: 1vh solid rgb(209, 181, 235);
+}
+
+.hashTagBox {
+  // display: inline-block;
+}
+
+.calendarHeaderButtonList {
+  // display: inline-block;
+}
+.calendarHeaderButton {
+  // display: inline-block;
+  margin: 0 0.5vw;
+
 }
 
 .calendarTitle {
-  display: block;
+  display: inline-block;
   // justify-content: center;
   // text-align: center;
   font-size: 4vw;
-  background-color: saturate($color: #ebf394, $amount: 100);
+  // background-color: saturate($color: #ebf394, $amount: 100);
 }
 
 .monthTitle {
   font-size: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.pointerNone {
+  pointer-events: none;
+}
+
+.pointerInherit {
+  pointer-events: inherit;
 }

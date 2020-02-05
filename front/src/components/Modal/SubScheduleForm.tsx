@@ -23,7 +23,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const [endDate, setEndDate] = useState<string>(subSchedule.endDate)
 
   const initialSubSchedule: SubSchedule = {
-    "calenderId": subSchedule.calenderId,
+    "calendarId": subSchedule.calendarId,
     "id": subSchedule.id,
     "subTitle": subTitle,
     "color": color,
@@ -87,15 +87,6 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     if (!subPostResponse) return 'null'
     console.log('post', {...initialSubSchedule, id: subPostResponse})
     onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
-  }
-
-  // 함수 결과값 확인
-  function postsubScheduleDataResult() {
-    if (subPostLoading) return 'loading'
-    if (subPostError) return 'error'
-    if (!subPostResponse) return 'null'
-    // onPostSubSchedule(subPostResponse)
-    return 'success'
   }
 
   return (

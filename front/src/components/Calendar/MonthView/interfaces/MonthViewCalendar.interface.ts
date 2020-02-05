@@ -1,4 +1,6 @@
-import { DaySchedule, SubSchedule } from '../../dataSet/DataSet.interface'
+import { SubSchedule } from '../../../../store/subSchedule'
+import { DaySchedule } from '../../../../store/daySchedule'
+
 
 export default interface Component {
   calendarId: number
