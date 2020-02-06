@@ -1,24 +1,40 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './styles/scss/index.scss'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
-import configureStore, { history } from './configureStore'
 
+import configureStore, { history } from './configureStore'
+// 로그인 상태인지 아닌지 체크하는 store값? 필요
+// import { tempSetUser, check } from './store/auth/user';
+
+<<<<<<< HEAD
 import './styles/scss/index.scss'
 // bootstrap 사용
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import rootReducer from './store/reducerIndex'
 // import createSagaMiddleware from 'redux-saga'
-
-// const sagaMiddleware = createSagaMiddleware()
-// const store = createStore(
-//   rootReducer,
-//   applyMiddleware(sagaMiddleware)
-//   )
-
+=======
 const store = configureStore()
+>>>>>>> user-manage
+
+// const loadUser = () => {
+//   try {
+//     const token = localStorage.getItem('token')
+//     console.log(token)
+//     if(!token) return
+
+// //     store.dispatch(tempSetUser(user));
+// //     store.dispatch(check());
+
+//   } catch(e) {
+//     console.log(e)
+//   }
+// }
+
+// loadUser()
 
 ReactDOM.render(
   <Provider store={store}>
@@ -27,7 +43,4 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();

@@ -1,26 +1,27 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
-import { UserDto } from './interfaces/UserInfo.interface'
-import { mainCategoryData } from './dataSet/dataSet'
-import SubCategoryGroup from './SubCategoryGroup'
+
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
-import { mainCategory } from './interfaces/DataSet.interface'
+
+import { UserInfo } from './interfaces/UserInfo.interface'
+
+import { history } from '../../configureStore'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Signup: FunctionComponent = () => {
 
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+
     const [ email, setEmail ] = useState<string>('')
     const [ name, setName ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
-    const user: UserDto = {
+    const user: UserInfo = {
         'email': email,
         'name': name,
         'password': password,
     }
-    const mainCategoryList: mainCategory[] = mainCategoryData
     
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
@@ -49,28 +50,45 @@ const Signup: FunctionComponent = () => {
     const nameCheckHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
         alert(`name 버튼 눌렸다: ${name}`)
-        try {
-            await axios.get(`${SERVER_IP}/user/checkname/${name}`)
-                    .then(res => alert(`result = ${JSON.stringify(res.data)}`))
-        }
-        catch(e) {
-            alert(e)
-        }
+
+        // try {
+        //     await axios.get(`${SERVER_IP}/user/checkname/${name}`)
+        //             .then(res => alert(`result = ${JSON.stringify(res.data)}`))
+        // }
+        // catch(e) {
+        //     alert(e)
+        // }
     }
 
     const signupSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
-        alert('회원가입 버튼 눌렸다' + JSON.stringify(user))
+        /* alert('회원가입 버튼 눌렸다' + JSON.stringify(user))
         try {
             await axios.post(`${SERVER_IP}/user/signup`, user)
                     .then(res => alert(`result = ${JSON.stringify(res.data)}`))
         }
         catch(e) {
             alert(e)
-        }
-    }
+        } */
 
-    const mainCategoryCheckHandler = () => {
-        console.log('check handler')
+        e.preventDefault()
+        console.log('회원가입 버튼 눌렸다' + JSON.stringify(user))
+        fetch(`${SERVER_IP}/user/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        }).then(res => {
+            console.log(res)
+            
+            // TODO: res 기반으로 validation check
+            
+            history.push('/user/login')
+
+            /* if (res.status === 200 || res.status === 202){
+                console.log("signup success")
+            } else {
+                console.log("signup fail")
+            } */
+        })
     }
 
     return (
