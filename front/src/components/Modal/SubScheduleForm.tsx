@@ -18,6 +18,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const { subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
 
+
   const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
   const [color, setColor] = useState<string>(subSchedule.id !== 0 ? subSchedule.color : colors[0])
   const [startDate, setStartDate] = useState<string>(subSchedule.startDate)

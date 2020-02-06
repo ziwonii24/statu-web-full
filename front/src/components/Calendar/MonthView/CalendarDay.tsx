@@ -28,7 +28,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
-  // console.log(subSchedule)
+  // console.log('subschedules', subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
   const { onDeleteSubSchedule } = useSubSchedule()
@@ -43,13 +43,16 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const dayData = getDayData()
   const dayItemColors = getColors()
 
+  const sendStartDate = isAscending ? startDate : tempDate
+  const sendEndDate = isAscending ? tempDate : startDate
+
   const initialSubSchedule = {
     id: 0,
     calendarId: calendarId,
     subTitle: '',
     color: '#AAAAAA',
-    startDate: startDate,
-    endDate: tempDate,
+    startDate: sendStartDate,
+    endDate: sendEndDate,
   }
 
   const initialDaySchedule = {

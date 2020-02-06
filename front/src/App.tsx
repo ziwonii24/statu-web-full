@@ -27,9 +27,9 @@ const App: FunctionComponent<InterFace> = ({history}: InterFace) => {
   let subGetResponse: SubSchedule[] | null = null; let subGetLoading: boolean = false; let subGetError: Error | null = null
   let dayGetResponse: DaySchedule[] | null = null; let dayGetLoading: boolean = false; let dayGetError: Error | null = null
 
-  const { onGetMainSchedule, onPostMainSchedule, mainSchedule } = useMainSchedule()
-  const { onGetSubSchedule, subSchedule } = useSubSchedule()
-  const { onGetDaySchedule, daySchedule } = useDaySchedule()
+  const { onGetMainSchedule, mainSchedule } = useMainSchedule()
+  const { onGetSubSchedule } = useSubSchedule()
+  const { onGetDaySchedule } = useDaySchedule()
 
   useEffect(() => {
     getMainScheduleData()
