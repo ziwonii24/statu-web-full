@@ -1,16 +1,26 @@
-import React, { FunctionComponent } from 'react'
+import React, { useEffect, useMemo } from 'react'
+import MyPage from '../components/MyPlan/MyPlan'
 import { RouteComponentProps } from 'react-router-dom'
 
-const PlanPage = (props: RouteComponentProps<{userName: string}>) => {
+import axios from 'axios'
+import path from 'path'
+import dotenv from 'dotenv'
 
-    // 넘어온 유저네임에 따라 계획표 넘기기
+dotenv.config({ path: path.join(__dirname, '.env') })
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
-    return (
-        // <MyPage />
-        <div>
-            {props.match.params.userName}
-        </div>
-    )
+const PlanPage = (props: RouteComponentProps<{ userName: string }>) => {
+  console.log('PlanPage')
+
+  // 넘어온 유저네임에 따라 계획표 넘기기
+  const userName  = props.match.params.userName
+
+  const myPage = useMemo(() => 
+    <MyPage 
+      userName={userName}
+    />, [userName])
+
+  return myPage
 }
 
 export default PlanPage

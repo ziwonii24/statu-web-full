@@ -7,6 +7,7 @@ import daySchedule, { DaySchedulesState } from './daySchedule'
 import subSchedule, { SubSchedulesState } from './subSchedule'
 import mainSchedule, { MainSchedulesState } from './mainSchedule'
 import user, { UserState } from './user'
+import planPage, { PlanPageState } from './planPage'
 
 const rootReducer = (history: History) => combineReducers({
   modal,
@@ -15,6 +16,7 @@ const rootReducer = (history: History) => combineReducers({
   subSchedule,
   mainSchedule,
   user,
+  planPage,
   router: connectRouter(history),
 })
 
@@ -28,5 +30,6 @@ export type RootState = {
   subSchedule: SubSchedulesState
   mainSchedule: MainSchedulesState
   user: UserState
+  planPage: PlanPageState
   router: RouterState
 }
