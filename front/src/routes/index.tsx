@@ -19,7 +19,7 @@ const routes = (
       <Route path="/signup" component={SignupPage} />
       <Route path="/login" component={LoginPage} />
       <Route path="/userinfo" component={UpdateUserInfoPage} />
-      <Route path="/plan/:userName" component={PlanPage} />
+      <Route path="/plan/@:userName" component={PlanPage} />
       <Route path="/importedplan" component={ImportedPlanPage} />
       <Route path="/search/:query" component={SearchResultPage} />
       <Route path="/community" component={CommunityPage} />

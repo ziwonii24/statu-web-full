@@ -1,0 +1,109 @@
+.authTemplateBlock {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #e9ecef;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.whiteBox {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
+    padding: 2rem;
+    width: 360px;
+    background: white;
+    border-radius: 2px;
+}
+
+.logo-area {
+    display: block;
+    padding-bottom: 2rem;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.formTitle {
+    margin: 0;
+    color: #343a40;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.inputAuth {
+    font-size: 1rem;
+    border: none;
+    border-bottom: 1px solid #abd5bd;
+    padding-bottom: 0.5rem;
+    outline: none;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.inputAuth:focus {
+    // color
+    border-bottom: 1px solid #495057;
+    // margin-top: 1rem;
+}
+
+.inputNeedCheck .inputAuth {
+    width: 78%;
+    margin-right: 0.5rem;
+}
+
+.btnSubmit {
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 0.25rem 1rem;
+    color: white;
+    outline: none;
+    cursor: pointer;
+    background: #22b8cf;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    width: 100%;
+    font-size: 1.125rem;
+    margin-top: 1rem;
+}
+
+.btnSubmit:hover {
+    background: #3bc9db;
+}
+
+.btnCheck {
+    border: none;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 0.25rem 1rem;
+    color: white;
+    outline: none;
+    background: #22b8cf;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin-top: 1rem;
+}
+
+.btnCheck:hover {
+    background: #3bc9db;
+}
+
+.authFooter {
+    margin-top: 2rem;
+    text-align: right;
+}
+
+.authFooter a {
+    color: #868e96;
+    text-decoration: underline;
+}
+
+.authFooter a:hover {
+    color: #212529;
+}

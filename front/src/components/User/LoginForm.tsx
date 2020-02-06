@@ -10,6 +10,9 @@ import useUser from '../../hooks/useUser'
 import { history } from '../../configureStore'
 import { login } from './authentication'
 
+import './styles/Auth.scss'
+import { Link } from 'react-router-dom'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Login: FunctionComponent = () => {
@@ -48,7 +51,7 @@ const Login: FunctionComponent = () => {
                 console.log(response.data.jwt)
 
                 // localStorage에 token 저장 후 디코딩
-                const tokenDecoded = login(response.data.jwt)    
+                const tokenDecoded = login(response.data.token)    
                 console.log('LoginForm에서 tokenDecoded : ', tokenDecoded)
                 
                 // redux store에 user 정보 저장
@@ -73,19 +76,27 @@ const Login: FunctionComponent = () => {
     console.log('user: ', onGetUserInfo)
 
     return (
-        <div>
-            <h1>로그인</h1>
-            <form>
-                <div>
-                    <input type='text' placeholder='이메일' value={userEmail} onChange={handleEmailInputChange}/>
+        <div className='authTemplateBlock'>
+            <div className='whiteBox'>
+                <div className='logo-area'>
+                    <Link to='/'>STATU</Link>
                 </div>
-                <div>
-                    <input type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
+                <h4 className='formTitle'>로그인</h4>
+                <form>
+                    <div>
+                        <input className='inputAuth' type='text' placeholder='이메일' value={userEmail} onChange={handleEmailInputChange}/>
+                    </div>
+                    <div>
+                        <input className='inputAuth' type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
+                    </div>
+                    <div>
+                        <button className='btnSubmit' type='submit' onClick={loginSubmitHandler}>로그인</button>
+                    </div>
+                </form>
+                <div className='authFooter'>
+                    <Link to='/signup'>회원가입</Link>
                 </div>
-                <div>
-                    <button type='submit' onClick={loginSubmitHandler}>로그인</button>
-                </div>
-            </form>
+            </div>
         </div>
     )
 }
