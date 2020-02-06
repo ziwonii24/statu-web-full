@@ -1,17 +1,17 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 
-// import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserInput, TokenInfo } from './interfaces/UserInfo.interface'
+import { UserInput } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
-import { history } from '../../configureStore'
 import { login } from './authentication'
 
-import './styles/Auth.scss'
+import { history } from '../../configureStore'
 import { Link } from 'react-router-dom'
+
+import './styles/Auth.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -38,7 +38,6 @@ const Login: FunctionComponent = () => {
 
     const loginSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
-        // alert('로그인 버튼 눌렸다' + JSON.stringify(user))
 
         fetch(`${SERVER_IP}/user/signin`, {
             method: 'POST',
@@ -56,8 +55,12 @@ const Login: FunctionComponent = () => {
                 const user = tokenDecoded.user
                 onSetUserInfo(user)
 
-                // Main Page로 이동
-                history.push('/')
+                if(!response.status) {
+                    setError('아이디 또는 비밀번호가 틀립니다.')
+                } else {
+                    // Main Page로 이동
+                    history.push('/')
+                }                
             })
             .catch(e => {
                 console.log(e)
@@ -81,7 +84,7 @@ const Login: FunctionComponent = () => {
                     <div>
                         <input className='inputAuth' type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
                     </div>
-                    { error && <div className='errorMsg'>{error}</div>}
+                    { error && <div className='errorMsg'>{error}</div> }
                     <div>
                         <button className='btnSubmit' type='submit' onClick={loginSubmitHandler}>로그인</button>
                     </div>
