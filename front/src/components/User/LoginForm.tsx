@@ -21,6 +21,7 @@ const Login: FunctionComponent = () => {
 
     const [ userEmail, setUserEmail ] = useState<string>('')  
     const [ userPass, setUserPass ] = useState<string>('')
+    const [ error, setError ] = useState<string>('')
     const userInput: UserInput = {
         'email': userEmail,
         'password': userPass,
@@ -44,33 +45,24 @@ const Login: FunctionComponent = () => {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(userInput)
         }).then(res => {
-            console.log(res)
+            console.log('res: ', res)
 
             res.json().then(response => {
-                console.log(response)
-                console.log(response.data.jwt)
-
+                console.log('response: ', response)
                 // localStorage에 token 저장 후 디코딩
-                const tokenDecoded = login(response.data.token)    
-                console.log('LoginForm에서 tokenDecoded : ', tokenDecoded)
+                const tokenDecoded = login(response.data.token)
                 
                 // redux store에 user 정보 저장
                 const user = tokenDecoded.user
-                console.log('LoginForm에서 tokenDecoded.user : ', tokenDecoded.user)
                 onSetUserInfo(user)
+
+                // Main Page로 이동
+                history.push('/')
             })
-            
-            // TODO: res 기반으로 validation check
-
-            history.push('/')
-            
-            // history.push('/user/login')
-
-            /* if (res.status === 200 || res.status === 202){
-                console.log("signup success")
-            } else {
-                console.log("signup fail")
-            } */
+            .catch(e => {
+                console.log(e)
+                setError('아이디 또는 비밀번호가 틀립니다.')
+            })
         })
     }
     console.log('user: ', onGetUserInfo)
@@ -89,6 +81,7 @@ const Login: FunctionComponent = () => {
                     <div>
                         <input className='inputAuth' type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
                     </div>
+                    { error && <div className='errorMsg'>{error}</div>}
                     <div>
                         <button className='btnSubmit' type='submit' onClick={loginSubmitHandler}>로그인</button>
                     </div>
