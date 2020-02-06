@@ -1,13 +1,11 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 
-import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserInfo, TokenInfo } from './interfaces/UserInfo.interface'
+import { UserInfo } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
-import { Link } from 'react-router-dom'
 import { history } from '../../configureStore'
 import { login } from './authentication'
 
@@ -23,7 +21,7 @@ const Login: FunctionComponent = () => {
         'email': userEmail,
         'password': userPass,
     }
-    const { getUserInfo, onSetUserInfo } = useUser()
+    const { onSetUserInfo } = useUser()
 
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserEmail(e.target.value)
@@ -39,7 +37,7 @@ const Login: FunctionComponent = () => {
 
         fetch(`${SERVER_IP}/user/signin`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(userInput)
         }).then(res => {
             console.log(res)

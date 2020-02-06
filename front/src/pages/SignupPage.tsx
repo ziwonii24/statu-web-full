@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
+import SignupForm from '../components/User/SignupForm'
 
 const SignupPage: FunctionComponent = () => {
     return (
-        <>SignupPage</>
+        <SignupForm />
     )
 }
 
