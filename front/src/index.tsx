@@ -29,7 +29,7 @@ const hasToken = () => {
     if(!token) return   // 토큰 없으면 아무것도 안함
 
     // 토큰이 만료되엇는지?
-    // fetch(`${SERVER_IP}/user/auth/exp`, {
+    // fetch(`${SERVER_IP}/user/exp`, {
     //   method: 'GET',
     //   headers: { 
     //     'Content-Type': 'application/json',

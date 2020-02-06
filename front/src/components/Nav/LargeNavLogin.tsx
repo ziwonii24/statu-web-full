@@ -9,7 +9,14 @@ import Form from 'react-bootstrap/Form'
 
 import pengsu from '../../pengsu.png'
 
-const LargeNavBarLogin: FunctionComponent = () => {
+interface Props {
+  onLogout : () => void
+}
+
+const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
+
+  const { onLogout } = props
+
   return (
     <div className="navBar">
 
@@ -24,6 +31,7 @@ const LargeNavBarLogin: FunctionComponent = () => {
           <div className="menu"><Link to='/myplan'>내 공부</Link></div>
           <div className="menu"><Link to='/'>가져온 공부</Link></div>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
+          <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </Form>
       </Navbar>

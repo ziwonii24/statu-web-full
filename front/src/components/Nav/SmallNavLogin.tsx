@@ -6,7 +6,14 @@ import '../Nav/style/Nav.scss'
 import Navbar from 'react-bootstrap/Navbar';
 import pengsu from '../../pengsu.png'
 
-const SmallNavBarLogin: FunctionComponent = () => {
+interface Props {
+  onLogout : () => void
+}
+
+const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
+
+  const { onLogout } = props
+
   return (
     <Navbar bg="light" variant="light" expand="lg">
       <Navbar.Brand href="/">STATU</Navbar.Brand>
@@ -22,6 +29,8 @@ const SmallNavBarLogin: FunctionComponent = () => {
           <div className="menu"><Link to='/'>가져온 공부</Link></div>
           <br/>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
+          <br/>
+          <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
           <br/>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </div>
