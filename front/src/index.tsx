@@ -9,16 +9,12 @@ import configureStore, { history } from './configureStore'
 // 로그인 상태인지 아닌지 체크하는 store값? 필요
 // import { tempSetUser, check } from './store/auth/user';
 
-<<<<<<< HEAD
 import './styles/scss/index.scss'
-// bootstrap 사용
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // import rootReducer from './store/reducerIndex'
 // import createSagaMiddleware from 'redux-saga'
-=======
 const store = configureStore()
->>>>>>> user-manage
 
 // const loadUser = () => {
 //   try {

@@ -1,9 +1,7 @@
 import { DaySchedulesState, DayScheduleActions } from './types'
 import { createReducer } from 'typesafe-actions'
 import { GET_DAYSCHEDULE, POST_DAYSCHEDULE, PUT_DAYSCHEDULE, DELETE_DAYSCHEDULE } from './actions'
-import { dayScheduleData } from '../../components/Calendar/dataSet/dataSet'
 
-// const testData = dayScheduleData
 const initialData = [
   {
     calendarId: 0,

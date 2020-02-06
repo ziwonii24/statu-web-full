@@ -1,11 +1,1 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import NavBar from './NavBar'
-
-ReactDOM.render(
-  <NavBar />,
-  document.getElementById('root')
-)
-
-// export { default } from './NavBar'
-
+export { default } from './NavBar'

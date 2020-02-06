@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 
-import axios from 'axios'
+// import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserInfo, TokenInfo } from './interfaces/UserInfo.interface'
+import { UserInput, TokenInfo } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
 import { Link } from 'react-router-dom'
@@ -19,7 +19,7 @@ const Login: FunctionComponent = () => {
 
     const [ userEmail, setUserEmail ] = useState<string>('')  
     const [ userPass, setUserPass ] = useState<string>('')
-    const userInput: UserInfo = {
+    const userInput: UserInput = {
         'email': userEmail,
         'password': userPass,
     }

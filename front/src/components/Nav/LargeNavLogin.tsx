@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react'
+import useUser from '../../hooks/useUser'
 import { Link } from 'react-router-dom'
 
 import '../Nav/style/Nav.scss'
@@ -9,7 +10,14 @@ import Form from 'react-bootstrap/Form'
 
 import pengsu from '../../pengsu.png'
 
+
 const LargeNavBarLogin: FunctionComponent = () => {
+  const { onSetUserInfo } = useUser()
+
+  const handleLogout = () => {
+    onSetUserInfo(null)
+  }
+
   return (
     <div className="navBar">
 
@@ -24,6 +32,12 @@ const LargeNavBarLogin: FunctionComponent = () => {
           <div className="menu"><Link to='/myplan'>내 공부</Link></div>
           <div className="menu"><Link to='/'>가져온 공부</Link></div>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
+          <div 
+            className="menu"
+            onClick={handleLogout}
+          >
+            <Link to='/'>로그아웃</Link>
+          </div>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </Form>
       </Navbar>

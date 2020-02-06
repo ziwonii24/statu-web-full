@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@babel/preset-react": "^7.8.3",
-    "@reach/window-size": "^0.8.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -20,6 +19,7 @@
     "@types/redux": "^3.6.0",
     "@types/uuid": "^3.4.6",
     "axios": "^0.19.2",
+    "babel-preset-react-app": "^9.1.1",
     "bootstrap": "^4.4.1",
     "connected-react-router": "^6.6.1",
     "dayjs": "^1.8.19",

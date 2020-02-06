@@ -1,12 +1,16 @@
 import React, { FunctionComponent } from 'react'
+import useUser from '../../hooks/useUser'
 import { Link } from 'react-router-dom'
-
-import '../Nav/style/Nav.scss'
-
 import Navbar from 'react-bootstrap/Navbar';
 import pengsu from '../../pengsu.png'
+import '../Nav/style/Nav.scss'
 
 const SmallNavBarLogin: FunctionComponent = () => {
+  const { onSetUserInfo } = useUser()
+
+  const handleLogout = () => {
+    onSetUserInfo(null)
+  }
   return (
     <Navbar bg="light" variant="light" expand="lg">
       <Navbar.Brand href="/">STATU</Navbar.Brand>
@@ -22,6 +26,13 @@ const SmallNavBarLogin: FunctionComponent = () => {
           <div className="menu"><Link to='/'>가져온 공부</Link></div>
           <br/>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
+          <br/>
+          <div 
+            className="menu"
+            onClick={handleLogout}
+          >
+            <Link to='/'>로그아웃</Link>
+          </div>
           <br/>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </div>

@@ -183,11 +183,11 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   function getDayData() {
     let dayData: DaySchedule[] = []
     subData.map(subItem => {
-      const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === subItem.id)
+      const newDayDatas = dayDatas && dayDatas.filter(dayItem => dayItem.subTitleId === subItem.id)
       dayData = dayData.concat(newDayDatas)
       return subItem
     })
-    const newDayDatas = dayDatas.filter(dayItem => dayItem.subTitleId === etcSubData.id)
+    const newDayDatas = dayDatas && dayDatas.filter(dayItem => dayItem.subTitleId === etcSubData.id)
     dayData = dayData.concat(newDayDatas)
     return dayData
   }

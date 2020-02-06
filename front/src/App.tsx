@@ -10,6 +10,7 @@ interface InterFace {
 }
 
 const App: FunctionComponent<InterFace> = ({history}: InterFace) => {
+  console.log('APP')
   return (
     <>
       <ConnectedRouter history={history}>

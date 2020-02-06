@@ -1,4 +1,13 @@
 export interface UserInfo {    
+    id: number
+    email: string
+    name: string
+    img?: string
+    category1: string[]
+    category2: string[]
+}
+
+export interface UserInput {    
     userId?: number
     email: string
     name?: string

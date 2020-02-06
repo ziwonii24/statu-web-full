@@ -17,9 +17,9 @@ const SmallNavBar: FunctionComponent = () => {
           <input className="search" type="text" placeholder="시간표 찾기"/>
           <button>🔍</button>
           <br/>
-          <div className="menu"><Link to='/user/signup'>Signup</Link></div>
+          <div className="menu"><Link to='/signup'>Signup</Link></div>
           <br/>
-          <div className="menu"><Link to='/user/login'>login</Link></div>
+          <div className="menu"><Link to='/login'>login</Link></div>
           <br/>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
           <br/>

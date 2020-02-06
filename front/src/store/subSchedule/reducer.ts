@@ -1,9 +1,7 @@
 import { SubSchedulesState, SubScheduleActions } from './types'
 import { createReducer } from 'typesafe-actions'
 import { GET_SUBSCHEDULE, POST_SUBSCHEDULE, PUT_SUBSCHEDULE, DELETE_SUBSCHEDULE } from './actions'
-import { subScheduleData } from '../../components/Calendar/dataSet/dataSet'
 
-// const testData = subScheduleData
 const initialData = [
   {
     id: 0,

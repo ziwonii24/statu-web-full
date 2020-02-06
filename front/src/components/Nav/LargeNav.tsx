@@ -21,8 +21,8 @@ const LargeNavBar: FunctionComponent = () => {
           {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>
         <Form inline>
-          <div className="menu"><Link to='/user/signup'>Signup</Link></div>
-          <div className="menu"><Link to='/user/login'>login</Link></div>
+          <div className="menu"><Link to='/signup'>Signup</Link></div>
+          <div className="menu"><Link to='/login'>login</Link></div>
           <div className="menu"><Link to='/'>커뮤니티</Link></div>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </Form>

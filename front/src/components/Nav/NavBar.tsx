@@ -1,20 +1,22 @@
-import React, { FunctionComponent, Component } from 'react'
-import '../Nav/style/Nav.scss'
+import React, { FunctionComponent } from 'react'
+import useUser from '../../hooks/useUser'
+import useWindowSize from '../../hooks/useWindowSize'
 import LargeNavBar from './LargeNav'
 import SmallNavBar from './SmallNav'
 import LargeNavBarLogin from './LargeNavLogin'
 import SmallNavBarLogin from './SmallNavLogin'
-import { useWindowSize } from "@reach/window-size";
+import '../Nav/style/Nav.scss'
 
 const NavBar: FunctionComponent = () => {
-    const { width, height } = useWindowSize();
-    console.log(width)
-    const loggedIn = true // true or false
-    const row = width <= 800 ? true : false
+    const { getUserInfo } = useUser()
+    const { width } = useWindowSize()
+    const loggedIn = getUserInfo ? true : false
+    // const row = width <= 800 ? true : false
 
-    const choose = loggedIn === true ? (width <= 800 ? "smallLogin" : "largeLogin") : (width <= 800 ? "small" : "large")
+    // widthSize: 'XL' >= 1200 > 'LG' >= 992 > 'MD' >= 768 > 'SM' >= 576 > 'XS'
+    const choose = loggedIn === true ? (width <= 768 ? "smallLogin" : "largeLogin") : (width <= 768 ? "small" : "large")
 
-    console.log(choose)
+    // console.log(choose)
 
     const selectedNavBar = {
         "small" : <SmallNavBar />,
