@@ -21,7 +21,7 @@ const Login: FunctionComponent = () => {
         'email': userEmail,
         'password': userPass,
     }
-    const { onSetUserInfo } = useUser()
+    const { onGetUserInfo, onSetUserInfo } = useUser()
 
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserEmail(e.target.value)
@@ -69,6 +69,7 @@ const Login: FunctionComponent = () => {
             } */
         })
     }
+    console.log('user: ', onGetUserInfo)
 
     return (
         <div>
