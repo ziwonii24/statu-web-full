@@ -7,7 +7,6 @@ import dotenv from 'dotenv'
 import { UserInput, TokenInfo } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
-import { Link } from 'react-router-dom'
 import { history } from '../../configureStore'
 import { login } from './authentication'
 
@@ -23,7 +22,7 @@ const Login: FunctionComponent = () => {
         'email': userEmail,
         'password': userPass,
     }
-    const { getUserInfo, onSetUserInfo } = useUser()
+    const { onGetUserInfo, onSetUserInfo } = useUser()
 
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserEmail(e.target.value)
@@ -39,7 +38,7 @@ const Login: FunctionComponent = () => {
 
         fetch(`${SERVER_IP}/user/signin`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(userInput)
         }).then(res => {
             console.log(res)
@@ -71,6 +70,7 @@ const Login: FunctionComponent = () => {
             } */
         })
     }
+    console.log('user: ', onGetUserInfo)
 
     return (
         <div>

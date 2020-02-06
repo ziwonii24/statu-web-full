@@ -21,7 +21,7 @@ const SmallNavBar: FunctionComponent = () => {
           <br/>
           <div className="menu"><Link to='/login'>login</Link></div>
           <br/>
-          <div className="menu"><Link to='/'>커뮤니티</Link></div>
+          <div className="menu"><Link to='/community'>커뮤니티</Link></div>
           <br/>
           <div className="img"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
         </div>

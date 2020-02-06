@@ -17,7 +17,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 
 const MyPlan: FunctionComponent = () => {
   console.log('myplan')
-  const { getUserInfo } = useUser()
+  const { onGetUserInfo } = useUser()
   const { onGetMainSchedule, onPostMainSchedule, mainSchedule } = useMainSchedule()
   const { onGetSubSchedule, subSchedule } = useSubSchedule()
   const { onGetDaySchedule, daySchedule } = useDaySchedule()
@@ -28,17 +28,17 @@ const MyPlan: FunctionComponent = () => {
   let dayGetResponse: DaySchedule[] | null = null; let dayGetLoading: boolean = false; let dayGetError: Error | null = null
   let mainPostResponse: number | null = null; let mainPostLoading: boolean = false; let mainPostError: Error | null = null
 
-  const myMainSchedule = getUserInfo ? mainSchedule.filter(schedule => getUserInfo.id === schedule.userId) : []
+  const myMainSchedule = onGetUserInfo ? mainSchedule.filter(schedule => onGetUserInfo.id === schedule.userId) : []
 
   console.log('mymain', myMainSchedule)
   console.log('main', mainSchedule)
   console.log('sub', subSchedule)
   console.log('day', daySchedule)
-  console.log('getUserInfo', getUserInfo)
+  console.log('getUserInfo', onGetUserInfo)
 
   const initialMainSchedule = {
     'id': 0,
-    'userId': getUserInfo ? getUserInfo.id : 0,
+    'userId': onGetUserInfo ? onGetUserInfo.id : 0,
     'title': 'default',
     'startDate': '',
     'endDate': '',
@@ -115,7 +115,7 @@ const MyPlan: FunctionComponent = () => {
 
   // 캘린더 추가 버튼을 눌렀을 때 캘린더 DB와 redux에 추가
   async function postMainScheduleData() {
-    if (!getUserInfo) return 'null'
+    if (!onGetUserInfo) return 'null'
     try {
       const response = await axios.post(SERVER_IP + '/calendar', initialMainSchedule)
       // console.log('response', response)
