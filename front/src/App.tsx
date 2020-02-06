@@ -9,11 +9,7 @@ interface InterFace {
   history: History
 }
 
-interface Props {
-  history: History;
-}
-
-const App: FunctionComponent<InterFace> = ({history}: Props) => {
+const App: FunctionComponent<InterFace> = ({history}: InterFace) => {
   return (
     <>
       <ConnectedRouter history={history}>

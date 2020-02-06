@@ -5,6 +5,9 @@ import SmallNavBar from './SmallNav'
 import LargeNavBarLogin from './LargeNavLogin'
 import SmallNavBarLogin from './SmallNavLogin'
 import { useWindowSize } from "@reach/window-size";
+import { Link } from 'react-router-dom'
+import { history } from '../../configureStore'
+import useUser from '../../hooks/useUser'
 
 const NavBar: FunctionComponent = () => {
     const { width, height } = useWindowSize();
@@ -23,6 +26,16 @@ const NavBar: FunctionComponent = () => {
         "largeLogin" : <LargeNavBarLogin />
     }
     const finalNavbar = selectedNavBar[choose]
+
+    const { onSetUserInfo } = useUser()
+
+    const handleLogout = () => {
+        history.push('/')
+        localStorage.removeItem('token')
+        onSetUserInfo(null)
+    }
+
+    console.log('nav bar rendering...')
 
     return (
         <>

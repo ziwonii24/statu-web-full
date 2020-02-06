@@ -6,6 +6,7 @@ import drag, { DragState } from './drag'
 import daySchedule, { DaySchedulesState } from './daySchedule'
 import subSchedule, { SubSchedulesState } from './subSchedule'
 import mainSchedule, { MainSchedulesState } from './mainSchedule'
+import user, { UserState } from './user'
 
 const rootReducer = (history: History) => combineReducers({
   modal,
@@ -13,6 +14,7 @@ const rootReducer = (history: History) => combineReducers({
   daySchedule,
   subSchedule,
   mainSchedule,
+  user,
   router: connectRouter(history),
 })
 
@@ -25,5 +27,6 @@ export type RootState = {
   daySchedule: DaySchedulesState
   subSchedule: SubSchedulesState
   mainSchedule: MainSchedulesState
+  user: UserState
   router: RouterState
 }
