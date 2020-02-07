@@ -68,9 +68,6 @@ const Login: FunctionComponent = () => {
     return (
         <div className='authTemplateBlock'>
             <div className='whiteBox'>
-                <div className='logo-area'>
-                    <Link to='/'>STATU</Link>
-                </div>
                 <h4 className='formTitle'>로그인</h4>
                 <form>
                     <div>

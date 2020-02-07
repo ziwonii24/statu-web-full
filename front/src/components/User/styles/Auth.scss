@@ -20,19 +20,15 @@
     border-radius: 2px;
 }
 
-.logo-area {
+.formTitle {
+    margin: 0;
+    color: #343a40;
+    margin-bottom: 1rem;
     display: block;
     padding-bottom: 2rem;
     text-align: center;
     font-weight: bold;
     letter-spacing: 2px;
-}
-
-.formTitle {
-    margin: 0;
-    color: #343a40;
-    margin-bottom: 1rem;
-    font-weight: bold;
 }
 
 .inputAuth {
@@ -120,4 +116,17 @@
     text-align: center;
     font-size: 0.75rem;
     margin-top: 0.5rem;
+}
+
+.categoryBlock {
+    margin-top: 1rem;
+    background: #e9ecef44;
+    padding: 0.25rem 1rem;
+}
+
+.categoryTitle {
+    margin: 0;
+    color: #343a40;
+    margin-bottom: 1rem;
+    font-size: 0.75rem;
 }

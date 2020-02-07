@@ -25,12 +25,13 @@ const Signup: FunctionComponent = () => {
     const [ password, setPassword ] = useState<string>('')
     const [ passwordAgain, setPasswordAgain ] = useState<string>('')
 
-    const [ emailCheckErr, setEmailCheckErr ] = useState<string>('')
+    const [ emailCheckErr, setEmailCheckErr ] = useState<boolean>(false)
     const [ emailCheckMsg, setEmailCheckMsg ] = useState<string>('')
-    const [ nameCheckErr, setNameCheckErr ] = useState<string>('')
+    const [ nameCheckErr, setNameCheckErr ] = useState<boolean>(false)
     const [ nameCheckMsg, setNameCheckMsg ] = useState<string>('')
-    const [ passCheckErr, setPassCheckErr ] = useState<string>('')
+    const [ passCheckErr, setPassCheckErr ] = useState<boolean>(false)
     const [ passCheckMsg, setPassCheckMsg ] = useState<string>('')
+    const [ submitMsg, setSubmitMsg ] = useState<string>('')
 
     const user: UserInput = {
         'email': email,
@@ -54,8 +55,10 @@ const Signup: FunctionComponent = () => {
         setPasswordAgain(e.target.value)
         if(password !== e.target.value){
             setPassCheckMsg('비밀번호가 일치하지 않습니다.')
+            setPassCheckErr(false)
         } else {
             setPassCheckMsg('')
+            setPassCheckErr(true)
         }
     }
 
@@ -66,6 +69,7 @@ const Signup: FunctionComponent = () => {
         const regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
         if(email.match(regex) == null) {
             setEmailCheckMsg('이메일 형식에 맞지 않습니다.')
+            setEmailCheckErr(false)
             return
         }
 
@@ -82,16 +86,18 @@ const Signup: FunctionComponent = () => {
                         if(res.data.result == 'true') {
                             console.log('res.data.result는 true다?', res.data.result)
                             setEmailCheckMsg('이미 존재하는 이메일입니다.')
+                            setEmailCheckErr(false)
                         } else {
                             console.log('res.data.result는 true가 아니다?', res.data.result)
                             setEmailCheckMsg('사용 가능한 이메일입니다. 가입 후 인증해주세요.')
+                            setEmailCheckErr(true)
                         }
 
                         // setNameCheckErr(res.data.result)    // rendering
                         console.log('setEmailCheckErr after')
 
-                        console.log('[axios] emailCheckMsg = ', emailCheckMsg)
-                        console.log(typeof(emailCheckErr))
+                        // console.log('[axios] emailCheckMsg = ', emailCheckMsg)
+                        // console.log(typeof(emailCheckErr))
                         // setNameCheckClicked(true)
                         // return res.data.result
                     })
@@ -105,6 +111,7 @@ const Signup: FunctionComponent = () => {
             console.log(e)
             console.log('nameCheckMsg 비어있음')
             setEmailCheckMsg('이메일을 입력해주세요.')
+            setEmailCheckErr(false)
         }
     }
 
@@ -130,16 +137,18 @@ const Signup: FunctionComponent = () => {
                         if(res.data.result == 'true') {
                             console.log('res.data.result는 true다?', res.data.result)
                             setNameCheckMsg('이미 있는 닉네임 입니다.')
+                            setNameCheckErr(false)
                         } else {
                             console.log('res.data.result는 true가 아니다?', res.data.result)
-                            setNameCheckMsg('사용 가능한 닉네임 입니다.')
+                            setNameCheckMsg('사용 가능한 닉네임 입니다.')                            
+                            setNameCheckErr(true)
                         }
 
                         // setNameCheckErr(res.data.result)    // rendering
                         console.log('setnamecheckerr after')
 
                         console.log('[axios] nameCheckMsg = ', nameCheckMsg)
-                        console.log(typeof(nameCheckErr))
+                        // console.log(typeof(nameCheckErr))
                         // setNameCheckClicked(true)
                         // return res.data.result
                     })
@@ -153,16 +162,19 @@ const Signup: FunctionComponent = () => {
             console.log(e)
             console.log('nameCheckMsg 비어있음')
             setNameCheckMsg('닉네임을 입력해주세요.')
+            setNameCheckErr(false)
         }
     }
 
     const signupSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
 
-        // 닉네임 중복 체크 했는지 확인
-        if(nameCheckMsg == '') {
-            console.log('nameCheckMsg 비어있음')
-            // setNameCheckMsg('닉네임을 입력해주세요.')
+        console.log('email : ', emailCheckErr, emailCheckMsg)
+        console.log('name : ', nameCheckErr, nameCheckMsg)
+        console.log('pass : ', passCheckErr, passCheckMsg)
+
+        if(!emailCheckErr || !nameCheckErr || !passCheckErr) {
+            setSubmitMsg('입력란을 모두 채워주세요.')
             return
         }
 
@@ -176,13 +188,7 @@ const Signup: FunctionComponent = () => {
             res.json().then(response => {
                 console.log('[signup] response: ', response)
                 
-                if(!response.status) {
-                    console.log('[signup] signup fail')
-                    // setSignupError(true)
-                    // setSignupMsg('회원가입 실패')
-                } else {
-                    history.push('/login')
-                }
+                history.push('/login')
             })
             .catch(e => {
                 console.log(e)
@@ -198,9 +204,6 @@ const Signup: FunctionComponent = () => {
     return (
         <div className='authTemplateBlock'>
             <div className='whiteBox'>
-                <div className='logo-area'>
-                    <Link to='/'>STATU</Link>
-                </div>
                 <h4 className='formTitle'>회원가입</h4>
                 <form>
                     <div className='inputNeedCheck'>
@@ -230,23 +233,8 @@ const Signup: FunctionComponent = () => {
                     </div>
 
                     <div className='checkMsg'>{passCheckMsg}</div>
-                    
-                    <div>
-                        카테고리 지정<br/> 
-                        <div>
-                            {/* {mainCategoryList}.map((name, id) => {
-                                <div>
-                                    name
-                                    <input type='check' key={} onChange={mainCategoryCheckHandler} />
-                                </div>
-                            }) */}
-                        </div>
-                        <div>
-                            {/* <SubCategoryGroup group={mainCategoryId} /> */}
-                        </div>               
-                    </div>
 
-                    <div className='errorMsg'>회원가입 결과 자리</div>
+                    <div className='errorMsg'>{submitMsg}</div>
 
                     <div>
                         <button className='btnSubmit' type='submit' onClick={signupSubmitHandler}>회원가입</button>
