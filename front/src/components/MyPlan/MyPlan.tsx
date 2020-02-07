@@ -16,7 +16,7 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 interface Interface {
-  userName: string | null
+  userName: string
 }
 
 const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
@@ -28,7 +28,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   } = props
 
   useEffect(() => {
-    getUserId()
+    userId === 0 && getUserId()
   }, [])
 
 
@@ -58,7 +58,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   // 유저 아이디 가져오기
   async function getUserId() {
     try {
-      const response = await axios.get(SERVER_IP + '/user/' + userName)
+      const response = await axios.get(SERVER_IP + '/user/name/' + userName)
       onSetUserId(response.data.id)
 
     }
@@ -86,6 +86,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
       'endDate': '',
       'pb': false,
       'tags': [''],
+      'view': 0,
+      'recommend': 0,
       'represent': false,
       'category1': [''],
       'category2': ['']
