@@ -61,6 +61,13 @@ const Signup: FunctionComponent = () => {
 
     const emailCheckHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
+        
+        // 이메일 형식 체크
+        const regex = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+        if(email.match(regex) == null) {
+            setEmailCheckMsg('이메일 형식에 맞지 않습니다.')
+            return
+        }
 
         try {
             await axios.get(`${SERVER_IP}/user/checkmail/${email}`)
@@ -74,10 +81,10 @@ const Signup: FunctionComponent = () => {
 
                         if(res.data.result == 'true') {
                             console.log('res.data.result는 true다?', res.data.result)
-                            setEmailCheckMsg('이메일을 확인해주세요.')
+                            setEmailCheckMsg('이미 존재하는 이메일입니다.')
                         } else {
                             console.log('res.data.result는 true가 아니다?', res.data.result)
-                            setEmailCheckMsg('유효하지 않은 이메일 형식입니다.')
+                            setEmailCheckMsg('사용 가능한 이메일입니다. 가입 후 인증해주세요.')
                         }
 
                         // setNameCheckErr(res.data.result)    // rendering
@@ -187,7 +194,6 @@ const Signup: FunctionComponent = () => {
     }
   
     console.log('*signup form rendering...')
-    console.log('*바꼈나? ', nameCheckMsg)
 
     return (
         <div className='authTemplateBlock'>
@@ -199,7 +205,7 @@ const Signup: FunctionComponent = () => {
                 <form>
                     <div className='inputNeedCheck'>
                         <input className='inputAuth' type='text' placeholder='이메일' value={email} onChange={handleEmailInputChange}/>
-                        <button className='btnCheck' onClick={emailCheckHandler}>인증</button>
+                        <button className='btnCheck' onClick={emailCheckHandler}>확인</button>
                     </div>
 
                     <div className='checkMsg'>{emailCheckMsg}</div>
