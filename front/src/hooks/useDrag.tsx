@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { setStartDate, setTempDate, setEndDate } from '../store/drag'
-import { RootState } from '../store/reducerIndex'
+import { RootState } from '../store'
 
 export default function useDrag() {
   const dispatch = useDispatch()

@@ -227,6 +227,37 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
+  const handleRecommend = async (e: MouseEvent) => {
+    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
+    const editedSchedule = {...initialMainCalendar, recommend: initialMainCalendar.recommend + 1}
+    console.log('recommend', editedSchedule)
+
+    onPutMainSchedule(editedSchedule)
+    try {
+      const response = await axios.put(SERVER_IP + '/calendar', editedSchedule)
+      console.log(response.data)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
+  const handleScrap = async (e: MouseEvent) => {
+    if (!onGetUserInfo) return
+
+    const scrapInfo = {
+      "calendarId": calendarId,
+      "userId": onGetUserInfo.id
+    }
+    try {
+      const response = await axios.put(SERVER_IP + '/calendartemp', scrapInfo)
+      console.log(response.data)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
   }
@@ -276,10 +307,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         onClick={handleShowMonth}
       >
         <header
-          className={`header ${headerBorder} ${canEdit}`}
+          className={`header ${headerBorder}`}
         >
           <div
-            className={`calendarTitle`}
+            className={`calendarTitle ${canEdit}`}
           >
             {!editMode ?
               title
@@ -304,7 +335,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               </>
             }
           </div>
-          <div className={`calendarHeader hashTagBox`}>
+          <div className={`calendarHeader hashTagBox ${canEdit}`}>
             <div
               className={`calendarHeader hashTagList`}>
               {/* {hashTagComponents} */}
@@ -331,7 +362,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               }
             </div>
             <div
-              className={`calendarHeader`}
+              className={`calendarHeader ${canEdit}`}
             >
               <div
                 className={`calendarHeader`}
@@ -380,7 +411,20 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           </div>
             </div>
             :
-            ''
+            <div className={`calendarHeader`}>
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleRecommend}
+              >
+                추천
+          </div>
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleScrap}
+              >
+                가져오기
+          </div>
+            </div>
           }
         </header>
       </div>

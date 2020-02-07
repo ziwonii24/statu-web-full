@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { openModal, closeModal, openDayModal, openSubModal, putDayScheduleOnModal, putSubScheduleOnModal } from '../store/modal'
-import { RootState } from '../store/reducerIndex'
+import { RootState } from '../store'
 
 export default function useModal() {
   const dispatch = useDispatch()

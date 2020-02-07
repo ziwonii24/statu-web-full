@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
 import { setUserId } from '../store/planPage'
-import { RootState } from '../store/reducerIndex'
+import { RootState } from '../store'
 
 export default function usePlanPage() {
   const dispatch = useDispatch()

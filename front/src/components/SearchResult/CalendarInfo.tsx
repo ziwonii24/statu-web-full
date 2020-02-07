@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { MainSchedule } from '../../store/mainSchedule'
-import { useMainSchedule, useSubSchedule, useDaySchedule } from '../../hooks/useSchedule'
-import usePlanPage from '../../hooks/usePlanPage'
+import { useMainSchedule } from '../../hooks/useSchedule'
 import { history } from '../../configureStore'
 
 import axios from 'axios'
@@ -17,13 +16,10 @@ interface Interface {
 const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
   const { mainSchedule, } = props
   const { onPutMainSchedule } = useMainSchedule()
-  const { subSchedule } = useSubSchedule()
-  const { daySchedule } = useDaySchedule()
-  const { onSetUserId } = usePlanPage()
 
   const handleDetailPage = async (schedule: MainSchedule) => {
-    let userName
     const editedSchedule = {...schedule, view: schedule.view + 1}
+    console.log('edit', editedSchedule)
     // 검색결과에서 클릭 할 때마다 view + 1
     onPutMainSchedule(editedSchedule)
     try {

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import { all } from 'redux-saga/effects'
 import { History } from 'history'
 import { RouterState, connectRouter } from 'connected-react-router'
 import modal, { ModalState } from './modal'
@@ -8,6 +9,10 @@ import subSchedule, { SubSchedulesState } from './subSchedule'
 import mainSchedule, { MainSchedulesState } from './mainSchedule'
 import user, { UserState } from './user'
 import planPage, { PlanPageState } from './planPage'
+
+export function* rootSaga() {
+  yield all ([])
+}
 
 const rootReducer = (history: History) => combineReducers({
   modal,

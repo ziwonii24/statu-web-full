@@ -4,7 +4,7 @@ import { getDaySchedule, postDaySchedule, putDaySchedule, deleteDaySchedule, Day
 import { getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, SubSchedule } from '../store/subSchedule'
 import { getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule, 
   makeRepresentSchedule, makePublicSchedule, MainSchedule } from '../store/mainSchedule'
-import { RootState } from '../store/reducerIndex'
+import { RootState } from '../store'
 
 
 export function useDaySchedule() {
