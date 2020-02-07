@@ -38,7 +38,7 @@ const Signup: FunctionComponent = () => {
         'name': name,
         'password': password,
     }
-    
+
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
     }
@@ -245,7 +245,7 @@ const Signup: FunctionComponent = () => {
                 </div>
             </div>
         </div>
-    )
+  )
 }
 
 export default Signup

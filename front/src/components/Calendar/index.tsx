@@ -2,15 +2,16 @@ import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallbac
 import Modal from '../Modal/Modal'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
+import useUser from '../../hooks/useUser'
 import { useMainSchedule } from '../../hooks/useSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { SubSchedule } from '../../store/subSchedule';
-import { DaySchedule } from '../../store/daySchedule';
+import { SubSchedule } from '../../store/subSchedule'
+import { DaySchedule } from '../../store/daySchedule'
 
-import axios from 'axios';
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
+import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
@@ -21,6 +22,7 @@ const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 interface Interface {
   calendarId: number
+  calendarUserId: number
   defaultTitle: string
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
@@ -32,6 +34,7 @@ interface Interface {
 const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const {
     calendarId,
+    calendarUserId,
     defaultTitle,
     subSchedule,
     daySchedule,
@@ -40,6 +43,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   } = props
 
   console.log(calendarId, 'Calendar View')
+  const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
@@ -72,7 +76,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   // 소목표 데이터 필터링
   const subSchedules = subSchedule
-    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay)||schedule.startDate === '9999-99-99')  // 이번 달에 있는 일정
+    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay) || schedule.startDate === '9999-99-99')  // 이번 달에 있는 일정
     .sort(function (a, b) {
       if (sortDate(a.startDate, b.startDate) === 0) {
         return sortDate(b.endDate, a.endDate)
@@ -80,13 +84,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         return sortDate(a.startDate, b.startDate)
       }
     })
-  
-    // subSchedule.map(schedule => {
-    //   if () {
-    //     subSchedules.push(schedule)
-    //   }
-    //   return schedule
-    // })
 
   // 해시태그 리스트
   const hashTagList = tags
@@ -266,6 +263,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   // 사용자와 상호작용을 보여주기 위한 변수
   const headerBorder = showMonth ? '' : 'headerBorder'
+  const canEdit = onGetUserInfo !== null && (onGetUserInfo.id === calendarUserId ? '' : 'pointerNone')
 
   return (
     <div
@@ -278,7 +276,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         onClick={handleShowMonth}
       >
         <header
-          className={`header ${headerBorder}`}
+          className={`header ${headerBorder} ${canEdit}`}
         >
           <div
             className={`calendarTitle`}
@@ -292,9 +290,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   onClick={handleInputClick}
                 >
                   <input
-                  type="text"
-                  value={title}
-                  onChange={handleTitle}
+                    type="text"
+                    value={title}
+                    onChange={handleTitle}
                   />
                 </div>
                 <div
@@ -312,24 +310,24 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               {/* {hashTagComponents} */}
               {
                 hashTagList.map((hashTag, idx) =>
-                <div
-                  key={idx}
-                  className={`calendarHeader hashTagItem`}
-                  onMouseEnter={() => handleMouseEnter(idx)}
-                  onMouseLeave={() => handleMouseLeave()}
-                >
-                  {hashTag}
-                  {hoverState && idx === hoverItemId ?
                   <div
-                    className={`calendarHeader xsButton`}
-                    onClick={(e) => handleDeleteHashtag(e, idx)}
+                    key={idx}
+                    className={`calendarHeader hashTagItem`}
+                    onMouseEnter={() => handleMouseEnter(idx)}
+                    onMouseLeave={() => handleMouseLeave()}
                   >
-                    x
+                    {hashTag}
+                    {hoverState && idx === hoverItemId ?
+                      <div
+                        className={`calendarHeader xsButton`}
+                        onClick={(e) => handleDeleteHashtag(e, idx)}
+                      >
+                        x
                   </div>
-                  :
-                  ''
-                  }
-                </div>)
+                      :
+                      ''
+                    }
+                  </div>)
               }
             </div>
             <div
@@ -340,10 +338,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 onClick={handleInputClick}
               >
                 <input
-                type="text"
-                placeholder="태그입력"
-                value={hashTagName}
-                onChange={handleHashTag}
+                  type="text"
+                  placeholder="태그입력"
+                  value={hashTagName}
+                  onChange={handleHashTag}
                 />
               </div>
               <div
@@ -354,66 +352,70 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               </div>
             </div>
           </div>
-
-          <div className={`calendarHeader`}>
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleEditMode}
-            >
-              수정
-            </div>
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleDeleteCalendar}
-            >
-              삭제
-            </div>
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleMakeRepresent}
-            >
-              대표
-            </div>
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handlePublicToggle}
-            >
-              공유
-            </div>
+          {!canEdit ?
+            <div className={`calendarHeader`}>
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleEditMode}
+              >
+                수정
           </div>
-        </header>
-      </div>
-
-      {showMonth ?
-        <>
-          {/* 달력 저번달 다음달 전환 버튼 */}
-          <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} />
-
-          {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
-          <MonthViewCalendar
-            calendarId={calendarId}
-            targetMonth={targetMonth}
-            targetDateString={targetDateString}
-            subSchedule={subSchedules}
-            daySchedule={daySchedules}
-            handleState={handleState}
-            colorActiveDate="palegoldenrod"
-            colorPastDates="#f1f1f1"
-            isAscending={isAscending}
-          />
-
-          {/* 모달 */}
-          {modalState ?
-            <Modal />
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleDeleteCalendar}
+              >
+                삭제
+          </div>
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleMakeRepresent}
+              >
+                대표
+          </div>
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handlePublicToggle}
+              >
+                공유
+          </div>
+            </div>
             :
             ''
           }
-        </>
-        :
-        ''
-      }
+        </header>
+      </div>
+      <div
+        className={`calendarBody ${canEdit}`}
+      >
+        {showMonth ?
+          <>
+            {/* 달력 저번달 다음달 전환 버튼 */}
+            <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} />
 
+            {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
+            <MonthViewCalendar
+              calendarId={calendarId}
+              targetMonth={targetMonth}
+              targetDateString={targetDateString}
+              subSchedule={subSchedules}
+              daySchedule={daySchedules}
+              handleState={handleState}
+              colorActiveDate="palegoldenrod"
+              colorPastDates="#f1f1f1"
+              isAscending={isAscending}
+            />
 
+            {/* 모달 */}
+            {modalState ?
+              <Modal />
+              :
+              ''
+            }
+          </>
+          :
+          ''
+        }
+      </div>
     </div>
   )
 }
