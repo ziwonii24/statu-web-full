@@ -130,3 +130,18 @@
     margin-bottom: 1rem;
     font-size: 0.75rem;
 }
+
+.infoHeader {
+    text-align: center;
+    font-size: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.infoHeader a {
+    color: #868e96;
+    text-decoration: underline;
+}
+
+.infoHeader a:hover {
+    color: #212529;
+}

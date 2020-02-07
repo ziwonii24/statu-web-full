@@ -35,6 +35,8 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
           <br/>
           <div className="menu"><Link to='/community'>커뮤니티</Link></div>
           <br/>
+          <div className="menu"><Link to='/userinfo'>내정보수정</Link></div>
+          <br/>
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
           <br/>
           

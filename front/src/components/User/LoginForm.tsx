@@ -50,12 +50,20 @@ const Login: FunctionComponent = () => {
                 const tokenDecoded = decode(token)
                 const user = tokenDecoded.user
 
+                console.log('user: ', user)                
+
                 if(user.statusCode !== 'use') {
                     setError('이메일 인증을 해주세요.')
                 } else {
                     login(token)
                     onSetUserInfo(user)
-                    history.push('/')
+
+                    if(user.category1.length == 0) {
+                        alert('환영합니다! 카테고리 설정을 먼저 해주세요!')
+                        history.push('/userinfo')
+                    } else {
+                        history.push('/')
+                    }
                 }                
             })
             .catch(e => {
