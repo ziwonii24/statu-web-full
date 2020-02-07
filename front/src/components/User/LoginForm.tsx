@@ -6,7 +6,7 @@ import dotenv from 'dotenv'
 import { UserInput } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
-import { login } from './authentication'
+import { login, decode } from './authentication'
 
 import { history } from '../../configureStore'
 import { Link } from 'react-router-dom'
@@ -44,31 +44,26 @@ const Login: FunctionComponent = () => {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(userInput)
         }).then(res => {
-            console.log('res: ', res)
-
             res.json().then(response => {
-                console.log('response: ', response)
-                // localStorage에 token 저장 후 디코딩
-                const tokenDecoded = login(response.data.token)
-                
-                // redux store에 user 정보 저장
+               
+                const token = response.data.token
+                const tokenDecoded = decode(token)
                 const user = tokenDecoded.user
-                onSetUserInfo(user)
 
-                if(!response.status) {
-                    setError('아이디 또는 비밀번호가 틀립니다.')
+                if(user.statusCode !== 'use') {
+                    setError('이메일 인증을 해주세요.')
                 } else {
-                    // Main Page로 이동
+                    login(token)
+                    onSetUserInfo(user)
                     history.push('/')
                 }                
             })
             .catch(e => {
-                console.log(e)
+                console.log('error: ', e)
                 setError('아이디 또는 비밀번호가 틀립니다.')
             })
         })
     }
-    console.log('user: ', onGetUserInfo)
 
     return (
         <div className='authTemplateBlock'>

@@ -23,9 +23,14 @@ const Signup: FunctionComponent = () => {
     const [ email, setEmail ] = useState<string>('')
     const [ name, setName ] = useState<string>('')
     const [ password, setPassword ] = useState<string>('')
-    const [ nameCheckClicked, setNameCheckClicked ] = useState<boolean>(false)
+    const [ passwordAgain, setPasswordAgain ] = useState<string>('')
+
+    const [ emailCheckErr, setEmailCheckErr ] = useState<string>('')
+    const [ emailCheckMsg, setEmailCheckMsg ] = useState<string>('')
     const [ nameCheckErr, setNameCheckErr ] = useState<string>('')
     const [ nameCheckMsg, setNameCheckMsg ] = useState<string>('')
+    const [ passCheckErr, setPassCheckErr ] = useState<string>('')
+    const [ passCheckMsg, setPassCheckMsg ] = useState<string>('')
 
     const user: UserInput = {
         'email': email,
@@ -45,15 +50,54 @@ const Signup: FunctionComponent = () => {
         setPassword(e.target.value)
     }
 
+    const handlePasswordAgainInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setPasswordAgain(e.target.value)
+        if(password !== e.target.value){
+            setPassCheckMsg('비밀번호가 일치하지 않습니다.')
+        } else {
+            setPassCheckMsg('')
+        }
+    }
+
     const emailCheckHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
 
         try {
             await axios.get(`${SERVER_IP}/user/checkmail/${email}`)
-                    .then(res => alert(`result = ${JSON.stringify(res.data)}`))
+                    .then(res => {
+                        // res.data.result 값을 기준으로 리렌더링 하고 싶다...
+                        console.log('[axios] res = ', res)
+                        console.log('[axios] res.data.result = ', res.data.result)
+                        console.log(typeof(res.data.result))
+                        
+                        console.log('setEmailCheckErr before')                        
+
+                        if(res.data.result == 'true') {
+                            console.log('res.data.result는 true다?', res.data.result)
+                            setEmailCheckMsg('이메일을 확인해주세요.')
+                        } else {
+                            console.log('res.data.result는 true가 아니다?', res.data.result)
+                            setEmailCheckMsg('유효하지 않은 이메일 형식입니다.')
+                        }
+
+                        // setNameCheckErr(res.data.result)    // rendering
+                        console.log('setEmailCheckErr after')
+
+                        console.log('[axios] emailCheckMsg = ', emailCheckMsg)
+                        console.log(typeof(emailCheckErr))
+                        // setNameCheckClicked(true)
+                        // return res.data.result
+                    })
+                    /* .then(result => {
+                        console.log('[axios then] nameCheckErr: ', nameCheckErr)
+                        console.log('[axios then] 넘어오는 result: ', result)
+                        setNameCheckErr(result)
+                    }) */
         }
         catch(e) {
-            alert(e)
+            console.log(e)
+            console.log('nameCheckMsg 비어있음')
+            setEmailCheckMsg('이메일을 입력해주세요.')
         }
     }
 
@@ -158,7 +202,7 @@ const Signup: FunctionComponent = () => {
                         <button className='btnCheck' onClick={emailCheckHandler}>인증</button>
                     </div>
 
-                    <div className='checkMsg'>이메일 인증 결과 자리</div>
+                    <div className='checkMsg'>{emailCheckMsg}</div>
 
                     <div className='inputNeedCheck'>
                         <input className='inputAuth' type='text' placeholder='닉네임' value={name} onChange={handleNameInputChange}/>
@@ -173,13 +217,13 @@ const Signup: FunctionComponent = () => {
                     {/* { nameCheckMsg && (nameCheckErr ? <div>중복</div> : <div>중복 아님</div>) } */}
                     
                     <div>
-                        <input className='inputAuth' type='password' placeholder='비밀번호' value={password} onChange={handlePasswordInputChange}/><br/>
+                        <input className='inputAuth' type='password' placeholder='비밀번호' value={password} onChange={handlePasswordInputChange}/>
                     </div>
                     <div>
-                        <input className='inputAuth' type='password' placeholder='비밀번호 확인' />
+                        <input className='inputAuth' type='password' placeholder='비밀번호 확인' value={passwordAgain} onChange={handlePasswordAgainInputChange}/>
                     </div>
 
-                    <div className='checkMsg'>비밀번호 확인 결과 자리</div>
+                    <div className='checkMsg'>{passCheckMsg}</div>
                     
                     <div>
                         카테고리 지정<br/> 

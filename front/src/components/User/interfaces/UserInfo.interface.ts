@@ -4,7 +4,8 @@ export interface UserInfo {
     name: string
     img?: string
     category1: string[]
-    category2: string[]
+    category2: string[],
+    statusCode: string,
 }
 
 export interface UserInput {    
