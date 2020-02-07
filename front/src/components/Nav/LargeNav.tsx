@@ -18,7 +18,6 @@ const LargeNavBar: FunctionComponent = () => {
         <Nav className="mr-auto">
           <input className="search" type="text" placeholder="시간표 찾기"/>
           <button>🔍</button>
-          {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>
         <Form inline>
           <div className="menu"><Link to='/signup'>Signup</Link></div>

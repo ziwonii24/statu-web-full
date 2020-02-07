@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState, useCallback, ChangeEvent, MouseEvent } from 'react'
 import useUser from '../../hooks/useUser'
 import { Link } from 'react-router-dom'
 
@@ -20,9 +20,17 @@ interface Props {
 const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
   const { onLogout, user } = props
-
   const handleMyPlan = () => {
     history.push(`/plan/${user.name}`)
+  }
+
+  const [query, setQuery] = useState<string>('')
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  }, [])
+  const handleSearch = (e: MouseEvent) => {
+    e.preventDefault()
+    history.push(`/search/${query}`)
   }
 
   return (
@@ -31,8 +39,18 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
       <Navbar bg="light" variant="light">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
         <Nav className="mr-auto">
-          <input className="search" type="text" placeholder="시간표 찾기"/>
-          <button>🔍</button>
+          <input 
+            className="search" 
+            type="text"
+            value={query}
+            placeholder="시간표 찾기"
+            onChange={handleChange}
+          />
+          <button
+            onClick={handleSearch}
+          >
+            🔍
+          </button>
           {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>
         <Form inline>

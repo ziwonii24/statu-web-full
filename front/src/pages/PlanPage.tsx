@@ -1,13 +1,7 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import MyPage from '../components/MyPlan/MyPlan'
 import { RouteComponentProps } from 'react-router-dom'
 
-import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 const PlanPage = (props: RouteComponentProps<{ userName: string }>) => {
   console.log('PlanPage')

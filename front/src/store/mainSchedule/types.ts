@@ -9,16 +9,16 @@ export interface MainSchedule {
   id: number
   userId: number
   title: string
-  startDate?: string  // date인데 test 할 때는 string
-  endDate?: string
-  recommend?: number
-  view?: number
+  startDate: string  // date인데 test 할 때는 string
+  endDate: string
+  recommend: number
+  view: number
   pb: boolean
-  progress?: number // float type 으로 받아야하는데 float 라이브러리를 쓸 것인지 고민
+  progress?: number
   tags: Array<string>
   represent: boolean
-  category1?: Array<string>  // large
-  category2?: Array<string>  // small
+  category1: Array<string>  // large
+  category2: Array<string>  // small
 }
 
 export type MainSchedulesState = MainSchedule[]
