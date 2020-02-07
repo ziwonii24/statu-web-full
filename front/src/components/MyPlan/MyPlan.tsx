@@ -21,6 +21,7 @@ interface Interface {
 
 const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   const store = useStore()
+  console.log('myplan')
   console.log(store.getState())
 
   const {
