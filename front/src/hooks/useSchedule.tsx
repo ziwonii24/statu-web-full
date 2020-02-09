@@ -1,59 +1,43 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useCallback } from 'react'
-import { getDaySchedule, postDaySchedule, putDaySchedule, deleteDaySchedule, DaySchedule } from '../store/daySchedule'
-import { getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, SubSchedule } from '../store/subSchedule'
-import { getMainSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule, 
-  makeRepresentSchedule, makePublicSchedule, MainSchedule } from '../store/mainSchedule'
+import { getSchedule, postMainSchedule, putMainSchedule, deleteMainSchedule, makeRepresentSchedule, makePublicSchedule,
+  postSubSchedule, putSubSchedule, deleteSubSchedule, postDaySchedule, putDaySchedule, deleteDaySchedule, 
+  MainSchedule, SubSchedule, DaySchedule } from '../store/schdule'
 import { RootState } from '../store'
 
 
-export function useDaySchedule() {
-  // redux
+export default function useSchedule() {
   const dispatch = useDispatch()
 
-  const daySchedule = useSelector((state: RootState) => state.daySchedule).filter(schedule => schedule.id !== 0)
-  
-  const onGetDaySchedule = useCallback((daySchedules:DaySchedule[]) => dispatch(getDaySchedule(daySchedules)), [dispatch])
-  const onPostDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(postDaySchedule(daySchedule)), [dispatch])
-  const onPutDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(putDaySchedule(daySchedule)), [dispatch])
-  const onDeleteDaySchedule = useCallback((id:number) => dispatch(deleteDaySchedule(id)), [dispatch])
+  const schedules = useSelector((state: RootState) => state.schedule)
+  const mainSchedule = schedules.mainSchedules.filter(schedule => schedule.id !== 0)
+  const subSchedule = schedules.subSchedules.filter(schedule => schedule.id !== 0)
+  const daySchedule = schedules.daySchedules.filter(schedule => schedule.id !== 0)
 
-  return {
-    daySchedule, onGetDaySchedule, onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule,
-  }
-}
+  // get schedule data from db
+  const onGetSchedule = useCallback(() => dispatch(getSchedule.request('')), [dispatch])
 
-
-export function useSubSchedule() {
-  const dispatch = useDispatch()
-
-  const subSchedule = useSelector((state: RootState) => state.subSchedule).filter(schedule => schedule.id !== 0)
-
-  const onGetSubSchedule = useCallback((subSchedules:SubSchedule[]) => dispatch(getSubSchedule(subSchedules)), [dispatch])
-  const onPostSubSchedule = useCallback((subSchedule:SubSchedule) => dispatch(postSubSchedule(subSchedule)), [dispatch])
-  const onPutSubSchedule = useCallback((subSchedule:SubSchedule) => dispatch(putSubSchedule(subSchedule)), [dispatch])
-  const onDeleteSubSchedule = useCallback((id:number) => dispatch(deleteSubSchedule(id)), [dispatch])
-
-  return {
-    subSchedule, onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule,
-  }
-}
-
-
-export function useMainSchedule() {
-  const dispatch = useDispatch()
-
-  const mainSchedule = useSelector((state: RootState) => state.mainSchedule).filter(schedule => schedule.id !== 0)
-
-  const onGetMainSchedule = useCallback((mainSchedules:MainSchedule[]) => dispatch(getMainSchedule(mainSchedules)), [dispatch])
+  // mainSchedule
   const onPostMainSchedule = useCallback((mainSchedule:MainSchedule) => dispatch(postMainSchedule(mainSchedule)), [dispatch])
   const onPutMainSchedule = useCallback((mainSchedule:MainSchedule) => dispatch(putMainSchedule(mainSchedule)), [dispatch])
   const onDeleteMainSchedule = useCallback((id:number) => dispatch(deleteMainSchedule(id)), [dispatch])
   const onMakeRepresentSchedule = useCallback((id:number) => dispatch(makeRepresentSchedule(id)), [dispatch])
   const onMakePublicSchedule = useCallback((id:number) => dispatch(makePublicSchedule(id)), [dispatch])
 
+  // subSchedule
+  const onPostSubSchedule = useCallback((subSchedule:SubSchedule) => dispatch(postSubSchedule(subSchedule)), [dispatch])
+  const onPutSubSchedule = useCallback((subSchedule:SubSchedule) => dispatch(putSubSchedule(subSchedule)), [dispatch])
+  const onDeleteSubSchedule = useCallback((id:number) => dispatch(deleteSubSchedule(id)), [dispatch])
+
+  // daySchedule
+  const onPostDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(postDaySchedule(daySchedule)), [dispatch])
+  const onPutDaySchedule = useCallback((daySchedule:DaySchedule) => dispatch(putDaySchedule(daySchedule)), [dispatch])
+  const onDeleteDaySchedule = useCallback((id:number) => dispatch(deleteDaySchedule(id)), [dispatch])
+
   return {
-    mainSchedule, onGetMainSchedule, onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule, 
-    onMakeRepresentSchedule, onMakePublicSchedule
+    onGetSchedule, schedules, mainSchedule, subSchedule, daySchedule, 
+    onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule,
+    onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule,
+    onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule
   }
 }

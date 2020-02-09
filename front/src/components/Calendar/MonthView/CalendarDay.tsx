@@ -1,14 +1,13 @@
 import React, { FunctionComponent, useState, MouseEvent } from 'react'
 import useModal from '../../../hooks/useModal'
 import useDrag from '../../../hooks/useDrag'
-import { useSubSchedule, useDaySchedule } from '../../../hooks/useSchedule'
+import useSchedule from '../../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 import axios from 'axios'
 
 import Interface from './interfaces/CalendarDay.interface'
-import { SubSchedule } from '../../../store/subSchedule'
-import { DaySchedule } from '../../../store/daySchedule'
+import { SubSchedule, DaySchedule } from '../../../store/schdule'
 
 import '../styles/CalendarDay.scss'
 
@@ -31,8 +30,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   // console.log('subschedules', subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
-  const { onDeleteSubSchedule } = useSubSchedule()
-  const { onDeleteDaySchedule } = useDaySchedule()
+  const { onDeleteSubSchedule, onDeleteDaySchedule } = useSchedule()
 
   // 소목표, 일일목표 관련 변수
   const day = dayjs(date).date()

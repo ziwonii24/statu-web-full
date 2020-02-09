@@ -1,16 +1,16 @@
 import React, { FunctionComponent, useState, useCallback, ChangeEvent, MouseEvent } from 'react'
-import useUser from '../../hooks/useUser'
+import usePlanPage from '../../hooks/usePlanPage'
 import { Link } from 'react-router-dom'
+import { UserInfo } from '../User/interfaces/UserInfo.interface';
+import { history } from '../../configureStore';
 
-import '../Nav/style/Nav.scss'
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
-
 import pengsu from '../../pengsu.png'
-import { UserInfo } from '../User/interfaces/UserInfo.interface';
-import { history } from '../../configureStore';
+
+import '../Nav/style/Nav.scss'
 
 interface Props {
   onLogout : () => void
@@ -20,7 +20,10 @@ interface Props {
 const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
   const { onLogout, user } = props
+  const { onSetUserId } = usePlanPage()
+  
   const handleMyPlan = () => {
+    onSetUserId(user.id)
     history.push(`/plan/${user.name}`)
   }
 
@@ -54,6 +57,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
           {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>
         <Form inline>
+          {/* <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div> */}
           <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div>
           <div className="menu"><Link to='/importedplan'>가져온 공부</Link></div>
           <div className="menu"><Link to='/community'>커뮤니티</Link></div>

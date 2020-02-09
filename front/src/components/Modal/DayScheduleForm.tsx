@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useState, MouseEvent, ChangeEvent } from 'react'
 import useDrag from '../../hooks/useDrag'
 import useModal from '../../hooks/useModal'
-import { useDaySchedule } from '../../hooks/useSchedule'
-import { DaySchedule } from '../../store/daySchedule'
+import useSchedule from '../../hooks/useSchedule'
+import { DaySchedule } from '../../store/schdule'
 import axios from 'axios'
 
 import './styles/DayScheduleForm.scss'
@@ -15,7 +15,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
   const { daySchedule, subSchedules, onCloseModal } = useModal()
   const { startDate, onSetStartDate, onSetEndDate } = useDrag()
-  const { onPostDaySchedule, onPutDaySchedule } = useDaySchedule()
+  const { onPostDaySchedule, onPutDaySchedule } = useSchedule()
 
   const subSchedule = daySchedule.id !== 0 ? subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)[0] : subSchedules[0]
 

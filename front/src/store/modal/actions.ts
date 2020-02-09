@@ -1,6 +1,5 @@
 import { createAction } from 'typesafe-actions'
-import { SubSchedule } from '../subSchedule'
-import { DaySchedule } from '../daySchedule'
+import { SubSchedule, DaySchedule } from '../schdule'
 
 // 액션 type
 export const OPEN_MODAL = 'modal/OPEN_MODAL'

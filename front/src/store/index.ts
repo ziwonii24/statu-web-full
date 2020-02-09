@@ -4,22 +4,18 @@ import { History } from 'history'
 import { RouterState, connectRouter } from 'connected-react-router'
 import modal, { ModalState } from './modal'
 import drag, { DragState } from './drag'
-import daySchedule, { DaySchedulesState } from './daySchedule'
-import subSchedule, { SubSchedulesState } from './subSchedule'
-import mainSchedule, { MainSchedulesState } from './mainSchedule'
+import schedule, { scheduleSaga, GetSchedulesState } from './schdule'
 import user, { UserState } from './user'
 import planPage, { PlanPageState } from './planPage'
 
 export function* rootSaga() {
-  yield all ([])
+  yield all ([scheduleSaga()])
 }
 
 const rootReducer = (history: History) => combineReducers({
   modal,
   drag,
-  daySchedule,
-  subSchedule,
-  mainSchedule,
+  schedule,
   user,
   planPage,
   router: connectRouter(history),
@@ -31,9 +27,7 @@ export default rootReducer
 export type RootState = {
   modal: ModalState
   drag: DragState
-  daySchedule: DaySchedulesState
-  subSchedule: SubSchedulesState
-  mainSchedule: MainSchedulesState
+  schedule: GetSchedulesState
   user: UserState
   planPage: PlanPageState
   router: RouterState

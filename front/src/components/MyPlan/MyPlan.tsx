@@ -1,10 +1,8 @@
 import React, { FunctionComponent, useMemo, useEffect } from 'react'
-import { useStore } from 'react-redux'
 import Calendar from '../Calendar'
-import { useMainSchedule, useSubSchedule, useDaySchedule } from '../../hooks/useSchedule'
+import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
 import usePlanPage from '../../hooks/usePlanPage'
-import { SubSchedule } from '../../store/subSchedule'
 
 import axios from 'axios'
 import path from 'path'
@@ -20,24 +18,20 @@ interface Interface {
 }
 
 const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
-  const store = useStore()
   console.log('myplan')
-  console.log(store.getState())
 
   const {
     userName,
   } = props
 
   useEffect(() => {
-    userId === 0 && getUserId()
+    getUserId()
   }, [])
 
 
   const { onGetUserInfo } = useUser()
   const { onGetUserId, onSetUserId } = usePlanPage()
-  const { onPostMainSchedule, mainSchedule } = useMainSchedule()
-  const { onGetSubSchedule, subSchedule } = useSubSchedule()
-  const { daySchedule } = useDaySchedule()
+  const { onPostMainSchedule, mainSchedule, subSchedule, daySchedule } = useSchedule()
   const userId = onGetUserId
   const renderMainSchedule = onGetUserInfo ?
     (onGetUserInfo.id === userId ?
@@ -46,14 +40,13 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     : []
 
   let mainPostResponse: number | null = null; let mainPostLoading: boolean = false; let mainPostError: Error | null = null
-  let subGetResponse: SubSchedule[] | null = null; let subGetLoading: boolean = false; let subGetError: Error | null = null
 
-  console.log('mymain', renderMainSchedule)
-  console.log('main', mainSchedule)
-  console.log('sub', subSchedule)
-  console.log('day', daySchedule)
-  console.log('getUserInfo', onGetUserInfo)
-  console.log('userId', userId)
+  // console.log('mymain', renderMainSchedule)
+  // console.log('main', mainSchedule)
+  // console.log('sub', subSchedule)
+  // console.log('day', daySchedule)
+  // console.log('getUserInfo', onGetUserInfo)
+  // console.log('userId', userId)
 
 
   // 유저 아이디 가져오기
@@ -71,7 +64,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   // 캘린더 추가 버튼 
   const handleAddCalendar = () => {
     postMainScheduleData()
-    console.log('postMainSchedule')
+    // console.log('postMainSchedule')
   }
 
 
@@ -110,23 +103,6 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     if (!mainPostResponse) return 'null'
     // console.log('initial', initialMainSchedule)
     onPostMainSchedule({ ...initialMainSchedule, id: mainPostResponse })
-    getSubScheduleData()
-  }
-
-  async function getSubScheduleData() {
-    try {
-      const response = await axios.get(SERVER_IP + '/subtitle')
-      subGetResponse = response.data
-      subGetLoading = true
-      // console.log('success', subGetResponse)
-    }
-    catch (e) {
-      subGetError = e
-      console.error(subGetError)
-    }
-    if (!subGetResponse) return 'null'
-    onGetSubSchedule(subGetResponse)
-    subGetLoading = false
   }
 
   // 화면에 렌더링할 컴포넌트 생성

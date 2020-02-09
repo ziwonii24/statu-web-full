@@ -24,7 +24,7 @@ export default function configureStore(preloadedState?: any) {
     ),
   )
 
-  // sagaMiddleware.run(rootSaga)
+  sagaMiddleware.run(rootSaga)
 
   // Hot reloading
   // if (module.hot) {

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import SearchResult from '../components/SearchResult'
 import { RouteComponentProps } from 'react-router-dom'
 

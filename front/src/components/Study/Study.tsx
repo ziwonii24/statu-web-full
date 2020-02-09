@@ -1,16 +1,13 @@
 import React, { FunctionComponent } from 'react'
 import StudyInfo from './StudyInfo'
-import { useMainSchedule, useSubSchedule, useDaySchedule } from '../../hooks/useSchedule'
+import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
-import { DaySchedule } from '../../store/daySchedule'
-import { SubSchedule } from '../../store/subSchedule'
+import { SubSchedule, DaySchedule } from '../../store/schdule'
 import dayjs from 'dayjs'
 import './style/Study.scss'
 
 const Study: FunctionComponent = () => {
-  const { mainSchedule } = useMainSchedule()
-  const { subSchedule } = useSubSchedule()
-  const { daySchedule } = useDaySchedule()
+  const { mainSchedule, subSchedule, daySchedule } = useSchedule()
   const { onGetUserInfo } = useUser()
 
   const today = dayjs().format('YYYY-MM-DD')

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { SubSchedule } from '../../../store/subSchedule'
+import { SubSchedule } from '../../../store/schdule'
 
 import CalendarDay from './CalendarDay'
 
@@ -111,7 +111,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         })
         return scheduleOrder
       })
-
+      // console.log('calendarRow', newSubSchedule)
 
       return (
         <CalendarDay

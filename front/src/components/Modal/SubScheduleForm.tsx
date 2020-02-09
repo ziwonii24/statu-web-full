@@ -2,8 +2,8 @@ import React, { FunctionComponent, MouseEvent, useState, ChangeEvent } from 'rea
 import { colors } from '../Calendar/dataSet/dataSet'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
-import { useSubSchedule } from '../../hooks/useSchedule'
-import { SubSchedule } from '../../store/subSchedule'
+import useSchedule from '../../hooks/useSchedule'
+import { SubSchedule } from '../../store/schdule'
 import axios from 'axios'
 
 import './styles/SubScheduleForm.scss'
@@ -14,7 +14,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   let subPostResponse: number | null = null; let subPostLoading: boolean = false; let subPostError: Error | null = null
   let subPutResponse: number | null = null; let subPutLoading: boolean = false; let subPutError: Error | null = null
 
-  const { onPostSubSchedule, onPutSubSchedule } = useSubSchedule()
+  const { onPostSubSchedule, onPutSubSchedule } = useSchedule()
   const { subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
 
@@ -87,7 +87,6 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     }
     subPostLoading = false
     if (!subPostResponse) return 'null'
-    // console.log('post', {...initialSubSchedule, id: subPostResponse})
     onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
   }
 

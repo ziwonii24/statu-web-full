@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useMemo } from 'react'
-import { SubSchedule } from '../../store/subSchedule'
-import { DaySchedule } from '../../store/daySchedule'
-
+import { SubSchedule, DaySchedule } from '../../store/schdule'
 import './style/Study.scss'
 
 interface Interface {

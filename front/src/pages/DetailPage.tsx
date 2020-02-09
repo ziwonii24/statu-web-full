@@ -1,34 +1,56 @@
-import React, { useMemo } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import Calendar from '../components/Calendar'
 import { RouteComponentProps } from 'react-router-dom'
-import { useMainSchedule, useSubSchedule, useDaySchedule } from '../hooks/useSchedule'
+import { history } from '../configureStore';
+import useSchedule from '../hooks/useSchedule'
 import usePlanPage from '../hooks/usePlanPage'
 
+import axios from 'axios'
+import path from 'path'
+import dotenv from 'dotenv'
 
-const DetailPage = (props: RouteComponentProps<{ planId: string }>) => {
-    console.log('DetailPage')
+dotenv.config({ path: path.join(__dirname, '.env') })
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
-    // 넘어온 유저네임에 따라 계획표 넘기기
-    const planId = props.match.params.planId
-    const { mainSchedule } = useMainSchedule()
-    const { subSchedule } = useSubSchedule()
-    const { daySchedule } = useDaySchedule()
-    const { onSetUserId } = usePlanPage()
+const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (props: RouteComponentProps<{ planId: string }>) => {
+  console.log('DetailPage')
 
-    const seletedSchedule = mainSchedule.filter(schedule => schedule.id === parseInt(planId))[0]
+  const planId = props.match.params.planId
+  const { mainSchedule, subSchedule, daySchedule } = useSchedule()
+  const { onSetUserId } = usePlanPage()
 
-    const schedule = useMemo(() =>
-        <Calendar
-            calendarId={seletedSchedule.id}
-            calendarUserId={seletedSchedule.userId}
-            defaultTitle={seletedSchedule.title}
-            subSchedule={subSchedule.filter(subItem => seletedSchedule.id === subItem.calendarId)}
-            daySchedule={daySchedule.filter(dayItem => seletedSchedule.id === dayItem.calendarId)}
-            represent={true}
-            tags={seletedSchedule.tags}
-        />, [planId])
+  const seletedSchedule = mainSchedule && mainSchedule.filter(schedule => schedule.id === parseInt(planId))[0]
 
-    return schedule
+  const handleClick = async () => {
+    try{
+      const response = await axios.get(SERVER_IP + '/id/' + seletedSchedule.userId)
+      const user = response.data
+      onSetUserId(user.id)
+      history.push(`/plan/${user.name}`)
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+  const schedule = useMemo(() =>
+    seletedSchedule && 
+    <Calendar
+      calendarId={seletedSchedule.id}
+      calendarUserId={seletedSchedule.userId}
+      defaultTitle={seletedSchedule.title}
+      subSchedule={subSchedule.filter(subItem => seletedSchedule.id === subItem.calendarId)}
+      daySchedule={daySchedule.filter(dayItem => seletedSchedule.id === dayItem.calendarId)}
+      represent={true}
+      tags={seletedSchedule.tags}
+    />, [seletedSchedule])
+
+  return (
+    <div
+      onClick={handleClick}
+    >
+      {schedule}
+    </div>
+  ) 
 }
 
 export default DetailPage

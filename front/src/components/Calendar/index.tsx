@@ -3,11 +3,10 @@ import Modal from '../Modal/Modal'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
 import useUser from '../../hooks/useUser'
-import { useMainSchedule } from '../../hooks/useSchedule'
+import useSchedule from '../../hooks/useSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { SubSchedule } from '../../store/subSchedule'
-import { DaySchedule } from '../../store/daySchedule'
+import { SubSchedule, DaySchedule } from '../../store/schdule'
 
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -89,7 +88,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const hashTagList = tags
 
   // 사용함수
-  const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useMainSchedule()
+  const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
   let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
 
   function sortDate(first: string, second: string) {
