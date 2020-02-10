@@ -85,7 +85,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     })
 
   // 해시태그 리스트
-  const hashTagList = tags
+  const hashTagList = tags.filter(tag => tag !== '')
 
   // 사용함수
   const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
@@ -228,7 +228,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleRecommend = async (e: MouseEvent) => {
     const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
-    const editedSchedule = {...initialMainCalendar, recommend: initialMainCalendar.recommend + 1}
+    const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
     console.log('recommend', editedSchedule)
 
     onPutMainSchedule(editedSchedule)
@@ -301,6 +301,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       className={`calendarContainer`}>
 
       {/* 달력 헤더 */}
+      <br/>
       <div
         className="headerContainer"
         onClick={handleShowMonth}
@@ -311,6 +312,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           <div
             className={`calendarTitle ${canEdit}`}
           >
+            {/* 계획표 제목 수정 */}
             {!editMode ?
               title
               :
@@ -320,6 +322,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   onClick={handleInputClick}
                 >
                   <input
+                    // className={`inputTag`}
                     type="text"
                     value={title}
                     onChange={handleTitle}
@@ -334,6 +337,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               </>
             }
           </div>
+          <br/>
           <div className={`calendarHeader hashTagBox ${canEdit}`}>
             <div
               className={`calendarHeader hashTagList`}>
@@ -352,7 +356,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                         className={`calendarHeader xsButton`}
                         onClick={(e) => handleDeleteHashtag(e, idx)}
                       >
-                        x
+                        ❌
                   </div>
                       :
                       ''
@@ -368,6 +372,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 onClick={handleInputClick}
               >
                 <input
+                  className={`inputTag`}
                   type="text"
                   placeholder="태그입력"
                   value={hashTagName}
@@ -383,31 +388,31 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
             </div>
           </div>
           {!canEdit ?
-            <div className={`calendarHeader`}>
+            <div className={`calendarHeader calendarHeaderMenu`}>
               <div
-                className={`calendarHeader calendarHeaderButton`}
+                className={`calendarHeader calendarHeaderButton modify`}
                 onClick={handleEditMode}
               >
                 수정
-          </div>
+              </div>
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handleDeleteCalendar}
               >
                 삭제
-          </div>
+              </div>
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handleMakeRepresent}
               >
                 대표
-          </div>
+              </div>
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handlePublicToggle}
               >
                 공유
-          </div>
+              </div>
             </div>
             :
             <div className={`calendarHeader`}>
@@ -416,13 +421,13 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 onClick={handleRecommend}
               >
                 추천
-          </div>
+              </div>
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handleScrap}
               >
                 가져오기
-          </div>
+              </div>
             </div>
           }
         </header>

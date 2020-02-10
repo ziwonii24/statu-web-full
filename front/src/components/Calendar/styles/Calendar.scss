@@ -18,28 +18,57 @@
   display: inline-block;
 }
 
+
+.header {
+
+}
+
 .headerBorder {
-  border: 1vh solid rgb(209, 181, 235);
+  margin-bottom: -2px;
+  border: 2px solid rgb(209, 181, 235);
 }
 
-.hashTagBox {
-  // display: inline-block;
+.hashTagItem {
+  // position: absolute;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: bold;
+  background-color: rgb(13, 163, 93);
+  color: white;
+  border: solid rgb(13, 163, 93);
+  margin: 1px;
+  padding: 1px;
+  border-radius: 6px;
 }
 
-.calendarHeaderButtonList {
-  // display: inline-block;
+.inputTag {
+  border-bottom: 1px solid gray;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
 }
+
+// header 안에서 높이 중앙정렬이 될 수 있도록 해야함! --> 자리차지해서 밑으로 밀려나지 않게
+.calendarHeaderMenu {
+  // float: right;
+  // margin: auto;
+  // margin-top: 50%;
+  // border: solid 1px red;
+}
+
 .calendarHeaderButton {
   // display: inline-block;
   margin: 0 0.5vw;
-
+  color: red;
 }
 
 .calendarTitle {
   display: inline-block;
   // justify-content: center;
   // text-align: center;
-  font-size: 4vw;
+  font-size: 20px;
   // background-color: saturate($color: #ebf394, $amount: 100);
 }
 
@@ -55,4 +84,8 @@
 
 .pointerInherit {
   pointer-events: inherit;
+}
+
+.modify {
+  
 }

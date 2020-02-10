@@ -75,7 +75,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     const initialMainSchedule = {
       'id': 0,
       'userId': userId,
-      'title': 'default',
+      'title': '새 계획표',
       'startDate': '',
       'endDate': '',
       'pb': false,
@@ -111,7 +111,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
         className={`addCalendar`}
         onClick={handleAddCalendar}
       >
-        +
+        새 계획표 작성
       </div>
     , [userId])
 

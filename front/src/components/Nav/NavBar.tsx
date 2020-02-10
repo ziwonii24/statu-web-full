@@ -22,7 +22,7 @@ const NavBar: FunctionComponent = () => {
     onSetUserInfo(null)
   }
   // widthSize: 'XL' >= 1200 > 'LG' >= 992 > 'MD' >= 768 > 'SM' >= 576 > 'XS'
-  const choose = loggedIn === true ? (width <= 768 ? "smallLogin" : "largeLogin") : (width <= 768 ? "small" : "large")
+  const choose = loggedIn === true ? (width <= 800 ? "smallLogin" : "largeLogin") : (width <= 768 ? "small" : "large")
 
   const selectedNavBar = {
     "small": <SmallNavBar />,
