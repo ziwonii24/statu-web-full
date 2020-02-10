@@ -7,6 +7,7 @@ import drag, { DragState } from './drag'
 import schedule, { scheduleSaga, GetSchedulesState } from './schdule'
 import user, { UserState } from './user'
 import planPage, { PlanPageState } from './planPage'
+import stopWatch, { StopWatchState } from './stopWatch'
 
 export function* rootSaga() {
   yield all ([scheduleSaga()])
@@ -18,6 +19,7 @@ const rootReducer = (history: History) => combineReducers({
   schedule,
   user,
   planPage,
+  stopWatch,
   router: connectRouter(history),
 })
 
@@ -30,5 +32,6 @@ export type RootState = {
   schedule: GetSchedulesState
   user: UserState
   planPage: PlanPageState
+  stopWatch: StopWatchState
   router: RouterState
 }

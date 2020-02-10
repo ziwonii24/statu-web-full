@@ -4,12 +4,15 @@ import useModal from '../../hooks/useModal'
 import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schdule'
 import axios from 'axios'
+import path from 'path'
+import dotenv from 'dotenv'
 
 import './styles/DayScheduleForm.scss'
 
-const DayScheduleForm: FunctionComponent<{}> = () => {
-  const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+dotenv.config({ path: path.join(__dirname, '.env') })
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
+const DayScheduleForm: FunctionComponent<{}> = () => {
   let dayPostResponse: number | null = null; let dayPostLoading: boolean = false; let dayPostError: Error | null = null
   let dayPutResponse: number | null = null; let dayPutLoading: boolean = false; let dayPutError: Error | null = null
 
@@ -23,7 +26,12 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   const [date, setDate] = useState<string>(daySchedule.date)
   // In HTML, form elements such as <input>, <textarea>, and <select> typically maintain their own state and update it based on user input.
   const [component, setComponent] = useState<string>(daySchedule.todo)
+  const [hasComponent, setHasComponent] = useState<boolean>(true)
   const [goal, setGoal] = useState<number>(daySchedule.goal)
+  const initialHour = Math.floor(daySchedule.goal / 60)
+  const initialMin = daySchedule.goal % 60
+  const [goalHour, setGoalHour] = useState<number>(initialHour)
+  const [goalMin, setGoalMin] = useState<number>(initialMin)
   const [color, setColor] = useState<string>(subSchedule.color)
 
   // console.log('subschedules', subSchedules)
@@ -52,8 +60,13 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   const handleComponent = (e: ChangeEvent<HTMLInputElement>) => {
     setComponent(e.target.value)
   }
-  const handleGoal = (e: ChangeEvent<HTMLInputElement>) => {
-    setGoal(parseInt(e.target.value))
+  const handleGoalHour = (e: ChangeEvent<HTMLInputElement>) => {
+    setGoalHour(parseInt(e.target.value))
+    setGoal((parseInt(e.target.value) * 60) + goalMin)
+  }
+  const handleGoalMin = (e: ChangeEvent<HTMLInputElement>) => {
+    setGoalMin(parseInt(e.target.value))
+    setGoal((goalHour * 60) + parseInt(e.target.value))
   }
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
     setDate(e.target.value)
@@ -61,11 +74,16 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
   // button
   const handleSubmit = (schedule: DaySchedule) => {
+    if (component === '') {
+      setHasComponent(false)
+      return
+    }
     if (schedule.id === 0) {
       postDayScheduleData()
     } else {
       putDayScheduleData()
     }
+    handleCloseModal()
     // console.log(schedule)
   }
 
@@ -147,19 +165,24 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
         />
         <input
           type="text"
-          placeholder="목표를 입력하세요."
+          placeholder={hasComponent ? '' : '목표를 입력해주세요!'}
           value={component}
           onChange={handleComponent}
         />
         <input
           type="number"
           placeholder="목표시간을 입력하세요."
-          value={goal}
-          onChange={handleGoal}
+          value={goalHour}
+          onChange={handleGoalHour}
+        />
+        <input
+          type="number"
+          placeholder="목표시간을 입력하세요."
+          value={goalMin}
+          onChange={handleGoalMin}
         />
         <div className="button-wrap">
           <div onClick={() => {
-            handleCloseModal()
             handleSubmit(initialDaySchedule)
           }}>
             Confirm

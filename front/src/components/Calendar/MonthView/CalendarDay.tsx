@@ -58,7 +58,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     subTitleId: 0,
     id: 0,
     date: startDate,
-    component: '',
+    todo: '',
     goal: 0,
     achieve: 0
   }

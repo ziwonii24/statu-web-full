@@ -37,3 +37,14 @@
     cursor: pointer;
     display: inline-block;
   }
+
+.progressBar {
+    display: inline-block;
+    position: absolute;
+    align-items: baseline;
+    width: 20vw;
+    height: 2vh;
+    border-radius: 99vh;
+    background-color: white;
+    z-index: 100;
+}
