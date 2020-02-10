@@ -5,6 +5,7 @@ import useDrag from '../../hooks/useDrag'
 import useSchedule from '../../hooks/useSchedule'
 import { SubSchedule } from '../../store/schdule'
 
+import dayjs from 'dayjs'
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
@@ -18,8 +19,8 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   let subPostResponse: number | null = null; let subPostLoading: boolean = false; let subPostError: Error | null = null
   let subPutResponse: number | null = null; let subPutLoading: boolean = false; let subPutError: Error | null = null
 
-  const { onPostSubSchedule, onPutSubSchedule } = useSchedule()
-  const { subSchedule, onCloseModal } = useModal()
+  const { onPutMainSchedule, onPostSubSchedule, onPutSubSchedule } = useSchedule()
+  const { mainSchedule, subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
 
 
@@ -102,6 +103,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     subPostLoading = false
     if (!subPostResponse) return 'null'
     onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
+    putMainSchedule()
   }
 
   async function putSubScheduleData() {
@@ -120,6 +122,28 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     if (!subPutResponse) return 'null'
     // console.log('post', {...initialSubSchedule, id: subPostResponse})
     onPutSubSchedule(initialSubSchedule)
+    putMainSchedule()
+  }
+
+  async function putMainSchedule() {
+    let edited = false
+    if (mainSchedule.startDate === '' || dayjs(mainSchedule.startDate) > dayjs(initialSubSchedule.startDate)) {
+      mainSchedule.startDate = initialSubSchedule.startDate
+      edited = true
+    }
+    if (mainSchedule.endDate === '' || dayjs(mainSchedule.endDate) < dayjs(initialSubSchedule.endDate)) {
+      mainSchedule.endDate = initialSubSchedule.endDate
+      edited = true
+    }
+    if (!edited) return
+    try {
+      const response = await axios.put(SERVER_IP + '/calendar', mainSchedule)
+      onPutMainSchedule(mainSchedule)
+      console.log(response.data)
+    }
+    catch (e) {
+      console.error(e)
+    }
   }
 
   // 상호작용을 위한 변수

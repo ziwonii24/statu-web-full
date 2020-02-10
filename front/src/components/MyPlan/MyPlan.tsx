@@ -41,7 +41,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   let mainPostResponse: number | null = null; let mainPostLoading: boolean = false; let mainPostError: Error | null = null
 
-  // console.log('mymain', renderMainSchedule)
+  console.log('mymain', renderMainSchedule)
   // console.log('main', mainSchedule)
   // console.log('sub', subSchedule)
   // console.log('day', daySchedule)

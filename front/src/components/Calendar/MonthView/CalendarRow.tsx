@@ -16,6 +16,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
     targetDateString,
     handleState,
     dayComponent,
+    mainSchedule,
     subSchedule,
     daySchedule,
     colorPastDates,
@@ -123,6 +124,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
           targetDateString={targetDateString}
           handleState={handleState}
           dayComponent={dayComponent}
+          mainSchedule={mainSchedule}
           subSchedule={newSubSchedule}
           subScheduleLength={subScheduleLengthInWeek}
           daySchedule={daySchedule}

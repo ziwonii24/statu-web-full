@@ -19,6 +19,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     targetMonth,
     targetDateString,
     dayComponent,
+    mainSchedule,
     subSchedule,
     subScheduleLength,
     daySchedule,
@@ -111,20 +112,20 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     onSetEndDate(newDate)
     // console.log('mouseUp', mouseOverState)
     if (startDate) {
-      onOpenModal([subSchedule, initialSubSchedule, initialDaySchedule])
+      onOpenModal(mainSchedule, subSchedule, initialSubSchedule, initialDaySchedule)
       // console.log('mouseUp')
     }
   }
 
   const handleOpenDayModal = (e: MouseEvent, subSchedules: SubSchedule[], daySchedule: DaySchedule) => {
     e.stopPropagation()
-    onOpenDayModal(subSchedules, daySchedule)
+    onOpenDayModal(mainSchedule, subSchedules, daySchedule)
     // console.log('openDayModal', modalState)
   }
 
   const handleOpenSubModal = (e: MouseEvent, subSchedule: SubSchedule) => {
     e.stopPropagation()
-    onOpenSubModal(subSchedule)
+    onOpenSubModal(mainSchedule, subSchedule)
     // console.log('openSubModal', modalState)
   }
 
