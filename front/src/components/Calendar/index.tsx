@@ -15,6 +15,7 @@ import path from 'path'
 import dotenv from 'dotenv'
 
 import './styles/Calendar.scss'
+import edit from '../../edit.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -312,7 +313,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           <div
             className={`calendarTitle ${canEdit}`}
           >
-            {/* 계획표 제목 수정 */}
+            {/* 여기에 수정표시 추가 */}
+            <div className="editImg"><img src={edit} alt="수정 아이콘" style={{maxWidth: "100%"}} /></div>
             {!editMode ?
               title
               :
