@@ -60,7 +60,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
           {/* <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div> */}
           <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div>
           <div className="menu"><Link to='/importedplan'>가져온 공부</Link></div>
-          <div className="menu"><Link to='/community'>커뮤니티</Link></div>
+          {/* <div className="menu"><Link to='/community'>커뮤니티</Link></div> */}
           <div className="menu"><Link to='/userinfo'>내정보수정</Link></div>
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
           <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>

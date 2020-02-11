@@ -21,6 +21,7 @@ import pencil from '../../img/pencil.png'
 import trash from '../../img/trash-can.png'
 import lock from '../../img/lock.png'
 import unlock from '../../img/lock_shared.png'
+import share3 from '../../img/share3.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -163,7 +164,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleAddHashtag = async (e: MouseEvent) => {
     e.stopPropagation()
     hashTagList.push(hashTagName)
-    const editedSchedule = {...initialMainCalendar, tags: hashTagList}
+    const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
 
     onPutMainSchedule(editedSchedule)
     try {
@@ -178,7 +179,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleDeleteHashtag = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
     hashTagList.splice(id, 1)
-    const editedSchedule = {...initialMainCalendar, tags: hashTagList}
+    const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
 
     onPutMainSchedule(editedSchedule)
     try {
@@ -231,7 +232,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const handleRecommend = async (e: MouseEvent) => {
-    const editedSchedule = {...initialMainCalendar, recommend: initialMainCalendar.recommend + 1}
+    const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
     console.log('recommend', editedSchedule)
 
     onPutMainSchedule(editedSchedule)
@@ -270,7 +271,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleEditTitle = (e: MouseEvent) => {
     e.stopPropagation()
-    const editedSchedule = {...initialMainCalendar, title: title}
+    const editedSchedule = { ...initialMainCalendar, title: title }
     onPutMainSchedule(editedSchedule)
     setEditMode(false)
   }
@@ -344,6 +345,23 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                       +
                     </div>
                   </div>
+                  </Row>
+
+                  <Row>
+                  {/* 공유버튼 toggle */}
+                  <div
+                    className={`calendarHeader calendarHeaderButton`}
+                    onClick={handlePublicToggle}
+                  >
+                    <div className="lockImg">
+                      {initialMainCalendar.pb ?
+                        <img src={share3} alt="share3" style={{ maxWidth: "100%" }} />
+                        :
+                        <img src={lock} alt="lock" style={{ maxWidth: "100%" }} />
+                      }
+                    </div>
+                  </div>
+                  
                   {/* 쓰레기통 이미지 삽입 */}
                   <div
                     onClick={handleDeleteCalendar}
@@ -352,9 +370,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                       <img src={trash} alt="쓰레기통" style={{ maxWidth: "100%" }} />
                     </div>
                   </div>
-                </Row>
+                  </Row>
               </>
               :
+              // 캘린더제목 수정모드일 때
               <>
                 <div
                   className="calendarHeader"
@@ -403,26 +422,16 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   </div>)
               }
             </div>
-
           </div>
           {!canEdit ?
             <div className={`calendarHeader calendarHeaderMenu`}>
-
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handleMakeRepresent}
               >
                 대표
               </div>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handlePublicToggle}
-              >
-                {/* 쓰레기통 이미지 */}
-                <div className="lockImg">
-                  <img src={lock} alt="lock" style={{ maxWidth: "100%" }} />
-                </div>
-              </div>
+
             </div>
             :
             <div className={`calendarHeader`}>
