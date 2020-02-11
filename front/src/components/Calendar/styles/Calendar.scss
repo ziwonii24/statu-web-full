@@ -37,10 +37,16 @@
 
 .calendarTitle {
   display: inline-block;
+  // float: left;
   // justify-content: center;
   // text-align: center;
   font-size: 4vw;
   // background-color: saturate($color: #ebf394, $amount: 100);
+}
+
+.calendarOption {
+  display: inline-block;
+  position: absolute;
 }
 
 .monthTitle {
@@ -55,4 +61,15 @@
 
 .pointerInherit {
   pointer-events: inherit;
+}
+
+.alingLeft {
+  position: absolute;
+  bottom: 0;
+}
+
+.alignRight {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
