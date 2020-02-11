@@ -69,6 +69,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const [titleWidth, setTitleWidth] = useState<number>(0)
   const [titleHeight, setTitleHeight] = useState<number>(0)
   const [headerWidth, setheaderWidth] = useState<number>(0)
+  const [windowWidth, setWindowWidth] = useState<number>(width)
 
   const { modalState } = useModal()
 
@@ -77,6 +78,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     setTitleWidth(titleElement.current.clientWidth)
     setTitleHeight(titleElement.current.clientHeight)
     setheaderWidth(headerElement.current.clientWidth)
+    setWindowWidth(width)
   }, [titleElement])
 
   // 마우스 호버 변수
@@ -250,11 +252,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-<<<<<<< HEAD
   const handleRecommend = async () => {
-=======
-  const handleRecommend = async (e: MouseEvent) => {
->>>>>>> d8ad4ead16755281118a2ed02537ef7b1e54bada
     const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
     console.log('recommend', editedSchedule)
 
@@ -347,7 +345,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     return (
       <div
         className={`calendarOption`}
-        style={{ minWidth: `${headerWidth - titleWidth}px`, height: `${titleHeight}px` }}
+        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
       >
         <div
           className={`calendarHeader alingLeft`}
@@ -412,7 +410,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     return (
       <div
         className={`calendarOption`}
-        style={{ minWidth: `${headerWidth - titleWidth}px`, height: `${titleHeight}px` }}
+        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
       >
         <div className={`calendarHeader alignRight`}>
           <div
@@ -461,66 +459,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
             className={`calendarTitle ${canEdit}`}
           >
             {!editMode ?
-<<<<<<< HEAD
                 title
-=======
-              <>
-                {/* title */}
-                <Row>
-                  {title}
-                  {/* 수정이미지 */}
-                  <div onClick={handleEditMode} className="editImg"><img src={pencil} alt="수정 아이콘" style={{ maxWidth: "50%" }} /></div>
-                  {/* Tag Input */}
-                  <div
-                    className={`calendarHeader ${canEdit}`}
-                  >
-                    <div
-                      className={`calendarHeader`}
-                      onClick={handleInputClick}
-                    >
-                      <input
-                        className="inputTag"
-                        type="text"
-                        placeholder="태그 입력"
-                        value={hashTagName}
-                        onChange={handleHashTag}
-                      />
-                    </div>
-                    <div
-                      className={`calendarHeader xsButton`}
-                      onClick={handleAddHashtag}
-                    >
-                      +
-                    </div>
-                  </div>
-                  </Row>
-
-                  <Row>
-                  {/* 공유버튼 toggle */}
-                  <div
-                    className={`calendarHeader calendarHeaderButton`}
-                    onClick={handlePublicToggle}
-                  >
-                    <div className="lockImg">
-                      {initialMainCalendar.pb ?
-                        <img src={share3} alt="share3" style={{ maxWidth: "100%" }} />
-                        :
-                        <img src={lock} alt="lock" style={{ maxWidth: "100%" }} />
-                      }
-                    </div>
-                  </div>
-                  
-                  {/* 쓰레기통 이미지 삽입 */}
-                  <div
-                    onClick={handleDeleteCalendar}
-                  >
-                    <div className="trashCan">
-                      <img src={trash} alt="쓰레기통" style={{ maxWidth: "100%" }} />
-                    </div>
-                  </div>
-                  </Row>
-              </>
->>>>>>> d8ad4ead16755281118a2ed02537ef7b1e54bada
               :
               // 캘린더제목 수정모드일 때
               <>
@@ -576,35 +515,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               }
             </div>
           </div>
-<<<<<<< HEAD
-=======
-          {!canEdit ?
-            <div className={`calendarHeader calendarHeaderMenu`}>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleMakeRepresent}
-              >
-                대표
-              </div>
-
-            </div>
-            :
-            <div className={`calendarHeader`}>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleRecommend}
-              >
-                추천
-              </div>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleScrap}
-              >
-                가져오기
-              </div>
-            </div>
-          }
->>>>>>> d8ad4ead16755281118a2ed02537ef7b1e54bada
         </header>
       </div>
       <div
