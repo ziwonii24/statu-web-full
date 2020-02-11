@@ -54,8 +54,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   console.log(calendarId, onPage, 'Calendar View')
   const titleElement = useRef<HTMLDivElement>(null)
   const headerElement = useRef<HTMLDivElement>(null)
-  console.log(headerElement)
-  console.log(titleElement)
+  // console.log(headerElement)
+  // console.log(titleElement)
   const { width } = useWindowSize()
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
@@ -345,7 +345,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     return (
       <div
         className={`calendarOption`}
-        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
+        style={{ minWidth: `${(windowWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
       >
         <div
           className={`calendarHeader alingLeft`}

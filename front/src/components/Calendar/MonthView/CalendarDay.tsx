@@ -31,7 +31,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   // console.log('subschedules', subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
-  const { onDeleteSubSchedule, onDeleteDaySchedule } = useSchedule()
+  const { onPutMainSchedule, onGetMainTerm, onDeleteSubSchedule, onDeleteDaySchedule } = useSchedule()
 
   // 소목표, 일일목표 관련 변수
   const day = dayjs(date).date()
@@ -124,9 +124,14 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleDeleteSubSchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
-    onDeleteSubSchedule(id)
+    
+    const { mainStartDate, mainEndDate } = onGetMainTerm(calendarId)
+    const editedMainSchedule = { ...mainSchedule, startDate: mainStartDate, endDate: mainEndDate }
     try {
       await axios.delete(SERVER_IP + '/subtitle/' + id)
+      onDeleteSubSchedule(id)
+      await axios.put(SERVER_IP + '/calendar', editedMainSchedule)
+      onPutMainSchedule(editedMainSchedule)
     }
     catch (e) {
       console.error(e)
@@ -135,9 +140,14 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleDeleteDaySchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
-    onDeleteDaySchedule(id)
+    
+    const { mainStartDate, mainEndDate } = onGetMainTerm(calendarId)
+    const editedMainSchedule = { ...mainSchedule, startDate: mainStartDate, endDate: mainEndDate }
     try {
       await axios.delete(SERVER_IP + '/todo/' + id)
+      onDeleteDaySchedule(id)
+      await axios.put(SERVER_IP + '/calendar', editedMainSchedule)
+      onPutMainSchedule(editedMainSchedule)
     }
     catch (e) {
       console.error(e)

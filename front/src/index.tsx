@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles/scss/index.scss'
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -13,7 +12,7 @@ import path from 'path'
 import dotenv from 'dotenv'
 
 import './styles/scss/index.scss'
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const store = configureStore()
