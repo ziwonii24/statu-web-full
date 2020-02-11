@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 
-import pengsu from '../../pengsu.png'
+import pengsu from '../../img/pengsu.png'
 
 const LargeNavBar: FunctionComponent = () => {
   return (

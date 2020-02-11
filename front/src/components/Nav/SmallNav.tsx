@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import Navbar from 'react-bootstrap/Navbar';
-import pengsu from '../../pengsu.png'
+import pengsu from '../../img/pengsu.png'
 import '../Nav/style/Nav.scss'
 
 const SmallNavBar: FunctionComponent = () => {

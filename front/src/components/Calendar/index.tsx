@@ -15,9 +15,12 @@ import localeDe from "dayjs/locale/ko"
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
-
 import './styles/Calendar.scss'
-import edit from '../../edit.png'
+
+import pencil from '../../img/pencil.png'
+import trash from '../../img/trash-can.png'
+import lock from '../../img/lock.png'
+import unlock from '../../img/lock_shared.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -223,6 +226,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     onMakePublicSchedule(calendarId)
     try {
       await axios.put(SERVER_IP + '/pbtoggle/' + calendarId)
+      console.log('locked')
     }
     catch (e) {
       console.error(e)
@@ -304,7 +308,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       className={`calendarContainer`}>
 
       {/* 달력 헤더 */}
-      <br/>
+      <br />
       <div
         className="headerContainer"
         onClick={handleShowMonth}
@@ -317,20 +321,52 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           >
             {!editMode ?
               <>
-              {/* title / 수정이미지 추가 */}
+                {/* title */}
                 <Row>
                   {title}
-                  <div onClick={handleEditMode} className="editImg"><img src={edit} alt="수정 아이콘" style={{maxWidth: "50%"}} /></div>
+                  {/* 수정이미지 */}
+                  <div onClick={handleEditMode} className="editImg"><img src={pencil} alt="수정 아이콘" style={{ maxWidth: "50%" }} /></div>
+                  {/* Tag Input */}
+                  <div
+                    className={`calendarHeader ${canEdit}`}
+                  >
+                    <div
+                      className={`calendarHeader`}
+                      onClick={handleInputClick}
+                    >
+                      <input
+                        className="inputTag"
+                        type="text"
+                        placeholder="태그 입력"
+                        value={hashTagName}
+                        onChange={handleHashTag}
+                      />
+                    </div>
+                    <div
+                      className={`calendarHeader xsButton`}
+                      onClick={handleAddHashtag}
+                    >
+                      +
+                    </div>
+                  </div>
+                  {/* 쓰레기통 이미지 삽입 */}
+                  <div
+                    onClick={handleDeleteCalendar}
+                  >
+                    <div className="trashCan">
+                      <img src={trash} alt="쓰레기통" style={{ maxWidth: "100%" }} />
+                    </div>
+                  </div>
                 </Row>
               </>
               :
               <>
                 <div
-                  className={`calendarHeader`}
+                  className="calendarHeader"
                   onClick={handleInputClick}
                 >
                   <input
-                    // className={`inputTag`}
+                    className="inputTag"
                     type="text"
                     value={title}
                     onChange={handleTitle}
@@ -345,7 +381,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               </>
             }
           </div>
-          <br/>
+          <br />
           <div className={`calendarHeader hashTagBox ${canEdit}`}>
             <div
               className={`calendarHeader hashTagList`}>
@@ -372,37 +408,11 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   </div>)
               }
             </div>
-            <div
-              className={`calendarHeader ${canEdit}`}
-            >
-              <div
-                className={`calendarHeader`}
-                onClick={handleInputClick}
-              >
-                <input
-                  className={`inputTag`}
-                  type="text"
-                  placeholder="태그입력"
-                  value={hashTagName}
-                  onChange={handleHashTag}
-                />
-              </div>
-              <div
-                className={`calendarHeader xsButton`}
-                onClick={handleAddHashtag}
-              >
-                +
-              </div>
-            </div>
+
           </div>
           {!canEdit ?
             <div className={`calendarHeader calendarHeaderMenu`}>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleDeleteCalendar}
-              >
-                삭제
-              </div>
+
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handleMakeRepresent}
@@ -413,7 +423,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handlePublicToggle}
               >
-                공유
+                {/* 쓰레기통 이미지 */}
+                <div className="lockImg">
+                  <img src={lock} alt="lock" style={{ maxWidth: "100%" }} />
+                </div>
               </div>
             </div>
             :

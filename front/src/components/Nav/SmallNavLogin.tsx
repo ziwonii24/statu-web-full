@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import useUser from '../../hooks/useUser'
 import { Link } from 'react-router-dom'
 import Navbar from 'react-bootstrap/Navbar';
-import pengsu from '../../pengsu.png'
+import pengsu from '../../img/pengsu.png'
 import { UserInfo } from '../User/interfaces/UserInfo.interface';
 import { history } from '../../configureStore';
 
