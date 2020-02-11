@@ -14,7 +14,9 @@
 }
 
 .addCalendar {
+    display: block;
     width: 5vh;
-    margin-right: 0;
-    float: right;
+    // margin-right: 0;
+    // float: right;
+    position: fixed;
 }

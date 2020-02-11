@@ -108,7 +108,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   // 화면에 렌더링할 컴포넌트 생성
   const AddButton = useMemo(() =>
-  // 시간표추가 + 이미지 삽입
+  // 시간표추가 <+> 이미지 삽입
      <div
         className="addCalendar"
         onClick={handleAddCalendar}
