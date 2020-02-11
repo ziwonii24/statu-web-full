@@ -106,77 +106,54 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const handleMouseUp = (e: MouseEvent) => {
-    // if (e.target !== e.currentTarget) {
-    //   return
-    // }
     onSetEndDate(newDate)
-    // console.log('mouseUp', mouseOverState)
     if (startDate) {
       onOpenModal(mainSchedule, subSchedule, initialSubSchedule, initialDaySchedule)
-      // console.log('mouseUp')
     }
   }
 
   const handleOpenDayModal = (e: MouseEvent, subSchedules: SubSchedule[], daySchedule: DaySchedule) => {
     e.stopPropagation()
     onOpenDayModal(mainSchedule, subSchedules, daySchedule)
-    // console.log('openDayModal', modalState)
   }
 
   const handleOpenSubModal = (e: MouseEvent, subSchedule: SubSchedule) => {
     e.stopPropagation()
     onOpenSubModal(mainSchedule, subSchedule)
-    // console.log('openSubModal', modalState)
   }
 
   const handleDeleteSubSchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteSubSchedule(id)
     try {
-      // const response =
       await axios.delete(SERVER_IP + '/subtitle/' + id)
-      // mainPutResponse = response.data
-      // mainPutLoading = true
-      // console.log('success', mainPutResponse)
     }
     catch (e) {
-      // mainPutError = e
-      // console.error(mainPutError)
       console.error(e)
     }
-    // console.log('deleteSub', modalState)
   }
 
   const handleDeleteDaySchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
     onDeleteDaySchedule(id)
     try {
-      // const response =
       await axios.delete(SERVER_IP + '/todo/' + id)
-      // mainPutResponse = response.data
-      // mainPutLoading = true
-      // console.log('success', mainPutResponse)
     }
     catch (e) {
-      // mainPutError = e
-      // console.error(mainPutError)
       console.error(e)
     }
-    // console.log('deleteDay', modalState)
   }
 
   const handleMouseEnter = (id: number) => {
     if (!startDate) {
       setHoverState(true)
       setHoverItemId(id)
-      // console.log('mouseEnter', modalState)
     }
   }
 
   const handleMouseLeave = () => {
     setHoverState(false)
     setHoverItemId(0)
-    // console.log('mouseLeave', modalState)
   }
 
 

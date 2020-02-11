@@ -18,9 +18,9 @@
   display: inline-block;
 }
 
-.header {
+// .header {
 
-}
+// }
 
 .headerBorder {
   border: 1px solid rgba(0, 0, 0, 0.308);
@@ -55,9 +55,9 @@
   // margin-top: 0.5rem;
 }
 
-.calendarHeaderMenu {
+// .calendarHeaderMenu {
 
-}
+// }
 
 .calendarHeaderButton {
   // display: inline-block;
@@ -67,10 +67,16 @@
 
 .calendarTitle {
   display: inline-block;
+  // float: left;
   // justify-content: center;
   // text-align: center;
   font-size: 20px;
   // background-color: saturate($color: #ebf394, $amount: 100);
+}
+
+.calendarOption {
+  display: inline-block;
+  position: absolute;
 }
 
 .monthTitle {
@@ -103,8 +109,18 @@
   margin-right: 0;
 }
 
-
 .row {
   margin-left: 0;
   justify-content: space-between;
+}
+
+.alingLeft {
+  position: absolute;
+  bottom: 0;
+}
+
+.alignRight {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
