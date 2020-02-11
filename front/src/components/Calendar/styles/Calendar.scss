@@ -18,20 +18,15 @@
   display: inline-block;
 }
 
-// .editImg {
-//   display: inline-block;
-//   height: 40px;
-//   width: 40px;
-
-// }
-
 .header {
 
 }
 
 .headerBorder {
-  margin-bottom: -2px;
-  border: 2px solid rgb(209, 181, 235);
+  border: 1px solid rgba(0, 0, 0, 0.308);
+  border-radius: 4px;
+  padding: 15px;
+  padding-bottom: 0;
 }
 
 .hashTagItem {
@@ -95,4 +90,9 @@
 .editImg {
   width: 20px;
   height: 20px;
+  margin-left: 5px;
+}
+
+.row {
+  margin-left: 0;
 }

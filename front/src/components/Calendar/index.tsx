@@ -8,6 +8,8 @@ import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
 import { SubSchedule, DaySchedule } from '../../store/schdule'
 
+import { Row } from 'react-bootstrap'
+
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import axios from 'axios'
@@ -313,10 +315,14 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           <div
             className={`calendarTitle ${canEdit}`}
           >
-            {/* 여기에 수정표시 추가 */}
-            <div className="editImg"><img src={edit} alt="수정 아이콘" style={{maxWidth: "100%"}} /></div>
             {!editMode ?
-              title
+              <>
+              {/* title / 수정이미지 추가 */}
+                <Row>
+                  {title}
+                  <div onClick={handleEditMode} className="editImg"><img src={edit} alt="수정 아이콘" style={{maxWidth: "50%"}} /></div>
+                </Row>
+              </>
               :
               <>
                 <div
@@ -391,12 +397,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           </div>
           {!canEdit ?
             <div className={`calendarHeader calendarHeaderMenu`}>
-              <div
-                className={`calendarHeader calendarHeaderButton modify`}
-                onClick={handleEditMode}
-              >
-                수정
-              </div>
               <div
                 className={`calendarHeader calendarHeaderButton`}
                 onClick={handleDeleteCalendar}
