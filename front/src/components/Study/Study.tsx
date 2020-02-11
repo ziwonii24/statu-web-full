@@ -7,22 +7,22 @@ import dayjs from 'dayjs'
 import './style/Study.scss'
 
 const Study: FunctionComponent = () => {
-  const { mainSchedule, subSchedule, daySchedule } = useSchedule()
+  const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onGetUserInfo } = useUser()
 
   const today = dayjs().format('YYYY-MM-DD')
   const yesterday = dayjs().add(-1, 'day').format('YYYY-MM-DD')
 
   const myRepresentMainSchedule = onGetUserInfo ?
-    mainSchedule.filter(schedule => schedule.userId === onGetUserInfo.id && schedule.represent === true)
+  getMainSchedules.filter(schedule => schedule.userId === onGetUserInfo.id && schedule.represent === true)
     : []
   const mySubSchedule = myRepresentMainSchedule.length ?
-    subSchedule.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id)
+  getSubSchedules.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id)
     : []
 
   const yesterdayDaySchedules: DaySchedule[] = []
   const todayDaySchedules: DaySchedule[] = []
-  getDaySchedules()
+  getDaySchedulesData()
 
   const yesterdaySubSchdulesProps: SubSchedule[] = []
   const todaySubSchdulesProps: SubSchedule[] = []
@@ -32,8 +32,8 @@ const Study: FunctionComponent = () => {
   let todayColors: string[] = []
   getPropsDatas()
 
-  function getDaySchedules() {
-    daySchedule.map(schedule => {
+  function getDaySchedulesData() {
+    getDaySchedules.map(schedule => {
       if (schedule.date === today) {
         todayDaySchedules.push(schedule)
       } else if (schedule.date === yesterday) {

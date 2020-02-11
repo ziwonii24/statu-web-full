@@ -32,18 +32,18 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   const { onGetUserInfo } = useUser()
   const { onGetUserId, onSetUserId } = usePlanPage()
-  const { onPostMainSchedule, mainSchedule, subSchedule, daySchedule } = useSchedule()
+  const { onPostMainSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const userId = onGetUserId
   const renderMainSchedule = onGetUserInfo ?
     (onGetUserInfo.id === userId ?
-      mainSchedule.filter(schedule => userId === schedule.userId)
-      : mainSchedule.filter(schedule => userId === schedule.userId).filter(schedule => schedule.pb === true))
+      getMainSchedules.filter(schedule => userId === schedule.userId)
+      : getMainSchedules.filter(schedule => userId === schedule.userId).filter(schedule => schedule.pb === true))
     : []
 
   let mainPostResponse: number | null = null; let mainPostLoading: boolean = false; let mainPostError: Error | null = null
 
   console.log('mymain', renderMainSchedule)
-  console.log('main', mainSchedule)
+  console.log('main', getMainSchedules)
   // console.log('sub', subSchedule)
   // console.log('day', daySchedule)
   // console.log('getUserInfo', onGetUserInfo)
@@ -138,8 +138,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             calendarId={schedule.id}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
-            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calendarId)}
-            daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
+            subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
+            daySchedule={getDaySchedules.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={true}
             tags={schedule.tags}
             onPage='MyPlan'
@@ -160,8 +160,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             calendarId={schedule.id}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
-            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calendarId)}
-            daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
+            subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
+            daySchedule={getDaySchedules.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={false}
             tags={schedule.tags}
             onPage='MyPlan'

@@ -10,19 +10,19 @@ interface Interface {
 const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   console.log('SearchResult')
   const { query } = props
-  const { mainSchedule } = useSchedule()
+  const { getMainSchedules } = useSchedule()
 
   const { width } = useWindowSize()
 
   const SearchMainScheduleResults = useMemo(() => {
-    console.log('filter', mainSchedule)
-    return mainSchedule.filter(schedule => 
+    console.log('filter', getMainSchedules)
+    return getMainSchedules.filter(schedule => 
       schedule.title.includes(query) 
       || schedule.tags.includes(query) 
       || schedule.category1?.includes(query) 
       || schedule.category2?.includes(query)
     )
-  }, [mainSchedule])
+  }, [getMainSchedules])
   
   return (
     <div className={`SearchResult`}>

@@ -13,9 +13,9 @@ export default function useSchedule() {
   const dispatch = useDispatch()
 
   const schedules = useSelector((state: RootState) => state.schedule)
-  const mainSchedule = schedules.mainSchedules.filter(schedule => schedule.id !== 0)
-  const subSchedule = schedules.subSchedules.filter(schedule => schedule.id !== 0)
-  const daySchedule = schedules.daySchedules.filter(schedule => schedule.id !== 0)
+  const getMainSchedules = schedules.mainSchedules.filter(schedule => schedule.id !== 0)
+  const getSubSchedules = schedules.subSchedules.filter(schedule => schedule.id !== 0)
+  const getDaySchedules = schedules.daySchedules.filter(schedule => schedule.id !== 0)
 
   // get schedule data from db
   const onGetSchedule = useCallback(() => dispatch(getSchedule.request('')), [dispatch])
@@ -33,8 +33,8 @@ export default function useSchedule() {
     // console.log('dates', subStartDate, dayStartDate, subEndDate, dayEndDate)
     let mainStartDate: string = ''; let mainEndDate: string = ''
 
-    const targetSubSchedule = subSchedule.filter(schedule => schedule.calendarId === mainId && schedule.startDate !== '9999-99-99')
-    const targetDaySchedule = daySchedule.filter(schedule => schedule.calendarId === mainId)
+    const targetSubSchedule = getSubSchedules.filter(schedule => schedule.calendarId === mainId && schedule.startDate !== '9999-99-99')
+    const targetDaySchedule = getDaySchedules.filter(schedule => schedule.calendarId === mainId)
     // console.log('schedules', subSchedule, targetSubSchedule, targetDaySchedule)
     
     targetSubSchedule.length !== 0 && targetSubSchedule.map(schedule => {
@@ -83,7 +83,7 @@ export default function useSchedule() {
   const onDeleteDaySchedule = useCallback((id: number) => dispatch(deleteDaySchedule(id)), [dispatch])
 
   return {
-    onGetSchedule, schedules, mainSchedule, subSchedule, daySchedule,
+    onGetSchedule, schedules, getMainSchedules, getSubSchedules, getDaySchedules,
     onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule, onGetMainTerm,
     onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule,
     onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule

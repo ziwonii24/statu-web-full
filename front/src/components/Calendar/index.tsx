@@ -7,9 +7,7 @@ import useWindowSize from '../../hooks/useWindowSize'
 import useSchedule from '../../hooks/useSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { SubSchedule, DaySchedule } from '../../store/schdule'
-
-import { Row } from 'react-bootstrap'
+import { SubSchedule, DaySchedule, postMainSchedule } from '../../store/schdule'
 
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -115,9 +113,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const hashTagList = tags.filter(tag => tag !== '')
 
   // 사용함수
-  const { mainSchedule, onPostMainSchedule, onPostSubSchedule, onPostDaySchedule,
+  const { getMainSchedules, getSubSchedules, getDaySchedules, onPostMainSchedule, onPostSubSchedule, onPostDaySchedule,
     onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
-  const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
+  const initialMainCalendar = getMainSchedules.filter(schedule => schedule.id === calendarId)[0]
   let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
 
   function sortDate(first: string, second: string) {
@@ -284,24 +282,77 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleSave = async () => {
     if (!onGetUserInfo) return
-    let editedSchedule = { ...initialMainCalendar, id: 0, userid: onGetUserInfo.id }
-    const initialStartDate = initialMainCalendar.startDate
-    console.log(initialStartDate)
-    const initialStartDay = dayjs(dayjs(initialStartDate)).day()
-    const todayDay = targetDate.day()
-    console.log(todayDay, initialStartDay)
-    let postScheduleId: number = 0
+    let editedSchedule = { ...initialMainCalendar, id: 0, userId: onGetUserInfo.id, represent: false, pb: false }
+    let postMainScheduleId: number = 0
     try {
       const response = await axios.post(SERVER_IP + '/calendar', editedSchedule)
-      console.log(response.data)
-      postScheduleId = response.data.id
+      console.log('success', response.data)
+      postMainScheduleId = response.data.id
+
+      editedSchedule = { ...editedSchedule, id: postMainScheduleId }
+      console.log('editedSchedule', editedSchedule)
+      onPostMainSchedule(editedSchedule)
     }
     catch (e) {
       console.log(e)
     }
-    if (postScheduleId === 0) return
-    editedSchedule = { ...initialMainCalendar, id: postScheduleId, userid: onGetUserInfo.id }
-    onPostMainSchedule(editedSchedule)
+    if (postMainScheduleId === 0) return
+
+    console.log(getSubSchedules)
+    const filteredSubNewId: number[] = [getSubSchedules.filter(schedule => schedule.calendarId === postMainScheduleId)[0].id]
+    const filteredSubOriginId: number[] = []
+    const initialStartDate = dayjs(dayjs(initialMainCalendar.startDate))
+    const initialStartDay = initialStartDate.day()
+    const todayDay = targetDate.day()
+
+    const dayFromInitialStartDate = targetDate.diff(initialStartDate, 'day')
+    const tuneDayWithOrigin = (initialStartDay - todayDay) >= 0 ? (initialStartDay - todayDay) : (initialStartDay - todayDay) + 7
+    const addDays = dayFromInitialStartDate + tuneDayWithOrigin
+    console.log('요일', initialStartDay, todayDay, tuneDayWithOrigin)
+
+    let postSubSchduleId: number = 0
+    getSubSchedules.map(async(schedule) => {
+      if (schedule.calendarId === calendarId) {
+        filteredSubOriginId.push(schedule.id)
+        if (schedule.startDate === '9999-99-99') return
+        let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, startDate: `${dayjs(schedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(schedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
+        try {
+          const response = await axios.post(SERVER_IP + '/subtitle', editedSchedule)
+          postSubSchduleId = response.data
+          console.log('success post sub', postSubSchduleId)
+
+          editedSchedule = { ...editedSchedule, id: postSubSchduleId}
+          onPostSubSchedule(editedSchedule)
+          filteredSubNewId.push(postSubSchduleId)
+        }
+        catch (e) {
+          console.log(e)
+        }
+      }
+    })
+
+    let postDayScheduleId: number = 0
+    getDaySchedules.map(async(schedule) => {
+      if (schedule.calendarId === calendarId) {
+        let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, date: `${dayjs(schedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
+        filteredSubOriginId.map((originId, idx) => {
+          if (originId === schedule.subTitleId) {
+            editedSchedule = { ...editedSchedule, subTitleId: filteredSubNewId[idx]}
+          }
+        })
+        try {
+          const response = await axios.post(SERVER_IP + '/todo', editedSchedule)
+          postDayScheduleId = response.data
+          console.log('success post sub', postDayScheduleId)
+
+          editedSchedule = { ...editedSchedule, id: postDayScheduleId}
+          onPostDaySchedule(editedSchedule)
+        }
+        catch (e) {
+          console.log(e)
+        }
+      }
+    })
   }
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -345,7 +396,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     return (
       <div
         className={`calendarOption`}
-        style={{ minWidth: `${(windowWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
+        style={{ minWidth: `${(windowWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
       >
         <div
           className={`calendarHeader alingLeft`}
@@ -410,7 +461,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     return (
       <div
         className={`calendarOption`}
-        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
+        style={{ minWidth: `${(headerWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
       >
         <div className={`calendarHeader alignRight`}>
           <div
@@ -459,7 +510,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
             className={`calendarTitle ${canEdit}`}
           >
             {!editMode ?
-                title
+              title
               :
               // 캘린더제목 수정모드일 때
               <>
