@@ -42,6 +42,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
       daySchedule={daySchedule.filter(dayItem => seletedSchedule.id === dayItem.calendarId)}
       represent={true}
       tags={seletedSchedule.tags}
+      onPage='MyPlan'
     />, [seletedSchedule])
 
   return (

@@ -1,8 +1,9 @@
-import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback, useMemo } from 'react';
+import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback, useMemo, useRef, useEffect } from 'react';
 import Modal from '../Modal/Modal'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
 import useUser from '../../hooks/useUser'
+import useWindowSize from '../../hooks/useWindowSize'
 import useSchedule from '../../hooks/useSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
@@ -34,6 +35,7 @@ interface Interface {
   daySchedule: DaySchedule[]
   represent: boolean
   tags: string[]
+  onPage: string
 }
 
 
@@ -46,9 +48,15 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     daySchedule,
     represent,
     tags,
+    onPage,
   } = props
 
-  console.log(calendarId, 'Calendar View')
+  console.log(calendarId, onPage, 'Calendar View')
+  const titleElement = useRef<HTMLDivElement>(null)
+  const headerElement = useRef<HTMLDivElement>(null)
+  console.log(headerElement)
+  console.log(titleElement)
+  const { width } = useWindowSize()
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
@@ -58,8 +66,20 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const [hashTagName, setHashTagName] = useState<string>('')
   const [showMonth, setShowMonth] = useState<boolean>(represent)
   const [editMode, setEditMode] = useState<boolean>(false)
+  const [titleWidth, setTitleWidth] = useState<number>(0)
+  const [titleHeight, setTitleHeight] = useState<number>(0)
+  const [headerWidth, setheaderWidth] = useState<number>(0)
+  const [windowWidth, setWindowWidth] = useState<number>(width)
 
   const { modalState } = useModal()
+
+  useEffect(() => {
+    if (titleElement.current === null || headerElement.current === null) return
+    setTitleWidth(titleElement.current.clientWidth)
+    setTitleHeight(titleElement.current.clientHeight)
+    setheaderWidth(headerElement.current.clientWidth)
+    setWindowWidth(width)
+  }, [titleElement])
 
   // 마우스 호버 변수
   const [hoverState, setHoverState] = useState<boolean>(false)
@@ -95,7 +115,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const hashTagList = tags.filter(tag => tag !== '')
 
   // 사용함수
-  const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
+  const { mainSchedule, onPostMainSchedule, onPostSubSchedule, onPostDaySchedule,
+    onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
   const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
   let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
 
@@ -231,7 +252,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleRecommend = async (e: MouseEvent) => {
+  const handleRecommend = async () => {
     const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
     console.log('recommend', editedSchedule)
 
@@ -245,7 +266,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleScrap = async (e: MouseEvent) => {
+  const handleScrap = async () => {
     if (!onGetUserInfo) return
 
     const scrapInfo = {
@@ -259,6 +280,28 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     catch (e) {
       console.log(e)
     }
+  }
+
+  const handleSave = async () => {
+    if (!onGetUserInfo) return
+    let editedSchedule = { ...initialMainCalendar, id: 0, userid: onGetUserInfo.id }
+    const initialStartDate = initialMainCalendar.startDate
+    console.log(initialStartDate)
+    const initialStartDay = dayjs(dayjs(initialStartDate)).day()
+    const todayDay = targetDate.day()
+    console.log(todayDay, initialStartDay)
+    let postScheduleId: number = 0
+    try {
+      const response = await axios.post(SERVER_IP + '/calendar', editedSchedule)
+      console.log(response.data)
+      postScheduleId = response.data.id
+    }
+    catch (e) {
+      console.log(e)
+    }
+    if (postScheduleId === 0) return
+    editedSchedule = { ...initialMainCalendar, id: postScheduleId, userid: onGetUserInfo.id }
+    onPostMainSchedule(editedSchedule)
   }
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -298,6 +341,104 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const headerBorder = showMonth ? '' : 'headerBorder'
   const canEdit = onGetUserInfo !== null && (onGetUserInfo.id === calendarUserId ? '' : 'pointerNone')
 
+  const MyCalendarOption = useMemo(() => {
+    return (
+      <div
+        className={`calendarOption`}
+        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
+      >
+        <div
+          className={`calendarHeader alingLeft`}
+        >
+          <div
+            className={`calendarHeader calendarHeaderButton`}
+            onClick={handleEditMode}
+          >
+            수정
+                </div>
+          <div className={`calendarHeader hashTagBox ${canEdit}`}>
+            <div
+              className={`calendarHeader ${canEdit}`}
+            >
+              <div
+                className={`calendarHeader`}
+                onClick={handleInputClick}
+              >
+                <input
+                  type="text"
+                  placeholder="태그입력"
+                  value={hashTagName}
+                  onChange={handleHashTag}
+                />
+              </div>
+              <div
+                className={`calendarHeader xsButton`}
+                onClick={handleAddHashtag}
+              >
+                +
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`calendarHeader alignRight`}
+        >
+          <div
+            className={`calendarHeader calendarHeaderButton`}
+            onClick={handleDeleteCalendar}
+          >
+            삭제
+          </div>
+          <div
+            className={`calendarHeader calendarHeaderButton`}
+            onClick={handleMakeRepresent}
+          >
+            대표
+          </div>
+          <div
+            className={`calendarHeader calendarHeaderButton`}
+            onClick={handlePublicToggle}
+          >
+            공유
+          </div>
+        </div>
+      </div>
+    )
+  }, [titleWidth])
+
+  const ImportedCalendarOption = useMemo(() => {
+    return (
+      <div
+        className={`calendarOption`}
+        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
+      >
+        <div className={`calendarHeader alignRight`}>
+          <div
+            className={`calendarHeader calendarHeaderButton`}
+            onClick={handleRecommend}
+          >
+            추천
+          </div>
+          {onPage === 'MyPlan' ?
+            <div
+              className={`calendarHeader calendarHeaderButton`}
+              onClick={handleScrap}
+            >
+              가져오기
+              </div>
+            :
+            <div
+              className={`calendarHeader calendarHeaderButton`}
+              onClick={handleSave}
+            >
+              저장하기
+                </div>
+          }
+        </div>
+      </div>
+    )
+  }, [titleWidth])
+
   return (
     <div
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
@@ -310,68 +451,15 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         onClick={handleShowMonth}
       >
         <header
+          ref={headerElement}
           className={`header ${headerBorder}`}
         >
           <div
+            ref={titleElement}
             className={`calendarTitle ${canEdit}`}
           >
             {!editMode ?
-              <>
-                {/* title */}
-                <Row>
-                  {title}
-                  {/* 수정이미지 */}
-                  <div onClick={handleEditMode} className="editImg"><img src={pencil} alt="수정 아이콘" style={{ maxWidth: "50%" }} /></div>
-                  {/* Tag Input */}
-                  <div
-                    className={`calendarHeader ${canEdit}`}
-                  >
-                    <div
-                      className={`calendarHeader`}
-                      onClick={handleInputClick}
-                    >
-                      <input
-                        className="inputTag"
-                        type="text"
-                        placeholder="태그 입력"
-                        value={hashTagName}
-                        onChange={handleHashTag}
-                      />
-                    </div>
-                    <div
-                      className={`calendarHeader xsButton`}
-                      onClick={handleAddHashtag}
-                    >
-                      +
-                    </div>
-                  </div>
-                  </Row>
-
-                  <Row>
-                  {/* 공유버튼 toggle */}
-                  <div
-                    className={`calendarHeader calendarHeaderButton`}
-                    onClick={handlePublicToggle}
-                  >
-                    <div className="lockImg">
-                      {initialMainCalendar.pb ?
-                        <img src={share3} alt="share3" style={{ maxWidth: "100%" }} />
-                        :
-                        <img src={lock} alt="lock" style={{ maxWidth: "100%" }} />
-                      }
-                    </div>
-                  </div>
-                  
-                  {/* 쓰레기통 이미지 삽입 */}
-                  <div
-                    onClick={handleDeleteCalendar}
-                  >
-                    <div className="trashCan">
-                      <img src={trash} alt="쓰레기통" style={{ maxWidth: "100%" }} />
-                    </div>
-                  </div>
-                  </Row>
-              </>
+                title
               :
               // 캘린더제목 수정모드일 때
               <>
@@ -390,13 +478,17 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   className={`calendarHeader`}
                   onClick={handleEditTitle}
                 >
-                  수정
+                  확인
                 </div>
               </>
             }
           </div>
-          <br />
-          <div className={`calendarHeader hashTagBox ${canEdit}`}>
+          {!canEdit ?
+            MyCalendarOption
+            :
+            ImportedCalendarOption
+          }
+          <div>
             <div
               className={`calendarHeader hashTagList`}>
               {/* {hashTagComponents} */}
@@ -423,32 +515,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               }
             </div>
           </div>
-          {!canEdit ?
-            <div className={`calendarHeader calendarHeaderMenu`}>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleMakeRepresent}
-              >
-                대표
-              </div>
-
-            </div>
-            :
-            <div className={`calendarHeader`}>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleRecommend}
-              >
-                추천
-              </div>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleScrap}
-              >
-                가져오기
-              </div>
-            </div>
-          }
         </header>
       </div>
       <div
