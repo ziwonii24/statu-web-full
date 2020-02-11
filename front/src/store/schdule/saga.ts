@@ -28,7 +28,7 @@ function* getScheduleSaga(action: ReturnType<typeof getSchedule.request>) {  // 
   }
 }
 
-// Main saga
+// Watch saga
 export function* scheduleSaga() {
   yield all([
     takeEvery(getSchedule.request, getScheduleSaga),

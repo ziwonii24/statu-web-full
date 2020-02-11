@@ -1,4 +1,4 @@
-import { SubSchedule, DaySchedule } from '../../../../store/schdule'
+import { MainSchedule, SubSchedule, DaySchedule } from '../../../../store/schdule'
 
 export default interface Component {
   calendarId: number
@@ -8,6 +8,7 @@ export default interface Component {
   handleState: (targetDateString: string) => void
   dayComponent?: object
   subScheduleLength: number
+  mainSchedule: MainSchedule
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
   colorPastDates?: string;

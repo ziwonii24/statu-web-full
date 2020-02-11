@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent, useState, useMemo } from 'react'
+import DayStudyInfo from './DayStudyInfo'
 import { SubSchedule, DaySchedule } from '../../store/schdule'
 import './style/Study.scss'
 
@@ -9,6 +10,7 @@ interface Interface {
 }
 
 const StudyInfo: FunctionComponent<Interface> = (props: Interface) => {
+  console.log('StudyInfo')
   const {
     colors,
     subSchedules,
@@ -32,18 +34,11 @@ const StudyInfo: FunctionComponent<Interface> = (props: Interface) => {
   const dayScheduleDiv = useMemo(() => 
     daySchedules && daySchedules.map((schedule, idx) => {
       return (
-        <div
+        <DayStudyInfo 
         key={schedule.id}
-        className={`dayDataItem`}
-      >
-        <div
-          className='dayListCircle'
-          style={{ backgroundColor: colors[idx] }}
-        />
-        {schedule.todo}
-        {schedule.achieve / schedule.goal}
-        {schedule.achieve} - {schedule.goal}
-      </div>
+        color={colors[idx]}
+        daySchedule={schedule}
+      />
       )
     })
   , [daySchedules])

@@ -7,16 +7,16 @@ export default function useModal() {
   const dispatch = useDispatch()
 
   const modalState = useSelector((state: RootState) => state.modal.modalState)
-  const [ subSchedules, subSchedule, daySchedule ] = useSelector((state: RootState) => state.modal.schedules)
-  const onOpenModal = useCallback(([subSchedules, subSchedule, daySchedule]) => dispatch(openModal([subSchedules, subSchedule, daySchedule])), [dispatch])
+  const [mainSchedule, subSchedules, subSchedule, daySchedule ] = useSelector((state: RootState) => state.modal.schedules)
+  const onOpenModal = useCallback((mainSchedule, subSchedules, subSchedule, daySchedule) => dispatch(openModal([mainSchedule, subSchedules, subSchedule, daySchedule])), [dispatch])
   const onCloseModal = useCallback(() => dispatch(closeModal()), [dispatch])
-  const onOpenDayModal = useCallback((subSchedules, daySchedule) => dispatch(openDayModal([subSchedules, daySchedule])), [dispatch])
-  const onOpenSubModal = useCallback((subSchedule) => dispatch(openSubModal(subSchedule)), [dispatch])
+  const onOpenDayModal = useCallback((mainSchedule, subSchedules, daySchedule) => dispatch(openDayModal([mainSchedule, subSchedules, daySchedule])), [dispatch])
+  const onOpenSubModal = useCallback((mainSchedule, subSchedule) => dispatch(openSubModal([mainSchedule, subSchedule])), [dispatch])
   const onPutDayScheduleOnModal = useCallback((daySchedule) => dispatch(putDayScheduleOnModal(daySchedule)), [dispatch])
   const onPutSubScheduleOnModal = useCallback((subSchedule) => dispatch(putSubScheduleOnModal(subSchedule)), [dispatch])
 
   return {
-    modalState, subSchedules, subSchedule, daySchedule, 
+    modalState, mainSchedule, subSchedules, subSchedule, daySchedule, 
     onOpenModal, onCloseModal, onOpenDayModal, onOpenSubModal, 
     onPutDayScheduleOnModal, onPutSubScheduleOnModal
   }

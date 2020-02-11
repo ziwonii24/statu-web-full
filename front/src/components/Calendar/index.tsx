@@ -95,6 +95,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   // 사용함수
   const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
+  const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
   let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
 
   function sortDate(first: string, second: string) {
@@ -161,14 +162,12 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleAddHashtag = async (e: MouseEvent) => {
     e.stopPropagation()
-
-    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
     hashTagList.push(hashTagName)
-    initialMainCalendar.tags = hashTagList
+    const editedSchedule = {...initialMainCalendar, tags: hashTagList}
 
-    onPutMainSchedule(initialMainCalendar)
+    onPutMainSchedule(editedSchedule)
     try {
-      await axios.put(SERVER_IP + '/calendar', initialMainCalendar)
+      await axios.put(SERVER_IP + '/calendar', editedSchedule)
     }
     catch (e) {
       console.error(e)
@@ -178,14 +177,12 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleDeleteHashtag = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
-
-    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
     hashTagList.splice(id, 1)
-    initialMainCalendar.tags = hashTagList
+    const editedSchedule = {...initialMainCalendar, tags: hashTagList}
 
-    onPutMainSchedule(initialMainCalendar)
+    onPutMainSchedule(editedSchedule)
     try {
-      await axios.put(SERVER_IP + '/calendar', initialMainCalendar)
+      await axios.put(SERVER_IP + '/calendar', editedSchedule)
     }
     catch (e) {
       console.error(e)
@@ -234,8 +231,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const handleRecommend = async (e: MouseEvent) => {
-    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
-    const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
+    const editedSchedule = {...initialMainCalendar, recommend: initialMainCalendar.recommend + 1}
     console.log('recommend', editedSchedule)
 
     onPutMainSchedule(editedSchedule)
@@ -256,7 +252,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       "userId": onGetUserInfo.id
     }
     try {
-      const response = await axios.put(SERVER_IP + '/calendartemp', scrapInfo)
+      const response = await axios.post(SERVER_IP + '/calendartemp', scrapInfo)
       console.log(response.data)
     }
     catch (e) {
@@ -274,9 +270,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleEditTitle = (e: MouseEvent) => {
     e.stopPropagation()
-    const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
-    initialMainCalendar.title = title
-    onPutMainSchedule(initialMainCalendar)
+    const editedSchedule = {...initialMainCalendar, title: title}
+    onPutMainSchedule(editedSchedule)
     setEditMode(false)
   }
 
@@ -460,6 +455,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               calendarId={calendarId}
               targetMonth={targetMonth}
               targetDateString={targetDateString}
+              mainSchedule={initialMainCalendar}
               subSchedule={subSchedules}
               daySchedule={daySchedules}
               handleState={handleState}

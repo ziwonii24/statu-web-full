@@ -4,22 +4,28 @@ import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
 import useSchedule from '../../hooks/useSchedule'
 import { SubSchedule } from '../../store/schdule'
+
+import dayjs from 'dayjs'
 import axios from 'axios'
+import path from 'path'
+import dotenv from 'dotenv'
 
 import './styles/SubScheduleForm.scss'
 
-const SubScheduleForm: FunctionComponent<{}> = () => {
-  const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+dotenv.config({ path: path.join(__dirname, '.env') })
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
+const SubScheduleForm: FunctionComponent<{}> = () => {
   let subPostResponse: number | null = null; let subPostLoading: boolean = false; let subPostError: Error | null = null
   let subPutResponse: number | null = null; let subPutLoading: boolean = false; let subPutError: Error | null = null
 
-  const { onPostSubSchedule, onPutSubSchedule } = useSchedule()
-  const { subSchedule, onCloseModal } = useModal()
+  const { onPutMainSchedule, onPostSubSchedule, onPutSubSchedule } = useSchedule()
+  const { mainSchedule, subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
 
 
   const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
+  const [hasTitle, setHasTitle] = useState<boolean>(true)
   const [color, setColor] = useState<string>(subSchedule.id !== 0 ? subSchedule.color : colors[0])
   const [startDate, setStartDate] = useState<string>(subSchedule.startDate)
   const [endDate, setEndDate] = useState<string>(subSchedule.endDate)
@@ -35,6 +41,11 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
 
   const handleSubTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setSubTitle(e.target.value)
+    if (e.target.value === '') {
+      setHasTitle(false)
+    } else {
+      setHasTitle(true)
+    }
     // console.log(e.target.value)
   }
   const handleColor = (color: string) => {
@@ -59,11 +70,15 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
 
   const handleSubmit = (schedule: SubSchedule) => {
     // console.log(schedule.id)
+    if (subTitle === '') {
+      return
+    }
     if (schedule.id === 0) {
       postSubScheduleData()
     } else {
       putSubScheduleData()
     }
+    handleCloseModal()
     // console.log(schedule)
   }
 
@@ -88,6 +103,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     subPostLoading = false
     if (!subPostResponse) return 'null'
     onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
+    putMainSchedule()
   }
 
   async function putSubScheduleData() {
@@ -106,7 +122,32 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     if (!subPutResponse) return 'null'
     // console.log('post', {...initialSubSchedule, id: subPostResponse})
     onPutSubSchedule(initialSubSchedule)
+    putMainSchedule()
   }
+
+  async function putMainSchedule() {
+    let edited = false
+    if (mainSchedule.startDate === '' || dayjs(mainSchedule.startDate) > dayjs(initialSubSchedule.startDate)) {
+      mainSchedule.startDate = initialSubSchedule.startDate
+      edited = true
+    }
+    if (mainSchedule.endDate === '' || dayjs(mainSchedule.endDate) < dayjs(initialSubSchedule.endDate)) {
+      mainSchedule.endDate = initialSubSchedule.endDate
+      edited = true
+    }
+    if (!edited) return
+    try {
+      const response = await axios.put(SERVER_IP + '/calendar', mainSchedule)
+      onPutMainSchedule(mainSchedule)
+      console.log(response.data)
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
+
+  // 상호작용을 위한 변수
+  const isValidInput = hasTitle ? 'validInputBar' : 'invalidInputBar'
 
   return (
     <div className="content">
@@ -137,26 +178,28 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       <br />
       <input
         type="text"
-        placeholder="소목표 입력하세요."
+        className={`inputBar ${isValidInput}`}
+        placeholder={hasTitle ? '' : '목표를 입력해주세요!'}
         value={subTitle}
         onChange={handleSubTitle}
       />
       <br/>
       <input
         type="date"
+        className={`inputBar`}
         placeholder="시작일자를 선택하세요."
         value={startDate}
         onChange={handleStartDate}
       />
       <input
         type="date"
+        className={`inputBar`}
         placeholder="종료일자를 선택하세요."
         value={endDate}
         onChange={handleEndDate}
       />
       <div className="button-wrap">
         <div onClick={() => {
-          handleCloseModal()
           handleSubmit(initialSubSchedule)
         }}>
           Confirm
