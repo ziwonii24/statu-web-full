@@ -39,7 +39,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="navBar">
 
-      <Navbar bg="light" variant="light">
+      <Navbar className="navBar" bg="light" variant="light">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
         <Nav className="mr-auto">
           <input 

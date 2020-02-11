@@ -5,6 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import pengsu from '../../img/pengsu.png'
 import { UserInfo } from '../User/interfaces/UserInfo.interface';
 import { history } from '../../configureStore';
+import '../Nav/style/Nav.scss'
 
 interface Props {
   onLogout: () => void
@@ -20,7 +21,7 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <Navbar bg="light" variant="light" expand="lg">
+    <Navbar className="navBar" bg="light" variant="light" expand="lg">
       <div className="search">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
         <input className="search" type="text" placeholder="시간표 찾기" />

@@ -1,11 +1,13 @@
-
 .navBar {
     justify-content: space-between;
-    background-color: darkgray;
+    background-color: rgb(169, 169, 169);
     width: 100%;
     align-items: center;
     text-align: center;
-    margin-bottom: 1rem; 
+    margin-bottom: 1rem;
+    top: 0;
+    position: fixed;
+    z-index: 1000;
 }
 
 .toggle {

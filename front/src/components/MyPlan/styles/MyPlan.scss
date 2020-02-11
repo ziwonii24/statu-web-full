@@ -1,3 +1,20 @@
 .RepresentCalendar {
     margin-bottom: 7vh;
 }
+
+.requestCalendar {
+    border: 5px double rgba(3, 102, 11, 0.329);
+    width: 80%;
+    height: 30vh;
+    margin: auto;
+    margin-top: 10vh;
+    text-align: center;
+    vertical-align: middle;
+    padding: 100px 0px;
+}
+
+.addCalendar {
+    width: 5vh;
+    margin-right: 0;
+    float: right;
+}

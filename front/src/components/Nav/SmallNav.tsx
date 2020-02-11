@@ -7,7 +7,7 @@ import '../Nav/style/Nav.scss'
 
 const SmallNavBar: FunctionComponent = () => {
   return (
-    <Navbar bg="light" variant="light" expand="lg">
+    <Navbar className="navBar" bg="light" variant="light" expand="lg">
       <div className="search">
       <Navbar.Brand href="/">STATU</Navbar.Brand>
         <input type="text" placeholder="시간표 찾기" />
