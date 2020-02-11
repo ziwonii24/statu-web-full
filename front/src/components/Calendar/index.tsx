@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback, useMemo } from 'react';
+import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback } from 'react';
 import Modal from '../Modal/Modal'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
@@ -27,6 +27,7 @@ interface Interface {
   daySchedule: DaySchedule[]
   represent: boolean
   tags: string[]
+  onPage: string
 }
 
 
@@ -39,9 +40,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     daySchedule,
     represent,
     tags,
+    onPage,
   } = props
 
-  console.log(calendarId, 'Calendar View')
+  console.log(calendarId, onPage, 'Calendar View')
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
@@ -88,7 +90,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const hashTagList = tags
 
   // 사용함수
-  const { mainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
+  const { mainSchedule, onPostMainSchedule, onPostSubSchedule, onPostDaySchedule, 
+    onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
   const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
   let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
 
@@ -157,7 +160,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleAddHashtag = async (e: MouseEvent) => {
     e.stopPropagation()
     hashTagList.push(hashTagName)
-    const editedSchedule = {...initialMainCalendar, tags: hashTagList}
+    const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
 
     onPutMainSchedule(editedSchedule)
     try {
@@ -172,7 +175,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleDeleteHashtag = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
     hashTagList.splice(id, 1)
-    const editedSchedule = {...initialMainCalendar, tags: hashTagList}
+    const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
 
     onPutMainSchedule(editedSchedule)
     try {
@@ -223,8 +226,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleRecommend = async (e: MouseEvent) => {
-    const editedSchedule = {...initialMainCalendar, recommend: initialMainCalendar.recommend + 1}
+  const handleRecommend = async () => {
+    const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
     console.log('recommend', editedSchedule)
 
     onPutMainSchedule(editedSchedule)
@@ -237,7 +240,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleScrap = async (e: MouseEvent) => {
+  const handleScrap = async () => {
     if (!onGetUserInfo) return
 
     const scrapInfo = {
@@ -253,6 +256,28 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
+  const handleSave = async () => {
+    if (!onGetUserInfo) return
+    let editedSchedule = { ...initialMainCalendar, id: 0, userid: onGetUserInfo.id }
+    const initialStartDate = initialMainCalendar.startDate
+    console.log(initialStartDate)
+    const initialStartDay = dayjs(dayjs(initialStartDate)).day()
+    const todayDay = targetDate.day()
+    console.log(todayDay, initialStartDay)
+    let postScheduleId: number = 0
+    try {
+      const response = await axios.post(SERVER_IP + '/calendar', editedSchedule)
+      console.log(response.data)
+      postScheduleId = response.data.id
+    }
+    catch (e) {
+      console.log(e)
+    }
+    if (postScheduleId === 0) return
+    editedSchedule = { ...initialMainCalendar, id: postScheduleId, userid: onGetUserInfo.id }
+    onPostMainSchedule(editedSchedule)
+  }
+
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
   }
@@ -263,7 +288,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleEditTitle = (e: MouseEvent) => {
     e.stopPropagation()
-    const editedSchedule = {...initialMainCalendar, title: title}
+    const editedSchedule = { ...initialMainCalendar, title: title }
     onPutMainSchedule(editedSchedule)
     setEditMode(false)
   }
@@ -412,12 +437,21 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               >
                 추천
           </div>
-              <div
-                className={`calendarHeader calendarHeaderButton`}
-                onClick={handleScrap}
-              >
-                가져오기
-          </div>
+              {onPage === 'MyPlan' ?
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleScrap}
+                >
+                  가져오기
+              </div>
+                :
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleSave}
+                >
+                  저장하기
+                </div>
+              }
             </div>
           }
         </header>

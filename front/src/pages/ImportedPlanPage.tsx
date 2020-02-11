@@ -32,7 +32,7 @@ const ImportedPlanPage: FunctionComponent = () => {
   }, [])
 
   const importedPlanDiv = useMemo(() =>
-    importedPlanId && importedPlanId.map(importedPlan => {
+    importedPlanId && importedPlanId.reverse().map(importedPlan => {
       console.log('importedPlanId', importedPlanId)
       console.log('mainSchedule', mainSchedule)
       const importedSchedule = mainSchedule.filter(schedule => schedule.id === importedPlan.calendarId)[0]
@@ -54,7 +54,7 @@ const ImportedPlanPage: FunctionComponent = () => {
       
       return (
         <div
-          key={importedSchedule.id}
+          key={importedPlan.id}
           onClick={handleClick}
         >
           <Calendar
@@ -65,6 +65,7 @@ const ImportedPlanPage: FunctionComponent = () => {
             daySchedule={daySchedule.filter(dayItem => importedSchedule.id === dayItem.calendarId)}
             represent={true}
             tags={importedSchedule.tags}
+            onPage='ImportedPlan'
           />
         </div>
       )

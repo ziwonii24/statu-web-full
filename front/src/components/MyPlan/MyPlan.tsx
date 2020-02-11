@@ -136,6 +136,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={true}
             tags={schedule.tags}
+            onPage='MyPlan'
           />
         )
       } else {
@@ -157,6 +158,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={false}
             tags={schedule.tags}
+            onPage='MyPlan'
           />
         )
       } else {
