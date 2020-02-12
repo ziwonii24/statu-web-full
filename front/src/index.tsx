@@ -7,7 +7,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import configureStore, { history } from './configureStore'
-import { decode, login } from './components/User/authentication'
+import { getToken, decode, login, logout } from './components/User/authentication'
 import { SET_USERINFO, setUserInfo } from './store/user';
 import path from 'path'
 import dotenv from 'dotenv'
@@ -15,33 +15,32 @@ import dotenv from 'dotenv'
 import './styles/scss/index.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
-
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER  
 const store = configureStore()
 
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER  
-
-const hasToken = () => {
+const hasToken = async () => {
   try {
     // 브라우저의 로컬스토리지에 이미 토큰이 있는지 체크
-    const token = localStorage.getItem('token')
+    const token = getToken()
     console.log('*시작하자마자 토큰있다: ', token)
     
-    if(!token) return   // 토큰 없으면 아무것도 안함
-
-    // 토큰이 만료되엇는지?
+    // 유효한 토큰이 없으면 아무것도 안함
+    if(!token) return
+    
     // fetch(`${SERVER_IP}/user/exp`, {
     //   method: 'GET',
     //   headers: { 
     //     'Content-Type': 'application/json',
-    //     'token': token
+    //     'token': token,
     //   }
     // }).then(res => {
-    //   console.log(res)
-    //   // 토큰 만료되었으면 리덕스에서 유저 정보 삭제하고 return (true가 만료된거)
-    //   // store.dispatch(setUserInfo(null))
+    //   console.log('토큰 만료 결과 : ', res)
+      
+    // }).catch(e => {
+    //   console.log(e)
     // })
-
-    // 토큰 기반으로 유저 정보를 리덕스 스토어에 저장
+        
+    // 토큰 기반 자동 로그인
     const tokenDecoded = decode(token)
     login(token)
     store.dispatch(setUserInfo(tokenDecoded.user))
