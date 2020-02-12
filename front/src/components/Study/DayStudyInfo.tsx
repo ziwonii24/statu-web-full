@@ -40,13 +40,6 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     onSetTimeElapsed(elapsedTime)
     daySchedule.achieve = daySchedule.achieve + elapsedTime
     onPutDaySchedule(daySchedule)
-    try {
-      const response = await axios.put(SERVER_IP + '/todo', daySchedule)
-      console.log('success', response.data)
-    }
-    catch (e) {
-      console.log(e)
-    }
     console.log(isRunning, timeElapsed)
   }
 

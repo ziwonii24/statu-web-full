@@ -4,23 +4,15 @@ import useModal from '../../hooks/useModal'
 import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schdule'
 import dayjs from 'dayjs'
-import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
 
 import './styles/DayScheduleForm.scss'
 
-dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 const DayScheduleForm: FunctionComponent<{}> = () => {
-  let dayPostResponse: number | null = null; let dayPostLoading: boolean = false; let dayPostError: Error | null = null
-  let dayPutResponse: number | null = null; let dayPutLoading: boolean = false; let dayPutError: Error | null = null
 
   const { mainSchedule, daySchedule, subSchedules, onCloseModal } = useModal()
   const { startDate, onSetStartDate, onSetEndDate } = useDrag()
   const { onPutMainSchedule, onPostDaySchedule, onPutDaySchedule } = useSchedule()
-
   const subSchedule = daySchedule.id !== 0 ? subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)[0] : subSchedules[0]
 
   const [subTitleId, setSubTitleId] = useState<number>(subSchedule.id)
@@ -80,9 +72,11 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       return
     }
     if (schedule.id === 0) {
-      postDayScheduleData()
+      onPostDaySchedule(initialDaySchedule)
+      putMainSchedule()
     } else {
-      putDayScheduleData()
+      onPutDaySchedule(initialDaySchedule)
+      putMainSchedule()
     }
     handleCloseModal()
     // console.log(schedule)
@@ -92,41 +86,6 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     onCloseModal()
     onSetStartDate('')
     onSetEndDate('')
-  }
-
-  async function postDayScheduleData() {
-    // console.log('in post', initialDaySchedule)
-    try {
-      const response = await axios.post(SERVER_IP + '/todo', initialDaySchedule)
-      dayPostResponse = response.data.id
-      dayPostLoading = true
-    }
-    catch (e) {
-      dayPostError = e
-      // console.error('error', dayPostError)
-    }
-    dayPostLoading = false
-    if (!dayPostResponse) return 'null'
-    onPostDaySchedule({ ...initialDaySchedule, id: dayPostResponse })
-    putMainSchedule()
-  }
-
-  async function putDayScheduleData() {
-    try {
-      const response = await axios.put(SERVER_IP + '/todo', initialDaySchedule)
-      // console.log('response', response)
-      dayPutResponse = response.data
-      dayPutLoading = true
-      console.log('success', dayPutResponse)
-    }
-    catch (e) {
-      dayPutError = e
-      // console.error('error', dayPutError)
-    }
-    dayPutLoading = false
-    if (!dayPutResponse) return 'null'
-    onPutDaySchedule(initialDaySchedule)
-    putMainSchedule()
   }
 
   async function putMainSchedule() {
@@ -140,14 +99,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       edited = true
     }
     if (!edited) return
-    try {
-      const response = await axios.put(SERVER_IP + '/calendar', mainSchedule)
-      onPutMainSchedule(mainSchedule)
-      console.log(response.data)
-    }
-    catch (e) {
-      console.error(e)
-    }
+    onPutMainSchedule(mainSchedule)
   }
 
 

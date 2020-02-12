@@ -6,23 +6,15 @@ import useSchedule from '../../hooks/useSchedule'
 import { SubSchedule } from '../../store/schdule'
 
 import dayjs from 'dayjs'
-import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
 
 import './styles/SubScheduleForm.scss'
 
-dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 const SubScheduleForm: FunctionComponent<{}> = () => {
-  let subPostResponse: number | null = null; let subPostLoading: boolean = false; let subPostError: Error | null = null
-  let subPutResponse: number | null = null; let subPutLoading: boolean = false; let subPutError: Error | null = null
 
   const { onPutMainSchedule, onPostSubSchedule, onPutSubSchedule } = useSchedule()
   const { mainSchedule, subSchedule, onCloseModal } = useModal()
   const { onSetStartDate, onSetEndDate} = useDrag()
-
 
   const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
   const [hasTitle, setHasTitle] = useState<boolean>(true)
@@ -46,7 +38,6 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     } else {
       setHasTitle(true)
     }
-    // console.log(e.target.value)
   }
   const handleColor = (color: string) => {
     setColor(color)
@@ -74,9 +65,11 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       return
     }
     if (schedule.id === 0) {
-      postSubScheduleData()
+      onPostSubSchedule(initialSubSchedule)
+      putMainSchedule()
     } else {
-      putSubScheduleData()
+      onPutSubSchedule(initialSubSchedule)
+      putMainSchedule()
     }
     handleCloseModal()
     // console.log(schedule)
@@ -88,44 +81,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     onSetEndDate('')
   }
 
-  async function postSubScheduleData() {
-    try {
-      const response = await axios.post(SERVER_IP + '/subtitle', initialSubSchedule)
-      // console.log('response', response)
-      subPostResponse = response.data.id
-      subPostLoading = true
-      // console.log('success', subPostResponse)
-    }
-    catch (e) {
-      subPostError = e
-      // console.error('error', subPostError)
-    }
-    subPostLoading = false
-    if (!subPostResponse) return 'null'
-    onPostSubSchedule({...initialSubSchedule, id: subPostResponse})
-    putMainSchedule()
-  }
-
-  async function putSubScheduleData() {
-    try {
-      const response = await axios.put(SERVER_IP + '/subtitle', initialSubSchedule)
-      // console.log('response', response)
-      subPutResponse = response.data
-      subPutLoading = true
-      // console.log('success', subPutResponse)
-    }
-    catch (e) {
-      subPutError = e
-      // console.error('error', subPutError)
-    }
-    subPutLoading = false
-    if (!subPutResponse) return 'null'
-    // console.log('post', {...initialSubSchedule, id: subPostResponse})
-    onPutSubSchedule(initialSubSchedule)
-    putMainSchedule()
-  }
-
-  async function putMainSchedule() {
+  function putMainSchedule() {
     let edited = false
     if (mainSchedule.startDate === '' || dayjs(mainSchedule.startDate) > dayjs(initialSubSchedule.startDate)) {
       mainSchedule.startDate = initialSubSchedule.startDate
@@ -136,14 +92,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       edited = true
     }
     if (!edited) return
-    try {
-      const response = await axios.put(SERVER_IP + '/calendar', mainSchedule)
-      onPutMainSchedule(mainSchedule)
-      console.log(response.data)
-    }
-    catch (e) {
-      console.error(e)
-    }
+    onPutMainSchedule(mainSchedule)
   }
 
   // 상호작용을 위한 변수

@@ -185,14 +185,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     e.stopPropagation()
     hashTagList.push(hashTagName)
     const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
-
     onPutMainSchedule(editedSchedule)
-    try {
-      await axios.put(SERVER_IP + '/calendar', editedSchedule)
-    }
-    catch (e) {
-      console.error(e)
-    }
     setHashTagName('')
   }
 
@@ -200,69 +193,27 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     e.stopPropagation()
     hashTagList.splice(id, 1)
     const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
-
     onPutMainSchedule(editedSchedule)
-    try {
-      await axios.put(SERVER_IP + '/calendar', editedSchedule)
-    }
-    catch (e) {
-      console.error(e)
-    }
-    console.log('deleteHashTag')
   }
 
   const handleDeleteCalendar = async (e: MouseEvent) => {
     e.stopPropagation()
     onDeleteMainSchedule(calendarId)
-    try {
-      const response =
-        await axios.delete(SERVER_IP + '/calendar/' + calendarId)
-      mainPutResponse = response.data
-      mainPutLoading = true
-      // console.log('success', mainPutResponse)
-    }
-    catch (e) {
-      // mainPutError = e
-      // console.error(mainPutError)
-      console.error(e)
-    }
   }
 
   const handleMakeRepresent = async (e: MouseEvent) => {
     e.stopPropagation()
     onMakeRepresentSchedule(calendarId)
-    try {
-      await axios.put(SERVER_IP + '/representset/' + calendarId)
-    }
-    catch (e) {
-      console.error(e)
-    }
   }
 
   const handlePublicToggle = async (e: MouseEvent) => {
     e.stopPropagation()
     onMakePublicSchedule(calendarId)
-    try {
-      await axios.put(SERVER_IP + '/pbtoggle/' + calendarId)
-      console.log('locked')
-    }
-    catch (e) {
-      console.error(e)
-    }
   }
 
   const handleRecommend = async () => {
     const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
-    console.log('recommend', editedSchedule)
-
     onPutMainSchedule(editedSchedule)
-    try {
-      const response = await axios.put(SERVER_IP + '/calendar', editedSchedule)
-      console.log(response.data)
-    }
-    catch (e) {
-      console.log(e)
-    }
   }
 
   const handleScrap = async () => {
@@ -284,7 +235,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleSave = async () => {
     if (!onGetUserInfo) return
 
-    let editedSchedule = { ...initialMainCalendar, id: 0, userId: onGetUserInfo.id, represent: false, pb: false }
+    let editedSchedule = { ...initialMainCalendar, userId: onGetUserInfo.id, represent: false, pb: false }
+
     let postMainScheduleId: number = 0
     let originSubSchedules: SubSchedule[] = []
     let newSubSchedules: SubSchedule[] = []
@@ -410,17 +362,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const headerBorder = showMonth ? '' : 'headerBorder'
   const canEdit = onGetUserInfo !== null && (onGetUserInfo.id === calendarUserId ? '' : 'pointerNone')
 
-  // const MyCalendarOption = useMemo(() => {
-  //   return (
-
-  //   )
-  // }, [titleWidth])
-
-  // const ImportedCalendarOption = useMemo(() => {
-  //   return (
-
-  //   )
-  // }, [titleWidth])
 
   return (
     <div
