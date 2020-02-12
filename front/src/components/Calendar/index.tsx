@@ -379,7 +379,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   />
                 </div>
                 <div
-                  className={`calendarHeader`}
+                  className={`calendarHeader hashTagItem`}
                   onClick={handleEditTitle}
                 >
                   확인
@@ -392,9 +392,13 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 onClick={handleEditMode}
               >
                 {/* 수정 icon */}
-                <div className="editIcon">
+                {!editMode ?
+                  <div className="editIcon">
                   <img src={pencil} alt="수정icon" style={{ maxWidth: "100%" }} />
                 </div>
+                :
+                ''
+                }
               </div>
               :
               ''
@@ -423,10 +427,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                       onChange={handleHashTag}
                     />
                     <div
-                      className={`calendarHeader xsButton`}
+                      className={`calendarHeader xsButton hashTagItem`}
                       onClick={handleAddHashtag}
                     >
-                      +
+                      추가
                   </div>
                   </div>
                 </div>
@@ -453,7 +457,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   {initialMainCalendar.pb ?
                     <img src={share3} alt="share3" style={{ width: "15px" }} />
                     :
-                    <img src={lock} alt="share3" style={{ width: "15px" }} />
+                    <img src={lock} alt="lock" style={{ width: "15px" }} />
                   }
                 </div>
                 {/* 삭제 icon */}

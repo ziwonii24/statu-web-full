@@ -12,6 +12,7 @@
 .calendarNavi {
   display: flex;
   justify-content: center ;
+  margin-top: 1rem;
 }
 
 .calendarHeader {
@@ -43,7 +44,8 @@
 }
 
 .inputTitle {
-  font-size: 15px;
+  // font-size: 15px;
+  width: 50%;
   border-bottom: 1px solid gray;
   border-top: none;
   border-right: none;
@@ -129,3 +131,14 @@
   margin-left: 2px;
   width: 10px;
 }
+
+.xsButton {
+  font-size: x-small;
+}
+
+// .check {
+//   font-size: 15px;
+//   border: 1px solid green;
+//   border-radius: 10px;
+//   padding: 2px;
+// }

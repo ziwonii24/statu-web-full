@@ -108,20 +108,17 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   // 화면에 렌더링할 컴포넌트 생성
   const AddButton = useMemo(() =>
-  // 시간표추가 <+> 이미지 삽입
-     <div
-        className="addCalendar"
-        onClick={handleAddCalendar}
-      >
-        <img src={plus} alt="plus" style={{ maxWidth: "100%" }}/>
-      </div>
+    <>
+      <img onClick={handleAddCalendar} className="addCalendar" src={plus} alt="plus" style={{ height: "30px" }} />
+      <div className="fakeDiv"> </div>
+    </>
     , [userId])
 
   const NullCalendar = useMemo(() => {
     if (renderMainSchedule.length === 0) {
       return (
-      <div className="requestCalendar">
-        시간표를 추가해주세요.
+        <div className="requestCalendar">
+          시간표를 추가해주세요.
         </div>
       )
     } else {
