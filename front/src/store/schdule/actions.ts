@@ -2,10 +2,15 @@ import { createAction, createAsyncAction } from 'typesafe-actions'
 import { GetSchedulesState, MainSchedule, SubSchedule, DaySchedule } from './types'
 
 // 액션 type
-// GET
+// get all scheudule
 export const GET_SCHEDULE_REQUEST = 'getSchedule/GET_SCHEDULE_REQUEST'
 export const GET_SCHEDULE_SUCCESS = 'getSchedule/GET_SCHEDULE_SUCCESS'
 export const GET_SCHEDULE_FAILURE = 'getSchedule/GET_SCHEDULE_FAILURE'
+
+// apply schedule to my plan
+export const APPLY_SCHEDULE_REQUEST = 'applySchedule/APPLY_SCHEDULE_REQUEST'
+export const APPLY_SCHEDULE_SUCCESS = 'applySchedule/APPLY_SCHEDULE_SUCCESS'
+export const APPLY_SCHEDULE_FAILURE = 'applySchedule/APPLY_SCHEDULE_FAILURE'
 
 // mainSchedule
 export const POST_MAINSCHEDULE = 'mainSchedule/POST_MAINSCHEDULE'
@@ -25,12 +30,19 @@ export const PUT_DAYSCHEDULE = 'daySchedule/PUT_DAYSCHEDULE'
 export const DELETE_DAYSCHEDULE = 'daySchedule/DELETE_DAYSCHEDULE'
 
 // 액션 생성 함수
-//GET
+// get all scheudule
 export const getSchedule = createAsyncAction(
   GET_SCHEDULE_REQUEST,
   GET_SCHEDULE_SUCCESS,
   GET_SCHEDULE_FAILURE
 )<string, GetSchedulesState, Error>()
+
+// apply schedule to my plan
+export const applyScheuletoMyPlan = createAsyncAction(
+  APPLY_SCHEDULE_REQUEST,
+  APPLY_SCHEDULE_SUCCESS,
+  APPLY_SCHEDULE_FAILURE
+)
 
 // mainSchedule
 export const postMainSchedule = createAction(POST_MAINSCHEDULE)<MainSchedule>()  // schedule

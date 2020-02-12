@@ -55,6 +55,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   // console.log(headerElement)
   // console.log(titleElement)
   const { width } = useWindowSize()
+  // console.log(width)
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
@@ -282,75 +283,92 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleSave = async () => {
     if (!onGetUserInfo) return
+
     let editedSchedule = { ...initialMainCalendar, id: 0, userId: onGetUserInfo.id, represent: false, pb: false }
     let postMainScheduleId: number = 0
+    let originSubSchedules: SubSchedule[] = []
+    let newSubSchedules: SubSchedule[] = []
+    let originDaySchedules: DaySchedule[] = []
+
     try {
-      const response = await axios.post(SERVER_IP + '/calendar', editedSchedule)
-      console.log('success', response.data)
-      postMainScheduleId = response.data.id
+      // importedplan 을 myplan 에 저장하기
+      const postResp = await axios.post(SERVER_IP + '/calendar', editedSchedule)
+      console.log('post success', postResp.data)
+      postMainScheduleId = postResp.data.id
 
       editedSchedule = { ...editedSchedule, id: postMainScheduleId }
       console.log('editedSchedule', editedSchedule)
       onPostMainSchedule(editedSchedule)
+
+      // importedplan 에 저장된 subSchedule 가져오기
+      const getOriginSubResp = await axios.get(SERVER_IP + '/subtitle/bycalendarid/' + calendarId)
+      console.log('getOriginSubResp success', getOriginSubResp.data)
+      originSubSchedules = originSubSchedules.concat(getOriginSubResp.data)
+
+      // myplan에 새로 생긴 subSchedule(기타)가 담긴 array 만들기
+      // originSubSchedule 과 newSubSchedule 을 비교하며 dayScheduele 저장할 때 새로운 subScheudule id 부여
+      const getNewSubResp = await axios.get(SERVER_IP + '/subtitle/bycalendarid/' + postMainScheduleId)
+      console.log('getNewSubResp success', getNewSubResp.data)
+      newSubSchedules = newSubSchedules.concat(getNewSubResp.data)
+
+      // importedplan 에 저장된 daySchedule 가져오기
+      const getOriginDayResp = await axios.get(SERVER_IP + '/todo/calendarid/' + calendarId)
+      console.log('getOriginDayResp success', getOriginDayResp.data)
+      originDaySchedules = originDaySchedules.concat(getOriginDayResp.data)
     }
     catch (e) {
       console.log(e)
     }
     if (postMainScheduleId === 0) return
 
-    console.log(getSubSchedules)
-    const filteredSubNewId: number[] = [getSubSchedules.filter(schedule => schedule.calendarId === postMainScheduleId)[0].id]
-    const filteredSubOriginId: number[] = []
-    const initialStartDate = dayjs(dayjs(initialMainCalendar.startDate))
-    const initialStartDay = initialStartDate.day()
-    const todayDay = targetDate.day()
+    const initialStartDate = dayjs(dayjs(initialMainCalendar.startDate))  // 메인스케줄에 포함된 목표의 첫 시작 날짜
+    const initialStartDay = initialStartDate.day()  // 메인스케줄에 포함된 목표의 첫 시작 요일
+    const todayDay = targetDate.day()  // 오늘 요일
 
-    const dayFromInitialStartDate = targetDate.diff(initialStartDate, 'day')
-    const tuneDayWithOrigin = (initialStartDay - todayDay) >= 0 ? (initialStartDay - todayDay) : (initialStartDay - todayDay) + 7
+    const dayFromInitialStartDate = targetDate.diff(initialStartDate, 'day')  // 첫 시작 날짜와 오늘의 날짜 차이
+    const tuneDayWithOrigin = (initialStartDay - todayDay) >= 0 ? (initialStartDay - todayDay) : (initialStartDay - todayDay) + 7  // 오늘과 첫 시작 날짜의 요일 차이 조정
     const addDays = dayFromInitialStartDate + tuneDayWithOrigin
     console.log('요일', initialStartDay, todayDay, tuneDayWithOrigin)
 
     let postSubSchduleId: number = 0
-    getSubSchedules.map(async(schedule) => {
-      if (schedule.calendarId === calendarId) {
-        filteredSubOriginId.push(schedule.id)
-        if (schedule.startDate === '9999-99-99') return
+    originSubSchedules.map(async (schedule) => {
+      if (schedule.startDate !== '9999-99-99') {
         let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, startDate: `${dayjs(schedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(schedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
         try {
           const response = await axios.post(SERVER_IP + '/subtitle', editedSchedule)
-          postSubSchduleId = response.data
+          postSubSchduleId = response.data.id
           console.log('success post sub', postSubSchduleId)
 
-          editedSchedule = { ...editedSchedule, id: postSubSchduleId}
+          editedSchedule = { ...editedSchedule, id: postSubSchduleId }
           onPostSubSchedule(editedSchedule)
-          filteredSubNewId.push(postSubSchduleId)
+          newSubSchedules.push(editedSchedule)
         }
         catch (e) {
           console.log(e)
         }
       }
     })
+    
+    console.log(originSubSchedules, newSubSchedules)
 
     let postDayScheduleId: number = 0
-    getDaySchedules.map(async(schedule) => {
-      if (schedule.calendarId === calendarId) {
-        let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, date: `${dayjs(schedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
-        filteredSubOriginId.map((originId, idx) => {
-          if (originId === schedule.subTitleId) {
-            editedSchedule = { ...editedSchedule, subTitleId: filteredSubNewId[idx]}
-          }
-        })
-        try {
-          const response = await axios.post(SERVER_IP + '/todo', editedSchedule)
-          postDayScheduleId = response.data
-          console.log('success post sub', postDayScheduleId)
+    originDaySchedules.map(async (schedule) => {
+      let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, date: `${dayjs(schedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
+      originSubSchedules.map((subSchedule, idx) => {
+        if (subSchedule.id === schedule.subTitleId) {
+          editedSchedule = { ...editedSchedule, subTitleId: newSubSchedules[idx].id }
+        }
+      })
+      try {
+        const response = await axios.post(SERVER_IP + '/todo', editedSchedule)
+        postDayScheduleId = response.data
+        console.log('success post sub', postDayScheduleId)
 
-          editedSchedule = { ...editedSchedule, id: postDayScheduleId}
-          onPostDaySchedule(editedSchedule)
-        }
-        catch (e) {
-          console.log(e)
-        }
+        editedSchedule = { ...editedSchedule, id: postDayScheduleId }
+        onPostDaySchedule(editedSchedule)
+      }
+      catch (e) {
+        console.log(e)
       }
     })
   }
@@ -392,103 +410,17 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const headerBorder = showMonth ? '' : 'headerBorder'
   const canEdit = onGetUserInfo !== null && (onGetUserInfo.id === calendarUserId ? '' : 'pointerNone')
 
-  const MyCalendarOption = useMemo(() => {
-    return (
-      <div
-        className={`calendarOption`}
-        style={{ minWidth: `${(windowWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
-      >
-        <div
-          className={`calendarHeader alingLeft`}
-        >
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleEditMode}
-          >
-            수정
-                </div>
-          <div className={`calendarHeader hashTagBox ${canEdit}`}>
-            <div
-              className={`calendarHeader ${canEdit}`}
-            >
-              <div
-                className={`calendarHeader`}
-                onClick={handleInputClick}
-              >
-                <input
-                  type="text"
-                  placeholder="태그입력"
-                  value={hashTagName}
-                  onChange={handleHashTag}
-                />
-              </div>
-              <div
-                className={`calendarHeader xsButton`}
-                onClick={handleAddHashtag}
-              >
-                +
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className={`calendarHeader alignRight`}
-        >
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleDeleteCalendar}
-          >
-            삭제
-          </div>
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleMakeRepresent}
-          >
-            대표
-          </div>
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handlePublicToggle}
-          >
-            공유
-          </div>
-        </div>
-      </div>
-    )
-  }, [titleWidth])
+  // const MyCalendarOption = useMemo(() => {
+  //   return (
 
-  const ImportedCalendarOption = useMemo(() => {
-    return (
-      <div
-        className={`calendarOption`}
-        style={{ minWidth: `${(headerWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
-      >
-        <div className={`calendarHeader alignRight`}>
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleRecommend}
-          >
-            추천
-          </div>
-          {onPage === 'MyPlan' ?
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleScrap}
-            >
-              가져오기
-              </div>
-            :
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleSave}
-            >
-              저장하기
-                </div>
-          }
-        </div>
-      </div>
-    )
-  }, [titleWidth])
+  //   )
+  // }, [titleWidth])
+
+  // const ImportedCalendarOption = useMemo(() => {
+  //   return (
+
+  //   )
+  // }, [titleWidth])
 
   return (
     <div
@@ -533,11 +465,102 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 </div>
               </>
             }
+            {!canEdit ?
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleEditMode}
+              >
+                수정
+              </div>
+              :
+              ''
+            }
           </div>
           {!canEdit ?
-            MyCalendarOption
+            <div
+              className={`calendarOption`}
+              style={{ minWidth: `${(windowWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
+            >
+              <div
+                className={`calendarHeader alingLeft`}
+              >
+
+                <div className={`calendarHeader hashTagBox ${canEdit}`}>
+                  <div
+                    className={`calendarHeader ${canEdit}`}
+                  >
+                    <div
+                      className={`calendarHeader`}
+                      onClick={handleInputClick}
+                    >
+                      <input
+                        type="text"
+                        placeholder="태그입력"
+                        value={hashTagName}
+                        onChange={handleHashTag}
+                      />
+                    </div>
+                    <div
+                      className={`calendarHeader xsButton`}
+                      onClick={handleAddHashtag}
+                    >
+                      +
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`calendarHeader alignRight`}
+              >
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleDeleteCalendar}
+                >
+                  삭제
+              </div>
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleMakeRepresent}
+                >
+                  대표
+              </div>
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handlePublicToggle}
+                >
+                  공유
+              </div>
+              </div>
+            </div>
             :
-            ImportedCalendarOption
+            <div
+              className={`calendarOption`}
+              style={{ minWidth: `${(headerWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
+            >
+              <div className={`calendarHeader alignRight`}>
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleRecommend}
+                >
+                  추천
+          </div>
+                {onPage === 'MyPlan' ?
+                  <div
+                    className={`calendarHeader calendarHeaderButton`}
+                    onClick={handleScrap}
+                  >
+                    가져오기
+              </div>
+                  :
+                  <div
+                    className={`calendarHeader calendarHeaderButton`}
+                    onClick={handleSave}
+                  >
+                    저장하기
+                </div>
+                }
+              </div>
+            </div>
           }
           <div>
             <div
