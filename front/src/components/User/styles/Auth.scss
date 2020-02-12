@@ -170,3 +170,102 @@
 .categoryBox::-webkit-scrollbar-thumb:hover { background: #212529; } /* 실질적 스크롤 바 위에 마우스를 올려다 둘 때 */
 .categoryBox::-webkit-scrollbar-thumb:active { background: #212529; } /* 실질적 스크롤 바를 클릭할 때 */
 .categoryBox::-webkit-scrollbar-button { display: none; } /* 스크롤 바 상 하단 버튼 */
+
+.file-upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 275px;
+}
+
+.file-upload-btn {
+    width: 100%;
+    height: 100%;
+    background: #1FB264;
+    padding: 10px;
+    border-radius: 4px;
+    border-bottom: 4px solid #15824B;
+    transition: all .2s ease;
+    outline: none;
+    text-transform: uppercase;
+}
+  
+.file-upload-btn:hover {
+    background: #1AA059;
+    transition: all .2s ease;
+    cursor: pointer;
+}
+  
+.file-upload-btn:active {
+    border: 0;
+    transition: all .2s ease;
+}
+  
+.file-upload-content {
+    text-align: center;
+    height: 275px;
+}
+  
+.file-upload-input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+    cursor: pointer;
+}
+  
+.image-upload-wrap {
+    border: 4px dashed #1FB264;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+  
+.image-dropping,
+.image-upload-wrap:hover {
+    background-color: #1FB264;
+    border: 4px dashed white;
+}
+
+.image-title-wrap {
+    padding: 0 15px 15px 15px;
+    color: #222;
+}
+  
+.drag-text {
+    text-align: center;
+    font-weight: bold;
+    color: #15824B;
+    padding: 60px 0;
+}
+  
+.file-upload-image {
+    min-height: 200px;
+    min-width: 200px;
+    max-height: 200px;
+    max-width: 200px;
+    margin-top: 0.5rem;
+}
+  
+.remove-image {
+    width: 200px;
+    color: #fff;
+    background: #1FB264;;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    transition: all .2s ease;
+    outline: none;
+    text-transform: uppercase;
+    margin-top: 1rem;
+}
+
+.remove-image:hover {
+    background: #1FB264cd;
+}

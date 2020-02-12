@@ -1,16 +1,11 @@
-import React, { FunctionComponent, useState, ChangeEvent, MouseEvent, useEffect, useMemo } from 'react'
+import React, { FunctionComponent, MouseEvent, useState, ChangeEvent } from 'react'
 
-import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserInput } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
-import { login } from './authentication'
-
-import { history } from '../../configureStore'
-import { Link } from 'react-router-dom'
+import { login, logout, decode } from './authentication'
 
 import './styles/Auth.scss'
 
@@ -20,14 +15,75 @@ const ProfileForm: FunctionComponent = () => {
 
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
-    const fileFindHandler = async (e: MouseEvent<HTMLElement>) => {
+    const { onGetUserInfo, onSetUserInfo } = useUser()
+
+    const [file, setInputfile] = useState<any>()
+    const [showWrap, setShowWrap] = useState<boolean>(true)
+    const [imgSrc, setImgSrc] = useState<any>('')
+    const [ errormsg, setErrorMsg ] = useState<string>('')
+
+    const user = onGetUserInfo
+
+    const fileFindHandler = async (e: ChangeEvent<HTMLInputElement>) => {
         e.preventDefault()
-        console.log('find clicked')
+
+        const files = e.target.files
+        const filesArr = Array.prototype.slice.call(files)
+        const file = filesArr[0]
+
+        if(!file) return
+        
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            setInputfile(file)
+            setShowWrap(false)
+
+            if (event.target != null) {
+                setImgSrc(event.target.result)
+            }
+        };
+
+        reader.readAsDataURL(file);        
+    }
+
+    const fileRemoveHandler = async (e: MouseEvent<HTMLElement>) => {
+        e.preventDefault()
+
+        setShowWrap(true)
+        setInputfile(null)
     }
 
     const fileSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
         e.preventDefault()
-        console.log('submit clicked')
+        
+        var formData = new FormData();
+        formData.append('file',file)
+        
+        alert('내 정보가 수정되었습니다.')
+        fetch(`${SERVER_IP}/user/upload?email=`+user?.email,  {
+            method: 'POST',
+            //headers: { 'Content-Type': 'multipart/form-data' },
+            body: formData
+        }).then(res => {
+            console.log('[profile] res: ', res)
+            if(res.status !== 200 && res.status !== 202) {
+                setErrorMsg('예기치 못한 에러가 발생했습니다. 잠시 후 다시 시도해주세요!')
+            } else {
+                res.json().then(response => {
+                    const newToken = response.data.token
+                    logout()
+                    login(newToken)
+                    
+                    const newtokenDecoded = decode(newToken)
+                    const newUser = newtokenDecoded.user
+                    
+                    onSetUserInfo(newUser)
+                })
+                .catch(e => {
+                    console.log('[profile] error: ', e)
+                })
+            }
+        })
     }
   
     console.log('*profile form rendering...')
@@ -35,16 +91,26 @@ const ProfileForm: FunctionComponent = () => {
     return (
         <div>
             <h4 className='formTitle'>프로필설정</h4>
-            <form>                
-                <div>이미지가 보이는 곳</div>
-
-                <div className='checkMsg'>file msg</div>
-
-                <div>
-                    <button onClick={fileFindHandler}>파일찾기</button>
+            <form>            
+                <div className='file-upload'>
+                    {showWrap ?
+                        <div className="image-upload-wrap">
+                            <input className="file-upload-input" type='file' onChange={fileFindHandler} accept="image/*" />
+                            <div className="drag-text">
+                                끌어다 놓거나 이미지를 선택하세요.
+                            </div>
+                        </div>
+                        :
+                        <div className="file-upload-content">
+                            <img className="file-upload-image" src={imgSrc} />
+                            <div className="image-title-wrap">
+                                <button type="button" className="remove-image" onClick={fileRemoveHandler} >다시 선택하기</button>
+                            </div>
+                        </div>
+                    }
                 </div>
 
-                <div className='errorMsg'>error msg</div>
+                { errormsg && <div className='errorMsg'>{errormsg}</div> }
 
                 <div>
                     <button className='btnSubmit' type='submit' onClick={fileSubmitHandler}>등록</button>

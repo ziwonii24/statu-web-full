@@ -20,10 +20,8 @@ const LargeNavBar: FunctionComponent = () => {
           <button>🔍</button>
         </Nav>
         <Form inline>
-          <div className="menu"><Link to='/signup'>Signup</Link></div>
-          <div className="menu"><Link to='/login'>login</Link></div>
-          {/* <div className="menu"><Link to='/community'>커뮤니티</Link></div> */}
-          <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
+          <div className="menu"><Link to='/signup'>회원가입</Link></div>
+          <div className="menu"><Link to='/login'>로그인</Link></div>
         </Form>
       </Navbar>
     </div>

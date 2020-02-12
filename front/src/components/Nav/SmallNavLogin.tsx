@@ -16,6 +16,8 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
   const { onLogout, user } = props
 
+  const imgUrl = 'http://13.124.208.26:80/images/' + user.img
+
   const handleMyPlan = () => {
     history.push(`/plan/${user.name}`)
   }
@@ -42,7 +44,7 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
           <br />
 
-          <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
+          <div><img className='userImg' src={imgUrl} /></div>
         </div>
       </Navbar.Collapse>
     </Navbar>

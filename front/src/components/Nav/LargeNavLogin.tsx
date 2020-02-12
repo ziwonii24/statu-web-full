@@ -21,6 +21,8 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
   const { onLogout, user } = props
   const { onSetUserId } = usePlanPage()
+
+  const imgUrl = 'http://13.124.208.26:80/images/' + user.img
   
   const handleMyPlan = () => {
     onSetUserId(user.id)
@@ -31,6 +33,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
   }, [])
+
   const handleSearch = (e: MouseEvent) => {
     e.preventDefault()
     history.push(`/search/${query}`)
@@ -63,7 +66,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
           {/* <div className="menu"><Link to='/community'>커뮤니티</Link></div> */}
           <div className="menu"><Link to='/userinfo'>내정보수정</Link></div>
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
-          <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
+          <div><img className='userImg' src={imgUrl} /></div>
         </Form>
       </Navbar>
     </div>
