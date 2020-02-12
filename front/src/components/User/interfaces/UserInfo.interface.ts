@@ -14,8 +14,8 @@ export interface UserInput {
     name?: string
     password?: string
     img?: string
-    category1?: number[]
-    category2?: number[]
+    category1?: string[]
+    category2?: string[]
 }
 
 export interface TokenInfo {
@@ -23,4 +23,15 @@ export interface TokenInfo {
     exp: number,
     user: UserInfo,
     second: string,
+}
+
+export interface CategoryData {
+    id: number,
+    name: string,
+    category2s: [
+        {
+            id: number,
+            name: string,
+        }
+    ]
 }

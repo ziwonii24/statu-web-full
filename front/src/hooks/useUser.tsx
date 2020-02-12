@@ -10,8 +10,6 @@ export default function useUser() {
 
   const onSetUserInfo = useCallback((userParam) => dispatch(setUserInfo(userParam)), [dispatch])
 
-  // 삭제하는 것도 만들자?
-
   return {
     onGetUserInfo, onSetUserInfo
   }

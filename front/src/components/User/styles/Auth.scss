@@ -10,6 +10,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
 }
 
 .whiteBox {
@@ -25,7 +26,7 @@
     color: #343a40;
     margin-bottom: 1rem;
     display: block;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     text-align: center;
     font-weight: bold;
     letter-spacing: 2px;
@@ -145,3 +146,27 @@
 .infoHeader a:hover {
     color: #212529;
 }
+
+.categoryBox {
+    height: 275px;
+    overflow-y: scroll;
+}
+
+.categoryItemBox {
+    padding: 0.5rem 1rem;
+    border-bottom: 0.5px solid #868e9644;
+}
+
+.subCategoryItemBox {
+    // display: none;
+    padding: 0.5rem 1rem;
+    border-bottom: 0.5px solid #868e9644;
+    font-size: 0.75rem;
+}
+
+.categoryBox::-webkit-scrollbar { width: 5.2px; } /* 스크롤 바 */
+.categoryBox::-webkit-scrollbar-track { background-color:white; } /* 스크롤 바 밑의 배경 */
+.categoryBox::-webkit-scrollbar-thumb { background: #868e9644; } /* 실질적 스크롤 바 */
+.categoryBox::-webkit-scrollbar-thumb:hover { background: #212529; } /* 실질적 스크롤 바 위에 마우스를 올려다 둘 때 */
+.categoryBox::-webkit-scrollbar-thumb:active { background: #212529; } /* 실질적 스크롤 바를 클릭할 때 */
+.categoryBox::-webkit-scrollbar-button { display: none; } /* 스크롤 바 상 하단 버튼 */
