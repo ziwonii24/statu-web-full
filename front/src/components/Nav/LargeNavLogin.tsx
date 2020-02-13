@@ -12,6 +12,7 @@ import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 
 import '../Nav/style/Nav.scss'
+import search from '../../img/search.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -55,7 +56,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="navBar">
 
-      <Navbar className="navBar" bg="light" variant="light">
+      <Navbar className="navBar">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
         <Nav className="mr-auto">
           <input 
@@ -68,7 +69,9 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
           <button
             onClick={searchClickHandler}
           >
-            🔍
+            <div className="searchImg">
+              <img src={search} alt="search" style={{ maxWidth: "100%" }}/>
+            </div>
           </button>
           {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>

@@ -8,7 +8,7 @@ interface InterFace {
   history: History
 }
 
-const App: FunctionComponent<InterFace> = ({history}: InterFace) => {
+const App: FunctionComponent<InterFace> = ({ history }: InterFace) => {
   console.log('APP')
 
   const { onGetSchedule } = useSchedule()
@@ -16,15 +16,12 @@ const App: FunctionComponent<InterFace> = ({history}: InterFace) => {
   useEffect(() => {
     onGetSchedule()
     console.log('app useEffect')
-  },[])
-  
+  }, [])
+
   return (
-    <>
-    <div className="fakeDiv" style={{ height: "55px" }}></div>
-      <ConnectedRouter history={history}>
-        { routes }
-      </ConnectedRouter>
-    </>
+    <ConnectedRouter history={history}>
+      {routes}
+    </ConnectedRouter>
   )
 }
 
