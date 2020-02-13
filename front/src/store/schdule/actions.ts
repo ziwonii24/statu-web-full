@@ -76,7 +76,7 @@ export const getSchedule = createAsyncAction(
 )<string, GetSchedulesState, Error>()
 
 // apply schedule to my plan
-export const applyScheuletoMyPlan = createAsyncAction(
+export const applyScheduleToMyPlan = createAsyncAction(
   APPLY_SCHEDULE_REQUEST,
   APPLY_SCHEDULE_SUCCESS,
   APPLY_SCHEDULE_FAILURE

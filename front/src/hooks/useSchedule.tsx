@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheuletoMyPlan,
+  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
   postMainSchedule, putMainSchedule, deleteMainSchedule, 
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
   postDaySchedule, putDaySchedule, deleteDaySchedule,
@@ -23,7 +23,7 @@ export default function useSchedule() {
   const onGetSchedule = useCallback(() => dispatch(getSchedule.request('')), [dispatch])
 
   // supply imported plan to my plan
-  const onApplyScheuletoMyPlan = useCallback((mainSchedule: MainSchedule) => dispatch(applyScheuletoMyPlan.request(mainSchedule)), [dispatch])
+  const onApplyScheduletoMyPlan = useCallback((mainSchedule: MainSchedule) => dispatch(applyScheduleToMyPlan.request(mainSchedule)), [dispatch])
 
   // mainSchedule
   const onPostMainSchedule = useCallback((mainSchedule: MainSchedule) => dispatch(postMainSchedule.request(mainSchedule)), [dispatch])
@@ -88,7 +88,7 @@ export default function useSchedule() {
   const onDeleteDaySchedule = useCallback((id: number) => dispatch(deleteDaySchedule.request(id)), [dispatch])
 
   return {
-    onGetSchedule, schedules, getMainSchedules, getSubSchedules, getDaySchedules, onGetSubScheduleOnTarget,
+    onGetSchedule, schedules, getMainSchedules, getSubSchedules, getDaySchedules, onGetSubScheduleOnTarget, onApplyScheduletoMyPlan,
     onPostMainSchedule, onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule, onGetMainTerm,
     onGetSubSchedule, onPostSubSchedule, onPutSubSchedule, onDeleteSubSchedule,
     onPostDaySchedule, onPutDaySchedule, onDeleteDaySchedule

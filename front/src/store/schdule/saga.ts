@@ -1,5 +1,5 @@
 import {
-  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheuletoMyPlan,
+  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
   postMainSchedule, putMainSchedule, deleteMainSchedule,
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget,
   postDaySchedule, putDaySchedule, deleteDaySchedule
@@ -90,7 +90,7 @@ function* makeRepresentScheduleSaga({ payload: id }: ReturnType<typeof makeRepre
   }
 }
 
-function* applyScheuletoMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof applyScheuletoMyPlan.request>) {
+function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof applyScheduleToMyPlan.request>) {
   try {
     let editedSchedule = { ...mainSchedule, id: 0 }
     let mainSchedules: MainSchedule[] = []
@@ -138,7 +138,7 @@ function* applyScheuletoMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof 
         let editedSchedule = { ...originSubSchedule, id: 0, calendarId: mainScheduleId, startDate: `${dayjs(originSubSchedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(originSubSchedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
         const postNewSubResp = await axios.post(SERVER_IP + '/subtitle', editedSchedule)
         const subSchduleId = postNewSubResp.data.id
-        subSchedules.push({ ...originSubSchedule, id: subSchduleId })
+        subSchedules.push({ ...editedSchedule, id: subSchduleId })
         console.log('getNewSubResp success', subSchedules)
       }
     })
@@ -156,10 +156,10 @@ function* applyScheuletoMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof 
       daySchedules.push({ ...editedSchedule, id: dayScheduleId })
     })
 
-    yield put(applyScheuletoMyPlan.success({ mainSchedules, subSchedules, daySchedules }))
+    yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules }))
   }
   catch (error) {
-    yield put(applyScheuletoMyPlan.failure(error))
+    yield put(applyScheduleToMyPlan.failure(error))
   }
 }
 
@@ -263,7 +263,8 @@ export function* scheduleSaga() {
     takeEvery(putMainSchedule.request, putMainScheduleSaga),
     takeEvery(deleteMainSchedule.request, deleteMainScheduleSaga),
     takeEvery(makeRepresentSchedule.request, makeRepresentScheduleSaga),
-    takeEvery(makePublicSchedule.request, makePublicScheduleSaga),
+    takeEvery(makePublicSchedule.request, makePublicScheduleSaga), 
+    takeEvery(applyScheduleToMyPlan.request, applyScheduleToMyPlanSaga), 
 
     takeEvery(getSubSchedule.request, getSubScheduleSaga),
     takeEvery(postSubSchedule.request, postSubScheduleSaga),

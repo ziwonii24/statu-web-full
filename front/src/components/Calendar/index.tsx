@@ -114,10 +114,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const hashTagList = tags.filter(tag => tag !== '')
 
   // 사용함수
-  const { getMainSchedules, getSubSchedules, getDaySchedules, onPostMainSchedule, onPostSubSchedule, onPostDaySchedule,
+  const { getMainSchedules, onApplyScheduletoMyPlan,
     onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
   const initialMainCalendar = getMainSchedules.filter(schedule => schedule.id === calendarId)[0]
-  let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
 
   function sortDate(first: string, second: string) {
     const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
@@ -237,92 +236,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
     let editedSchedule = { ...initialMainCalendar, userId: onGetUserInfo.id, represent: false, pb: false }
 
-    let postMainScheduleId: number = 0
-    let originSubSchedules: SubSchedule[] = []
-    let newSubSchedules: SubSchedule[] = []
-    let originDaySchedules: DaySchedule[] = []
-
-    try {
-      // importedplan 을 myplan 에 저장하기
-      const postResp = await axios.post(SERVER_IP + '/calendar', editedSchedule)
-      console.log('post success', postResp.data)
-      postMainScheduleId = postResp.data.id
-
-      editedSchedule = { ...editedSchedule, id: postMainScheduleId }
-      console.log('editedSchedule', editedSchedule)
-      onPostMainSchedule(editedSchedule)
-
-      // importedplan 에 저장된 subSchedule 가져오기
-      const getOriginSubResp = await axios.get(SERVER_IP + '/subtitle/bycalendarid/' + calendarId)
-      console.log('getOriginSubResp success', getOriginSubResp.data)
-      originSubSchedules = originSubSchedules.concat(getOriginSubResp.data)
-
-      // myplan에 새로 생긴 subSchedule(기타)가 담긴 array 만들기
-      // originSubSchedule 과 newSubSchedule 을 비교하며 dayScheduele 저장할 때 새로운 subScheudule id 부여
-      const getNewSubResp = await axios.get(SERVER_IP + '/subtitle/bycalendarid/' + postMainScheduleId)
-      console.log('getNewSubResp success', getNewSubResp.data)
-      newSubSchedules = newSubSchedules.concat(getNewSubResp.data)
-
-      // importedplan 에 저장된 daySchedule 가져오기
-      const getOriginDayResp = await axios.get(SERVER_IP + '/todo/calendarid/' + calendarId)
-      console.log('getOriginDayResp success', getOriginDayResp.data)
-      originDaySchedules = originDaySchedules.concat(getOriginDayResp.data)
-    }
-    catch (e) {
-      console.log(e)
-    }
-    if (postMainScheduleId === 0) return
-
-    const initialStartDate = dayjs(dayjs(initialMainCalendar.startDate))  // 메인스케줄에 포함된 목표의 첫 시작 날짜
-    const initialStartDay = initialStartDate.day()  // 메인스케줄에 포함된 목표의 첫 시작 요일
-    const todayDay = targetDate.day()  // 오늘 요일
-
-    const dayFromInitialStartDate = targetDate.diff(initialStartDate, 'day')  // 첫 시작 날짜와 오늘의 날짜 차이
-    const tuneDayWithOrigin = (initialStartDay - todayDay) >= 0 ? (initialStartDay - todayDay) : (initialStartDay - todayDay) + 7  // 오늘과 첫 시작 날짜의 요일 차이 조정
-    const addDays = dayFromInitialStartDate + tuneDayWithOrigin
-    console.log('요일', initialStartDay, todayDay, tuneDayWithOrigin)
-
-    let postSubSchduleId: number = 0
-    originSubSchedules.map(async (schedule) => {
-      if (schedule.startDate !== '9999-99-99') {
-        let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, startDate: `${dayjs(schedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(schedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
-        try {
-          const response = await axios.post(SERVER_IP + '/subtitle', editedSchedule)
-          postSubSchduleId = response.data.id
-          console.log('success post sub', postSubSchduleId)
-
-          editedSchedule = { ...editedSchedule, id: postSubSchduleId }
-          onPostSubSchedule(editedSchedule)
-          newSubSchedules.push(editedSchedule)
-        }
-        catch (e) {
-          console.log(e)
-        }
-      }
-    })
-    
-    console.log(originSubSchedules, newSubSchedules)
-
-    let postDayScheduleId: number = 0
-    originDaySchedules.map(async (schedule) => {
-      let editedSchedule = { ...schedule, id: 0, calendarId: postMainScheduleId, date: `${dayjs(schedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
-      originSubSchedules.map((subSchedule, idx) => {
-        if (subSchedule.id === schedule.subTitleId) {
-          editedSchedule = { ...editedSchedule, subTitleId: newSubSchedules[idx].id }
-        }
-      })
-      try {
-        const response = await axios.post(SERVER_IP + '/todo', editedSchedule)
-        postDayScheduleId = response.data
-        console.log('success post sub', postDayScheduleId)
-
-        editedSchedule = { ...editedSchedule, id: postDayScheduleId }
-        onPostDaySchedule(editedSchedule)
-      }
-      catch (e) {
-        console.log(e)
-      }
-    })
+    onApplyScheduletoMyPlan(editedSchedule)
   }
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {

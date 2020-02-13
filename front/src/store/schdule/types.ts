@@ -1,11 +1,11 @@
 import { ActionType } from 'typesafe-actions'
-import { getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheuletoMyPlan,
+import { getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
   postMainSchedule, putMainSchedule, deleteMainSchedule, 
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
   postDaySchedule, putDaySchedule, deleteDaySchedule } from './actions'
 
 const getScheduleActions = { 
-  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheuletoMyPlan,
+  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
   postMainSchedule, putMainSchedule, deleteMainSchedule, 
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
   postDaySchedule, putDaySchedule, deleteDaySchedule 
