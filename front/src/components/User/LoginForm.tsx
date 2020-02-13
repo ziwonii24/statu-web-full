@@ -1,15 +1,18 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 
+import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserInput } from './interfaces/UserInfo.interface'
+import { UserInput, TokenInfo, GoogleTokenInfo } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
-import { login, decode } from './authentication'
+import { login, decode, decode_google } from './authentication'
 
 import { history } from '../../configureStore'
 import { Link } from 'react-router-dom'
+import GoogleLogin from 'react-google-login';
+
 
 import './styles/Auth.scss'
 
@@ -58,7 +61,7 @@ const Login: FunctionComponent = () => {
                     login(token)
                     onSetUserInfo(user)
 
-                    if(user.category1.length == 0) {
+                    if(user.category1[0] == '') {
                         alert('환영합니다! 카테고리 설정을 먼저 해주세요!')
                         history.push('/userinfo')
                     } else {
@@ -70,6 +73,52 @@ const Login: FunctionComponent = () => {
                 console.log('error: ', e)
                 setError('아이디 또는 비밀번호가 틀립니다.')
             })
+        })
+    }
+
+    const responseGoogle = (result: any) => {
+        console.log('result: ', result.tokenId)
+        const googleTokenDecoded: GoogleTokenInfo = decode_google(result.tokenId)
+        console.log('googleTokenDecoded; ', googleTokenDecoded)
+        console.log('g email: ', googleTokenDecoded.email)
+        console.log('g name : ', googleTokenDecoded.name)
+
+        const googleUser: GoogleTokenInfo = {
+            'email': googleTokenDecoded.email,
+            'name' : googleTokenDecoded.name            
+        }
+
+        fetch(`${SERVER_IP}/user/social`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify(googleUser)
+        }).then(res => {
+            console.log('[user/social] res : ', res)
+            res.json().then(response => {
+                console.log('[user/social] response : ', response)
+               
+                const token = response.data.token
+                const tokenDecoded = decode(token)
+                const user = tokenDecoded.user
+
+                console.log('[user/social] user: ', user)    
+                
+                login(token)
+                onSetUserInfo(user)
+                
+                if(user.category1 == null || user.category1[0] == '') {
+                    alert('환영합니다! 카테고리 설정을 먼저 해주세요!')
+                    history.push('/userinfo')
+                } else {
+                    history.push('/')
+                }            
+            })
+            .catch(e => {
+                console.log('[user/social] in error: ', e)
+            })
+        })
+        .catch(e => {
+            console.log('[user/social] out error: ', e)
         })
     }
 
@@ -87,6 +136,17 @@ const Login: FunctionComponent = () => {
                     { error && <div className='errorMsg'>{error}</div> }
                     <div>
                         <button className='btnSubmit' type='submit' onClick={loginSubmitHandler}>로그인</button>
+                    </div>
+                    <hr></hr>
+                    <div className='socialLoginBox'>
+                        <GoogleLogin
+                            clientId="654444794659-7o99n8c7getq7eq2hrja5eveijqsbs15.apps.googleusercontent.com"
+                            buttonText="Google로 로그인하기"
+                            className={'socialLoginGoogle'}
+                            onSuccess={result => responseGoogle(result)}
+                            onFailure={result => console.log('e: ', result)}
+                            cookiePolicy={'single_host_origin'}
+                        />
                     </div>
                 </form>
                 <div className='authFooter'>

@@ -276,3 +276,23 @@ input[type=password] {
         font-family: "NanumSquare";
     }
 }
+
+.socialLoginBox {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.socialLoginGoogle {
+    width: 100%;
+    // border: none;
+    // border-radius: 4px;
+    // font-weight: bold;
+    // padding: 0.25rem 1rem;
+    // outline: none;
+    // padding-top: 0.75rem;
+    // padding-bottom: 0.75rem;
+    // font-size: 1.125rem;
+}

@@ -35,3 +35,8 @@ export interface CategoryData {
         }
     ]
 }
+
+export interface GoogleTokenInfo {
+    email: string,
+    name: string,
+}
