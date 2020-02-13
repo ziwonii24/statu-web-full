@@ -35,6 +35,11 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
     setQuery(e.target.value)
   })
 
+  const searchClickHandler = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    history.push(`/search/${query}`)
+  }
+
   const handleSearchClick = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault()
     history.push(`/search/${query}`)
@@ -63,25 +68,19 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
     <div className="navBar">
 
       <Navbar className="navBar">
-        <Navbar.Brand href="/">STATU</Navbar.Brand>
-        <Nav className="mr-auto">
-          <input
-            className="search"
-            type="text"
-            value={query}
-            placeholder="시간표 찾기"
-            onChange={handleSearchInput}
-            onKeyPress={handleSearchEnter}
-          />
-          <button
-            onClick={handleSearchClick}
-          >
-            <div className="searchImg">
-              <img src={search} alt="search" style={{ maxWidth: "100%" }}/>
-            </div>
-          </button>
-          {/* <Button variant="outline-primary">Search</Button> */}
-        </Nav>
+        <div className="TitleSearchInput">
+          <Navbar.Brand href="/">STATU</Navbar.Brand>
+          <div className="inputAndFakeDiv">
+            <input
+              className="search"
+              type="text"
+              value={query}
+              placeholder="시간표 찾기"
+              onChange={handleSearchInput}
+            />
+            <div className="fakeClickDiv" onClick={searchClickHandler} />
+          </div>
+        </div>
         <Form inline>
           <div className="menu"><a onClick={myPlanClickHandler}>내 공부</a></div>
           <div className="menu"><a onClick={importedPlanClickHandler}>가져온 공부</a></div>

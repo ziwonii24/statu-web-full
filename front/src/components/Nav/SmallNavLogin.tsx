@@ -63,16 +63,9 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
             placeholder="시간표 찾기"
             onChange={handleSearchInput}
           />
-          <div className="fakeClickDiv" onClick={searchClickHandler}/>
+          <div className="fakeClickDiv" onClick={searchClickHandler} />
         </div>
       </div>
-      {/* <button
-          onClick={searchClickHandler}
-        > */}
-      {/* <div className="searchImg">
-            <img onClick={searchClickHandler} src={search} alt="search" style={{ maxWidth: "100%" }} />
-          </div> */}
-      {/* </button> */}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <div className="toggle">

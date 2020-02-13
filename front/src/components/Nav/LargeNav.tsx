@@ -32,31 +32,26 @@ const LargeNavBar: FunctionComponent = () => {
   }
 
   return (
-    <div className="navBar">
-      <Navbar className="navBar">
+    <Navbar className="navBar">
+      <div className="TitleSearchInput">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
-        <Nav className="mr-auto">
-          <input 
-            className="search" 
+        <div className="inputAndFakeDiv">
+          <input
+            className="search"
             type="text"
             value={query}
             placeholder="시간표 찾기"
             onChange={handleSearchInput}
           />
-          <button
-            onClick={searchClickHandler}
-          >
-            <div className="searchImg">
-              <img src={search} alt="search" style={{ maxWidth: "100%" }}/>
-            </div>
-          </button>
-        </Nav>
-        <Form inline>
-          <div className="menu"><a onClick={loginClickHandler}>로그인</a></div>
-          <div className="menu"><a onClick={signupClickHandler}>회원가입</a></div>
-        </Form>
-      </Navbar>
-    </div>
+          <div className="fakeClickDiv" onClick={searchClickHandler} />
+        </div>
+      </div>
+
+      <Form inline>
+        <div className="menu"><a onClick={loginClickHandler}>로그인</a></div>
+        <div className="menu"><a onClick={signupClickHandler}>회원가입</a></div>
+      </Form>
+    </Navbar >
   )
 }
 

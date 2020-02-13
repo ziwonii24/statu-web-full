@@ -30,22 +30,18 @@ const SmallNavBar: FunctionComponent = () => {
 
   return (
     <Navbar className="navBar" expand="lg">
-      <div className="search">
-      <Navbar.Brand href="/">STATU</Navbar.Brand>
-        <input 
-            className="search" 
+      <div className="TitleSearchInput">
+        <Navbar.Brand href="/">STATU</Navbar.Brand>
+        <div className="inputAndFakeDiv">
+          <input
+            className="search"
             type="text"
             value={query}
             placeholder="시간표 찾기"
             onChange={handleSearchInput}
           />
-          <button
-            onClick={searchClickHandler}
-          >
-            <div className="searchImg">
-              <img src={search} alt="search" style={{ maxWidth: "100%" }}/>
-            </div>
-          </button>
+          <div className="fakeClickDiv" onClick={searchClickHandler} />
+        </div>
       </div>
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
