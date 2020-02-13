@@ -16,10 +16,10 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
   console.log('DetailPage')
 
   const planId = props.match.params.planId
-  const { mainSchedule, subSchedule, daySchedule } = useSchedule()
+  const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onSetUserId } = usePlanPage()
 
-  const seletedSchedule = mainSchedule && mainSchedule.filter(schedule => schedule.id === parseInt(planId))[0]
+  const seletedSchedule = getMainSchedules && getMainSchedules.filter(schedule => schedule.id === parseInt(planId))[0]
 
   const handleClick = async () => {
     try{
@@ -38,8 +38,8 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
       calendarId={seletedSchedule.id}
       calendarUserId={seletedSchedule.userId}
       defaultTitle={seletedSchedule.title}
-      subSchedule={subSchedule.filter(subItem => seletedSchedule.id === subItem.calendarId)}
-      daySchedule={daySchedule.filter(dayItem => seletedSchedule.id === dayItem.calendarId)}
+      subSchedule={getSubSchedules.filter(subItem => seletedSchedule.id === subItem.calendarId)}
+      daySchedule={getDaySchedules.filter(dayItem => seletedSchedule.id === dayItem.calendarId)}
       represent={true}
       tags={seletedSchedule.tags}
       onPage='MyPlan'

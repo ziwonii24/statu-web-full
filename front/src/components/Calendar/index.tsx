@@ -7,16 +7,13 @@ import useWindowSize from '../../hooks/useWindowSize'
 import useSchedule from '../../hooks/useSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { SubSchedule, DaySchedule } from '../../store/schdule'
-
-import { Row } from 'react-bootstrap'
+import { SubSchedule, DaySchedule, postMainSchedule } from '../../store/schdule'
 
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
-import './styles/Calendar.scss'
 
 import pencil from '../../img/pencil.png'
 import trash from '../../img/trash-can.png'
@@ -26,6 +23,8 @@ import share3 from '../../img/share3.png'
 import star4 from '../../img/star4.png'
 import star5 from '../../img/star5.png'
 import close_ppt from '../../img/close_ppt.png'
+
+import './styles/Calendar.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -56,6 +55,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   console.log(calendarId, onPage, 'Calendar View')
   const { width } = useWindowSize()
+  // console.log(width)
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
@@ -65,10 +65,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const [hashTagName, setHashTagName] = useState<string>('')
   const [showMonth, setShowMonth] = useState<boolean>(represent)
   const [editMode, setEditMode] = useState<boolean>(false)
-  const [titleWidth, setTitleWidth] = useState<number>(0)
-  const [titleHeight, setTitleHeight] = useState<number>(0)
-  const [headerWidth, setheaderWidth] = useState<number>(0)
-  const [windowWidth, setWindowWidth] = useState<number>(width)
 
   const { modalState } = useModal()
 
@@ -106,10 +102,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const hashTagList = tags.filter(tag => tag !== '')
 
   // 사용함수
-  const { mainSchedule, onPostMainSchedule, onPostSubSchedule, onPostDaySchedule,
+  const { getMainSchedules, onApplyScheduletoMyPlan,
     onPutMainSchedule, onDeleteMainSchedule, onMakeRepresentSchedule, onMakePublicSchedule } = useSchedule()
-  const initialMainCalendar = mainSchedule.filter(schedule => schedule.id === calendarId)[0]
-  let mainPutResponse: string | null = null; let mainPutLoading: boolean = false; let mainPutError: Error | null = null
+  const initialMainCalendar = getMainSchedules.filter(schedule => schedule.id === calendarId)[0]
 
   function sortDate(first: string, second: string) {
     const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
@@ -177,14 +172,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     e.stopPropagation()
     hashTagList.push(hashTagName)
     const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
-
     onPutMainSchedule(editedSchedule)
-    try {
-      await axios.put(SERVER_IP + '/calendar', editedSchedule)
-    }
-    catch (e) {
-      console.error(e)
-    }
     setHashTagName('')
   }
 
@@ -192,69 +180,27 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     e.stopPropagation()
     hashTagList.splice(id, 1)
     const editedSchedule = { ...initialMainCalendar, tags: hashTagList }
-
     onPutMainSchedule(editedSchedule)
-    try {
-      await axios.put(SERVER_IP + '/calendar', editedSchedule)
-    }
-    catch (e) {
-      console.error(e)
-    }
-    console.log('deleteHashTag')
   }
 
   const handleDeleteCalendar = async (e: MouseEvent) => {
     e.stopPropagation()
     onDeleteMainSchedule(calendarId)
-    try {
-      const response =
-        await axios.delete(SERVER_IP + '/calendar/' + calendarId)
-      mainPutResponse = response.data
-      mainPutLoading = true
-      // console.log('success', mainPutResponse)
-    }
-    catch (e) {
-      // mainPutError = e
-      // console.error(mainPutError)
-      console.error(e)
-    }
   }
 
   const handleMakeRepresent = async (e: MouseEvent) => {
     e.stopPropagation()
     onMakeRepresentSchedule(calendarId)
-    try {
-      await axios.put(SERVER_IP + '/representset/' + calendarId)
-    }
-    catch (e) {
-      console.error(e)
-    }
   }
 
   const handlePublicToggle = async (e: MouseEvent) => {
     e.stopPropagation()
     onMakePublicSchedule(calendarId)
-    try {
-      await axios.put(SERVER_IP + '/pbtoggle/' + calendarId)
-      console.log('locked')
-    }
-    catch (e) {
-      console.error(e)
-    }
   }
 
   const handleRecommend = async () => {
     const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
-    console.log('recommend', editedSchedule)
-
     onPutMainSchedule(editedSchedule)
-    try {
-      const response = await axios.put(SERVER_IP + '/calendar', editedSchedule)
-      console.log(response.data)
-    }
-    catch (e) {
-      console.log(e)
-    }
   }
 
   const handleScrap = async () => {
@@ -275,24 +221,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleSave = async () => {
     if (!onGetUserInfo) return
-    let editedSchedule = { ...initialMainCalendar, id: 0, userid: onGetUserInfo.id }
-    const initialStartDate = initialMainCalendar.startDate
-    console.log(initialStartDate)
-    const initialStartDay = dayjs(dayjs(initialStartDate)).day()
-    const todayDay = targetDate.day()
-    console.log(todayDay, initialStartDay)
-    let postScheduleId: number = 0
-    try {
-      const response = await axios.post(SERVER_IP + '/calendar', editedSchedule)
-      console.log(response.data)
-      postScheduleId = response.data.id
-    }
-    catch (e) {
-      console.log(e)
-    }
-    if (postScheduleId === 0) return
-    editedSchedule = { ...initialMainCalendar, id: postScheduleId, userid: onGetUserInfo.id }
-    onPostMainSchedule(editedSchedule)
+
+    let editedSchedule = { ...initialMainCalendar, userId: onGetUserInfo.id, represent: false, pb: false }
+
+    onApplyScheduletoMyPlan(editedSchedule)
   }
 
   const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {

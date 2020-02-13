@@ -25,30 +25,26 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     userName,
   } = props
 
-  useEffect(() => {
-    getUserId()
-  }, [])
-
-
   const { onGetUserInfo } = useUser()
   const { onGetUserId, onSetUserId } = usePlanPage()
-  const { onPostMainSchedule, mainSchedule, subSchedule, daySchedule } = useSchedule()
+  const { onPostMainSchedule, onGetSubSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const userId = onGetUserId
   const renderMainSchedule = onGetUserInfo ?
     (onGetUserInfo.id === userId ?
-      mainSchedule.filter(schedule => userId === schedule.userId)
-      : mainSchedule.filter(schedule => userId === schedule.userId).filter(schedule => schedule.pb === true))
+      getMainSchedules.filter(schedule => userId === schedule.userId)
+      : getMainSchedules.filter(schedule => userId === schedule.userId).filter(schedule => schedule.pb === true))
     : []
 
-  let mainPostResponse: number | null = null; let mainPostLoading: boolean = false; let mainPostError: Error | null = null
-
   console.log('mymain', renderMainSchedule)
-  console.log('main', mainSchedule)
-  // console.log('sub', subSchedule)
+  console.log('main', getMainSchedules)
+  console.log('sub', getSubSchedules)
   // console.log('day', daySchedule)
   // console.log('getUserInfo', onGetUserInfo)
   // console.log('userId', userId)
 
+  useEffect(() => {
+    getUserId()
+  }, [])
 
   // 유저 아이디 가져오기
   async function getUserId() {
@@ -62,48 +58,25 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  // 캘린더 추가 버튼 
-  const handleAddCalendar = () => {
-    postMainScheduleData()
-    // console.log('postMainSchedule')
+  const initialMainSchedule = {
+    'id': 0,
+    'userId': userId,
+    'title': '새 계획표',
+    'startDate': '',
+    'endDate': '',
+    'pb': false,
+    'tags': [''],
+    'view': 0,
+    'recommend': 0,
+    'represent': false,
+    'category1': [''],
+    'category2': ['']
   }
 
-
-  // 캘린더 추가 버튼을 눌렀을 때 캘린더 DB와 redux에 추가
-  async function postMainScheduleData() {
-    if (!userId) return 'null'
-
-    const initialMainSchedule = {
-      'id': 0,
-      'userId': userId,
-      'title': '새 계획표',
-      'startDate': '',
-      'endDate': '',
-      'pb': false,
-      'tags': [''],
-      'view': 0,
-      'recommend': 0,
-      'represent': false,
-      'category1': [''],
-      'category2': ['']
-    }
-
-    try {
-      const response = await axios.post(SERVER_IP + '/calendar', initialMainSchedule)
-      // console.log('response', response)
-      mainPostResponse = response.data.id
-      mainPostLoading = true
-      console.log('success', mainPostResponse)
-    }
-    catch (e) {
-      mainPostError = e
-      console.error(mainPostError)
-    }
-    mainPostLoading = false
-    // console.log('post', mainPostResponse)
-    if (!mainPostResponse) return 'null'
-    // console.log('initial', initialMainSchedule)
-    onPostMainSchedule({ ...initialMainSchedule, id: mainPostResponse })
+  // 캘린더 추가 버튼 
+  const handleAddCalendar = () => {
+    onPostMainSchedule(initialMainSchedule)
+    console.log('subschedules', getSubSchedules)
   }
 
   // 화면에 렌더링할 컴포넌트 생성
@@ -135,8 +108,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             calendarId={schedule.id}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
-            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calendarId)}
-            daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
+            subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
+            daySchedule={getDaySchedules.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={true}
             tags={schedule.tags}
             onPage='MyPlan'
@@ -157,8 +130,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             calendarId={schedule.id}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
-            subSchedule={subSchedule.filter(subItem => schedule.id === subItem.calendarId)}
-            daySchedule={daySchedule.filter(dayItem => schedule.id === dayItem.calendarId)}
+            subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
+            daySchedule={getDaySchedules.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={false}
             tags={schedule.tags}
             onPage='MyPlan'

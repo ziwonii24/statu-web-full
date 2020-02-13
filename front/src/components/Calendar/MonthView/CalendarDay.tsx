@@ -31,7 +31,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   // console.log('subschedules', subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
-  const { onDeleteSubSchedule, onDeleteDaySchedule } = useSchedule()
+  const { onPutMainSchedule, onDeleteSubSchedule, onGetSubScheduleOnTarget, onDeleteDaySchedule, onGetMainTerm } = useSchedule()
 
   // 소목표, 일일목표 관련 변수
   const day = dayjs(date).date()
@@ -81,8 +81,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const passedDate = check ? 'calendarpassedDate' : ''
   const pointerNone = mouseOverState ? 'pointerNone' : ''
 
-
-
   // HTML 렌더에 사용되는 핸들러
   const handleMouseDown = (e: MouseEvent) => {
     // if (e.target !== e.currentTarget) {
@@ -105,7 +103,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleMouseUp = (e: MouseEvent) => {
+  const handleMouseUp = async (e: MouseEvent) => {
     onSetEndDate(newDate)
     if (startDate) {
       onOpenModal(mainSchedule, subSchedule, initialSubSchedule, initialDaySchedule)
@@ -124,24 +122,20 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleDeleteSubSchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
+    
+    const { mainStartDate, mainEndDate } = onGetMainTerm(calendarId)
+    const editedMainSchedule = { ...mainSchedule, startDate: mainStartDate, endDate: mainEndDate }
     onDeleteSubSchedule(id)
-    try {
-      await axios.delete(SERVER_IP + '/subtitle/' + id)
-    }
-    catch (e) {
-      console.error(e)
-    }
+    onPutMainSchedule(editedMainSchedule)
   }
 
   const handleDeleteDaySchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
+    
+    const { mainStartDate, mainEndDate } = onGetMainTerm(calendarId)
+    const editedMainSchedule = { ...mainSchedule, startDate: mainStartDate, endDate: mainEndDate }
     onDeleteDaySchedule(id)
-    try {
-      await axios.delete(SERVER_IP + '/todo/' + id)
-    }
-    catch (e) {
-      console.error(e)
-    }
+    onPutMainSchedule(editedMainSchedule)
   }
 
   const handleMouseEnter = (id: number) => {
