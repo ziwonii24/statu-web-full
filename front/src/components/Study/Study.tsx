@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import StudyInfo from './StudyInfo'
 import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
@@ -19,6 +19,13 @@ const Study: FunctionComponent = () => {
   const mySubSchedule = myRepresentMainSchedule.length ?
     subSchedule.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id)
     : []
+
+  const title = useMemo(() => 
+  myRepresentMainSchedule.length !== 0 && 
+  <div className="studyBoxTitle">
+    {myRepresentMainSchedule[0].title}
+  </div>
+  , [myRepresentMainSchedule])
 
   const yesterdayDaySchedules: DaySchedule[] = []
   const todayDaySchedules: DaySchedule[] = []
@@ -100,9 +107,9 @@ const Study: FunctionComponent = () => {
 
   return (
     <>
+      {title}
       <div className="study">
-        ~공부 현황~
-          <br />
+        <br />
         <div className="studybox">
           <div>어제 한 공부</div>
           <StudyInfo

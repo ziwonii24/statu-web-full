@@ -1,4 +1,4 @@
-import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback, useMemo, useRef, useEffect } from 'react';
+import React, { useState, FunctionComponent, ChangeEvent, MouseEvent, useCallback, useMemo, useEffect } from 'react';
 import Modal from '../Modal/Modal'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
@@ -55,10 +55,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   } = props
 
   console.log(calendarId, onPage, 'Calendar View')
-  const titleElement = useRef<HTMLDivElement>(null)
-  const headerElement = useRef<HTMLDivElement>(null)
-  console.log(headerElement)
-  console.log(titleElement)
   const { width } = useWindowSize()
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
@@ -75,14 +71,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const [windowWidth, setWindowWidth] = useState<number>(width)
 
   const { modalState } = useModal()
-
-  useEffect(() => {
-    if (titleElement.current === null || headerElement.current === null) return
-    setTitleWidth(titleElement.current.clientWidth)
-    setTitleHeight(titleElement.current.clientHeight)
-    setheaderWidth(headerElement.current.clientWidth)
-    setWindowWidth(width)
-  }, [titleElement])
 
   // 마우스 호버 변수
   const [hoverState, setHoverState] = useState<boolean>(false)
@@ -318,6 +306,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleEditTitle = (e: MouseEvent) => {
     e.stopPropagation()
     const editedSchedule = { ...initialMainCalendar, title: title }
+    console.log('edit', editedSchedule)
     onPutMainSchedule(editedSchedule)
     setEditMode(false)
   }
@@ -355,11 +344,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         onClick={handleShowMonth}
       >
         <header
-          // ref={headerElement}
           className={`header ${headerBorder}`}
         >
           <div
-            // ref={titleElement}
             className={`calendarTitle ${canEdit}`}
           >
             {!editMode ?
@@ -407,7 +394,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           {!canEdit ?
             <div
               className={`calendarOption`}
-            // style={{ minWidth: `${(windowWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
             >
               <div
                 className={`calendarHeader alingLeft`}
@@ -472,7 +458,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
             :
             <div
               className={`calendarOption`}
-            // style={{ minWidth: `${(headerWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
             >
               <div className={`calendarHeader alignRight`}>
                 <div

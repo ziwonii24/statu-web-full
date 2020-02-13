@@ -269,3 +269,10 @@
 .remove-image:hover {
     background: #1FB264cd;
 }
+
+input[type=password] {
+    font-family: monospace;
+    &::placeholder {
+        font-family: "NanumSquare";
+    }
+}
