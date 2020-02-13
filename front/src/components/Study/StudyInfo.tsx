@@ -23,7 +23,7 @@ const StudyInfo: FunctionComponent<Interface> = (props: Interface) => {
         <div
           key={schedule.id}
           className={`subScheduleTag`}
-          style={{ backgroundColor: schedule.color, marginRight: `${1.5}vh` }}
+          style={{ backgroundColor: schedule.color, marginRight: `${1.5}vh`}}
         >
           {schedule.subTitle}
         </div>
@@ -45,7 +45,9 @@ const StudyInfo: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <>
+      {/* 소목표 태그들 */}
       {subScheduleDiv}
+      {/* 할일 / 목표시간 */}
       {dayScheduleDiv}
     </>
   )

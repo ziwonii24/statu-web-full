@@ -10,6 +10,7 @@ import { history } from '../../configureStore';
 import Navbar from 'react-bootstrap/Navbar';
 
 import '../Nav/style/Nav.scss'
+import search from '../../img/search.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
@@ -23,7 +24,7 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
 
   const { onLogout, user } = props
-  
+
   const [query, setQuery] = useState<string>('')
   const { onSetUserId } = usePlanPage()
   const imgUrl = `${SERVER_IMG_IP}/${user.img}`
@@ -51,22 +52,27 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <Navbar className="navBar" bg="light" variant="light" expand="lg">
-      <div className="search">
+    <Navbar className="navBar" expand="lg">
+      <div className="TitleSearchInput">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
-        <input 
-            className="search" 
+        <div className="inputAndFakeDiv">
+          <input
+            className="search"
             type="text"
             value={query}
             placeholder="시간표 찾기"
             onChange={handleSearchInput}
-        />
-        <button
-            onClick={searchClickHandler}
-        >
-            🔍
-        </button>
+          />
+          <div className="fakeClickDiv" onClick={searchClickHandler}/>
+        </div>
       </div>
+      {/* <button
+          onClick={searchClickHandler}
+        > */}
+      {/* <div className="searchImg">
+            <img onClick={searchClickHandler} src={search} alt="search" style={{ maxWidth: "100%" }} />
+          </div> */}
+      {/* </button> */}
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <div className="toggle">
