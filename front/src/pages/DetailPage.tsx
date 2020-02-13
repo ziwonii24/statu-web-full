@@ -36,6 +36,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
     seletedSchedule && 
     <Calendar
       calendarId={seletedSchedule.id}
+      importId={0}
       calendarUserId={seletedSchedule.userId}
       defaultTitle={seletedSchedule.title}
       subSchedule={getSubSchedules.filter(subItem => seletedSchedule.id === subItem.calendarId)}

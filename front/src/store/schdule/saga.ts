@@ -1,11 +1,11 @@
 import {
-  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
+  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, getMainTerm,
   postMainSchedule, putMainSchedule, deleteMainSchedule,
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget,
   postDaySchedule, putDaySchedule, deleteDaySchedule
 } from './actions'
 import { MainSchedule, SubSchedule, DaySchedule } from './types'
-import { all, call, put, fork, takeEvery } from 'redux-saga/effects'
+import { all, call, put, takeEvery } from 'redux-saga/effects'
 
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -42,8 +42,7 @@ function* postMainScheduleSaga({ payload: mainSchedule }: ReturnType<typeof post
     const mainScheduleId = mainResp.data.id
     const editedMainSchedule = { ...mainSchedule, id: mainScheduleId }
 
-    const result = yield fork(getSubScheduleOnTargetSaga, mainScheduleId)
-    console.log('result', result)
+    yield put(getSubScheduleOnTarget.request(mainScheduleId))
     yield put(postMainSchedule.success(editedMainSchedule))
   }
   catch (error) {
@@ -93,17 +92,32 @@ function* makeRepresentScheduleSaga({ payload: id }: ReturnType<typeof makeRepre
 
 function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof applyScheduleToMyPlan.request>) {
   try {
-    let editedSchedule = { ...mainSchedule, id: 0 }
     let mainSchedules: MainSchedule[] = []
     let originSubSchedules: SubSchedule[] = []
     let subSchedules: SubSchedule[] = []
     let originDaySchedules: DaySchedule[] = []
     let daySchedules: DaySchedule[] = []
 
+    // subSchedule 을 가져오기 위한 날짜 게산
+    const initialStartDate = dayjs(dayjs(mainSchedule.startDate))  // 메인스케줄에 포함된 목표의 첫 시작 날짜
+    const initialStartDay = initialStartDate.day()  // 메인스케줄에 포함된 목표의 첫 시작 요일
+    const targetDate = dayjs().locale(localeDe)
+    const todayDay = targetDate.day()  // 오늘 요일
+
+    const dayFromInitialStartDate = targetDate.diff(initialStartDate, 'day')  // 첫 시작 날짜와 오늘의 날짜 차이
+    const tuneDayWithOrigin = (initialStartDay - todayDay) >= 0 ? (initialStartDay - todayDay) : (initialStartDay - todayDay) + 7  // 오늘과 첫 시작 날짜의 요일 차이 조정
+    const addDays = dayFromInitialStartDate + tuneDayWithOrigin
+
+    const mainScheduleStartDate = dayjs(mainSchedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')
+    const mainScheduleEndDate = dayjs(mainSchedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')
+
+    let editedSchedule = { ...mainSchedule, id: 0, startDate: mainScheduleStartDate, endDate: mainScheduleEndDate }
+    console.log('요일', initialStartDay, todayDay, tuneDayWithOrigin)
+
     // importedplan 을 myplan 에 저장하기
     const postMainResp = yield call([axios, 'post'], SERVER_IP + '/calendar', editedSchedule)
     const mainScheduleId = postMainResp.data.id
-    mainSchedules.push({ ...mainSchedule, id: mainScheduleId })
+    mainSchedules.push({ ...editedSchedule, id: mainScheduleId })
     console.log('post success', mainSchedules)
 
     // importedplan 에 저장된 subSchedule 가져오기
@@ -122,42 +136,66 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
     originDaySchedules = originDaySchedules.concat(getOriginDayResp.data)
     console.log('getOriginDayResp success', originDaySchedules)
 
-    // subSchedule 을 가져오기 위한 날짜 게산
-    const initialStartDate = dayjs(dayjs(mainSchedule.startDate))  // 메인스케줄에 포함된 목표의 첫 시작 날짜
-    const initialStartDay = initialStartDate.day()  // 메인스케줄에 포함된 목표의 첫 시작 요일
-    const targetDate = dayjs().locale(localeDe)
-    const todayDay = targetDate.day()  // 오늘 요일
-
-    const dayFromInitialStartDate = targetDate.diff(initialStartDate, 'day')  // 첫 시작 날짜와 오늘의 날짜 차이
-    const tuneDayWithOrigin = (initialStartDay - todayDay) >= 0 ? (initialStartDay - todayDay) : (initialStartDay - todayDay) + 7  // 오늘과 첫 시작 날짜의 요일 차이 조정
-    const addDays = dayFromInitialStartDate + tuneDayWithOrigin
-    console.log('요일', initialStartDay, todayDay, tuneDayWithOrigin)
-
     // get new subSchedules
-    yield originSubSchedules.map(async (originSubSchedule) => {
-      if (originSubSchedule.startDate !== '9999-99-99') {
-        let editedSubSchedule = { ...originSubSchedule, id: 0, calendarId: mainScheduleId, startDate: `${dayjs(originSubSchedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(originSubSchedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
-        const postNewSubResp = await axios.post(SERVER_IP + '/subtitle', editedSubSchedule)
-        const subSchduleId = postNewSubResp.data.id
-        subSchedules.push({ ...editedSubSchedule, id: subSchduleId })
+    for (let i = 0; i < originSubSchedules.length; i++) {
+      if (originSubSchedules[i].startDate === '9999-99-99') continue
+      let editedSubSchedule = { ...originSubSchedules[i], id: 0, calendarId: mainScheduleId, startDate: `${dayjs(originSubSchedules[i].startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(originSubSchedules[i].endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
+      const postNewSubResp = yield call([axios, 'post'], SERVER_IP + '/subtitle', editedSubSchedule)
+      const subSchduleId = postNewSubResp.data.id
+      subSchedules.push({ ...editedSubSchedule, id: subSchduleId })
+      console.log('getNewSubResp success', subSchedules)
 
-        console.log('getNewSubResp success', subSchedules)
-
-        originDaySchedules.map(async (originDaySchedule) => {
-          if (originDaySchedule.subTitleId === originSubSchedule.id) {
-            let editedDaySchedule = { ...originDaySchedule, subTitleId: subSchduleId, id: 0, calendarId: mainScheduleId, date: `${dayjs(originDaySchedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
-            const postNewDayResp = await axios.post(SERVER_IP + '/todo', editedDaySchedule)
-            const dayScheduleId = postNewDayResp.data.id
-            daySchedules.push({ ...editedDaySchedule, id: dayScheduleId })
-            console.log('success post sub', dayScheduleId)
-          }
-        })
+      for (let j = 0; j < originDaySchedules.length; j++) {
+        if (originDaySchedules[j].subTitleId === originSubSchedules[i].id) {
+          let editedDaySchedule = { ...originDaySchedules[j], subTitleId: subSchduleId, id: 0, calendarId: mainScheduleId, date: `${dayjs(originDaySchedules[j].date).add(addDays, 'day').format('YYYY-MM-DD')}` }
+          const postNewDayResp = yield call([axios, 'post'], SERVER_IP + '/todo', editedDaySchedule)
+          const dayScheduleId = postNewDayResp.data.id
+          daySchedules.push({ ...editedDaySchedule, id: dayScheduleId })
+          console.log('success post day', dayScheduleId)
+        }
       }
-    })
-    yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules }))
+    }
+    const result = yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules }))
+    console.log('result', result)
   }
   catch (error) {
     yield put(applyScheduleToMyPlan.failure(error))
+  }
+}
+
+function* getMainTermSaga({ payload: id }: ReturnType<typeof getMainTerm.request>) {
+  try {
+    const getMainResp = yield call([axios, 'get'], SERVER_IP + '/calendar/0/' + id)
+    const initialMainSchedule = getMainResp.data
+    const getSubResp = yield call([axios, 'get'], SERVER_IP + '/subtitle/bycalendarid/' + id)
+    const subSchedules = getSubResp.data
+    const getDayResp = yield call([axios, 'get'], SERVER_IP + '/todo/calendarid/' + id)
+    const daySchedules = getDayResp.data
+
+    let minStartDate = '9999-99-99'; let maxEndDate = '0000-00-00'
+    subSchedules.map((schedule: SubSchedule) => {
+      if (schedule.startDate === '9999-99-99') return
+      if (sortDate(schedule.startDate, minStartDate) < 0) {
+        minStartDate = schedule.startDate
+      }
+      if (sortDate(schedule.endDate, maxEndDate) > 0) {
+        maxEndDate = schedule.endDate
+      }
+    })
+    daySchedules.map((schedule: DaySchedule) => {
+      if (sortDate(schedule.date, minStartDate) < 0) {
+        minStartDate = schedule.date
+      }
+      if (sortDate(schedule.date, maxEndDate) > 0) {
+        maxEndDate = schedule.date
+      }
+    })
+
+    const editedMainSchedule = {...initialMainSchedule, startDate: minStartDate, endDate: maxEndDate}
+    yield put(putMainSchedule.request(editedMainSchedule))
+  }
+  catch (error) {
+    yield put(getMainTerm.failure(error))
   }
 }
 
@@ -207,9 +245,9 @@ function* deleteSubScheduleSaga({ payload: id }: ReturnType<typeof deleteSubSche
 }
 
 // 캘린더 추가했을 때 기본으로 추가되는 소목표가 리덕스에 담겨있지 않는 에러 해결을 위한 사가
-function* getSubScheduleOnTargetSaga(action: ReturnType<typeof getSubScheduleOnTarget.request>) {
+function* getSubScheduleOnTargetSaga({ payload: id }: ReturnType<typeof getSubScheduleOnTarget.request>) {
   try {
-    const resp = yield call([axios, 'get'], SERVER_IP + '/subtitle/bycalendarid/' + action)
+    const resp = yield call([axios, 'get'], SERVER_IP + '/subtitle/bycalendarid/' + id)
     const subSchedule = resp.data
     yield put(getSubScheduleOnTarget.success(subSchedule))
   }
@@ -263,6 +301,7 @@ export function* scheduleSaga() {
     takeEvery(makeRepresentSchedule.request, makeRepresentScheduleSaga),
     takeEvery(makePublicSchedule.request, makePublicScheduleSaga),
     takeEvery(applyScheduleToMyPlan.request, applyScheduleToMyPlanSaga),
+    takeEvery(getMainTerm.request, getMainTermSaga),
 
     takeEvery(getSubSchedule.request, getSubScheduleSaga),
     takeEvery(postSubSchedule.request, postSubScheduleSaga),
@@ -274,4 +313,29 @@ export function* scheduleSaga() {
     takeEvery(putDaySchedule.request, putDayScheduleSaga),
     takeEvery(deleteDaySchedule.request, deleteDayScheduleSaga),
   ])
+}
+
+function sortDate(first: string, second: string) {
+  const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
+  const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
+
+  if (firstYear < secondYear) {
+    return -1
+  } else if (firstYear > secondYear) {
+    return 1
+  } else {
+    if (firstMonth < secondMonth) {
+      return -1
+    } else if (firstMonth > secondMonth) {
+      return 1
+    } else {
+      if (firstDay < secondDay) {
+        return -1
+      } else if (firstDay > secondDay) {
+        return 1
+      } else {
+        return 0
+      }
+    }
+  }
 }

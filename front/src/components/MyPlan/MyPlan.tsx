@@ -106,6 +106,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
           <Calendar
             key={schedule.id}
             calendarId={schedule.id}
+            importId={0}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
             subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
@@ -128,6 +129,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
           <Calendar
             key={schedule.id}
             calendarId={schedule.id}
+            importId={0}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
             subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}

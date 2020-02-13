@@ -1,89 +1,47 @@
 import React, { FunctionComponent, useState, useEffect, useMemo } from 'react'
+import {useStore} from 'react-redux'
 import Calendar from '../components/Calendar'
 import useUser from '../hooks/useUser'
 import useSchedule from '../hooks/useSchedule'
-import usePlanPage from '../hooks/usePlanPage'
-import { MainSchedule } from '../store/schdule'
-import { history } from '../configureStore';
-
-import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
-
-type importedPlanId = {
-  calendarId: number
-  id: number
-  userId: number
-}
+import useImportedSchedule from '../hooks/useImportedSchedule'
 
 const ImportedPlanPage: FunctionComponent = () => {
+  // const store = useStore()
+  // console.log('store', store.getState())
   const { onGetUserInfo } = useUser()
-  const { onGetSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
-  const { onSetUserId } = usePlanPage()
-  const [importedPlanId, setImportedPlanId] = useState<importedPlanId[] | null>(null)
+  const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
+  const { importedSchedules, onGetImportedSchedule } = useImportedSchedule()
   const user = onGetUserInfo
-  // let importedPlanId: importedPlanId[] | null = null
 
   useEffect(() => {
-    getMainSchedules !== [] && importPlan()
+    if (!user) return
+    getMainSchedules !== [] && onGetImportedSchedule(user.id)
   }, [])
 
   const importedPlanDiv = useMemo(() =>
-    importedPlanId && importedPlanId.map(importedPlan => {
-      // console.log('importedPlanId', importedPlanId)
-      // console.log('mainSchedule', mainSchedule)
-      const importedSchedule = getMainSchedules.filter(schedule => schedule.id === importedPlan.calendarId)[0]
-      // console.log('importedSuccess', importedSchedule)
-      if (!importedSchedule) return
+  importedSchedules && importedSchedules.map(importedSchedule => {
+      const importSchedule = getMainSchedules.filter(schedule => schedule.id === importedSchedule.calendarId)[0]
+      if (!importSchedule) return
 
-      // const handleClick = async () => {
-      //   try {
-      //     const response = await axios.get(SERVER_IP + '/user/id/' + importedSchedule.userId)
-      //     const user = response.data
-      //     console.log('user', user)
-      //     onSetUserId(user.id)
-      //     history.push(`/plan/${user.name}`)
-      //   }
-      //   catch (e) {
-      //     console.log(e)
-      //   }
-      // }
-      
       return (
         <div
-          key={importedPlan.id}
-          // onClick={handleClick}
+          key={importedSchedule.id}
         >
           <Calendar
-            calendarId={importedSchedule.id}
-            calendarUserId={importedSchedule.userId}
-            defaultTitle={importedSchedule.title}
-            subSchedule={getSubSchedules.filter(subItem => importedSchedule.id === subItem.calendarId)}
-            daySchedule={getDaySchedules.filter(dayItem => importedSchedule.id === dayItem.calendarId)}
+            calendarId={importSchedule.id}
+            importId={importedSchedule.id}
+            calendarUserId={importSchedule.userId}
+            defaultTitle={importSchedule.title}
+            subSchedule={getSubSchedules.filter(subItem => importSchedule.id === subItem.calendarId)}
+            daySchedule={getDaySchedules.filter(dayItem => importSchedule.id === dayItem.calendarId)}
             represent={true}
-            tags={importedSchedule.tags}
+            tags={importSchedule.tags}
             onPage='ImportedPlan'
           />
         </div>
       )
     })
     , [getMainSchedules])
-
-  async function importPlan() {
-    if (!user) return
-    let response
-    try {
-      response = await axios.get<importedPlanId[]>(SERVER_IP + '/calendartemp/' + user.id)
-      setImportedPlanId(response.data.reverse())
-      console.log('succeses', response.data)
-    }
-    catch (e) {
-      console.log(e)
-    }
-  }
 
   return (
     <>

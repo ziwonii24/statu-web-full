@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEvent, useState, ChangeEvent } from 'react'
+import React, { FunctionComponent, useState, ChangeEvent, MouseEvent, KeyboardEvent } from 'react'
 import { colors } from '../Calendar/dataSet/dataSet'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
@@ -7,14 +7,11 @@ import { SubSchedule } from '../../store/schdule'
 
 import dayjs from 'dayjs'
 
-import './styles/SubScheduleForm.scss'
-
-
 const SubScheduleForm: FunctionComponent<{}> = () => {
 
-  const { onPutMainSchedule, onPostSubSchedule, onPutSubSchedule } = useSchedule()
+  const { onPutMainSchedule, onPostSubSchedule, onPutSubSchedule, onGetMainTerm } = useSchedule()
   const { mainSchedule, subSchedule, onCloseModal } = useModal()
-  const { onSetStartDate, onSetEndDate} = useDrag()
+  const { onSetStartDate, onSetEndDate } = useDrag()
 
   const [subTitle, setSubTitle] = useState<string>(subSchedule.subTitle)
   const [hasTitle, setHasTitle] = useState<boolean>(true)
@@ -52,27 +49,23 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     // console.log(endDate)
   }
 
-  // color dropdown menu
-  const [showMenu, setShowMenu] = useState<boolean>(false)
-  const handleColorMenu = (e: MouseEvent<HTMLDivElement>) => {
-    setShowMenu(!showMenu)
-    // console.log(e.target)
-  }
-
   const handleSubmit = (schedule: SubSchedule) => {
-    // console.log(schedule.id)
-    if (subTitle === '') {
-      return
-    }
+    if (subTitle === '') return
+    if (dayjs(startDate) > dayjs(endDate)) return
     if (schedule.id === 0) {
       onPostSubSchedule(initialSubSchedule)
       putMainSchedule()
     } else {
       onPutSubSchedule(initialSubSchedule)
-      putMainSchedule()
+      onGetMainTerm(mainSchedule.id)
     }
     handleCloseModal()
-    // console.log(schedule)
+  }
+
+  const handleEnter = (e: KeyboardEvent, schedule: SubSchedule) => {
+    e.stopPropagation()
+    if (e.key !== 'Enter') return
+    handleSubmit(schedule)
   }
 
   const handleCloseModal = () => {
@@ -99,30 +92,23 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const isValidInput = hasTitle ? 'validInputBar' : 'invalidInputBar'
 
   return (
-    <div className="content">
-      <div
-        className={`colorContainer`}
-        onClick={handleColorMenu}
-        style={{ backgroundColor: color, marginRight: `${1.5}vh` }}
-      />
-      {showMenu ?
-        colors.map(colorIncolors => {
-          if (colorIncolors !== color) {
-            return (
-              <div
-                key={colorIncolors}
-                className={`colorContainer`}
-                style={{ backgroundColor: colorIncolors }}
-                onClick={() => {
-                  handleColor(colorIncolors)
-                  setShowMenu(!showMenu)
-                }}
-              />
-            )
-          }
-        })
-        :
-        ''
+    <div
+      className="content"
+      onKeyPress={(e) => handleEnter(e, initialSubSchedule)}
+    >
+      {colors.map(colorIncolors => {
+        const chosenColor = colorIncolors === color ? 'chosenColor' : ''
+        return (
+          <div
+            key={colorIncolors}
+            className={`colorContainer ${chosenColor}`}
+            style={{ backgroundColor: colorIncolors }}
+            onClick={() => {
+              handleColor(colorIncolors)
+            }}
+          />
+        )
+      })
       }
       <br />
       <input
@@ -132,7 +118,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
         value={subTitle}
         onChange={handleSubTitle}
       />
-      <br/>
+      <br />
       <input
         type="date"
         className={`inputBar`}

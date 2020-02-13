@@ -1,4 +1,4 @@
-import { GetScheduleActions, GetSchedulesState } from './types'
+import { ScheduleActions, SchedulesState } from './types'
 import { createReducer } from 'typesafe-actions'
 import { GET_SCHEDULE_SUCCESS, MAKE_REPRESENT_SECHEDULE_SUCCESS, MAKE_PUBLIC_SECHEDULE_SUCCESS, APPLY_SCHEDULE_SUCCESS,
   POST_MAINSCHEDULE_SUCCESS, PUT_MAINSCHEDULE_SUCCESS, DELETE_MAINSCHEDULE_SUCCESS, 
@@ -46,14 +46,15 @@ const initailMainDatas = [
   },
 ]
 
-const initialSchedulesState: GetSchedulesState = {
+const initialSchedulesState: SchedulesState = {
   mainSchedules: initailMainDatas, 
   subSchedules: initialSubDatas, 
   daySchedules: initialDayDatas
 }
 
-const schedule = createReducer<GetSchedulesState, GetScheduleActions>(initialSchedulesState, {
+const schedule = createReducer<SchedulesState, ScheduleActions>(initialSchedulesState, {
   [GET_SCHEDULE_SUCCESS]: (state, { payload: schedules }) => schedules,
+  
   // mainSchedule
   [POST_MAINSCHEDULE_SUCCESS]: ({mainSchedules, subSchedules, daySchedules}, { payload: mainSchedule }) => ({
     mainSchedules: mainSchedules.concat(mainSchedule),

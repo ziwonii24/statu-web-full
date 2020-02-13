@@ -7,7 +7,6 @@ import '../styles/CalendarHeaders.scss';
 const CalendarHeaders: FunctionComponent<Interface> = () => {
   // const { daysHeaderContainerClass, daysTitleContainerClass } = props;
   const CalendarDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-
   return (
     <div
       className={`calendarDaysContainer`}
@@ -16,9 +15,13 @@ const CalendarHeaders: FunctionComponent<Interface> = () => {
         <div
           key={day}
           className={`calendarHeaderContainer`}
-          style={{width: `${100/7}%`}}
+          style={{width: `${100/7}%`, color: `${day === 'Sun' ? 'red' : (day === 'Sat' ? 'blue' : 'black')}`}}
         >
-          {day}
+          <div
+            className={`calendarHeaderString`}
+          >
+            {day}
+          </div>
         </div>
       ))}
     </div>

@@ -1,17 +1,17 @@
 import { ActionType } from 'typesafe-actions'
-import { getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
+import { getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, getMainTerm,
   postMainSchedule, putMainSchedule, deleteMainSchedule, 
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
   postDaySchedule, putDaySchedule, deleteDaySchedule } from './actions'
 
-const getScheduleActions = { 
-  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan,
+const ScheduleActions = { 
+  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, getMainTerm,
   postMainSchedule, putMainSchedule, deleteMainSchedule, 
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
   postDaySchedule, putDaySchedule, deleteDaySchedule 
 }
 
-export type GetScheduleActions = ActionType<typeof getScheduleActions>
+export type ScheduleActions = ActionType<typeof ScheduleActions>
 
 export interface MainSchedule {
   id: number
@@ -48,7 +48,7 @@ export type DaySchedule = {
   achieve: number,
 }
 
-export type GetSchedulesState = { 
+export type SchedulesState = { 
   mainSchedules: MainSchedule[],
   subSchedules: SubSchedule[],
   daySchedules: DaySchedule[]

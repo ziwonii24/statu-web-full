@@ -4,8 +4,6 @@ import useDrag from '../../../hooks/useDrag'
 import useSchedule from '../../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
-import axios from 'axios'
-
 import Interface from './interfaces/CalendarDay.interface'
 import { SubSchedule, DaySchedule } from '../../../store/schdule'
 
@@ -31,10 +29,11 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   // console.log('subschedules', subSchedule)
   const { modalState, onOpenModal, onOpenDayModal, onOpenSubModal } = useModal()
   const { startDate, tempDate, endDate, mouseOverState, onSetStartDate, onSetTempDate, onSetEndDate } = useDrag()
-  const { onPutMainSchedule, onDeleteSubSchedule, onGetSubScheduleOnTarget, onDeleteDaySchedule, onGetMainTerm } = useSchedule()
+  const { onDeleteSubSchedule, onDeleteDaySchedule, onGetMainTerm } = useSchedule()
 
   // 소목표, 일일목표 관련 변수
   const day = dayjs(date).date()
+  const dayNum = dayjs(date).day()
   const newDate = date
   const subData = subSchedule && subSchedule.filter(schedule => schedule.startDate <= date && schedule.endDate >= date)
   const etcSubData = subSchedule && subSchedule.filter(schedule => schedule.startDate === '9999-99-99')[0]
@@ -80,6 +79,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   const check = dayjs(targetMonth).month() !== dayjs(date).month()  // true
   const passedDate = check ? 'calendarpassedDate' : ''
   const pointerNone = mouseOverState ? 'pointerNone' : ''
+  const weekendColor = dayNum === 0 ? 'red' : (dayNum === 6 ? 'blue' : 'black')
 
   // HTML 렌더에 사용되는 핸들러
   const handleMouseDown = (e: MouseEvent) => {
@@ -122,20 +122,14 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleDeleteSubSchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
-    
-    const { mainStartDate, mainEndDate } = onGetMainTerm(calendarId)
-    const editedMainSchedule = { ...mainSchedule, startDate: mainStartDate, endDate: mainEndDate }
     onDeleteSubSchedule(id)
-    onPutMainSchedule(editedMainSchedule)
+    onGetMainTerm(calendarId)
   }
 
   const handleDeleteDaySchedule = async (e: MouseEvent, id: number) => {
     e.stopPropagation()
-    
-    const { mainStartDate, mainEndDate } = onGetMainTerm(calendarId)
-    const editedMainSchedule = { ...mainSchedule, startDate: mainStartDate, endDate: mainEndDate }
     onDeleteDaySchedule(id)
-    onPutMainSchedule(editedMainSchedule)
+    onGetMainTerm(calendarId)
   }
 
   const handleMouseEnter = (id: number) => {
@@ -215,6 +209,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
         <div
           data-test="calendarNum"
           className={`calendarNum ${activeNumber}`}
+          style={{color: `${weekendColor}`}}
         >
           {day}{' '}
         </div>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
+import React, { FunctionComponent, useState, ChangeEvent, MouseEvent, KeyboardEvent } from 'react'
 
 import path from 'path'
 import dotenv from 'dotenv'
@@ -16,16 +16,16 @@ import '../Nav/style/Nav.scss'
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 interface Props {
-  onLogout : () => void
+  onLogout: () => void
   user: UserInfo
 }
 
 const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
   const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
-  
+
   const { onLogout, user } = props
-  
+
   const [query, setQuery] = useState<string>('')
   const { onSetUserId } = usePlanPage()
   const imgUrl = `${SERVER_IMG_IP}/${user.img}`
@@ -34,11 +34,17 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
     setQuery(e.target.value)
   })
 
-  const searchClickHandler = (e: MouseEvent<HTMLElement>) => {
+  const handleSearchClick = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault()
     history.push(`/search/${query}`)
   }
-  
+
+  const handleSearchEnter = (e: KeyboardEvent) => {
+    // e.preventDefault()
+    if (e.key !== 'Enter') return
+    history.push(`/search/${query}`)
+  }
+
   const myPlanClickHandler = (e: MouseEvent<HTMLElement>) => {
     onSetUserId(user.id)
     history.push(`/plan/${user.name}`)
@@ -58,15 +64,16 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
       <Navbar className="navBar" bg="light" variant="light">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
         <Nav className="mr-auto">
-          <input 
-            className="search" 
+          <input
+            className="search"
             type="text"
             value={query}
             placeholder="시간표 찾기"
             onChange={handleSearchInput}
+            onKeyPress={handleSearchEnter}
           />
           <button
-            onClick={searchClickHandler}
+            onClick={handleSearchClick}
           >
             🔍
           </button>

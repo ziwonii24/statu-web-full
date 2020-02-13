@@ -1,18 +1,16 @@
-import React, { FunctionComponent, useState, MouseEvent, ChangeEvent } from 'react'
+import React, { FunctionComponent, useState, MouseEvent, ChangeEvent, KeyboardEvent } from 'react'
 import useDrag from '../../hooks/useDrag'
 import useModal from '../../hooks/useModal'
 import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schdule'
 import dayjs from 'dayjs'
 
-import './styles/DayScheduleForm.scss'
-
 
 const DayScheduleForm: FunctionComponent<{}> = () => {
 
   const { mainSchedule, daySchedule, subSchedules, onCloseModal } = useModal()
   const { startDate, onSetStartDate, onSetEndDate } = useDrag()
-  const { onPutMainSchedule, onPostDaySchedule, onPutDaySchedule } = useSchedule()
+  const { onPutMainSchedule, onPostDaySchedule, onPutDaySchedule, onGetMainTerm } = useSchedule()
   const subSchedule = daySchedule.id !== 0 ? subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)[0] : subSchedules[0]
 
   const [subTitleId, setSubTitleId] = useState<number>(subSchedule.id)
@@ -38,27 +36,20 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     "achieve": daySchedule.achieve,
   }
 
-  // color dropdown menu
-  const [showMenu, setShowMenu] = useState<boolean>(false)
-  const handleColorMenu = (e: MouseEvent<HTMLDivElement>) => {
-    setShowMenu(!showMenu)
-  }
-
   // input handler
   const handleColor = (e: MouseEvent<HTMLDivElement>, subTitleId: number, color: string) => {
     setSubTitleId(subTitleId)
     setColor(color)
-    setShowMenu(!showMenu)
   }
   const handleComponent = (e: ChangeEvent<HTMLInputElement>) => {
     setComponent(e.target.value)
   }
   const handleGoalHour = (e: ChangeEvent<HTMLInputElement>) => {
-    setGoalHour(parseInt(e.target.value))
+    setGoalHour(parseInt(e.target.value) % 24)
     setGoal((parseInt(e.target.value) * 60) + goalMin)
   }
   const handleGoalMin = (e: ChangeEvent<HTMLInputElement>) => {
-    setGoalMin(parseInt(e.target.value))
+    setGoalMin(parseInt(e.target.value) % 60)
     setGoal((goalHour * 60) + parseInt(e.target.value))
   }
   const handleDate = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,10 +67,16 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       putMainSchedule()
     } else {
       onPutDaySchedule(initialDaySchedule)
-      putMainSchedule()
+      onGetMainTerm(mainSchedule.id)
     }
     handleCloseModal()
     // console.log(schedule)
+  }
+
+  const handleEnter = (e: KeyboardEvent, schedule: DaySchedule) => {
+    e.stopPropagation()
+    if (e.key !== 'Enter') return
+    handleSubmit(schedule)
   }
 
   const handleCloseModal = () => {
@@ -106,30 +103,23 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   return (
     <>
       <h1>{startDate}</h1>
-      <div className="content">
-        <div
-          className={`colorContainer`}
-          style={{ backgroundColor: color, marginRight: `${1.5}vh` }}
-          onClick={handleColorMenu}
-        />
-        {showMenu ?
-          subSchedules.map(schedule => {
-            if (schedule.color !== color) {
-              return (
-                <div
-                  key={schedule.id}
-                  className={`colorContainer`}
-                  style={{ backgroundColor: `${schedule.color}` }}
-                  onClick={(e) => {
-                    handleColor(e, schedule.id, schedule.color)
-                  }}
-                />
-              )
-            }
-          })
-          :
-          ''
-        }
+      <div
+        className="content"
+        onKeyPress={(e) => handleEnter(e, initialDaySchedule)}
+      >
+        {subSchedules.map(schedule => {
+          const chosenColor = schedule.color === color ? 'chosenColor' : ''
+          return (
+            <div
+              key={schedule.id}
+              className={`colorContainer ${chosenColor}`}
+              style={{ backgroundColor: `${schedule.color}` }}
+              onClick={(e) => {
+                handleColor(e, schedule.id, schedule.color)
+              }}
+            />
+          )
+        })}
         <br />
         <input
           type="date"
@@ -148,12 +138,17 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
           placeholder="목표시간을 입력하세요."
           value={goalHour}
           onChange={handleGoalHour}
+          min={0}
+          max={24}
         />
         <input
           type="number"
           placeholder="목표시간을 입력하세요."
           value={goalMin}
           onChange={handleGoalMin}
+          min={0}
+          max={60}
+          step={10}
         />
         <div className="button-wrap">
           <div onClick={() => {
