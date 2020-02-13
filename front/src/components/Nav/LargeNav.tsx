@@ -1,29 +1,55 @@
-import React, { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
+import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 
-import '../Nav/style/Nav.scss'
+import { history } from '../../configureStore';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
 
-import pengsu from '../../img/pengsu.png'
+import '../Nav/style/Nav.scss'
 
 const LargeNavBar: FunctionComponent = () => {
+
+  const [query, setQuery] = useState<string>('')
+
+  const handleSearchInput = ((e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  })
+
+  const searchClickHandler = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    history.push(`/search/${query}`)
+  }
+
+  const loginClickHandler = (e: MouseEvent<HTMLElement>) => {
+    history.push('/login')
+  }
+
+  const signupClickHandler = (e: MouseEvent<HTMLElement>) => {
+    history.push('/signup')
+  }
+
   return (
     <div className="navBar">
-
       <Navbar className="navBar" bg="light" variant="light">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
         <Nav className="mr-auto">
-          <input className="search" type="text" placeholder="시간표 찾기"/>
-          <button>🔍</button>
+          <input 
+            className="search" 
+            type="text"
+            value={query}
+            placeholder="시간표 찾기"
+            onChange={handleSearchInput}
+          />
+          <button
+            onClick={searchClickHandler}
+          >
+            🔍
+          </button>
         </Nav>
         <Form inline>
-          <div className="menu"><Link to='/signup'>Signup</Link></div>
-          <div className="menu"><Link to='/login'>login</Link></div>
-          {/* <div className="menu"><Link to='/community'>커뮤니티</Link></div> */}
-          <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
+          <div className="menu"><a onClick={loginClickHandler}>로그인</a></div>
+          <div className="menu"><a onClick={signupClickHandler}>회원가입</a></div>
         </Form>
       </Navbar>
     </div>

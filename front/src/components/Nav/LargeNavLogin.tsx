@@ -1,16 +1,19 @@
-import React, { FunctionComponent, useState, useCallback, ChangeEvent, MouseEvent } from 'react'
+import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
+
+import path from 'path'
+import dotenv from 'dotenv'
+
 import usePlanPage from '../../hooks/usePlanPage'
-import { Link } from 'react-router-dom'
 import { UserInfo } from '../User/interfaces/UserInfo.interface';
 import { history } from '../../configureStore';
-
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav'
 import Form from 'react-bootstrap/Form'
-import pengsu from '../../img/pengsu.png'
 
 import '../Nav/style/Nav.scss'
+
+dotenv.config({ path: path.join(__dirname, '.env') })
 
 interface Props {
   onLogout : () => void
@@ -19,21 +22,34 @@ interface Props {
 
 const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
-  const { onLogout, user } = props
-  const { onSetUserId } = usePlanPage()
+  const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
   
-  const handleMyPlan = () => {
+  const { onLogout, user } = props
+  
+  const [query, setQuery] = useState<string>('')
+  const { onSetUserId } = usePlanPage()
+  const imgUrl = `${SERVER_IMG_IP}/${user.img}`
+
+  const handleSearchInput = ((e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  })
+
+  const searchClickHandler = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    history.push(`/search/${query}`)
+  }
+  
+  const myPlanClickHandler = (e: MouseEvent<HTMLElement>) => {
     onSetUserId(user.id)
     history.push(`/plan/${user.name}`)
   }
 
-  const [query, setQuery] = useState<string>('')
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setQuery(e.target.value)
-  }, [])
-  const handleSearch = (e: MouseEvent) => {
-    e.preventDefault()
-    history.push(`/search/${query}`)
+  const importedPlanClickHandler = (e: MouseEvent<HTMLElement>) => {
+    history.push('/importedplan')
+  }
+
+  const profileClickHandler = (e: MouseEvent<HTMLElement>) => {
+    history.push('/userinfo')
   }
 
   return (
@@ -47,23 +63,20 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
             type="text"
             value={query}
             placeholder="시간표 찾기"
-            onChange={handleChange}
+            onChange={handleSearchInput}
           />
           <button
-            onClick={handleSearch}
+            onClick={searchClickHandler}
           >
             🔍
           </button>
           {/* <Button variant="outline-primary">Search</Button> */}
         </Nav>
         <Form inline>
-          {/* <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div> */}
-          <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div>
-          <div className="menu"><Link to='/importedplan'>가져온 공부</Link></div>
-          {/* <div className="menu"><Link to='/community'>커뮤니티</Link></div> */}
-          <div className="menu"><Link to='/userinfo'>내정보수정</Link></div>
+          <div className="menu"><a onClick={myPlanClickHandler}>내 공부</a></div>
+          <div className="menu"><a onClick={importedPlanClickHandler}>가져온 공부</a></div>
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
-          <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
+          <div><img className='userImg' src={imgUrl} onClick={profileClickHandler} /></div>
         </Form>
       </Navbar>
     </div>

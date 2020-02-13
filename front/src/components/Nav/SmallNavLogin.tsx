@@ -1,11 +1,17 @@
-import React, { FunctionComponent } from 'react'
-import useUser from '../../hooks/useUser'
-import { Link } from 'react-router-dom'
-import Navbar from 'react-bootstrap/Navbar';
-import pengsu from '../../img/pengsu.png'
+import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
+
+import path from 'path'
+import dotenv from 'dotenv'
+
+import usePlanPage from '../../hooks/usePlanPage'
 import { UserInfo } from '../User/interfaces/UserInfo.interface';
 import { history } from '../../configureStore';
+
+import Navbar from 'react-bootstrap/Navbar';
+
 import '../Nav/style/Nav.scss'
+
+dotenv.config({ path: path.join(__dirname, '.env') })
 
 interface Props {
   onLogout: () => void
@@ -14,35 +20,64 @@ interface Props {
 
 const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
-  const { onLogout, user } = props
+  const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
 
-  const handleMyPlan = () => {
+  const { onLogout, user } = props
+  
+  const [query, setQuery] = useState<string>('')
+  const { onSetUserId } = usePlanPage()
+  const imgUrl = `${SERVER_IMG_IP}/${user.img}`
+
+  const handleSearchInput = ((e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  })
+
+  const searchClickHandler = (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault()
+    history.push(`/search/${query}`)
+  }
+
+  const myPlanClickHandler = (e: MouseEvent<HTMLElement>) => {
+    onSetUserId(user.id)
     history.push(`/plan/${user.name}`)
+  }
+
+  const importedPlanClickHandler = (e: MouseEvent<HTMLElement>) => {
+    history.push('/importedplan')
+  }
+
+  const profileClickHandler = (e: MouseEvent<HTMLElement>) => {
+    history.push('/userinfo')
   }
 
   return (
     <Navbar className="navBar" bg="light" variant="light" expand="lg">
       <div className="search">
         <Navbar.Brand href="/">STATU</Navbar.Brand>
-        <input className="search" type="text" placeholder="시간표 찾기" />
-        <button>🔍</button>
+        <input 
+            className="search" 
+            type="text"
+            value={query}
+            placeholder="시간표 찾기"
+            onChange={handleSearchInput}
+        />
+        <button
+            onClick={searchClickHandler}
+        >
+            🔍
+        </button>
       </div>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <div className="toggle">
           <br />
-          <div className="menu"><a onClick={handleMyPlan} >내 공부</a></div>
+          <div className="menu"><a onClick={myPlanClickHandler} >내 공부</a></div>
           <br />
-          <div className="menu"><Link to='/importedplan'>가져온 공부</Link></div>
-          <br />
-          {/* <div className="menu"><Link to='/community'>커뮤니티</Link></div>
-          <br/> */}
-          <div className="menu"><Link to='/userinfo'>내정보수정</Link></div>
+          <div className="menu"><a onClick={importedPlanClickHandler}>가져온 공부</a></div>
           <br />
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
           <br />
-
-          <div className="userImg"><img src={pengsu} alt="펭수" style={{ maxHeight: "100%" }} /></div>
+          <div><img className='userImg' src={imgUrl} onClick={profileClickHandler} /></div>
         </div>
       </Navbar.Collapse>
     </Navbar>
