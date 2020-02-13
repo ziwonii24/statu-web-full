@@ -42,7 +42,8 @@ function* postMainScheduleSaga({ payload: mainSchedule }: ReturnType<typeof post
     const mainScheduleId = mainResp.data.id
     const editedMainSchedule = { ...mainSchedule, id: mainScheduleId }
 
-    yield fork(getSubScheduleOnTargetSaga, mainScheduleId)
+    const result = yield fork(getSubScheduleOnTargetSaga, mainScheduleId)
+    console.log('result', result)
     yield put(postMainSchedule.success(editedMainSchedule))
   }
   catch (error) {
@@ -135,27 +136,24 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
     // get new subSchedules
     yield originSubSchedules.map(async (originSubSchedule) => {
       if (originSubSchedule.startDate !== '9999-99-99') {
-        let editedSchedule = { ...originSubSchedule, id: 0, calendarId: mainScheduleId, startDate: `${dayjs(originSubSchedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(originSubSchedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
-        const postNewSubResp = await axios.post(SERVER_IP + '/subtitle', editedSchedule)
+        let editedSubSchedule = { ...originSubSchedule, id: 0, calendarId: mainScheduleId, startDate: `${dayjs(originSubSchedule.startDate).add(addDays, 'day').format('YYYY-MM-DD')}`, endDate: `${dayjs(originSubSchedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')}` }
+        const postNewSubResp = await axios.post(SERVER_IP + '/subtitle', editedSubSchedule)
         const subSchduleId = postNewSubResp.data.id
-        subSchedules.push({ ...editedSchedule, id: subSchduleId })
+        subSchedules.push({ ...editedSubSchedule, id: subSchduleId })
+
         console.log('getNewSubResp success', subSchedules)
+
+        originDaySchedules.map(async (originDaySchedule) => {
+          if (originDaySchedule.subTitleId === originSubSchedule.id) {
+            let editedDaySchedule = { ...originDaySchedule, subTitleId: subSchduleId, id: 0, calendarId: mainScheduleId, date: `${dayjs(originDaySchedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
+            const postNewDayResp = await axios.post(SERVER_IP + '/todo', editedDaySchedule)
+            const dayScheduleId = postNewDayResp.data.id
+            daySchedules.push({ ...editedDaySchedule, id: dayScheduleId })
+            console.log('success post sub', dayScheduleId)
+          }
+        })
       }
     })
-
-    yield originDaySchedules.map(async (originDaySchedule) => {
-      let editedSchedule = { ...originDaySchedule, id: 0, calendarId: mainScheduleId, date: `${dayjs(originDaySchedule.date).add(addDays, 'day').format('YYYY-MM-DD')}` }
-      originSubSchedules.map((subSchedule, idx) => {
-        if (subSchedule.id === originDaySchedule.subTitleId) {
-          editedSchedule = { ...editedSchedule, subTitleId: subSchedules[idx].id }
-        }
-      })
-      const postNewDayResp = await axios.post(SERVER_IP + '/todo', editedSchedule)
-      const dayScheduleId = postNewDayResp.data.id
-      console.log('success post sub', dayScheduleId)
-      daySchedules.push({ ...editedSchedule, id: dayScheduleId })
-    })
-
     yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules }))
   }
   catch (error) {
@@ -263,8 +261,8 @@ export function* scheduleSaga() {
     takeEvery(putMainSchedule.request, putMainScheduleSaga),
     takeEvery(deleteMainSchedule.request, deleteMainScheduleSaga),
     takeEvery(makeRepresentSchedule.request, makeRepresentScheduleSaga),
-    takeEvery(makePublicSchedule.request, makePublicScheduleSaga), 
-    takeEvery(applyScheduleToMyPlan.request, applyScheduleToMyPlanSaga), 
+    takeEvery(makePublicSchedule.request, makePublicScheduleSaga),
+    takeEvery(applyScheduleToMyPlan.request, applyScheduleToMyPlanSaga),
 
     takeEvery(getSubSchedule.request, getSubScheduleSaga),
     takeEvery(postSubSchedule.request, postSubScheduleSaga),
