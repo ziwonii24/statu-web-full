@@ -8,7 +8,7 @@ import useSchedule from '../../hooks/useSchedule'
 import useImportedSchedule from '../../hooks/useImportedSchedule'
 import MonthViewCalendar from './MonthView/MonthViewCalendar'
 import CalendarNavi from './CalendarNavi/CalendarNavi'
-import { SubSchedule, DaySchedule } from '../../store/schdule'
+import { SubSchedule, DaySchedule } from '../../store/schedule'
 
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"

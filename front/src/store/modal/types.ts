@@ -1,6 +1,6 @@
 import { ActionType } from 'typesafe-actions'
 import { openModal, closeModal, openDayModal, openSubModal, putDayScheduleOnModal, putSubScheduleOnModal } from './actions'
-import { MainSchedule, SubSchedule, DaySchedule } from '../schdule'
+import { MainSchedule, SubSchedule, DaySchedule } from '../schedule'
 
 const modalActions = {
   openModal, closeModal, openDayModal, openSubModal, putDayScheduleOnModal, putSubScheduleOnModal

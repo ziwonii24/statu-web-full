@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import useStopWatch from '../../hooks/useStopWatch'
 import useSchedule from '../../hooks/useSchedule'
-import { DaySchedule } from '../../store/schdule'
+import { DaySchedule } from '../../store/schedule'
 
 import axios from 'axios'
 import path from 'path'
