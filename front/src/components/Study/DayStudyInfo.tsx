@@ -3,13 +3,6 @@ import useStopWatch from '../../hooks/useStopWatch'
 import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schdule'
 
-import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
-
 interface Interface {
   color: string
   daySchedule: DaySchedule
@@ -56,15 +49,11 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleClick = () => {
-    handleStopWatchClick()
-  }
-
   const stopWatchBtn = useMemo(() => {
     return (
       <div
         className='stopWatch'
-        onClick={handleClick}
+        onClick={handleStopWatchClick}
       >
         {(isRunning && daySchedule.id === targetId) ? '중지' : '시작'}
       </div>
@@ -95,7 +84,7 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
         className='dayListCircle'
         style={{ backgroundColor: color }}
       />
-      {daySchedule.todo}
+      {daySchedule.todo.slice(0, 4)}
       {stopWatchBtn}
       {progressBar}
       {daySchedule.achieve} - {daySchedule.goal}

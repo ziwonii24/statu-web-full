@@ -25,7 +25,7 @@ const StudyInfo: FunctionComponent<Interface> = (props: Interface) => {
           className={`subScheduleTag`}
           style={{ backgroundColor: schedule.color, marginRight: `${1.5}vh` }}
         >
-          {schedule.subTitle}
+          {schedule.subTitle.slice(0, 4)}
         </div>
       )
     })
