@@ -20,6 +20,7 @@ const App: FunctionComponent<InterFace> = ({history}: InterFace) => {
   
   return (
     <>
+    <div className="fakeDiv" style={{ height: "55px" }}></div>
       <ConnectedRouter history={history}>
         { routes }
       </ConnectedRouter>

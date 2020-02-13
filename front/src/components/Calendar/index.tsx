@@ -23,6 +23,9 @@ import trash from '../../img/trash-can.png'
 import lock from '../../img/lock.png'
 import unlock from '../../img/lock_shared.png'
 import share3 from '../../img/share3.png'
+import star4 from '../../img/star4.png'
+import star5 from '../../img/star5.png'
+import close_ppt from '../../img/close_ppt.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -341,109 +344,10 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const headerBorder = showMonth ? '' : 'headerBorder'
   const canEdit = onGetUserInfo !== null && (onGetUserInfo.id === calendarUserId ? '' : 'pointerNone')
 
-  const MyCalendarOption = useMemo(() => {
-    return (
-      <div
-        className={`calendarOption`}
-        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
-      >
-        <div
-          className={`calendarHeader alingLeft`}
-        >
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleEditMode}
-          >
-            수정
-                </div>
-          <div className={`calendarHeader hashTagBox ${canEdit}`}>
-            <div
-              className={`calendarHeader ${canEdit}`}
-            >
-              <div
-                className={`calendarHeader`}
-                onClick={handleInputClick}
-              >
-                <input
-                  type="text"
-                  placeholder="태그입력"
-                  value={hashTagName}
-                  onChange={handleHashTag}
-                />
-              </div>
-              <div
-                className={`calendarHeader xsButton`}
-                onClick={handleAddHashtag}
-              >
-                +
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className={`calendarHeader alignRight`}
-        >
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleDeleteCalendar}
-          >
-            삭제
-          </div>
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleMakeRepresent}
-          >
-            대표
-          </div>
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handlePublicToggle}
-          >
-            공유
-          </div>
-        </div>
-      </div>
-    )
-  }, [titleWidth])
-
-  const ImportedCalendarOption = useMemo(() => {
-    return (
-      <div
-        className={`calendarOption`}
-        style={{ minWidth: `${(headerWidth - titleWidth)/windowWidth*100}%`, height: `${titleHeight}px` }}
-      >
-        <div className={`calendarHeader alignRight`}>
-          <div
-            className={`calendarHeader calendarHeaderButton`}
-            onClick={handleRecommend}
-          >
-            추천
-          </div>
-          {onPage === 'MyPlan' ?
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleScrap}
-            >
-              가져오기
-              </div>
-            :
-            <div
-              className={`calendarHeader calendarHeaderButton`}
-              onClick={handleSave}
-            >
-              저장하기
-                </div>
-          }
-        </div>
-      </div>
-    )
-  }, [titleWidth])
-
   return (
     <div
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
       className={`calendarContainer`}>
-
       {/* 달력 헤더 */}
       <br />
       <div
@@ -451,15 +355,15 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         onClick={handleShowMonth}
       >
         <header
-          ref={headerElement}
+          // ref={headerElement}
           className={`header ${headerBorder}`}
         >
           <div
-            ref={titleElement}
+            // ref={titleElement}
             className={`calendarTitle ${canEdit}`}
           >
             {!editMode ?
-                title
+              title
               :
               // 캘린더제목 수정모드일 때
               <>
@@ -468,25 +372,132 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   onClick={handleInputClick}
                 >
                   <input
-                    className="inputTag"
+                    className="inputTitle"
                     type="text"
                     value={title}
                     onChange={handleTitle}
                   />
                 </div>
                 <div
-                  className={`calendarHeader`}
+                  className={`calendarHeader hashTagItem`}
                   onClick={handleEditTitle}
                 >
                   확인
                 </div>
               </>
             }
+            {!canEdit ?
+              <div
+                className={`calendarHeader calendarHeaderButton`}
+                onClick={handleEditMode}
+              >
+                {/* 수정 icon */}
+                {!editMode ?
+                  <div className="editIcon">
+                  <img src={pencil} alt="수정icon" style={{ maxWidth: "100%" }} />
+                </div>
+                :
+                ''
+                }
+              </div>
+              :
+              ''
+            }
           </div>
           {!canEdit ?
-            MyCalendarOption
+            <div
+              className={`calendarOption`}
+            // style={{ minWidth: `${(windowWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
+            >
+              <div
+                className={`calendarHeader alingLeft`}
+              >
+                <div
+                  className={`calendarHeader ${canEdit}`}
+                >
+                  <div
+                    className={`calendarHeader`}
+                    onClick={handleInputClick}
+                  >
+                    <input
+                      className="inputTag"
+                      type="text"
+                      placeholder=" 태그입력"
+                      value={hashTagName}
+                      onChange={handleHashTag}
+                    />
+                    <div
+                      className={`calendarHeader xsButton hashTagItem`}
+                      onClick={handleAddHashtag}
+                    >
+                      추가
+                  </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className={`calendarHeader alignRight`}
+              >
+                {/* 대표 icon */}
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleMakeRepresent}
+                >
+                  {initialMainCalendar.represent ?
+                    <img src={star4} alt="star4" style={{ width: "15px" }} />
+                    :
+                    <img src={star5} alt="no-star" style={{ width: "15px" }} />
+                  }
+                </div>
+                {/* 공유 & lock icon */}
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handlePublicToggle}
+                >
+                  {initialMainCalendar.pb ?
+                    <img src={share3} alt="share3" style={{ width: "15px" }} />
+                    :
+                    <img src={lock} alt="lock" style={{ width: "15px" }} />
+                  }
+                </div>
+                {/* 삭제 icon */}
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleDeleteCalendar}
+                >
+                  <img src={trash} alt="쓰레기통" style={{ width: "15px" }} />
+                </div>
+              </div>
+            </div>
             :
-            ImportedCalendarOption
+            <div
+              className={`calendarOption`}
+            // style={{ minWidth: `${(headerWidth - titleWidth) / windowWidth * 100}%`, height: `${titleHeight}px` }}
+            >
+              <div className={`calendarHeader alignRight`}>
+                <div
+                  className={`calendarHeader calendarHeaderButton`}
+                  onClick={handleRecommend}
+                >
+                  추천
+          </div>
+                {onPage === 'MyPlan' ?
+                  <div
+                    className={`calendarHeader calendarHeaderButton`}
+                    onClick={handleScrap}
+                  >
+                    가져오기
+              </div>
+                  :
+                  <div
+                    className={`calendarHeader calendarHeaderButton`}
+                    onClick={handleSave}
+                  >
+                    저장하기
+                </div>
+                }
+              </div>
+            </div>
           }
           <div>
             <div
@@ -506,8 +517,12 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                         className={`calendarHeader xsButton`}
                         onClick={(e) => handleDeleteHashtag(e, idx)}
                       >
-                        ❌
-                  </div>
+
+                        <div className="closeIcon">
+                          {/* &nbsp;:x: */}
+                          <img src={close_ppt} alt="close_ppt" style={{ maxWidth: "100%" }} />
+                        </div>
+                      </div>
                       :
                       ''
                     }
@@ -524,7 +539,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
           <>
             {/* 달력 저번달 다음달 전환 버튼 */}
             <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} />
-
             {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
             <MonthViewCalendar
               calendarId={calendarId}
@@ -535,10 +549,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               daySchedule={daySchedules}
               handleState={handleState}
               colorActiveDate="palegoldenrod"
-              colorPastDates="#f1f1f1"
+              colorPastDates="#F1F1F1"
               isAscending={isAscending}
             />
-
             {/* 모달 */}
             {modalState ?
               <Modal />
@@ -553,5 +566,4 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     </div>
   )
 }
-
 export default Calendar
