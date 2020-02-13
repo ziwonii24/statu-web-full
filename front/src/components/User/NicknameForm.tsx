@@ -5,7 +5,6 @@ import path from 'path'
 import dotenv from 'dotenv'
 
 import useUser from '../../hooks/useUser'
-import useCategoryData from '../../hooks/useCategoryData'
 
 import { getToken, logout, login, decode } from './authentication'
 
@@ -99,7 +98,7 @@ const NicknameForm: FunctionComponent = () => {
         alert('내 정보가 수정되었습니다.')
         fetch(`${SERVER_IP}/user/modify`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json', 'token': token },    // www-form-urlencoded
+            headers: { 'Content-Type': 'application/json', 'token': token }, 
             body: JSON.stringify(resultUser)
         }).then(res => {          
             if(res.status !== 200 && res.status !== 202) {
