@@ -5,6 +5,7 @@ import { history } from '../../configureStore';
 import Navbar from 'react-bootstrap/Navbar';
 
 import '../Nav/style/Nav.scss'
+import search from '../../img/search.png'
 
 const SmallNavBar: FunctionComponent = () => {
 
@@ -28,7 +29,7 @@ const SmallNavBar: FunctionComponent = () => {
   }
 
   return (
-    <Navbar className="navBar" bg="light" variant="light" expand="lg">
+    <Navbar className="navBar" expand="lg">
       <div className="search">
       <Navbar.Brand href="/">STATU</Navbar.Brand>
         <input 
@@ -41,7 +42,9 @@ const SmallNavBar: FunctionComponent = () => {
           <button
             onClick={searchClickHandler}
           >
-            🔍
+            <div className="searchImg">
+              <img src={search} alt="search" style={{ maxWidth: "100%" }}/>
+            </div>
           </button>
       </div>
 

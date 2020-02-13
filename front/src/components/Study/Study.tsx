@@ -110,7 +110,7 @@ const Study: FunctionComponent = () => {
       {title}
       <div className="study">
         <br />
-        <div className="studybox">
+        <div className="leftStudyBox">
           <div>어제 한 공부</div>
           <StudyInfo
             colors={yesterdayColors}
@@ -118,7 +118,7 @@ const Study: FunctionComponent = () => {
             daySchedules={yesterdayDaySchedulesProps}
           />
         </div>
-        <div className="studybox">
+        <div className="rightStudybox">
           <div>오늘 할 공부</div>
           <StudyInfo
             colors={todayColors}

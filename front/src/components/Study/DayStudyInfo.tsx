@@ -3,6 +3,17 @@ import useStopWatch from '../../hooks/useStopWatch'
 import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schdule'
 
+import axios from 'axios'
+import path from 'path'
+import dotenv from 'dotenv'
+
+import pause from '../../img/pause.png'
+import play from '../../img/play.png'
+import { Row } from 'react-bootstrap'
+
+dotenv.config({ path: path.join(__dirname, '.env') })
+const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+
 interface Interface {
   color: string
   daySchedule: DaySchedule
@@ -38,7 +49,7 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
 
   const startStopToggle = () => {
     startTime = Date.now()
-    const timer = () => setInterval(() => handleSetTimeElapsed(Math.floor((Date.now() - startTime)/60000)), 60000)
+    const timer = () => setInterval(() => handleSetTimeElapsed(Math.floor((Date.now() - startTime) / 60000)), 60000)
     if (!isRunning) {
       timer()
       console.log(isRunning, timeElapsed)
@@ -55,7 +66,11 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
         className='stopWatch'
         onClick={handleStopWatchClick}
       >
-        {(isRunning && daySchedule.id === targetId) ? '중지' : '시작'}
+        {(isRunning && daySchedule.id === targetId) ?
+          <img src={pause} alt="중지버튼" className="stopWatchButton" style={{ maxWidth: "100%" }} />
+          :
+          <img src={play} alt="재생버튼" className="stopWatchButton" style={{ maxWidth: "100%" }} />
+        }
       </div>
     )
   }, [isRunning])
@@ -63,7 +78,6 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
   const progressBar = useMemo(() => {
     return (
       daySchedule.goal !== 0 &&
-      <div>
         <div
           className={`progressBar`}
         >
@@ -72,7 +86,6 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
             style={{ backgroundColor: color, width: `${Math.min(daySchedule.achieve / daySchedule.goal, 1) * 100}%` }}
           />
         </div>
-      </div>
     )
   }, [daySchedule.achieve])
 
@@ -80,14 +93,22 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     <div
       className={`dayDataItem`}
     >
+      <div className='subTitle'>
       <div
         className='dayListCircle'
         style={{ backgroundColor: color }}
       />
       {daySchedule.todo.slice(0, 4)}
       {stopWatchBtn}
-      {progressBar}
-      {daySchedule.achieve} - {daySchedule.goal}
+      <div className="stopWatchTimeProgress">
+        <div>
+          {progressBar}
+          <div className="achieveGoal">
+            {daySchedule.achieve} / {daySchedule.goal}
+          </div>
+        </div>
+      </div>
+      </div>
     </div>
   )
 }
