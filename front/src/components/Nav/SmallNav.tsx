@@ -19,11 +19,10 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
   const [query, setQuery] = useState<string>('')
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const { onSetUserId } = usePlanPage()
-  const imgUrl = `${SERVER_IMG_IP}/${user.img}`
 
   const handleClickLogo = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation()
-    history.push(`/}`)
+    history.push(`/`)
   }
 
   const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +104,7 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
           <div className="sm-menu"><a onClick={handleClickMyPlan} >내 공부</a></div>
           <div className="sm-menu"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
           <div className="sm-menu"><a onClick={onLogout} >로그아웃</a></div>
-          <div className="sm-menu img-menu"><img className='userImg' src={imgUrl} onClick={handleClickProfile} /></div>
+          <div className="sm-menu img-menu"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
         </div>
         :
         <div className="toggle">

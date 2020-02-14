@@ -24,6 +24,8 @@ import share3 from '../../img/share3.png'
 import star4 from '../../img/star4.png'
 import star5 from '../../img/star5.png'
 import close_ppt from '../../img/close_ppt.png'
+import smart_cart from '../../img/smart-cart.png'
+import import_icon from '../../img/import-icon.png'
 
 import './styles/Calendar.scss'
 
@@ -215,15 +217,12 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     onMakePublicSchedule(calendarId)
   }
 
-  const handleRecommend = async (e: MouseEvent) => {
-    e.stopPropagation()
-    const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
-    onPutMainSchedule(editedSchedule)
-  }
-
   const handleScrap = async (e: MouseEvent) => {
     e.stopPropagation()
     if (!onGetUserInfo) return
+
+    const editedSchedule = { ...initialMainCalendar, recommend: initialMainCalendar.recommend + 1 }
+    onPutMainSchedule(editedSchedule)
 
     const scrapInfo = {
       "calendarId": calendarId,
@@ -412,25 +411,19 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               className={`calendarOption`}
             >
               <div className={`calendarHeader alignRight`}>
-                <div
-                  className={`calendarHeader calendarHeaderButton`}
-                  onClick={handleRecommend}
-                >
-                  추천
-                </div>
                 {onPage === 'MyPlan' ?
                   <div
                     className={`calendarHeader calendarHeaderButton`}
                     onClick={handleScrap}
                   >
-                    가져오기
+                    <img src={smart_cart} alt="장바구니" style={{ width: "15px" }} />
               </div>
                   :
                   <div
                     className={`calendarHeader calendarHeaderButton`}
                     onClick={handleSave}
                   >
-                    저장하기
+                     <img src={import_icon} alt="저장하기" style={{ width: "15px" }} />
                 </div>
                 }
                 {importId !== 0 ?
