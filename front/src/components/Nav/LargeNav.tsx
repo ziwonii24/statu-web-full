@@ -61,7 +61,7 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <div className="navBar">
+    <div className="navBar main-color">
       <div className="viewOption">
         <div className="titleSearchInput">
           <a className="logo" onClick={handleClickLogo}>STATU</a>
