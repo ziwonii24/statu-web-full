@@ -147,7 +147,7 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
 
       for (let j = 0; j < originDaySchedules.length; j++) {
         if (originDaySchedules[j].subTitleId === originSubSchedules[i].id) {
-          let editedDaySchedule = { ...originDaySchedules[j], subTitleId: subSchduleId, id: 0, calendarId: mainScheduleId, date: `${dayjs(originDaySchedules[j].date).add(addDays, 'day').format('YYYY-MM-DD')}` }
+          let editedDaySchedule = { ...originDaySchedules[j], calendarId: mainScheduleId, subTitleId: subSchduleId, id: 0, acheive: 0, date: `${dayjs(originDaySchedules[j].date).add(addDays, 'day').format('YYYY-MM-DD')}`}
           const postNewDayResp = yield call([axios, 'post'], SERVER_IP + '/todo', editedDaySchedule)
           const dayScheduleId = postNewDayResp.data.id
           daySchedules.push({ ...editedDaySchedule, id: dayScheduleId })

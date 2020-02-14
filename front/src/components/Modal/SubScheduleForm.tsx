@@ -3,7 +3,7 @@ import { colors } from '../Calendar/dataSet/dataSet'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'
 import useSchedule from '../../hooks/useSchedule'
-import { SubSchedule } from '../../store/schdule'
+import { SubSchedule } from '../../store/schedule'
 
 import dayjs from 'dayjs'
 

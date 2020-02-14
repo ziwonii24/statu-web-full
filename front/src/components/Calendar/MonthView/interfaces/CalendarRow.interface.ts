@@ -1,4 +1,4 @@
-import { MainSchedule, SubSchedule, DaySchedule } from '../../../../store/schdule'
+import { MainSchedule, SubSchedule, DaySchedule } from '../../../../store/schedule'
 
 export default interface Component {
   title?: string

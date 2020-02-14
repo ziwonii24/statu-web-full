@@ -6,7 +6,7 @@ import {
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
   postDaySchedule, putDaySchedule, deleteDaySchedule,
   MainSchedule, SubSchedule, DaySchedule, 
-} from '../store/schdule'
+} from '../store/schedule'
 import { RootState } from '../store'
 import dayjs from 'dayjs'
 

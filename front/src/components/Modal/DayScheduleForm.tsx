@@ -2,7 +2,7 @@ import React, { FunctionComponent, useState, MouseEvent, ChangeEvent, KeyboardEv
 import useDrag from '../../hooks/useDrag'
 import useModal from '../../hooks/useModal'
 import useSchedule from '../../hooks/useSchedule'
-import { DaySchedule } from '../../store/schdule'
+import { DaySchedule } from '../../store/schedule'
 import dayjs from 'dayjs'
 
 

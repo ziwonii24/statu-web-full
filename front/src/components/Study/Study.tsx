@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo } from 'react'
 import StudyInfo from './StudyInfo'
 import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
-import { SubSchedule, DaySchedule } from '../../store/schdule'
+import { SubSchedule, DaySchedule } from '../../store/schedule'
 import dayjs from 'dayjs'
 import './style/Study.scss'
 

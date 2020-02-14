@@ -1,14 +1,7 @@
 import React, { FunctionComponent } from 'react'
-import { MainSchedule } from '../../store/schdule'
+import { MainSchedule } from '../../store/schedule'
 import useSchedule from '../../hooks/useSchedule'
 import { history } from '../../configureStore'
-
-import axios from 'axios'
-import path from 'path'
-import dotenv from 'dotenv'
-
-dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 interface Interface {
   mainSchedule: MainSchedule

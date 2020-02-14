@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import useStopWatch from '../../hooks/useStopWatch'
 import useSchedule from '../../hooks/useSchedule'
-import { DaySchedule } from '../../store/schdule'
+import { DaySchedule } from '../../store/schedule'
 
 import axios from 'axios'
 import path from 'path'
@@ -60,15 +60,11 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-  const handleClick = () => {
-    handleStopWatchClick()
-  }
-
   const stopWatchBtn = useMemo(() => {
     return (
       <div
         className='stopWatch'
-        onClick={handleClick}
+        onClick={handleStopWatchClick}
       >
         {(isRunning && daySchedule.id === targetId) ?
           <img src={pause} alt="중지버튼" className="stopWatchButton" style={{ maxWidth: "100%" }} />
@@ -97,14 +93,12 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     <div
       className={`dayDataItem`}
     >
-      <div className="subTitle">
-        <div
-          className='dayListCircle'
-          style={{ backgroundColor: color }}
-        />
-        {daySchedule.todo}
-      </div>
-
+      <div className='subTitle'>
+      <div
+        className='dayListCircle'
+        style={{ backgroundColor: color }}
+      />
+      {daySchedule.todo.slice(0, 4)}
       {stopWatchBtn}
       <div className="stopWatchTimeProgress">
         <div>
@@ -113,6 +107,7 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
             {daySchedule.achieve} / {daySchedule.goal}
           </div>
         </div>
+      </div>
       </div>
     </div>
   )
