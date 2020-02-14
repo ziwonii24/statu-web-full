@@ -1,6 +1,6 @@
 import { ScheduleActions, SchedulesState } from './types'
 import { createReducer } from 'typesafe-actions'
-import { GET_SCHEDULE_SUCCESS, MAKE_REPRESENT_SECHEDULE_SUCCESS, MAKE_PUBLIC_SECHEDULE_SUCCESS, APPLY_SCHEDULE_SUCCESS,
+import { GET_SCHEDULE_SUCCESS, MAKE_REPRESENT_SECHEDULE_SUCCESS, UNDO_REPRESENT_SECHEDULE_SUCCESS, MAKE_PUBLIC_SECHEDULE_SUCCESS, APPLY_SCHEDULE_SUCCESS,
   POST_MAINSCHEDULE_SUCCESS, PUT_MAINSCHEDULE_SUCCESS, DELETE_MAINSCHEDULE_SUCCESS, 
   GET_SUBSCHEDULE_SUCCESS, POST_SUBSCHEDULE_SUCCESS, PUT_SUBSCHEDULE_SUCCESS, DELETE_SUBSCHEDULE_SUCCESS, GET_SUBSCHEDULE_ON_TARGET_SUCCESS,
   POST_DAYSCHEDULE_SUCCESS, PUT_DAYSCHEDULE_SUCCESS, DELETE_DAYSCHEDULE_SUCCESS } from './actions'
@@ -73,6 +73,11 @@ const schedule = createReducer<SchedulesState, ScheduleActions>(initialSchedules
   }),
   [MAKE_REPRESENT_SECHEDULE_SUCCESS]: ({mainSchedules, subSchedules, daySchedules}, { payload: id }) => ({
     mainSchedules: mainSchedules.map(schedule => schedule.id === id ? {...schedule, represent: true} : {...schedule, represent: false}),
+    subSchedules: subSchedules,
+    daySchedules: daySchedules
+  }),
+  [UNDO_REPRESENT_SECHEDULE_SUCCESS]: ({mainSchedules, subSchedules, daySchedules}, { payload: id }) => ({
+    mainSchedules: mainSchedules.map(schedule => schedule.id === id ? {...schedule, represent: false} : schedule),
     subSchedules: subSchedules,
     daySchedules: daySchedules
   }),

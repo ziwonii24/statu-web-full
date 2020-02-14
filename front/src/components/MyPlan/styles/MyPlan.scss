@@ -14,9 +14,8 @@
 }
 
 .addCalendar {
-    display: inline;
-    margin-left: 0.5rem;
-    margin-top: 0.5rem;
     position: fixed;
+    margin-left: -9vw;
+    // margin-top: 0.5rem;
     z-index: 100;
 }

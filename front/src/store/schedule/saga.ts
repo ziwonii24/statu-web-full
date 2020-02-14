@@ -1,5 +1,5 @@
 import {
-  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, getMainTerm,
+  getSchedule, makeRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, undoRepresentSchedule, getMainTerm,
   postMainSchedule, putMainSchedule, deleteMainSchedule,
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget,
   postDaySchedule, putDaySchedule, deleteDaySchedule
@@ -87,6 +87,16 @@ function* makeRepresentScheduleSaga({ payload: id }: ReturnType<typeof makeRepre
   }
   catch (error) {
     yield put(makeRepresentSchedule.failure(error))
+  }
+}
+
+function* undoRepresentScheduleSaga({ payload: id }: ReturnType<typeof undoRepresentSchedule.request>) {
+  try {
+    yield call([axios, 'put'], SERVER_IP + '/representoff/' + id)
+    yield put(undoRepresentSchedule.success(id))
+  }
+  catch (error) {
+    yield put(undoRepresentSchedule.failure(error))
   }
 }
 
@@ -300,6 +310,7 @@ export function* scheduleSaga() {
     takeEvery(deleteMainSchedule.request, deleteMainScheduleSaga),
     takeEvery(makeRepresentSchedule.request, makeRepresentScheduleSaga),
     takeEvery(makePublicSchedule.request, makePublicScheduleSaga),
+    takeEvery(undoRepresentSchedule.request, undoRepresentScheduleSaga),
     takeEvery(applyScheduleToMyPlan.request, applyScheduleToMyPlanSaga),
     takeEvery(getMainTerm.request, getMainTermSaga),
 

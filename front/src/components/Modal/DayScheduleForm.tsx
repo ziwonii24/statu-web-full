@@ -73,16 +73,20 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     // console.log(schedule)
   }
 
-  const handleEnter = (e: KeyboardEvent, schedule: DaySchedule) => {
-    e.stopPropagation()
-    if (e.key !== 'Enter') return
-    handleSubmit(schedule)
-  }
-
   const handleCloseModal = () => {
     onCloseModal()
     onSetStartDate('')
     onSetEndDate('')
+  }
+
+  const handleKeyDown = (e: KeyboardEvent, schedule: DaySchedule) => {
+    if (e.key ==='Enter') {
+      handleEnter(e, schedule)
+    }
+  }
+
+  const handleEnter = (e: KeyboardEvent, schedule: DaySchedule) => {
+    handleSubmit(schedule)
   }
 
   async function putMainSchedule() {
@@ -105,7 +109,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       <h1>{startDate}</h1>
       <div
         className="content"
-        onKeyPress={(e) => handleEnter(e, initialDaySchedule)}
+        onKeyPress={(e) => handleKeyDown(e, initialDaySchedule)}
       >
         {subSchedules.map(schedule => {
           const chosenColor = schedule.color === color ? 'chosenColor' : ''

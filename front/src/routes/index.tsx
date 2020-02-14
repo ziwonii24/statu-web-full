@@ -14,18 +14,20 @@ import DetailPage from '../pages/DetailPage'
 const routes = (
   <div>
     <NavBar />
-    <Switch>
-      <Route exact path="/" component={MainPage} />
-      <Route exact path="/signup" component={SignupPage} />
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/userinfo" component={UpdateUserInfoPage} />
-      <Route exact path="/plan/:userName" component={PlanPage} />
-      <Route exact path="/importedplan" component={ImportedPlanPage} />
-      <Route exact path="/search/:query" component={SearchResultPage} />
-      <Route exact path="/community" component={CommunityPage} />
-      <Route exact path="/detail/:planId" component={DetailPage} />
-      <Redirect path="*" to="/" />
-    </Switch>
+    <div className='body-content'>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route exact path="/signup" component={SignupPage} />
+        <Route exact path="/login" component={LoginPage} />
+        <Route exact path="/userinfo" component={UpdateUserInfoPage} />
+        <Route exact path="/plan/:userName" component={PlanPage} />
+        <Route exact path="/importedplan" component={ImportedPlanPage} />
+        <Route exact path="/search/:query" component={SearchResultPage} />
+        <Route exact path="/community" component={CommunityPage} />
+        <Route exact path="/detail/:planId" component={DetailPage} />
+        <Redirect path="*" to="/" />
+      </Switch>
+    </div>
   </div>
 )
 
