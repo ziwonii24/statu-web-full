@@ -8,7 +8,6 @@
     // justify-content: space-between;
     min-height: 200px;
     display: flex;
-    background-color: lightsalmon;
     width: 90%;
     text-align: center;
     margin: 0 auto;
@@ -16,30 +15,30 @@
 }
 
 .leftStudyBox {
-    // width: 50%;
+    width: 50%;
     float: left;
     border: 3px solid darkslateblue;
 }
 
 .rightStudybox {
-    // width: 50%;
+    width: 50%;
     border: 3px solid darkslateblue;
     // float: right;
 }
 
-// .studybox {
-//     position: relative;
-//     // display: inline-block;
-//     // width: 45%;
-//     border: 3px solid darkslateblue;
-//     // height: 280px;
-//     // margin: 1rem;
-// }
-
 .dayDataItem {
-    // display: inline-block;
-    margin: 10px 0;
-}
+    margin-top: 10px;
+    margin-right: 2px;
+    // // display: block;
+    // list-style-type: none;
+    // list-style-position: inside;
+    // z-index: 50;
+    // justify-self: center;
+    // -webkit-user-select: none;
+    // -moz-user-select: none;
+    // -ms-user-select: none;
+    // user-select: none;
+  }  
 
 .grass {
     justify-content: space-around;
@@ -71,12 +70,15 @@
     background-color: white;
     z-index: 100;
     float: left;
+    margin-top: 4px;
+
+    .progressBar {
+        margin-top: 0;
+    }
 }
 
 .studyStopwatchItem {
     display: inline-block;
-    background-color: palevioletred;
-
 }
 
 .stopWatch {
@@ -85,20 +87,23 @@
 
 .stopWatchButton {
     width: 15px;
+    float: right;
 }
 
 .subTitle {
+    // display: inline;
     float: left;
 }
 
 .stopWatchTimeProgress {
     // font-size: 1px;
-    display: inline-block;
+    // display: inline-block;
     float: right;
+    vertical-align: middle;
 }
 
 .achieveGoal {
     display: inline-block;
-    margin-top: -4px;
+    margin-top: -10px;
     margin-left: 3px;
 }

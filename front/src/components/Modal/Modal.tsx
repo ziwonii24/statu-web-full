@@ -50,10 +50,12 @@ const Modal: FunctionComponent<{}> = () => {
       />
       <div className="Modal">
         <p className="title">계획 추가</p>
+        <hr color="main-color"/>
         {!isFewDaysSchedule ?
         (<span>
-          소목표:
+          기간 목표
           <input
+            className="checkBox"
             name="isSubSchedule"
             type="checkbox"
             checked={check}

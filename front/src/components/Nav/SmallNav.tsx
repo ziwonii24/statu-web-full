@@ -74,7 +74,7 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
   }
 
   return (
-    <div className="navBar">
+    <div className="navBar main-color">
       <div className="viewOption">
         <div className="titleSearchInput">
           <a className="logo" onClick={handleClickLogo}>STATU</a>
@@ -101,15 +101,15 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
       {showMenu ?
         (user ?
         <div className="toggle">
-          <div className="sm-menu"><a onClick={handleClickMyPlan} >내 공부</a></div>
-          <div className="sm-menu"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
-          <div className="sm-menu"><a onClick={onLogout} >로그아웃</a></div>
-          <div className="sm-menu img-menu"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
+          <div className="sm-menu main-color"><a onClick={handleClickMyPlan} >내 공부</a></div>
+          <div className="sm-menu main-color"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
+          <div className="sm-menu main-color"><a onClick={onLogout} >로그아웃</a></div>
+          <div className="sm-menu img-menu main-color"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
         </div>
         :
         <div className="toggle">
-          <div className="sm-menu"><a onClick={handleLogin}>로그인</a></div>
-          <div className="sm-menu"><a onClick={handleSignUp}>회원가입</a></div>
+          <div className="sm-menu main-color"><a onClick={handleLogin}>로그인</a></div>
+          <div className="sm-menu main-color"><a onClick={handleSignUp}>회원가입</a></div>
         </div>
         )
         :

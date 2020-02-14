@@ -285,7 +285,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div
-      // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
       className={`calendarContainer`}>
       {/* 달력 헤더 */}
       <div
@@ -309,13 +308,14 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 >
                   <input
                     className="inputTitle"
+                    // style={{ width: "auto" }}
                     type="text"
                     value={title}
                     onChange={handleTitle}
                   />
                 </div>
                 <div
-                  className={`calendarHeader hashTagItem`}
+                  className={`hashTagItem`}
                   onClick={handleEditTitle}
                 >
                   확인

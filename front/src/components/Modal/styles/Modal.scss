@@ -41,7 +41,7 @@
     color: #333;
   }
   .content {
-    border-top: 1px solid #bebebe;
+    // border-top: 1px solid #bebebe;
     margin-top: 16px;
     p {
       padding: 8px;
@@ -71,17 +71,29 @@
     }
   }
   .colorContainer {
-    margin: 3px 0.5vw 0 0;
+    margin: 3px 2px 0 0;
+    // width: 20px;
+    // min-width: 5vw;
     width: 20px;
-    min-width: 5vw;
     min-height: 20px;
     border-radius: 5px;
     position: relative;
     display: inline-block;
   }
   .chosenColor {
-    min-width: 5.5vw;
+    // min-width: 5.5vw;
+    width: 25px;
+    height: 25px;
     min-height: 22px;
+    min-width: 22px;
     box-shadow: 1.5px 1.5px 1.5px rgba(119, 119, 119, 0.301);
   }
+}
+
+.modalInput {
+  background-color: rgba(0, 0, 0, 0.089);
+  border: none;
+  border-radius: 6px;
+  box-shadow: none;
+  margin-bottom: 0.4rem;
 }

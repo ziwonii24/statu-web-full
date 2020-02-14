@@ -1,11 +1,12 @@
 .arrowBtn {
 	background-color: white;
 	border-radius: 100px;
-	border: 0.5px solid silver;
+	border: none;
 	margin-left: 4px;
 	margin-right: 4px;
 	font-weight: bold;
-	color: rgba(37, 34, 34, 0.493);
+	// color: rgba(37, 34, 34, 0.493);
 	text-align: center;
-	// font: icon;
+	margin-bottom: 1rem;
+	// :focus {outline: none !important};
 }
