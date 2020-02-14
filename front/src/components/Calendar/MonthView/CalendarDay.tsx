@@ -5,7 +5,7 @@ import useSchedule from '../../../hooks/useSchedule'
 import dayjs from 'dayjs'
 import uuid from 'uuid'
 import Interface from './interfaces/CalendarDay.interface'
-import { SubSchedule, DaySchedule } from '../../../store/schdule'
+import { SubSchedule, DaySchedule } from '../../../store/schedule'
 
 import '../styles/CalendarDay.scss'
 

@@ -1,60 +1,121 @@
-import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
-
+import React, { FunctionComponent, useState, ChangeEvent, MouseEvent, KeyboardEvent } from 'react'
+import usePlanPage from '../../hooks/usePlanPage'
+import { UserInfo } from '../User/interfaces/UserInfo.interface';
 import { history } from '../../configureStore';
 
-import Navbar from 'react-bootstrap/Navbar';
-
+import menu from '../../img/menu.png'
 import '../Nav/style/Nav.scss'
-import search from '../../img/search.png'
 
-const SmallNavBar: FunctionComponent = () => {
+interface Props {
+  onLogout: () => void
+  user: UserInfo
+}
+
+const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
+
+const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
+  const { onLogout, user } = props
 
   const [query, setQuery] = useState<string>('')
+  const [showMenu, setShowMenu] = useState<boolean>(false)
+  const { onSetUserId } = usePlanPage()
+  const imgUrl = `${SERVER_IMG_IP}/${user.img}`
 
-  const handleSearchInput = ((e: ChangeEvent<HTMLInputElement>) => {
+  const handleClickLogo = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    history.push(`/}`)
+  }
+
+  const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value)
-  })
+  }
 
-  const searchClickHandler = (e: MouseEvent<HTMLElement>) => {
+  const handleSearchClick = (e: MouseEvent<HTMLElement>) => {
+    if (query === '') return
     e.preventDefault()
     history.push(`/search/${query}`)
   }
 
-  const loginClickHandler = (e: MouseEvent<HTMLElement>) => {
+  const handleSearchEnter = (e: KeyboardEvent) => {
+    if (query === '') return
+    if (e.key !== 'Enter') return
+    history.push(`/search/${query}`)
+  }
+
+  const handleToggle = () => {
+    setShowMenu(!showMenu)
+    console.log('click', showMenu)
+  }
+
+  const handleClickMyPlan = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    onSetUserId(user.id)
+    setShowMenu(false)
+    history.push(`/plan/${user.name}`)
+  }
+
+  const handleClickImportedPlan = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    setShowMenu(false)
+    history.push('/importedplan')
+  }
+
+  const handleClickProfile = (e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+    setShowMenu(false)
+    history.push('/userinfo')
+  }
+
+  const handleLogin = (e: MouseEvent<HTMLElement>) => {
     history.push('/login')
   }
 
-  const signupClickHandler = (e: MouseEvent<HTMLElement>) => {
+  const handleSignUp = (e: MouseEvent<HTMLElement>) => {
     history.push('/signup')
   }
 
   return (
-    <Navbar className="navBar" expand="lg">
-      <div className="TitleSearchInput">
-        <Navbar.Brand href="/" className="TitleAndMenu">STATU</Navbar.Brand>
-        <div className="inputAndFakeDiv">
-          <input
-            className="search"
-            type="text"
-            value={query}
-            placeholder="시간표 찾기"
-            onChange={handleSearchInput}
-          />
-          <div className="fakeClickDiv" onClick={searchClickHandler} />
+    <div className="navBar">
+      <div className="viewOption">
+        <div className="titleSearchInput">
+          <a className="logo" onClick={handleClickLogo}>STATU</a>
+          <div className="inputAndFakeDiv">
+            <input
+              className="search"
+              type="text"
+              value={query}
+              placeholder="시간표 찾기"
+              onChange={handleSearchInput}
+              onKeyPress={handleSearchEnter}
+            />
+            <div className="fakeClickDiv" onClick={handleSearchClick} />
+          </div>
+        </div>
+
+        <div
+          className={`menuBtn`}
+          onClick={handleToggle}
+        >
+          <img className={`menuImg`} src={menu} alt="menu-btn" />
         </div>
       </div>
-
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <div className="toggle TitleAndMenu">
-          <br />
-          <div className="menu"><a onClick={loginClickHandler}>로그인</a></div>
-          <br />
-          <div className="menu"><a onClick={signupClickHandler}>회원가입</a></div>
-          <br />
+      {showMenu ?
+        (user ?
+        <div className="toggle">
+          <div className="sm-menu"><a onClick={handleClickMyPlan} >내 공부</a></div>
+          <div className="sm-menu"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
+          <div className="sm-menu"><a onClick={onLogout} >로그아웃</a></div>
+          <div className="sm-menu img-menu"><img className='userImg' src={imgUrl} onClick={handleClickProfile} /></div>
         </div>
-      </Navbar.Collapse>
-    </Navbar>
+        :
+        <div className="toggle">
+          <div className="sm-menu"><a onClick={handleLogin}>로그인</a></div>
+          <div className="sm-menu"><a onClick={handleSignUp}>회원가입</a></div>
+        </div>
+        )
+        :
+        ''}
+    </div>
   )
 }
 

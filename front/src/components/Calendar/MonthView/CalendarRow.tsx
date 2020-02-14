@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import uuid from 'uuid'
 
 import Interface from './interfaces/CalendarRow.interface'
-import { SubSchedule } from '../../../store/schdule'
+import { SubSchedule } from '../../../store/schedule'
 
 import CalendarDay from './CalendarDay'
 
