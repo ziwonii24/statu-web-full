@@ -289,7 +289,6 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
       className={`calendarContainer`}>
       {/* 달력 헤더 */}
-      <br />
       <div
         className="headerContainer"
         onClick={handleShowMonth}
