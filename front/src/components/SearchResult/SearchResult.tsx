@@ -18,11 +18,11 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   const SearchMainScheduleResults = useMemo(() => {
     console.log('filter', getMainSchedules)
     return getMainSchedules.filter(schedule => 
-      schedule.title.includes(query) 
+      schedule.pb && (schedule.title.includes(query) 
       || schedule.tags.map(tag => tag.includes(query)).includes(true)
       || schedule.category1?.map(category => category.includes(query)).includes(true)
       || schedule.category2?.map(category => category.includes(query)).includes(true)
-    )
+    ))
   }, [getMainSchedules])
   
   return (

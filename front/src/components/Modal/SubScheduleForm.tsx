@@ -62,16 +62,20 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     handleCloseModal()
   }
 
-  const handleEnter = (e: KeyboardEvent, schedule: SubSchedule) => {
-    e.stopPropagation()
-    if (e.key !== 'Enter') return
-    handleSubmit(schedule)
-  }
-
   const handleCloseModal = () => {
     onCloseModal()
     onSetStartDate('')
     onSetEndDate('')
+  }
+  
+  const handleKeyDown = (e: KeyboardEvent, schedule: SubSchedule) => {
+    if (e.key ==='Enter') {
+      handleEnter(e, schedule)
+    }
+  }
+
+  const handleEnter = (e: KeyboardEvent, schedule: SubSchedule) => {
+    handleSubmit(schedule)
   }
 
   function putMainSchedule() {
@@ -94,7 +98,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   return (
     <div
       className="content"
-      onKeyPress={(e) => handleEnter(e, initialSubSchedule)}
+      onKeyPress={(e) => handleKeyDown(e, initialSubSchedule)}
     >
       {colors.map(colorIncolors => {
         const chosenColor = colorIncolors === color ? 'chosenColor' : ''

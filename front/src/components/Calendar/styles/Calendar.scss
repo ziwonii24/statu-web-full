@@ -1,144 +1,116 @@
 .calendarContainer {
   background-color: whitesmoke;
   // padding: 10px;
-  margin: 0 10vw;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  
+  .calendarHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1vh;
+
+    .calendarTitle {
+      display: flex;
+      align-items: flex-end;
+      max-width: 80%;
+      // height: 40px;
+      // overflow: hidden;
+      // font-size: 30px;
+
+      .showtitle {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        height: 40px;
+        overflow: hidden;
+        font-size: 30px;
+      }
+      .editTitle {
+        display: inline-block;
+        background-color: rgba(245, 245, 245, 0.5);
+        padding: 1px;
+        border: none;
+        width: 500px;
+        font-size: 30px;
+      }
+    }
+
+    .calendarOption {
+      display: flex;
+      align-items: flex-end;
+      height: 40px;
+    }
+  }
+
+  .hashTagList {
+    .hashTagInput {
+      display: inline-block;
+      background-color: white;
+      border-radius: 1vh;
+      padding: 3px;
+      margin-right: 5px;
+  
+      .inputTag {
+        width: 120px;
+        font-size: 13px;
+        border: none;
+      }
+    }
+  
+    .hashTagItem {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      margin: 1px 3px 1px 1px;
+      padding: 5px 7px;
+      border-radius: 1vh;
+    }
+  }
+
+  .calendarHeaderButton {
+    display: inline-block;
+    margin: 0 0.5vw;
+  }
+
+  .xs-button {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    color: white;
+    padding: 5px 7px;
+    border-radius: 6px;
+  }
 }
 
-.calendarNavi {
-  display: flex;
-  justify-content: center ;
-  margin-top: 1rem;
+.openCalendar {
+  padding: 2vw;
+  border-radius: 1vw;
+  margin-bottom: 5vh;
+
+  .headerContainer {
+    // display: flex;
+    // justify-content: center;
+    min-height: 60px;
+  }
+
+  .calendarNavi {
+    display: flex;
+    justify-content: center ;
+    margin-top: 1rem;
+  }
 }
 
-.calendarHeader {
-  display: inline;
-}
-
-.headerBorder {
-  // position: relative;
+.closeCalendar {
   border: 1px solid rgba(0, 0, 0, 0.308);
-  border-radius: 4px;
-  padding: 15px;
-  padding-bottom: 10px;
-  // padding-top: 0;
+  border-radius: 1vw;
+  padding: 2vw;
   margin-bottom: 10px;
-}
 
-.hashTagItem {
-  // position: absolute;
-  display: inline-block;
-  font-size: 13px;
-  font-weight: bold;
-  background-color: rgb(13, 163, 93);
-  color: white;
-  border: solid rgb(13, 163, 93);
-  margin: 1px 3px 1px 1px;
-  margin-top: 0;
-  padding: 1px;
-  border-radius: 6px;
-  margin-right: 0.6rem;
+  // .headerContainer {
+  // 
+  // }
 }
-
-.inputTitle {
-  // font-size: 15px;
-  width: 50%;
-  border-bottom: 1px solid gray;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  margin-bottom: 1rem;
-}
-
-.inputTag {
-  width: 120px;
-  font-size: 15px;
-  border-bottom: 1px solid gray;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  margin-top: 0.3rem;
-  margin-left: 0.8rem;
-}
-
-.calendarHeaderButton {
-  margin: 0 0.5vw;
-}
-
-.calendarTitle {
-  position: relative;
-  display: inline-block;
-  font-size: 30px;
-}
-
-.monthTitle {
-  font-size: 30px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.pointerNone {
-  pointer-events: none;
-}
-
-.pointerInherit {
-  pointer-events: inherit;
-}
-
-.editIcon {
-  display: inline-block;
-  width: 14px;
-}
-
-.trashCan {
-  width: 20px;
-  margin-right: 0;
-}
-
-.lockImg {
-  width: 20px;
-  margin-right: 0;
-}
-
-.row {
-  margin-left: 0;
-  justify-content: space-between;
-}
-
-.alingLeft {
-  position: absolute;
-  display: inline-block;
-  // width: 100%;
-  // border: 1px solid palegreen;
-}
-
-.alignRight {
-  display: inline-block;
-  float: right;
-  margin-top: 0.3rem;
-}
-
-.calendarOption {
-  display: inline;
-}
-
-.closeIcon {
-  display: inline-block;
-  margin-left: 2px;
-  width: 10px;
-  background-color: rgb(13, 163, 93);
-}
-
-.xsButton {
-  font-size: x-small;
-}
-
-// .check {
-//   font-size: 15px;
-//   border: 1px solid green;
-//   border-radius: 10px;
-//   padding: 2px;
-// }

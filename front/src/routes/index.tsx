@@ -15,17 +15,19 @@ import Footer from '../components/Footer/Footer'
 const routes = (
   <div>
     <NavBar />
-    <Switch>
-      <Route exact path="/" component={MainPage} />
-      <Route path="/info" component={InfoPage} />
-      <Route path="/signup" component={SignupPage} />
-      <Route path="/user" component={UserPage} />
-      <Route path="/plan/:userName" component={PlanPage} />
-      <Route path="/star" component={StarPage} />
-      <Route path="/search/:query" component={SearchPage} />
-      <Route path="/detail/:planId" component={DetailPage} />
-      <Route component={ErrorPage} />
-    </Switch>
+    <div className='body-content'>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/info" component={InfoPage} />
+        <Route path="/signup" component={SignupPage} />
+        <Route path="/user" component={UserPage} />
+        <Route path="/plan/:userName" component={PlanPage} />
+        <Route path="/star" component={StarPage} />
+        <Route path="/search/:query" component={SearchPage} />
+        <Route path="/detail/:planId" component={DetailPage} />
+        <Route component={ErrorPage} />
+      </Switch>
+    </div>
     <Footer />
   </div>
 )

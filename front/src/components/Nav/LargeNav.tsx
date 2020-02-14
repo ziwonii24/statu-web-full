@@ -3,6 +3,8 @@ import usePlanPage from '../../hooks/usePlanPage'
 import { UserInfo } from '../User/interfaces/UserInfo.interface';
 import { history } from '../../configureStore';
 
+import serach from '../../img/search.png'
+
 import '../Nav/style/Nav.scss'
 
 const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
@@ -63,36 +65,42 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
   return (
     <div className="navBar main-color">
       <div className="viewOption">
-        <div className="titleSearchInput">
+        <div className="leftComponent">
           <a className="logo" onClick={handleClickLogo}>STATU</a>
-          <div className="inputAndFakeDiv">
+          <div className={`scheduleSearch`}>
             <input
-              className="search"
+              className="searchInput"
               type="text"
-              value={query}
               placeholder="시간표 찾기"
+              value={query}
               onChange={handleSearchInput}
               onKeyPress={handleSearchEnter}
             />
-            <div className="fakeClickDiv" onClick={handleSearchClick} />
+            <div
+              className={`xs-button`}
+              onClick={handleSearchClick}
+            >
+              <img src={serach} alt="검색" style={{ width: "18px" }} />
+            </div>
           </div>
         </div>
+        
 
-        {user ?
-          <div className="menuBox">
-            <div className="lg-menu"><a onClick={handleClickMyPlan} >내 공부</a></div>
-            <div className="lg-menu"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
-            <div className="lg-menu"><a onClick={onLogout} >로그아웃</a></div>
-            <div className="lg-menu"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
-          </div>
-          :
-          <div className="menuBox">
-            <div className="lg-menu"><a onClick={handleLogin}>로그인</a></div>
-            <div className="lg-menu"><a onClick={handleSignUp}>회원가입</a></div>
-          </div>
-        }
-      </div>
+      {user ?
+        <div className="menuBox">
+          <div className="lg-menu"><a onClick={handleClickMyPlan} >내 공부</a></div>
+          <div className="lg-menu"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
+          <div className="lg-menu"><a onClick={onLogout} >로그아웃</a></div>
+          <div className="lg-menu"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
+        </div>
+        :
+        <div className="menuBox">
+          <div className="lg-menu"><a onClick={handleLogin}>로그인</a></div>
+          <div className="lg-menu"><a onClick={handleSignUp}>회원가입</a></div>
+        </div>
+      }
     </div>
+    </div >
   )
 }
 

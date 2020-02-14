@@ -19,14 +19,35 @@ body {
   .fourth-color { background-color: #dbcfc8 }
   .fifth-color { background-color: #d7d8df }
   .sixth-color { background-color: #ececf0 }
+
+  .font-weight-normal { font-weight: 400 }
+  .font-weight-bold	{ font-weight: 700 }
+  .font-weight-bolder	{ font-weight: 800 }
+  .font-weight-light { font-weight: 300 }
+
+  .body-content {
+    margin: 0 10vw;
+  }
+
+  .pointerNone { pointer-events: none; }
+
+  input:focus { outline:none; }
 }
 
-.font-weight-normal { font-weight: 400 }
-.font-weight-bold	{ font-weight: 700 }
-.font-weight-bolder	{ font-weight: 800 }
-.font-weight-light { font-weight: 300 }
+/* input 기본 스타일 초기화 */
+// input {
+  // -webkit-appearance: none;
+  //    -moz-appearance: none;
+  //         appearance: none;
+// }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* IE10 이상에서 input box 에 추가된 지우기 버튼 제거 */
+input::-ms-clear { display: none; }
+
+/* input type number 에서 화살표 제거 */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
