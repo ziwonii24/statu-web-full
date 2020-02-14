@@ -10,6 +10,7 @@ import StarPage from '../pages/StarPage'
 import SearchPage from '../pages/SearchPage'
 import DetailPage from '../pages/DetailPage'
 import ErrorPage from '../pages/ErrorPage'
+import Footer from '../components/Footer/Footer'
 
 const routes = (
   <div>
@@ -25,6 +26,7 @@ const routes = (
       <Route path="/detail/:planId" component={DetailPage} />
       <Route component={ErrorPage} />
     </Switch>
+    <Footer />
   </div>
 )
 
