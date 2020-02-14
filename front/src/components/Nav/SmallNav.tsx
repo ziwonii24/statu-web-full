@@ -31,7 +31,7 @@ const SmallNavBar: FunctionComponent = () => {
   return (
     <Navbar className="navBar" expand="lg">
       <div className="TitleSearchInput">
-        <Navbar.Brand href="/">STATU</Navbar.Brand>
+        <Navbar.Brand href="/" className="TitleAndMenu">STATU</Navbar.Brand>
         <div className="inputAndFakeDiv">
           <input
             className="search"
@@ -46,7 +46,7 @@ const SmallNavBar: FunctionComponent = () => {
 
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <div className="toggle">
+        <div className="toggle TitleAndMenu">
           <br />
           <div className="menu"><a onClick={loginClickHandler}>로그인</a></div>
           <br />

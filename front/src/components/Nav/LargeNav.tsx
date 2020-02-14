@@ -34,7 +34,7 @@ const LargeNavBar: FunctionComponent = () => {
   return (
     <Navbar className="navBar">
       <div className="TitleSearchInput">
-        <Navbar.Brand href="/">STATU</Navbar.Brand>
+        <Navbar.Brand href="/" className="TitleAndMenu">STATU</Navbar.Brand>
         <div className="inputAndFakeDiv">
           <input
             className="search"
@@ -47,7 +47,7 @@ const LargeNavBar: FunctionComponent = () => {
         </div>
       </div>
 
-      <Form inline>
+      <Form inline className="TitleAndMenu">
         <div className="menu"><a onClick={loginClickHandler}>로그인</a></div>
         <div className="menu"><a onClick={signupClickHandler}>회원가입</a></div>
       </Form>

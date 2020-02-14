@@ -54,7 +54,7 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
   return (
     <Navbar className="navBar" expand="lg">
       <div className="TitleSearchInput">
-        <Navbar.Brand href="/">STATU</Navbar.Brand>
+        <Navbar.Brand href="/" className="TitleAndMenu">STATU</Navbar.Brand>
         <div className="inputAndFakeDiv">
           <input
             className="search"
@@ -68,7 +68,7 @@ const SmallNavBarLogin: FunctionComponent<Props> = (props: Props) => {
       </div>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <div className="toggle">
+        <div className="toggle TitleAndMenu">
           <br />
           <div className="menu"><a onClick={myPlanClickHandler} >내 공부</a></div>
           <br />

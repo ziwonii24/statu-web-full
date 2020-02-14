@@ -25,12 +25,10 @@
 }
 .fakeClickDiv {
     position: absolute;
-    // border: 1px solid black;
     width: 30px;
     height: 20px;
     top: 3px;
     right: 5px;
-    // float: left;
 }
 
 
@@ -40,17 +38,8 @@
     margin-top: 10px;
 }
 
-.left {
-    display: inline-block;
-    background-color: darkolivegreen;
-}
-
-.right {
-    display: inline-block;
-    background-color: darkslateblue;
-}
-
 .menu {
+    color: whitesmoke;
     display: inline-block;
     margin: 0.5rem;
 }

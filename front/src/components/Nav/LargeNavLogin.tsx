@@ -69,7 +69,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
 
       <Navbar className="navBar">
         <div className="TitleSearchInput">
-          <Navbar.Brand href="/">STATU</Navbar.Brand>
+          <Navbar.Brand href="/" className="TitleAndMenu">STATU</Navbar.Brand>
           <div className="inputAndFakeDiv">
             <input
               className="search"
@@ -81,7 +81,7 @@ const LargeNavBarLogin: FunctionComponent<Props> = (props: Props) => {
             <div className="fakeClickDiv" onClick={searchClickHandler} />
           </div>
         </div>
-        <Form inline>
+        <Form inline className="TitleAndMenu">
           <div className="menu"><a onClick={myPlanClickHandler}>내 공부</a></div>
           <div className="menu"><a onClick={importedPlanClickHandler}>가져온 공부</a></div>
           <div className="menu"><a onClick={onLogout} >로그아웃</a></div>
