@@ -56,17 +56,17 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
   const handleClickImportedPlan = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation()
     setShowMenu(false)
-    history.push('/importedplan')
+    history.push('/star')
   }
 
   const handleClickProfile = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation()
     setShowMenu(false)
-    history.push('/userinfo')
+    history.push('/user')
   }
 
   const handleLogin = (e: MouseEvent<HTMLElement>) => {
-    history.push('/login')
+    history.push('/')
   }
 
   const handleSignUp = (e: MouseEvent<HTMLElement>) => {

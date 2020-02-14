@@ -15,6 +15,7 @@ const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (props: RouteComponentProps<{ planId: string }>) => {
   console.log('DetailPage')
 
+  console.log('[detail] ',props.match.params)
   const planId = props.match.params.planId
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onSetUserId } = usePlanPage()

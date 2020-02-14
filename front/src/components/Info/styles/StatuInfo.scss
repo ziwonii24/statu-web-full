@@ -1,0 +1,28 @@
+.statuInfoTemplate {
+    // margin: 0 -10vw;
+    margin-top: -23px;
+    display: flex;
+    padding: 6rem;
+    border-top: 0.5px solid #8dab9f;
+}
+
+.projectInfoBox {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    color: white;
+
+    h1 {
+        font-size: 6rem;
+    }
+}
+
+.loginBox {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

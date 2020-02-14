@@ -5,7 +5,7 @@ import useUser from '../hooks/useUser'
 import useSchedule from '../hooks/useSchedule'
 import useImportedSchedule from '../hooks/useImportedSchedule'
 
-const ImportedPlanPage: FunctionComponent = () => {
+const StarPage: FunctionComponent = () => {
   // const store = useStore()
   // console.log('store', store.getState())
   const { onGetUserInfo } = useUser()
@@ -50,4 +50,4 @@ const ImportedPlanPage: FunctionComponent = () => {
   )
 }
 
-export default ImportedPlanPage
+export default StarPage

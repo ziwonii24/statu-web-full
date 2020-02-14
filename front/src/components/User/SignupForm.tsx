@@ -188,7 +188,7 @@ const Signup: FunctionComponent = () => {
             res.json().then(response => {
                 console.log('[signup] response: ', response)
                 
-                history.push('/login')
+                history.push('/')
             })
             .catch(e => {
                 console.log(e)
@@ -241,7 +241,7 @@ const Signup: FunctionComponent = () => {
                     </div>
                 </form>
                 <div className='authFooter'>
-                    <Link to='/login'>로그인</Link>
+                    <Link to='/'>로그인</Link>
                 </div>
             </div>
         </div>
