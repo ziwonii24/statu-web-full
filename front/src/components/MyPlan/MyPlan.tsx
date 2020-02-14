@@ -10,6 +10,8 @@ import dotenv from 'dotenv'
 
 import './styles/MyPlan.scss'
 import plus from '../../img/plus.png'
+import plus_black from '../../img/plus_black.png'
+import plus_white from '../../img/plus_white.png'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -82,7 +84,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   // 화면에 렌더링할 컴포넌트 생성
   const AddButton = useMemo(() =>
     <>
-      <img onClick={handleAddCalendar} className="addCalendar" src={plus} alt="plus" style={{ height: "30px" }} />
+      <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
       <div className="fakeDiv"> </div>
     </>
     , [userId])
