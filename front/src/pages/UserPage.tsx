@@ -9,7 +9,7 @@ import dotenv from 'dotenv'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
-const UpdateUserInfoPage: FunctionComponent = () => {
+const UserPage: FunctionComponent = () => {
 
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
@@ -39,4 +39,4 @@ const UpdateUserInfoPage: FunctionComponent = () => {
     )
 }
 
-export default UpdateUserInfoPage
+export default UserPage

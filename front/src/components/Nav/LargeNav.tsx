@@ -40,7 +40,7 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleLogin = (e: MouseEvent<HTMLElement>) => {
-    history.push('/login')
+    history.push('/')
   }
 
   const handleSignUp = (e: MouseEvent<HTMLElement>) => {
@@ -53,15 +53,15 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleClickImportedPlan = (e: MouseEvent<HTMLElement>) => {
-    history.push('/importedplan')
+    history.push('/star')
   }
 
   const handleClickProfile = (e: MouseEvent<HTMLElement>) => {
-    history.push('/userinfo')
+    history.push('/user')
   }
 
   return (
-    <div className="navBar">
+    <div className="navBar main-color">
       <div className="viewOption">
         <div className="titleSearchInput">
           <a className="logo" onClick={handleClickLogo}>STATU</a>
