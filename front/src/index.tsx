@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
@@ -11,7 +10,9 @@ import { SET_USERINFO, setUserInfo } from './store/user';
 import path from 'path'
 import dotenv from 'dotenv'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/scss/index.scss'
+
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER  
 const store = configureStore()
