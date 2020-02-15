@@ -1,12 +1,27 @@
 .arrowBtn {
+	cursor: pointer;
+	// display: flex;
+	// justify-content: center;
+	text-align: center;
 	background-color: white;
 	border-radius: 100px;
-	border: none;
-	margin-left: 4px;
-	margin-right: 4px;
-	font-weight: bold;
-	// color: rgba(37, 34, 34, 0.493);
-	text-align: center;
-	margin-bottom: 1rem;
-	// :focus {outline: none !important};
+	width: 3vh;
+	height: 3vh;
+	margin: 0 4px;
+	padding: auto 0;
+	font-weight: 700;
+}
+
+.arrowImg {
+	display: inline-block;
+	width: 1vh;
+	height: 1vh;
+	margin-top: 0.3vh;
+	margin-left: 0.1vh;
+}
+
+.monthString {
+	display: inline-block;
+	height: 3vh;
+	line-height: 3vh;
 }

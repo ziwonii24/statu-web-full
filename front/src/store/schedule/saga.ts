@@ -6,6 +6,7 @@ import {
 } from './actions'
 import { MainSchedule, SubSchedule, DaySchedule } from './types'
 import { all, call, put, takeEvery } from 'redux-saga/effects'
+import { sortDate } from '../../components/Calendar/MonthView/utils/index'
 
 import dayjs from 'dayjs'
 import localeDe from "dayjs/locale/ko"
@@ -326,27 +327,27 @@ export function* scheduleSaga() {
   ])
 }
 
-function sortDate(first: string, second: string) {
-  const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
-  const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
+// function sortDate(first: string, second: string) {
+//   const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
+//   const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
 
-  if (firstYear < secondYear) {
-    return -1
-  } else if (firstYear > secondYear) {
-    return 1
-  } else {
-    if (firstMonth < secondMonth) {
-      return -1
-    } else if (firstMonth > secondMonth) {
-      return 1
-    } else {
-      if (firstDay < secondDay) {
-        return -1
-      } else if (firstDay > secondDay) {
-        return 1
-      } else {
-        return 0
-      }
-    }
-  }
-}
+//   if (firstYear < secondYear) {
+//     return -1
+//   } else if (firstYear > secondYear) {
+//     return 1
+//   } else {
+//     if (firstMonth < secondMonth) {
+//       return -1
+//     } else if (firstMonth > secondMonth) {
+//       return 1
+//     } else {
+//       if (firstDay < secondDay) {
+//         return -1
+//       } else if (firstDay > secondDay) {
+//         return 1
+//       } else {
+//         return 0
+//       }
+//     }
+//   }
+// }

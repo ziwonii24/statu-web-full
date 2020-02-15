@@ -19,15 +19,15 @@ const CalendarNavi:FunctionComponent<Interface> = (props: Props) => {
     <div
       className={`calendarNavi`}
     >
-      <button className={`arrowBtn`} onClick={() => onMovePrevMonth(targetMonth)}>
+      <div className={`arrowBtn`} onClick={() => onMovePrevMonth(targetMonth)}>
         {/* &#60; */}
-      <img src={left_arrow} alt="왼쪽화살표" style={{ height: "8px", width: "8px" }} />
-      </button>
-      <span>{dayjs(targetMonth).format('YYYY년 MM월')}</span>
-      <button className={`arrowBtn`} onClick={() => onMoveNextMonth(targetMonth)}>
+      <img src={left_arrow} alt="왼쪽화살표" className={`arrowImg`} />
+      </div>
+      <div className={`monthString`}>{dayjs(targetMonth).format('YYYY년 MM월')}</div>
+      <div className={`arrowBtn`} onClick={() => onMoveNextMonth(targetMonth)}>
         {/* &#62; */}
-        <img src={right_arrow} alt="오른쪽화살표" style={{  height: "8px", width: "8px"}} />
-      </button>
+        <img src={right_arrow} alt="오른쪽화살표" className={`arrowImg`} />
+      </div>
     </div>
   )
 }

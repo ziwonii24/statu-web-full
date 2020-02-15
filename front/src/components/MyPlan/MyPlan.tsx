@@ -71,8 +71,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     'view': 0,
     'recommend': 0,
     'represent': false,
-    'category1': [''],
-    'category2': ['']
+    'category1': onGetUserInfo ? onGetUserInfo.category1 : [''],
+    'category2': onGetUserInfo ? onGetUserInfo.category2 : ['']
   }
 
   // 캘린더 추가 버튼 
@@ -82,6 +82,15 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   // 화면에 렌더링할 컴포넌트 생성
+  const userProfile = useMemo(() => {
+    return onGetUserInfo && 
+    <div className={`userProfile`}>
+      <div>{onGetUserInfo.img}</div>
+      <div>{onGetUserInfo.name}</div>
+      <div>{renderMainSchedule.length}</div>
+    </div>
+  }, [renderMainSchedule])
+
   const AddButton = useMemo(() =>
     <>
       <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
@@ -152,6 +161,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     <div>
       {(onGetUserInfo && onGetUserInfo.id === userId) && AddButton}
       {(onGetUserInfo && onGetUserInfo.id === userId) && NullCalendar}
+      {userProfile}
       <div className={`RepresentCalendar`}>
         {RepresentCalendar}
       </div>

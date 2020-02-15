@@ -321,7 +321,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 {/* 수정 icon */}
                 {!editMode ?
                   <div className="calendarHeaderButton">
-                    <img src={pencil} alt="수정icon" style={{ width: "15px", marginLeft: `${-1}vw` }} />
+                    <img src={pencil} alt="수정icon" style={{ width: "15px" }} />
                   </div>
                   :
                   <div
@@ -429,7 +429,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                     onKeyPress={handleHashTagEnter}
                   />
                   <div
-                    className={`calendarHeaderButton xs-button`}
+                    className={`calendarHeaderButton`}
                     onClick={handleAddHashtag}
                   >
                     <img src={plus} alt="추가" style={{ width: "15px" }} />

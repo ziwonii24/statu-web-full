@@ -41,3 +41,28 @@ export const sliceArray = (arr: string[], chunk: number) => {
   }
   return finalArr
 }
+
+export function sortDate(first: string, second: string) {
+  const [firstYear, firstMonth, firstDay] = first.split('-').map(string => parseInt(string))
+  const [secondYear, secondMonth, secondDay] = second.split('-').map(string => parseInt(string))
+
+  if (firstYear < secondYear) {
+    return -1
+  } else if (firstYear > secondYear) {
+    return 1
+  } else {
+    if (firstMonth < secondMonth) {
+      return -1
+    } else if (firstMonth > secondMonth) {
+      return 1
+    } else {
+      if (firstDay < secondDay) {
+        return -1
+      } else if (firstDay > secondDay) {
+        return 1
+      } else {
+        return 0
+      }
+    }
+  }
+}

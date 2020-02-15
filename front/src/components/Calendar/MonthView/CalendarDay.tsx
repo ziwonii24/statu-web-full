@@ -312,10 +312,6 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
         )
         )}
       </div>
-      {/* <div
-        className={`pointerInherit`}
-        style={{ height: `${2.5}vh` }}
-      /> */}
     </div>
   )
 }

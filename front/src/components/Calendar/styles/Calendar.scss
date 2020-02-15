@@ -73,7 +73,7 @@
 
   .calendarHeaderButton {
     display: inline-block;
-    margin: 0 0.5vw;
+    margin: 0 0.5vh 0.2vh 0.5vh;
   }
 
   .xs-button {
@@ -82,7 +82,7 @@
     font-weight: 500;
     color: white;
     padding: 5px 7px;
-    border-radius: 6px;
+    border-radius: 1vh;
   }
 }
 
@@ -92,20 +92,22 @@
   margin-bottom: 5vh;
 
   .headerContainer {
-    // display: flex;
-    // justify-content: center;
-    min-height: 60px;
+    min-height: 80px;
+    padding-bottom: 3vh;
+    margin-bottom: 3vh;
+    border-bottom: 0.1vh #3f3f4880 solid;
   }
 
   .calendarNavi {
     display: flex;
-    justify-content: center ;
-    margin-top: 1rem;
+    justify-content: center;
+    height: 3vh;
+    margin-bottom: 2.5vh;
   }
 }
 
 .closeCalendar {
-  border: 1px solid rgba(0, 0, 0, 0.308);
+  border: 0.1vh solid #3f3f4880;
   border-radius: 1vw;
   padding: 2vw;
   margin-bottom: 10px;

@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { RootState } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   getSchedule, makeRepresentSchedule, undoRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, getMainTerm,
@@ -7,8 +8,6 @@ import {
   postDaySchedule, putDaySchedule, deleteDaySchedule,
   MainSchedule, SubSchedule, DaySchedule, 
 } from '../store/schedule'
-import { RootState } from '../store'
-import dayjs from 'dayjs'
 
 
 export default function useSchedule() {
