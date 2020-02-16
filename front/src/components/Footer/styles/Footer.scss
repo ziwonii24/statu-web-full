@@ -7,6 +7,15 @@
     justify-content: center;
     align-items: center;
     display: flex;
-    flex-direction: column;
-    font-size: small;
+    // flex-direction: column;
+    font-size: x-small;
+}
+
+.footerBox a {
+    color: #868e96;
+    text-decoration: underline;
+}
+
+.footerBox a:hover {
+    color: #212529;
 }

@@ -25,6 +25,7 @@ const routes = (
         <Route path="/star" component={StarPage} />
         <Route path="/search/:query" component={SearchPage} />
         <Route path="/detail/:planId" component={DetailPage} />
+        <Route path="/error" component={ErrorPage} />
         <Route component={ErrorPage} />
       </Switch>
     </div>

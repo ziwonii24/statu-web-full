@@ -12,6 +12,7 @@ import './styles/MyPlan.scss'
 import plus from '../../img/plus.png'
 import plus_black from '../../img/plus_black.png'
 import plus_white from '../../img/plus_white.png'
+import { history } from '../../configureStore'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -57,6 +58,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     }
     catch (e) {
       console.log(e)
+      history.push('/error')
     }
   }
 

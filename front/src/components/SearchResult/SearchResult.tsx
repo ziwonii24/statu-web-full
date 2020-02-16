@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo } from 'react'
 import CalendarInfo from './CalendarInfo'
 import useSchedule from '../../hooks/useSchedule'
 import useWindowSize from '../../hooks/useWindowSize'
-import categorys from '../../store/category'
+import NoResultForm from '../Error/NoResultForm'
 
 interface Interface {
   query: string
@@ -27,7 +27,7 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   
   return (
     <div className={`SearchResult`}>
-    { SearchMainScheduleResults && SearchMainScheduleResults.map(schedule => {
+    { SearchMainScheduleResults.length != 0 ? SearchMainScheduleResults.map(schedule => {
       return (
         <div
           key={schedule.id}
@@ -40,7 +40,10 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
           />
         </div>
       )
-    })}
+      })
+      :
+      <NoResultForm />
+    }
     </div>
   )
 }
