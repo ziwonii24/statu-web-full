@@ -10,7 +10,7 @@ import StarPage from '../pages/StarPage'
 import SearchPage from '../pages/SearchPage'
 import DetailPage from '../pages/DetailPage'
 import ErrorPage from '../pages/ErrorPage'
-import Footer from '../components/Footer/Footer'
+import Footer from '../components/Footer/FooterForm'
 
 const routes = (
   <div>

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 
 import './styles/Footer.scss'
 
-const Footer: FunctionComponent = () => {
+const FooterForm: FunctionComponent = () => {
     return (
         <div className='footerBox'>
             Copyright © 2020 MinsuTeam, SSAFY. All rights reserved.
@@ -10,4 +10,4 @@ const Footer: FunctionComponent = () => {
     )
 }
 
-export default Footer
+export default FooterForm
