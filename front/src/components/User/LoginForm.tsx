@@ -1,10 +1,9 @@
 import React, { FunctionComponent, useState, ChangeEvent, MouseEvent } from 'react'
 
-import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
-import { UserInput, TokenInfo, GoogleTokenInfo } from './interfaces/UserInfo.interface'
+import { UserInput, GoogleTokenInfo } from './interfaces/UserInfo.interface'
 import useUser from '../../hooks/useUser'
 
 import { login, decode, decode_google } from './authentication'
@@ -29,7 +28,7 @@ const Login: FunctionComponent = () => {
         'email': userEmail,
         'password': userPass,
     }
-    const { onGetUserInfo, onSetUserInfo } = useUser()
+    const { onSetUserInfo } = useUser()
 
     const handleEmailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         setUserEmail(e.target.value)
@@ -51,9 +50,7 @@ const Login: FunctionComponent = () => {
                
                 const token = response.data.token
                 const tokenDecoded = decode(token)
-                const user = tokenDecoded.user
-
-                console.log('user: ', user)                
+                const user = tokenDecoded.user               
 
                 if(user.statusCode !== 'use') {
                     setError('이메일 인증을 해주세요.')
@@ -70,19 +67,13 @@ const Login: FunctionComponent = () => {
                 }                
             })
             .catch(e => {
-                console.log('error: ', e)
                 setError('아이디 또는 비밀번호가 틀립니다.')
             })
         })
     }
 
     const responseGoogle = (result: any) => {
-        console.log('g token: ', result.tokenId)
         const googleTokenDecoded: GoogleTokenInfo = decode_google(result.tokenId)
-        console.log('g token decoded: ', googleTokenDecoded)
-        console.log('g email: ', googleTokenDecoded.email)
-        console.log('g name : ', googleTokenDecoded.name)
-
         const googleUser: GoogleTokenInfo = {
             'email': googleTokenDecoded.email,
             'name' : googleTokenDecoded.name            
@@ -93,15 +84,11 @@ const Login: FunctionComponent = () => {
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(googleUser)
         }).then(res => {
-            console.log('[user/social] res : ', res)
             res.json().then(response => {
-                console.log('[user/social] response : ', response)
-               
+
                 const token = response.data.token
                 const tokenDecoded = decode(token)
-                const user = tokenDecoded.user
-
-                console.log('[user/social] user: ', user)    
+                const user = tokenDecoded.user  
                 
                 login(token)
                 onSetUserInfo(user)
@@ -114,11 +101,11 @@ const Login: FunctionComponent = () => {
                 }            
             })
             .catch(e => {
-                console.log('[user/social] res error: ', e)
+                console.log(e)
             })
         })
         .catch(e => {
-            console.log('[user/social] response error: ', e)
+            console.log(e)
         })
     }
 
@@ -139,7 +126,7 @@ const Login: FunctionComponent = () => {
                 <hr></hr>
                 <div className='socialLoginBox'>
                     <GoogleLogin
-                        clientId="654444794659-7o99n8c7getq7eq2hrja5eveijqsbs15.apps.googleusercontent.com"
+                        clientId='654444794659-7o99n8c7getq7eq2hrja5eveijqsbs15.apps.googleusercontent.com'
                         buttonText="Google 로그인하기"
                         className={'socialLoginGoogle'}
                         onSuccess={result => responseGoogle(result)}
