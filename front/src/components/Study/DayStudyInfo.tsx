@@ -9,7 +9,8 @@ import dotenv from 'dotenv'
 
 import pause from '../../img/pause.png'
 import play from '../../img/play.png'
-import { Row } from 'react-bootstrap'
+
+import './style/Study.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -99,15 +100,13 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
         style={{ backgroundColor: color }}
       />
       {daySchedule.todo.slice(0, 4)}
+      </div>
       {stopWatchBtn}
       <div className="stopWatchTimeProgress">
-        <div>
           {progressBar}
           <div className="achieveGoal">
             {daySchedule.achieve} / {daySchedule.goal}
-          </div>
         </div>
-      </div>
       </div>
     </div>
   )

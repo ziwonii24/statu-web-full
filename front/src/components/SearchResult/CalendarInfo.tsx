@@ -14,6 +14,7 @@ const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
     const editedSchedule = {...schedule, view: schedule.view + 1}
     // console.log('edit', editedSchedule)
     // 검색결과에서 클릭 할 때마다 view + 1
+    console.log('detail click le go')
     onPutMainSchedule(editedSchedule)
     history.push(`/detail/${mainSchedule.id}`)
   }

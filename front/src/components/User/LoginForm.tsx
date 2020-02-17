@@ -63,7 +63,7 @@ const Login: FunctionComponent = () => {
 
                     if(user.category1[0] == '') {
                         alert('환영합니다! 카테고리 설정을 먼저 해주세요!')
-                        history.push('/userinfo')
+                        history.push('/user')
                     } else {
                         history.push('/')
                     }
@@ -77,9 +77,9 @@ const Login: FunctionComponent = () => {
     }
 
     const responseGoogle = (result: any) => {
-        console.log('result: ', result.tokenId)
+        console.log('g token: ', result.tokenId)
         const googleTokenDecoded: GoogleTokenInfo = decode_google(result.tokenId)
-        console.log('googleTokenDecoded; ', googleTokenDecoded)
+        console.log('g token decoded: ', googleTokenDecoded)
         console.log('g email: ', googleTokenDecoded.email)
         console.log('g name : ', googleTokenDecoded.name)
 
@@ -108,50 +108,48 @@ const Login: FunctionComponent = () => {
                 
                 if(user.category1 == null || user.category1[0] == '') {
                     alert('환영합니다! 카테고리 설정을 먼저 해주세요!')
-                    history.push('/userinfo')
+                    history.push('/user')
                 } else {
                     history.push('/')
                 }            
             })
             .catch(e => {
-                console.log('[user/social] in error: ', e)
+                console.log('[user/social] res error: ', e)
             })
         })
         .catch(e => {
-            console.log('[user/social] out error: ', e)
+            console.log('[user/social] response error: ', e)
         })
     }
 
     return (
-        <div className='authTemplateBlock'>
-            <div className='whiteBox'>
-                <h4 className='formTitle'>로그인</h4>
-                <form>
-                    <div>
-                        <input className='inputAuth' type='text' placeholder='이메일' value={userEmail} onChange={handleEmailInputChange}/>
-                    </div>
-                    <div>
-                        <input className='inputAuth' type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
-                    </div>
-                    { error && <div className='errorMsg'>{error}</div> }
-                    <div>
-                        <button className='btnSubmit' type='submit' onClick={loginSubmitHandler}>로그인</button>
-                    </div>
-                    <hr></hr>
-                    <div className='socialLoginBox'>
-                        <GoogleLogin
-                            clientId="654444794659-7o99n8c7getq7eq2hrja5eveijqsbs15.apps.googleusercontent.com"
-                            buttonText="Google로 로그인하기"
-                            className={'socialLoginGoogle'}
-                            onSuccess={result => responseGoogle(result)}
-                            onFailure={result => console.log('e: ', result)}
-                            cookiePolicy={'single_host_origin'}
-                        />
-                    </div>
-                </form>
-                <div className='authFooter'>
-                    <Link to='/signup'>회원가입</Link>
+        <div className='whiteBox'>
+            <h4 className='formTitle'>로그인</h4>
+            <form>
+                <div>
+                    <input className='inputAuth' type='text' placeholder='이메일' value={userEmail} onChange={handleEmailInputChange}/>
                 </div>
+                <div>
+                    <input className='inputAuth' type='password' placeholder='비밀번호' value={userPass} onChange={handlePasswordInputChange}/>
+                </div>
+                { error && <div className='errorMsg'>{error}</div> }
+                <div>
+                    <button className='btnSubmit' type='submit' onClick={loginSubmitHandler}>로그인</button>
+                </div>
+                <hr></hr>
+                <div className='socialLoginBox'>
+                    <GoogleLogin
+                        clientId="654444794659-7o99n8c7getq7eq2hrja5eveijqsbs15.apps.googleusercontent.com"
+                        buttonText="Google 로그인하기"
+                        className={'socialLoginGoogle'}
+                        onSuccess={result => responseGoogle(result)}
+                        onFailure={result => console.log('e: ', result)}
+                        cookiePolicy={'single_host_origin'}
+                    />
+                </div>
+            </form>
+            <div className='authFooter'>
+                <Link to='/signup'>회원가입</Link>
             </div>
         </div>
     )

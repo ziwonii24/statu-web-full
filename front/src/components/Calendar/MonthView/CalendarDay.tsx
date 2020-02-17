@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, MouseEvent } from 'react'
+import React, { FunctionComponent, useState, MouseEvent, TouchEvent, DragEvent } from 'react'
 import useModal from '../../../hooks/useModal'
 import useDrag from '../../../hooks/useDrag'
 import useSchedule from '../../../hooks/useSchedule'
@@ -83,28 +83,43 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
   // HTML 렌더에 사용되는 핸들러
   const handleMouseDown = (e: MouseEvent) => {
-    // if (e.target !== e.currentTarget) {
-    //   return
-    // }
     onSetStartDate(newDate)
     onSetTempDate(newDate)
-    // console.log('mouseDown', modalState)
+    console.log('mouse down', startDate, tempDate)
   }
 
   const handleMouseOver = (e: MouseEvent) => {
     // mouse down을 한번 한 상태에서만 mouse over 가능
-    // if (e.target !== e.currentTarget) {
-    //   return
-    // }
     if (startDate !== '') {
       onSetTempDate(newDate)
-      // console.log('mouseOverState', mouseOverState)
-      // console.log('mouseOver', e.target)
     }
   }
 
   const handleMouseUp = async (e: MouseEvent) => {
+    e.stopPropagation()
     onSetEndDate(newDate)
+    if (startDate) {
+      onOpenModal(mainSchedule, subSchedule, initialSubSchedule, initialDaySchedule)
+    }
+  }
+
+  const handleTouchStart = (e: TouchEvent) => {
+    onSetStartDate(newDate)
+    onSetTempDate(newDate)
+    // console.log('touch start', newDate, e.touches)
+  }
+
+  const handleTouchMove = (e: TouchEvent) => {
+    console.log('touch move', newDate, e.touches)
+    if (startDate !== '') {
+      onSetTempDate(newDate)
+      // console.log(tempDate)
+    }
+  }
+
+  const handleTouchEnd = async (e: TouchEvent) => {
+    onSetEndDate(newDate)
+    // console.log('touch end', newDate, e.touches)
     if (startDate) {
       onOpenModal(mainSchedule, subSchedule, initialSubSchedule, initialDaySchedule)
     }
@@ -204,6 +219,9 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       onMouseDown={handleMouseDown}
       onMouseOver={handleMouseOver}
       onMouseUp={handleMouseUp}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       {day && (
         <div

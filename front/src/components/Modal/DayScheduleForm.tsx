@@ -5,6 +5,7 @@ import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schedule'
 import dayjs from 'dayjs'
 
+import './styles/Modal.scss'
 
 const DayScheduleForm: FunctionComponent<{}> = () => {
 
@@ -73,16 +74,20 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
     // console.log(schedule)
   }
 
-  const handleEnter = (e: KeyboardEvent, schedule: DaySchedule) => {
-    e.stopPropagation()
-    if (e.key !== 'Enter') return
-    handleSubmit(schedule)
-  }
-
   const handleCloseModal = () => {
     onCloseModal()
     onSetStartDate('')
     onSetEndDate('')
+  }
+
+  const handleKeyDown = (e: KeyboardEvent, schedule: DaySchedule) => {
+    if (e.key ==='Enter') {
+      handleEnter(e, schedule)
+    }
+  }
+
+  const handleEnter = (e: KeyboardEvent, schedule: DaySchedule) => {
+    handleSubmit(schedule)
   }
 
   async function putMainSchedule() {
@@ -102,10 +107,10 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
   return (
     <>
-      <h1>{startDate}</h1>
+      {/* <h1>{startDate}</h1> */}
       <div
         className="content"
-        onKeyPress={(e) => handleEnter(e, initialDaySchedule)}
+        onKeyPress={(e) => handleKeyDown(e, initialDaySchedule)}
       >
         {subSchedules.map(schedule => {
           const chosenColor = schedule.color === color ? 'chosenColor' : ''
@@ -121,35 +126,47 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
           )
         })}
         <br />
+        {/* 할 일 입력 */}
         <input
+          className="modalInput"
+          type="text"
+          placeholder= " 할 일을 입력해주세요"
+          // placeholder={hasComponent ? '' : ' 목표를 입력해주세요!'}
+          value={component}
+          onChange={handleComponent}
+        />
+        {/* 시작날짜 선택 */}
+        <input
+          className="modalInput"
           type="date"
           placeholder="시작일자를 선택하세요."
           value={date}
           onChange={handleDate}
         />
-        <input
-          type="text"
-          placeholder={hasComponent ? '' : '목표를 입력해주세요!'}
-          value={component}
-          onChange={handleComponent}
-        />
+        <hr/>
+        {/* 목표 시간 : 시간 */}
         <input
           type="number"
-          placeholder="목표시간을 입력하세요."
-          value={goalHour}
+          className="modalInput"
+          placeholder="  0"
+          // value={goalHour}
           onChange={handleGoalHour}
           min={0}
           max={24}
         />
+        시 
+        {/* 목표 시간 : 분 */}
         <input
           type="number"
-          placeholder="목표시간을 입력하세요."
-          value={goalMin}
+          className="modalInput"
+          placeholder="  0"
+          // value={goalMin}
           onChange={handleGoalMin}
+          style={{ marginLeft: "5px" }}
           min={0}
           max={60}
           step={10}
-        />
+        />분
         <div className="button-wrap">
           <div onClick={() => {
             handleSubmit(initialDaySchedule)

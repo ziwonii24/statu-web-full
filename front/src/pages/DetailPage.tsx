@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import Calendar from '../components/Calendar'
-import { RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps, Redirect } from 'react-router-dom'
 import { history } from '../configureStore';
 import useSchedule from '../hooks/useSchedule'
 import usePlanPage from '../hooks/usePlanPage'
@@ -15,6 +15,7 @@ const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (props: RouteComponentProps<{ planId: string }>) => {
   console.log('DetailPage')
 
+  console.log('[detail] ',props.match.params)
   const planId = props.match.params.planId
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onSetUserId } = usePlanPage()
@@ -33,7 +34,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
     }
   }
   const schedule = useMemo(() =>
-    seletedSchedule && 
+    seletedSchedule && seletedSchedule.pb ? 
     <Calendar
       calendarId={seletedSchedule.id}
       importId={0}
@@ -44,8 +45,11 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
       represent={true}
       tags={seletedSchedule.tags}
       onPage='MyPlan'
-    />, [seletedSchedule])
-
+    />
+    :
+    <Redirect to="/"></Redirect>
+  , [seletedSchedule])
+    
   return (
     <div
       onClick={handleClick}

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, ChangeEvent } from 'react'
+import React, { FunctionComponent, useState, ChangeEvent, KeyboardEvent } from 'react'
 import SubScheduleForm from './SubScheduleForm'
 import DayScheduleForm from './DayScheduleForm'
 import useDrag from '../../hooks/useDrag'
@@ -42,18 +42,31 @@ const Modal: FunctionComponent<{}> = () => {
     onSetEndDate('')
   }
 
+  const handleESC = (e: KeyboardEvent) => {
+    console.log(e.key)
+    if (e.key !== 'Escape') return
+    handleCloseModal()
+    console.log('escape')
+  }
+
   return (
-    <>
+    <div
+      onKeyDown={(e) => handleESC(e)} 
+    >
       <div 
-        onClick={handleCloseModal}
         className="Modal-overlay" 
+        onClick={handleCloseModal}
       />
-      <div className="Modal">
+      <div 
+        className="Modal"
+      >
         <p className="title">계획 추가</p>
+        <hr color="main-color"/>
         {!isFewDaysSchedule ?
         (<span>
-          소목표:
+          기간 목표
           <input
+            className="checkBox"
             name="isSubSchedule"
             type="checkbox"
             checked={check}
@@ -64,7 +77,7 @@ const Modal: FunctionComponent<{}> = () => {
         }
         {scheduleForm}
       </div>
-    </>
+    </div>
   )
 }
 

@@ -1,0 +1,21 @@
+.errorBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem;
+}
+
+.homeFooter {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.homeFooter a {
+    color: #868e96;
+    text-decoration: underline;
+}
+
+.homeFooter a:hover {
+    color: #212529;
+}

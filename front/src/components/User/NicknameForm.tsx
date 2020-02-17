@@ -77,7 +77,7 @@ const NicknameForm: FunctionComponent = () => {
 
     const nicknameSubmitHandler = async (e: MouseEvent<HTMLElement>) => {
         
-        // e.preventDefault()
+        e.preventDefault()
         
         if(!nameCheckErr) {
             setErrorMsg('입력란을 모두 채워주세요.')
@@ -101,10 +101,12 @@ const NicknameForm: FunctionComponent = () => {
             headers: { 'Content-Type': 'application/json', 'token': token }, 
             body: JSON.stringify(resultUser)
         }).then(res => {          
+            console.log('res=', res)
             if(res.status !== 200 && res.status !== 202) {
                 setErrorMsg('예기치 못한 에러가 발생했습니다. 잠시 후 다시 시도해주세요!')
             } else {
                 res.json().then(response => {
+                    console.log('response=', response)
                     const newToken = response.data.token
                     logout()
                     login(newToken)

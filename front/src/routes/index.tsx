@@ -1,31 +1,35 @@
 import React from 'react'
-import { Route, Switch, Redirect } from 'react-router'
+import { Route, Switch } from 'react-router'
 import NavBar from '../components/Nav/NavBar'
+import InfoPage from '../pages/InfoPage'
 import MainPage from '../pages/MainPage'
 import SignupPage from '../pages/SignupPage'
-import LoginPage from '../pages/LoginPage'
-import UpdateUserInfoPage from '../pages/UpdateUserInfoPage'
+import UserPage from '../pages/UserPage'
 import PlanPage from '../pages/PlanPage'
-import ImportedPlanPage from '../pages/ImportedPlanPage'
-import SearchResultPage from '../pages/SearchResultPage'
-import CommunityPage from '../pages/CommunityPage'
+import StarPage from '../pages/StarPage'
+import SearchPage from '../pages/SearchPage'
 import DetailPage from '../pages/DetailPage'
+import ErrorPage from '../pages/ErrorPage'
+import Footer from '../components/Footer/FooterForm'
 
 const routes = (
   <div>
     <NavBar />
-    <Switch>
-      <Route exact path="/" component={MainPage} />
-      <Route exact path="/signup" component={SignupPage} />
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/userinfo" component={UpdateUserInfoPage} />
-      <Route exact path="/plan/:userName" component={PlanPage} />
-      <Route exact path="/importedplan" component={ImportedPlanPage} />
-      <Route exact path="/search/:query" component={SearchResultPage} />
-      <Route exact path="/community" component={CommunityPage} />
-      <Route exact path="/detail/:planId" component={DetailPage} />
-      <Redirect path="*" to="/" />
-    </Switch>
+    <div className='body-content'>
+      <Switch>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/info" component={InfoPage} />
+        <Route path="/signup" component={SignupPage} />
+        <Route path="/user" component={UserPage} />
+        <Route path="/plan/:userName" component={PlanPage} />
+        <Route path="/star" component={StarPage} />
+        <Route path="/search/:query" component={SearchPage} />
+        <Route path="/detail/:planId" component={DetailPage} />
+        <Route path="/error" component={ErrorPage} />
+        <Route component={ErrorPage} />
+      </Switch>
+    </div>
+    <Footer />
   </div>
 )
 

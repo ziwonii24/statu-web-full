@@ -6,11 +6,14 @@ import UserInfoTemplate from '../components/User/UserInfoTemplate'
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
+import { getToken } from '../components/User/authentication'
+import { Redirect } from 'react-router'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
-const UpdateUserInfoPage: FunctionComponent = () => {
+const UserPage: FunctionComponent = () => {
 
+    const token = getToken()
     const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
     const { onGetCategoryList, onSetCategoryList } = useCategoryData()
@@ -34,9 +37,10 @@ const UpdateUserInfoPage: FunctionComponent = () => {
 
     initCategory()
 
-    return (
+    return token ? 
         <UserInfoTemplate />
-    )
+    :
+        <Redirect to='/info' />
 }
 
-export default UpdateUserInfoPage
+export default UserPage
