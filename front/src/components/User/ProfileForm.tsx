@@ -65,7 +65,6 @@ const ProfileForm: FunctionComponent = () => {
             //headers: { 'Content-Type': 'multipart/form-data' },
             body: formData
         }).then(res => {
-            console.log('[profile] res: ', res)
             if(res.status !== 200 && res.status !== 202) {
                 setErrorMsg('예기치 못한 에러가 발생했습니다. 잠시 후 다시 시도해주세요!')
             } else {
@@ -80,14 +79,12 @@ const ProfileForm: FunctionComponent = () => {
                     onSetUserInfo(newUser)
                 })
                 .catch(e => {
-                    console.log('[profile] error: ', e)
+                    console.log(e)
                 })
             }
         })
     }
   
-    console.log('*profile form rendering...')
-
     return (
         <div>
             <h4 className='formTitle'>프로필설정</h4>
