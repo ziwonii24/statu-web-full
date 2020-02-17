@@ -81,7 +81,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
   }
 
   const handleKeyDown = (e: KeyboardEvent, schedule: DaySchedule) => {
-    if (e.key ==='Enter') {
+    if (e.key === 'Enter') {
       handleEnter(e, schedule)
     }
   }
@@ -106,8 +106,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
 
   return (
-    <>
-      {/* <h1>{startDate}</h1> */}
+    <div className="totalContent">
       <div
         className="content"
         onKeyPress={(e) => handleKeyDown(e, initialDaySchedule)}
@@ -130,11 +129,11 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
         <input
           className="modalInput"
           type="text"
-          placeholder= " 할 일을 입력해주세요"
-          // placeholder={hasComponent ? '' : ' 목표를 입력해주세요!'}
+          placeholder={hasComponent ? ' 오늘 할 일' : ' 할 일을 입력해주세요!'}
           value={component}
           onChange={handleComponent}
         />
+        <hr color="gray"/>
         {/* 시작날짜 선택 */}
         <input
           className="modalInput"
@@ -143,40 +142,49 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
           value={date}
           onChange={handleDate}
         />
-        <hr/>
+        <br />
         {/* 목표 시간 : 시간 */}
         <input
           type="number"
-          className="modalInput"
-          placeholder="  0"
-          // value={goalHour}
+          className="modalInput modalTime"
+          placeholder="0"
+          value={goalHour}
           onChange={handleGoalHour}
           min={0}
           max={24}
         />
-        시 
+        &nbsp;시
         {/* 목표 시간 : 분 */}
         <input
           type="number"
-          className="modalInput"
-          placeholder="  0"
-          // value={goalMin}
+          className="modalInput modalTime"
+          placeholder="0"
+          value={goalMin}
           onChange={handleGoalMin}
-          style={{ marginLeft: "5px" }}
           min={0}
           max={60}
           step={10}
-        />분
-        <div className="button-wrap">
-          <div onClick={() => {
+        />&nbsp;분
+      </div>
+
+      <div className="button-wrap">
+        <div
+          className="selectCancleButton"
+          style={{ backgroundColor: "#75a391" }}
+          onClick={() => {
             handleSubmit(initialDaySchedule)
           }}>
-            Confirm
+          확인
           </div>
-          <div onClick={handleCloseModal}>Cancel</div>
-        </div>
+        <div
+          className="selectCancleButton cancleBtn"
+          style={{ backgroundColor: "white" }}
+          onClick={handleCloseModal}
+        >
+          취소
+          </div>
       </div>
-    </>
+    </div>
   )
 }
 

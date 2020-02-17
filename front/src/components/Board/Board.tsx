@@ -39,6 +39,9 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
     })
     .splice(0, 3)
   ,[getMainSchedules]) 
+  
+  console.log( onGetUserInfo && getMainSchedules.filter(schedule => 
+    onGetUserInfo.category2.map(categoryName => schedule.category2.includes(categoryName)).includes(true)))
 
   const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule.map(schedule => {
     onSetTargetUserInfo(schedule.id)

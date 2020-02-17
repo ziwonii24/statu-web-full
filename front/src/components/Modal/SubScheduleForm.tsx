@@ -117,33 +117,43 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
       <br />
       <input
         type="text"
-        className={`inputBar ${isValidInput}`}
-        placeholder={hasTitle ? '' : '목표를 입력해주세요!'}
+        className={`inputBar ${isValidInput} modalInput` }
+        placeholder={hasTitle ? ' 스케쥴' : ' 스케쥴을 입력해주세요!'}
         value={subTitle}
         onChange={handleSubTitle}
       />
-      <br />
+      <hr color="gray"/>
       <input
         type="date"
-        className={`inputBar`}
+        className={`inputBar modalInput`}
         placeholder="시작일자를 선택하세요."
         value={startDate}
         onChange={handleStartDate}
       />
+      <br/>
       <input
         type="date"
-        className={`inputBar`}
+        className={`inputBar modalInput`}
         placeholder="종료일자를 선택하세요."
         value={endDate}
         onChange={handleEndDate}
       />
-      <div className="button-wrap">
-        <div onClick={() => {
-          handleSubmit(initialSubSchedule)
-        }}>
-          Confirm
+         <div className="button-wrap">
+        <div
+          className="selectCancleButton"
+          style={{ backgroundColor: "#75a391" }}
+          onClick={() => {
+            handleSubmit(initialSubSchedule)
+          }}>
+          확인
           </div>
-        <div onClick={handleCloseModal}>Cancel</div>
+        <div
+          className="selectCancleButton cancleBtn"
+          style={{ backgroundColor: "white" }}
+          onClick={handleCloseModal}
+        >
+          취소
+          </div>
       </div>
     </div>
   )

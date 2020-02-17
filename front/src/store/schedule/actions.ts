@@ -83,7 +83,7 @@ export const getSchedule = createAsyncAction(
   GET_SCHEDULE_REQUEST,
   GET_SCHEDULE_SUCCESS,
   GET_SCHEDULE_FAILURE
-)<string, SchedulesState, Error>()
+)<number, SchedulesState, Error>()
 
 // apply schedule to my plan
 export const applyScheduleToMyPlan = createAsyncAction(

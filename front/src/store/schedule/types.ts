@@ -51,5 +51,6 @@ export type DaySchedule = {
 export type SchedulesState = { 
   mainSchedules: MainSchedule[],
   subSchedules: SubSchedule[],
-  daySchedules: DaySchedule[]
+  daySchedules: DaySchedule[],
+  myDaySchedules: DaySchedule[]
 }

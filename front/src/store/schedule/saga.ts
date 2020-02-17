@@ -19,17 +19,19 @@ const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 
 // Handle request saga
-function* getScheduleSaga() {  // : Generator 을 삭제함. call fn 을 unknown type으로 설정하고 있어 response 에 할당하는 것이 불가능
+function* getScheduleSaga({ payload: id }: ReturnType<typeof getSchedule.request>) {  // : Generator 을 삭제함. call fn 을 unknown type으로 설정하고 있어 response 에 할당하는 것이 불가능
   try {
     const mainResp = yield call([axios, 'get'], SERVER_IP + '/calendar')
     const subResp = yield call([axios, 'get'], SERVER_IP + '/subtitle')
     const dayResp = yield call([axios, 'get'], SERVER_IP + '/todo')
+    const myDayReap = yield call([axios, 'get'], SERVER_IP + '/todo/userid/' + id)
 
     const mainSchedules = mainResp.data
     const subSchedules = subResp.data
     const daySchedules = dayResp.data
+    const myDaySchedules = myDayReap.data
 
-    yield put(getSchedule.success({ mainSchedules, subSchedules, daySchedules }))
+    yield put(getSchedule.success({ mainSchedules, subSchedules, daySchedules, myDaySchedules }))
   }
   catch (error) {
     yield put(getSchedule.failure(error))
@@ -166,7 +168,8 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
         }
       }
     }
-    const result = yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules }))
+    const myDaySchedules = daySchedules
+    const result = yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules, myDaySchedules }))
     console.log('result', result)
   }
   catch (error) {

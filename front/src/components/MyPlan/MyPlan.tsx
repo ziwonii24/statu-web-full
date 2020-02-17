@@ -38,7 +38,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     (onGetUserInfo.id === targetUser.id ?
       getMainSchedules.filter(schedule => targetUser.id === schedule.userId)
       : getMainSchedules.filter(schedule => targetUser.id === schedule.userId).filter(schedule => schedule.pb === true))
-    : []
+    : getMainSchedules.filter(schedule => targetUser.id === schedule.userId).filter(schedule => schedule.pb === true)
 
   console.log('mymain', renderMainSchedule)
   console.log('main', getMainSchedules)
@@ -75,8 +75,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     'view': 0,
     'recommend': 0,
     'represent': false,
-    'category1': onGetUserInfo ? onGetUserInfo.category1 : [''],
-    'category2': onGetUserInfo ? onGetUserInfo.category2 : ['']
+    'category1': onGetTargetUser ? onGetTargetUser.category1 : [''],
+    'category2': onGetTargetUser ? onGetTargetUser.category2 : ['']
   }
 
   // 캘린더 추가 버튼 
@@ -95,7 +95,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     </div>
   }, [renderMainSchedule])
 
-  console.log('userprofile', userProfile)
+  // console.log('userprofile', userProfile)
 
   const AddButton = useMemo(() =>
     <>
@@ -172,16 +172,16 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
           <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
           <section className="userInfo">
             <div className="userName">
-            {onGetTargetUser?.name}
+            {onGetTargetUser.name}
             </div>
             <div className="userEmail">
-            {onGetTargetUser?.email}
+            {onGetTargetUser.email}
             </div>
             <div className="userCategory1">
-            {onGetTargetUser?.category1}
+            {onGetTargetUser.category1}
             </div>
             <div className="userCategory2">
-            {onGetTargetUser?.category2}
+            {onGetTargetUser.category2}
             </div>
           </section>
           <hr/>

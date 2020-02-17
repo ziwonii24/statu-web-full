@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import StudyInfo from './StudyInfo'
-import useSchedule from '../../hooks/useSchedule'
+import StudyLog from '../StudyLog'
 import useUser from '../../hooks/useUser'
 import { SubSchedule, DaySchedule, MainSchedule } from '../../store/schedule'
 import dayjs from 'dayjs'
@@ -133,7 +133,7 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
           />
         </div>
       </div>
-      <div className="grass">잔디 심을 부분</div>
+      <StudyLog />
     </>
   )
 }

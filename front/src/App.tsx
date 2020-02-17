@@ -13,13 +13,13 @@ const App: FunctionComponent<InterFace> = ({ history }: InterFace) => {
   console.log('APP')
 
   const { onGetSchedule } = useSchedule()
-  const { onClearTargetUserInfo } = useUser()
+  const { onGetUserInfo, onClearTargetUserInfo } = useUser()
 
   useEffect(() => {
-    onGetSchedule()
-    console.log('app useEffect')
+    console.log('app useEffect', onGetUserInfo)
+    onGetSchedule(onGetUserInfo ? onGetUserInfo.id : 0)
   }, [])
-  console.log('history', history)
+  // console.log('history', history)
 
   return (
     <ConnectedRouter history={history}>
