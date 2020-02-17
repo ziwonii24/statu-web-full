@@ -47,7 +47,7 @@ function* deleteImportedScheduleSaga({ payload: id }: ReturnType<typeof deleteIm
 }
 
 // Watch saga
-export function* ImportedScheduleSaga() {
+export function* importedScheduleSaga() {
   yield all([
     takeEvery(getImportedSchedule.request, getImportedScheduleSaga),
     takeEvery(postImportedSchedule.request, postImportedScheduleSaga),

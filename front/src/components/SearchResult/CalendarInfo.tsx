@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { MainSchedule } from '../../store/schedule'
 import useSchedule from '../../hooks/useSchedule'
+import useUser from '../../hooks/useUser'
 import { history } from '../../configureStore'
 
 
@@ -13,6 +14,9 @@ interface Interface {
 const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
   const { mainSchedule, } = props
   const { onPutMainSchedule } = useSchedule()
+  const { onGetTargetUserInfo } = useUser()
+
+  const userInfo = onGetTargetUserInfo && onGetTargetUserInfo.filter(userInfo => userInfo.id === mainSchedule.userId)[0]
 
   var progress_circle = "0"
   if(mainSchedule.progress != null)

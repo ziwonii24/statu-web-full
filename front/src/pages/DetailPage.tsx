@@ -24,7 +24,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
 
   const handleClick = async () => {
     try{
-      const response = await axios.get(SERVER_IP + '/id/' + seletedSchedule.userId)
+      const response = await axios.get(SERVER_IP + '/user/id/' + seletedSchedule.userId)
       const user = response.data
       onSetTargetUser(user)
       history.push(`/plan/${user.name}`)

@@ -1,11 +1,19 @@
 import React, { FunctionComponent, useMemo } from 'react'
-import useSchedule from '../../hooks/useSchedule'
+import ScheduleOverview from '../ScheduleViews/ScheduleOverview'
 import useUser from '../../hooks/useUser'
+import { MainSchedule, SubSchedule, DaySchedule } from '../../store/schedule'
+
 import './style/Board.scss'
 
-const Board: FunctionComponent = () => {
-  const { getMainSchedules } = useSchedule()
-  const { onGetUserInfo } = useUser()
+interface Interface {
+  getMainSchedules: MainSchedule[]
+  getSubSchedules: SubSchedule[]
+  getDaySchedules: DaySchedule[]
+}
+
+const Board: FunctionComponent<Interface> = (props: Interface) => {
+  const { getMainSchedules, getSubSchedules, getDaySchedules } = props
+  const { onGetUserInfo, onSetTargetUserInfo } = useUser()
 
   const hotSchedule = useMemo(() => getMainSchedules.sort(function (a, b) {
     if (a.view > b.view) {
@@ -32,16 +40,23 @@ const Board: FunctionComponent = () => {
     .splice(0, 3)
   ,[getMainSchedules]) 
 
+  const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule.map(schedule => {
+    onSetTargetUserInfo(schedule.id)
+    return <ScheduleOverview
+      key={schedule.id}
+      mainSchedule={schedule}
+      subSchedules={getSubSchedules}
+      daySchedules={getDaySchedules}
+    />
+  })
+  ,[hotSchedule])
+
     console.log(hotSchedule, recommendSchedule)
   return (
     <div>
       <div className="board">
         <p className="boardTitle">추천 계획표</p>
-        <br />
-        <p className="contentTitle">게시글1</p>
-        <br />
-        <p className="contentTitle">게시글2</p>
-        <br />
+        {hotScheduleList}
       </div>
 
       <div className="board">
