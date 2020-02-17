@@ -156,8 +156,9 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
               studyType='today'
             />
           </div>
-        }        
+        }       
       </div>
+      <StudyLog /> 
     </div>
   )
 }

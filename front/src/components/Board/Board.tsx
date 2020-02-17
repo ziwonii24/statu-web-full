@@ -45,17 +45,17 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div>
       <div className="board">
-        {/* <p className="boardTitle">추천 계획표</p>
-        {hotScheduleList} */}
+        <p className="boardTitle">추천 계획표</p>
+        {hotScheduleList}
       </div>
 
       <div className="board">
-        {/* <p className="boardTitle">인기 계획표</p>
+        <p className="boardTitle">인기 계획표</p>
         <br />
         <p className="contentTitle">게시글1</p>
         <br />
         <p className="contentTitle">게시글2</p>
-        <br /> */}
+        <br />
       </div>
     </div>
   )
