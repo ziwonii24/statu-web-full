@@ -19,3 +19,35 @@
     // margin-top: 0.5rem;
     z-index: 100;
 }
+
+.userImg {
+    height: 150px;
+    width: 150px;
+    border-radius: 80px;
+    margin-right: 30px;
+}
+.userInfo{
+    display: inline-block;
+    vertical-align: middle;
+}
+.userName{
+    display: block;
+    font-size: 28px;
+    font-weight: 300;
+}
+.userEmail{
+    display: block;
+    font-size: 15px;
+    font-weight: 100;
+}
+.userCategory1{
+}
+.userCategory2{
+}
+.headerOp{
+    margin-bottom: 44px;
+}
+.felx-basis-div{
+    display: inline-block;
+    margin-right:30px;
+}
