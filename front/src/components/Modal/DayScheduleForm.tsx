@@ -149,7 +149,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
           type="number"
           className="modalInput"
           placeholder="  0"
-          // value={goalHour}
+          value={goalHour}
           onChange={handleGoalHour}
           min={0}
           max={24}
@@ -160,7 +160,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
           type="number"
           className="modalInput"
           placeholder="  0"
-          // value={goalMin}
+          value={goalMin}
           onChange={handleGoalMin}
           style={{ marginLeft: "5px" }}
           min={0}
