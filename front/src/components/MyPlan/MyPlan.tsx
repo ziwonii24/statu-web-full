@@ -16,6 +16,8 @@ import { history } from '../../configureStore'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
+
 
 interface Interface {
   userName: string
@@ -163,9 +165,27 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div>
-      {(onGetUserInfo && onGetUserInfo.id === targetUser.id) && AddButton}
-      {(onGetUserInfo && onGetUserInfo.id === targetUser.id) && NullCalendar}
-      {userProfile}
+      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && AddButton}
+      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && NullCalendar}
+      {/* user profile */}
+      <div className="headerOp" >
+          <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
+          <section className="userInfo">
+            <div className="userName">
+            {onGetTargetUser?.name}
+            </div>
+            <div className="userEmail">
+            {onGetTargetUser?.email}
+            </div>
+            <div className="userCategory1">
+            {onGetTargetUser?.category1}
+            </div>
+            <div className="userCategory2">
+            {onGetTargetUser?.category2}
+            </div>
+          </section>
+          <hr/>
+      </div>
       <div className={`RepresentCalendar`}>
         {RepresentCalendar}
       </div>
