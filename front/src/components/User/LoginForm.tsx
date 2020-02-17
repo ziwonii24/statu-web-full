@@ -140,7 +140,7 @@ const Login: FunctionComponent = () => {
                 <div className='socialLoginBox'>
                     <GoogleLogin
                         clientId="654444794659-7o99n8c7getq7eq2hrja5eveijqsbs15.apps.googleusercontent.com"
-                        buttonText="Google로 로그인하기"
+                        buttonText="Google 로그인하기"
                         className={'socialLoginGoogle'}
                         onSuccess={result => responseGoogle(result)}
                         onFailure={result => console.log('e: ', result)}

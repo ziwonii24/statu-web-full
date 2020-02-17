@@ -1,28 +1,135 @@
 .statuInfoTemplate {
-    // margin: 0 -10vw;
+    margin: 0 -10vw;
     margin-top: -23px;
-    display: flex;
-    padding: 6rem;
-    border-top: 0.5px solid #8dab9f;
+    padding: 10vh 10vw;
+    display: flex;    
+}
+
+.statuInfoTemplate-mobile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.75rem;
+    padding-bottom: 1.75rem;
 }
 
 .projectInfoBox {
-    width: 50%;
+    width: 50vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: left;
     color: white;
+    padding: 3rem;
 
     h1 {
         font-size: 6rem;
     }
 }
 
-.loginBox {
-    width: 50%;
+.projectInfoBox-mobile {
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 1.75rem;
+
+    h1 {
+        font-size: 4rem;
+    }
+
+    h5 {
+        font-size: 0.75rem;
+    }
+}
+
+.loginBox {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+///// STATU DETAIL INFO FORM /////
+
+
+.detailInfo-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+}
+
+.detailInfo-template-mobile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.detailInfo-itemBox {
+    display: flex;
+    margin: 3rem ;
+}
+
+.detailInfo-itemBox-mobile {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.detailInfo-desc {
+    padding: 3rem;
+
+    h1 {
+        margin: 2rem 0;
+    }
+}
+
+.detailInfo-desc-mobile {
+    padding: 1rem;
+
+    h1 {
+        margin: 1rem 0;
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 0.88rem;
+    }
+}
+
+
+///// TEAM INFO FORM /////
+
+
+.teamInfo-template {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20vh 0;
+
+    h1 {
+        font-weight: bold;
+        color: #527062;
+    }
+}
+
+.team {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 1rem;
+    padding: 2rem 3rem;
+    border: 0.5px solid #3f3f4855;
+    border-radius: 10px;
 }

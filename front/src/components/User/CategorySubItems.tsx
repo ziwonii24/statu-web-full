@@ -21,8 +21,10 @@ const CategorySubItems: FunctionComponent<Props> = (props: Props) => {
     
     return (
         <div>
-            <input type='checkbox' checked={check} onChange={checkChangeHandler}/>
-            <a>{subName}</a>
+            <label style={{'cursor': 'pointer'}}>
+                <input type='checkbox' checked={check} onChange={checkChangeHandler}/>
+                <a>{subName}</a>
+            </label>
         </div>
     )
 }

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useMemo } from 'react'
 import CalendarInfo from './CalendarInfo'
 import useSchedule from '../../hooks/useSchedule'
 import useWindowSize from '../../hooks/useWindowSize'
-import categorys from '../../store/category'
+import NoResultForm from '../Error/NoResultForm'
 
 interface Interface {
   query: string
@@ -27,20 +27,24 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   
   return (
     <div className={`SearchResult`}>
-    { SearchMainScheduleResults && SearchMainScheduleResults.map(schedule => {
+    { SearchMainScheduleResults.length != 0 ? SearchMainScheduleResults.map((schedule,index) => {
       return (
         <div
-          key={schedule.id}
-          // widthSize: 'XL' >= 1200 > 'LG' >= 992 > 'MD' >= 768 > 'SM' >= 576 > 'XS'
-          className={`SearchResult`}
-          style={{width: `${width >= 992 ? 100/3 : (width >= 768 ? 100/2 : 100)}vw`}}
-        >
-           <CalendarInfo
-            mainSchedule={schedule}
-          />
-        </div>
+              key={schedule.id}
+              // widthSize: 'XL' >= 1200 > 'LG' >= 992 > 'MD' >= 768 > 'SM' >= 576 > 'XS'
+              className="card-single"
+              style={{ width: `${width >= 800 ? 100 / 4 : (width >= 400 ? 100 / 2.2 : 100)}vw`,
+              border :`${index == 0 ? 'ridge #FFD700 10px' : (index == 1 ? 'ridge #A6A6A6 7px' : (index == 2 ? 'ridge #DA8A67 5px' : 'black'))}` }}
+            >
+              <CalendarInfo
+                mainSchedule={schedule}
+              />
+            </div>
       )
-    })}
+      })
+      :
+      <NoResultForm />
+    }
     </div>
   )
 }

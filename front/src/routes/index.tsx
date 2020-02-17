@@ -10,7 +10,7 @@ import StarPage from '../pages/StarPage'
 import SearchPage from '../pages/SearchPage'
 import DetailPage from '../pages/DetailPage'
 import ErrorPage from '../pages/ErrorPage'
-import Footer from '../components/Footer/Footer'
+import Footer from '../components/Footer/FooterForm'
 
 const routes = (
   <div>
@@ -25,6 +25,7 @@ const routes = (
         <Route path="/star" component={StarPage} />
         <Route path="/search/:query" component={SearchPage} />
         <Route path="/detail/:planId" component={DetailPage} />
+        <Route path="/error" component={ErrorPage} />
         <Route component={ErrorPage} />
       </Switch>
     </div>

@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
+import ErrorForm from '../components/Error/ErrorForm'
 
 const ErrorPage: FunctionComponent = () => {
     return (
-        <div>잘못된 접근 입니다~!</div>
+        <ErrorForm />
     )
 }
 
