@@ -15,7 +15,7 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
   const { mainSchedule, subSchedules, daySchedules } = props
   const { onGetTargetUserInfo } = useUser()
   const targetUserInfo = onGetTargetUserInfo.filter(userInfo => userInfo.id === mainSchedule.userId)[0]
-  // console.log(onGetTargetUserInfo)
+  console.log(onGetTargetUserInfo, mainSchedule)
 
   const calendar = useMemo(() => 
     mainSchedule && <Calendar
@@ -27,7 +27,7 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
     daySchedule={daySchedules.filter(dayItem => mainSchedule.id === dayItem.calendarId)}
     represent={true}
     tags={mainSchedule.tags}
-    onPage='MyPlan'
+    onPage='Overview'
   />
   ,[mainSchedule])
 

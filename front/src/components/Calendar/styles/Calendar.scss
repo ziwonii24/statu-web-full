@@ -47,11 +47,13 @@
 
   .hashTagList {
     .hashTagInput {
-      display: inline-block;
+      display: block;
+      width: 150px;
       background-color: white;
       border-radius: 1vh;
       padding: 3px;
       margin-right: 5px;
+      margin-bottom: 1vh;
   
       .inputTag {
         width: 120px;

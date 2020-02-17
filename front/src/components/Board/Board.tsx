@@ -13,8 +13,8 @@ interface Interface {
 
 const Board: FunctionComponent<Interface> = (props: Interface) => {
   const { getMainSchedules, getSubSchedules, getDaySchedules } = props
-  const { onGetUserInfo, onSetTargetUserInfo } = useUser()
-
+  const { onGetUserInfo, onGetTargetUserInfo, onSetTargetUserInfo } = useUser()
+  
   const hotSchedule = useMemo(() => getMainSchedules.sort(function (a, b) {
     if (a.view > b.view) return -1 
     else if (a.view === b.view && a.recommend >= b.recommend) return -1
@@ -32,7 +32,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
   ,[getMainSchedules]) 
 
   const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule.map(schedule => {
-    onSetTargetUserInfo(schedule.id)
+    onSetTargetUserInfo(schedule.userId)
     return <ScheduleOverview
       key={schedule.id}
       mainSchedule={schedule}
@@ -42,20 +42,27 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
   })
   ,[hotSchedule])
 
+  const recommendScheduleList = useMemo(() => onGetUserInfo && recommendSchedule?.map(schedule => {
+    onSetTargetUserInfo(schedule.userId)
+    return <ScheduleOverview
+      key={schedule.id}
+      mainSchedule={schedule}
+      subSchedules={getSubSchedules}
+      daySchedules={getDaySchedules}
+    />
+  })
+  ,[recommendSchedule])
+
   return (
     <div>
       <div className="board">
-        <p className="boardTitle">추천 계획표</p>
+        <p className="boardTitle">인기 계획표</p>
         {hotScheduleList}
       </div>
 
       <div className="board">
-        <p className="boardTitle">인기 계획표</p>
-        <br />
-        <p className="contentTitle">게시글1</p>
-        <br />
-        <p className="contentTitle">게시글2</p>
-        <br />
+        <p className="boardTitle">추천 계획표</p>
+        {recommendScheduleList}
       </div>
     </div>
   )

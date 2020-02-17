@@ -385,7 +385,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               className={`calendarOption`}
             >
               <div className={`alignRight`}>
-                {onPage === 'MyPlan' ?
+                {onPage !== 'ImportedPlan' ?
                   <div
                     className={`calendarHeaderButton`}
                     onClick={handleScrap}
@@ -415,6 +415,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               }
             </div>
               <div className={`hashTagList ${canEdit}`}>
+                {onPage === 'MyPlan' && showMonth ?
                 <div
                   className={`hashTagInput`}
                   onClick={handleInputClick}
@@ -435,6 +436,9 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                     <img src={plus} alt="추가" style={{ width: "15px" }} />
                   </div>
                 </div>
+                :
+                ''
+                }
               {/* {hashTagComponents} */}
               {
               hashTagList.map((hashTag, idx) =>
