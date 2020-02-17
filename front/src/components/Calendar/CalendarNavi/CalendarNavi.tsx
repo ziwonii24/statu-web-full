@@ -6,6 +6,8 @@ import './styles/CalendarNavi.scss'
 import right_arrow from '../../../right_arrow.png'
 import left_arrow from '../../../left_arrow.png'
 
+import { Row } from 'react-bootstrap'
+
 interface Props {
   targetMonth: string;
   onMovePrevMonth: (now: string) => void;

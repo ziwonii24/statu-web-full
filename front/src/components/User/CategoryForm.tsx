@@ -79,13 +79,14 @@ const CategoryForm: FunctionComponent = () => {
     }
 
     const categorySubmitHandler = async (e: MouseEvent<HTMLElement>) => {
+        e.preventDefault()
         makeMainListResult()
 
         const resultUser = {
             id: user?.id,
             category1: updatedUser.category1,
             category2: updatedUser.category2,
-            img: user?.img
+            name: user?.name
         }
 
         const token = getToken()
