@@ -79,7 +79,7 @@ const CategoryForm: FunctionComponent = () => {
     }
 
     const categorySubmitHandler = async (e: MouseEvent<HTMLElement>) => {
-        e.preventDefault()
+        // e.preventDefault()
         makeMainListResult()
 
         const resultUser = {
