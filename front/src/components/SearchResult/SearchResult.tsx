@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import CalendarInfo from './CalendarInfo'
 import useSchedule from '../../hooks/useSchedule'
+import useUser from '../../hooks/useUser'
 import useWindowSize from '../../hooks/useWindowSize'
-import categorys from '../../store/category'
 
 interface Interface {
   query: string
@@ -12,7 +12,7 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   console.log('SearchResult')
   const { query } = props
   const { getMainSchedules } = useSchedule()
-
+  const { onSetTargetUserInfo } = useUser()
   const { width } = useWindowSize()
 
   const SearchMainScheduleResults = useMemo(() => {
@@ -28,6 +28,7 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div className={`SearchResult`}>
     { SearchMainScheduleResults && SearchMainScheduleResults.map(schedule => {
+      onSetTargetUserInfo(schedule.id)
       return (
         <div
           key={schedule.id}

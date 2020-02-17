@@ -2,12 +2,18 @@ import React, { FunctionComponent, useMemo } from 'react'
 import StudyInfo from './StudyInfo'
 import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
-import { SubSchedule, DaySchedule } from '../../store/schedule'
+import { SubSchedule, DaySchedule, MainSchedule } from '../../store/schedule'
 import dayjs from 'dayjs'
 import './style/Study.scss'
 
-const Study: FunctionComponent = () => {
-  const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
+interface Interface {
+  getMainSchedules: MainSchedule[]
+  getSubSchedules: SubSchedule[]
+  getDaySchedules: DaySchedule[]
+}
+
+const Study: FunctionComponent<Interface> = (props: Interface) => {
+  const { getMainSchedules, getSubSchedules, getDaySchedules } = props
   const { onGetUserInfo } = useUser()
 
   const today = dayjs().format('YYYY-MM-DD')

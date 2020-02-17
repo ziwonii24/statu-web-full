@@ -5,14 +5,14 @@ import { RouterState, connectRouter } from 'connected-react-router'
 import modal, { ModalState } from './modal'
 import drag, { DragState } from './drag'
 import schedule, { scheduleSaga, SchedulesState } from './schedule'
-import importedPlan, { ImportedScheduleSaga, ImportedSchedulesState} from './importedPlan'
-import user, { UserState } from './user'
+import importedPlan, { importedScheduleSaga, ImportedSchedulesState} from './importedPlan'
+import user, { userSaga, UserState } from './user'
 import planPage, { PlanPageState } from './planPage'
 import stopWatch, { StopWatchState } from './stopWatch'
 import category, { CategoryState } from './category'
 
 export function* rootSaga() {
-  yield all ([scheduleSaga(), ImportedScheduleSaga()])
+  yield all ([scheduleSaga(), importedScheduleSaga(), userSaga()])
 }
 
 const rootReducer = (history: History) => combineReducers({

@@ -26,7 +26,7 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
   const { onPutDaySchedule } = useSchedule()
   let startTime = Date.now()
 
-  console.log('dayStudyInfo', daySchedule.todo)
+  // console.log('dayStudyInfo', daySchedule.todo)
 
   const handleStopWatchClick = () => {
     onToggleIsRunning()
@@ -36,16 +36,16 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     } else {
       onSetTargetDaySchedule(0)
     }
-    console.log(isRunning, timeElapsed)
+    // console.log(isRunning, timeElapsed)
   }
-  console.log(isRunning, timeElapsed)
+  // console.log(isRunning, timeElapsed)
 
   const handleSetTimeElapsed = async (elapsedTime: number) => {
     startTime = Date.now()
     onSetTimeElapsed(elapsedTime)
     daySchedule.achieve = daySchedule.achieve + elapsedTime
     onPutDaySchedule(daySchedule)
-    console.log(isRunning, timeElapsed)
+    // console.log(isRunning, timeElapsed)
   }
 
   const startStopToggle = () => {
@@ -53,11 +53,11 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     const timer = () => setInterval(() => handleSetTimeElapsed(Math.floor((Date.now() - startTime) / 60000)), 60000)
     if (!isRunning) {
       timer()
-      console.log(isRunning, timeElapsed)
+      // console.log(isRunning, timeElapsed)
     } else {
       clearInterval(timer())
       handleSetTimeElapsed(Date.now() - startTime)
-      console.log(daySchedule)
+      // console.log(daySchedule)
     }
   }
 
