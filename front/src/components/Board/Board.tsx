@@ -23,7 +23,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
     } else {
       return 1
     }
-  }).splice(0, 3)
+  }).slice(0, 3)
   ,[getMainSchedules]) 
 
   const recommendSchedule = useMemo(() => onGetUserInfo && getMainSchedules.filter(schedule => 
@@ -36,8 +36,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
       } else {
         return 1
       }
-    })
-    .splice(0, 3)
+    }).slice(0, 3)
   ,[getMainSchedules]) 
   
   console.log( onGetUserInfo && getMainSchedules.filter(schedule => 
