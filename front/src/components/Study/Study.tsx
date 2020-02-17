@@ -2,9 +2,12 @@ import React, { FunctionComponent, useMemo } from 'react'
 import StudyInfo from './StudyInfo'
 import StudyLog from '../StudyLog'
 import useUser from '../../hooks/useUser'
+import useWindowSize from '../../hooks/useWindowSize'
 import { SubSchedule, DaySchedule, MainSchedule } from '../../store/schedule'
 import dayjs from 'dayjs'
 import './style/Study.scss'
+import { Link } from 'react-router-dom'
+import { history } from '../../configureStore'
 
 interface Interface {
   getMainSchedules: MainSchedule[]
@@ -13,24 +16,22 @@ interface Interface {
 }
 
 const Study: FunctionComponent<Interface> = (props: Interface) => {
+  const { width } = useWindowSize()
   const { getMainSchedules, getSubSchedules, getDaySchedules } = props
   const { onGetUserInfo } = useUser()
+  const user = onGetUserInfo
+  const myPlanUrl = `/plan/${user?.name}`
 
   const today = dayjs().format('YYYY-MM-DD')
   const yesterday = dayjs().add(-1, 'day').format('YYYY-MM-DD')
 
-  const myRepresentMainSchedule = onGetUserInfo ?
-  getMainSchedules.filter(schedule => schedule.userId === onGetUserInfo.id && schedule.represent === true)
-    : []
+  const myRepresentMainSchedule = user ?
+    getMainSchedules.filter(schedule => schedule.userId === user.id && schedule.represent === true) : []
   const mySubSchedule = myRepresentMainSchedule.length ?
-  getSubSchedules.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id)
-    : []
+    getSubSchedules.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id) : []
 
   const title = useMemo(() => 
-  myRepresentMainSchedule.length !== 0 && 
-  <div className="studyBoxTitle">
-    {myRepresentMainSchedule[0].title}
-  </div>
+    myRepresentMainSchedule.length !== 0 && myRepresentMainSchedule[0].title
   , [myRepresentMainSchedule])
 
   const yesterdayDaySchedules: DaySchedule[] = []
@@ -110,31 +111,54 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
     todayColors = todayColors.concat(todayEtcColor)
   }
 
-
+  const titleClickHandler = () => {
+    history.push(myPlanUrl)
+  }
+  
   return (
-    <>
-      {title}
-      <div className="study">
-        <br />
-        <div className="leftStudyBox">
-          <div>어제 한 공부</div>
+    myRepresentMainSchedule.length === 0 ?
+    <div className='emptyStudyBox'>
+      <Link to={myPlanUrl}>시간표를 추가해주세요!</Link>
+    </div>
+    :
+    <div>
+      <div className='studyBox-title' onClick={titleClickHandler}>
+        {title}
+      </div>
+      <div className={'studyBox ' + (width < 768 && 'studyBox-mobile')}>
+        { width < 768 && 
+          <div className={ width >= 768 ? 'studyBox-right' : 'studyBox-right-mobile'}>
+            <p>오늘</p>
+            <StudyInfo
+              colors={todayColors}
+              subSchedules={todaySubSchdulesProps}
+              daySchedules={todayDaySchedulesProps}
+              studyType='today'
+            />
+          </div>
+        }
+        <div className={ width >= 768 ? 'studyBox-left' : 'studyBox-left-mobile'}>
+          <p>어제</p>
           <StudyInfo
             colors={yesterdayColors}
             subSchedules={yesterdaySubSchdulesProps}
             daySchedules={yesterdayDaySchedulesProps}
+            studyType='yesterday'
           />
         </div>
-        <div className="rightStudybox">
-          <div>오늘 할 공부</div>
-          <StudyInfo
-            colors={todayColors}
-            subSchedules={todaySubSchdulesProps}
-            daySchedules={todayDaySchedulesProps}
-          />
-        </div>
+        { width >= 768 && 
+          <div className={ width >= 768 ? 'studyBox-right' : 'studyBox-right-mobile'}>
+            <p>오늘</p>
+            <StudyInfo
+              colors={todayColors}
+              subSchedules={todaySubSchdulesProps}
+              daySchedules={todayDaySchedulesProps}
+              studyType='today'
+            />
+          </div>
+        }        
       </div>
-      <StudyLog />
-    </>
+    </div>
   )
 }
 

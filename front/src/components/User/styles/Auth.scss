@@ -1,21 +1,13 @@
 .authTemplateBlock {
-    // position: absolute;
     margin-top: 6rem;
-    // z-index: -1;
-    // left: 0;
-    // top: 0;
-    // bottom: 0;
-    // right: 0;
     background: #e9ecef;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    // margin-top: 50px;
 }
 
 .whiteBox {
-    // box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.025);
     padding: 2rem;
     width: 360px;
@@ -45,9 +37,7 @@
 }
 
 .inputAuth:focus {
-    // color
     border-bottom: 1px solid #495057;
-    // margin-top: 1rem;
 }
 
 .inputNeedCheck .inputAuth {
@@ -160,7 +150,6 @@
 }
 
 .subCategoryItemBox {
-    // display: none;
     padding: 0.5rem 1rem;
     border-bottom: 0.5px solid #868e9644;
     font-size: 0.75rem;
@@ -292,12 +281,4 @@ input[type=password] {
     width: 100%;
     justify-content: center;
     align-items: center;
-    // border: none;
-    // border-radius: 4px;
-    // font-weight: bold;
-    // padding: 0.25rem 1rem;
-    // outline: none;
-    // padding-top: 0.75rem;
-    // padding-bottom: 0.75rem;
-    // font-size: 1.125rem;
 }

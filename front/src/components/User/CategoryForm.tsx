@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, ChangeEvent, MouseEvent, useEffect, useMemo } from 'react'
+import React, { FunctionComponent, useState, MouseEvent } from 'react'
 
 import path from 'path'
 import dotenv from 'dotenv'
@@ -116,9 +116,6 @@ const CategoryForm: FunctionComponent = () => {
             }
         })
     }
-
-    console.log('*category form rendering...')
-    console.log('redux user info : ', user)
 
     return (
         <div>
