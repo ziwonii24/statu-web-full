@@ -18,7 +18,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
   console.log('[detail] ',props.match.params)
   const planId = props.match.params.planId
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
-  const { onSetUserId } = usePlanPage()
+  const { onSetTargetUser } = usePlanPage()
 
   const seletedSchedule = getMainSchedules && getMainSchedules.filter(schedule => schedule.id === parseInt(planId))[0]
 
@@ -26,7 +26,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
     try{
       const response = await axios.get(SERVER_IP + '/id/' + seletedSchedule.userId)
       const user = response.data
-      onSetUserId(user.id)
+      onSetTargetUser(user)
       history.push(`/plan/${user.name}`)
     }
     catch (e) {

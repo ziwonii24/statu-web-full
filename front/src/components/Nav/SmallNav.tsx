@@ -20,7 +20,7 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
 
   const [query, setQuery] = useState<string>('')
   const [showMenu, setShowMenu] = useState<boolean>(false)
-  const { onSetUserId } = usePlanPage()
+  const { onSetTargetUser } = usePlanPage()
 
   const handleClickLogo = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -50,7 +50,7 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
 
   const handleClickMyPlan = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation()
-    onSetUserId(user.id)
+    onSetTargetUser(user)
     setShowMenu(false)
     history.push(`/plan/${user.name}`)
   }

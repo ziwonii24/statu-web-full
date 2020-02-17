@@ -18,7 +18,7 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
   const { onLogout, user } = props
 
   const [query, setQuery] = useState<string>('')
-  const { onSetUserId } = usePlanPage()
+  const { onSetTargetUser } = usePlanPage()
 
   const handleClickLogo = (e: MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -50,7 +50,7 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
   }
 
   const handleClickMyPlan = (e: MouseEvent<HTMLElement>) => {
-    onSetUserId(user.id)
+    onSetTargetUser(user)
     history.push(`/plan/${user.name}`)
   }
 

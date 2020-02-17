@@ -29,13 +29,13 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   } = props
 
   const { onGetUserInfo } = useUser()
-  const { onGetUserId, onSetUserId } = usePlanPage()
+  const { onGetTargetUser, onSetTargetUser } = usePlanPage()
   const { onPostMainSchedule, onGetSubSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
-  const userId = onGetUserId
+  const targetUser = onGetTargetUser
   const renderMainSchedule = onGetUserInfo ?
-    (onGetUserInfo.id === userId ?
-      getMainSchedules.filter(schedule => userId === schedule.userId)
-      : getMainSchedules.filter(schedule => userId === schedule.userId).filter(schedule => schedule.pb === true))
+    (onGetUserInfo.id === targetUser.id ?
+      getMainSchedules.filter(schedule => targetUser.id === schedule.userId)
+      : getMainSchedules.filter(schedule => targetUser.id === schedule.userId).filter(schedule => schedule.pb === true))
     : []
 
   console.log('mymain', renderMainSchedule)
@@ -53,7 +53,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   async function getUserId() {
     try {
       const response = await axios.get(SERVER_IP + '/user/name/' + userName)
-      onSetUserId(response.data.id)
+      onSetTargetUser(response.data)
 
     }
     catch (e) {
@@ -64,7 +64,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   const initialMainSchedule = {
     'id': 0,
-    'userId': userId,
+    'userId': onGetUserInfo ? onGetUserInfo.id : 0,
     'title': '새 계획표',
     'startDate': '',
     'endDate': '',
@@ -85,10 +85,10 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   // 화면에 렌더링할 컴포넌트 생성
   const userProfile = useMemo(() => {
-    return onGetUserInfo && 
+    return onGetTargetUser && 
     <div className={`userProfile`}>
-      <div>{onGetUserInfo.img}</div>
-      <div>{onGetUserInfo.name}</div>
+      <div>{onGetTargetUser.img}</div>
+      <div>{onGetTargetUser.name}</div>
       <div>{renderMainSchedule.length}</div>
     </div>
   }, [renderMainSchedule])
@@ -100,7 +100,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
       <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
       <div className="fakeDiv"> </div>
     </>
-    , [userId])
+    , [targetUser])
 
   const NullCalendar = useMemo(() => {
     if (renderMainSchedule.length === 0) {
@@ -163,8 +163,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div>
-      {(onGetUserInfo && onGetUserInfo.id === userId) && AddButton}
-      {(onGetUserInfo && onGetUserInfo.id === userId) && NullCalendar}
+      {(onGetUserInfo && onGetUserInfo.id === targetUser.id) && AddButton}
+      {(onGetUserInfo && onGetUserInfo.id === targetUser.id) && NullCalendar}
       {userProfile}
       <div className={`RepresentCalendar`}>
         {RepresentCalendar}
