@@ -91,6 +91,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     </div>
   }, [renderMainSchedule])
 
+  console.log('userprofile', userProfile)
+
   const AddButton = useMemo(() =>
     <>
       <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
