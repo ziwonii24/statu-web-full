@@ -285,7 +285,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   // 사용자와 상호작용을 보여주기 위한 변수
-  const canEdit = onGetUserInfo !== null ? (onGetUserInfo.id === calendarUserId ? '' : 'pointerNone') : 'pointerNone'
+  const canEdit = onGetUserInfo !== null ? (onGetUserInfo.id === calendarUserId && onPage === 'MyPlan' ? '' : 'pointerNone') : 'pointerNone'
   const openCalendar = represent || showMonth ? 'openCalendar' : 'closeCalendar'
 
   return (
