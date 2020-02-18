@@ -54,7 +54,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     onPage,
   } = props
 
-  console.log(calendarId, onPage, 'Calendar View')
+  // console.log(calendarId, onPage, 'Calendar View')
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const { onPostImportedSchedule, onDeleteImportedSchedule } = useImportedSchedule() 

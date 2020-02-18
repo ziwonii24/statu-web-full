@@ -14,7 +14,7 @@ const CalendarHeaders: FunctionComponent<Interface> = (props: Interface) => {
     >
       {CalendarDays.map((day, idx) => (
         <div
-          key={day}
+          key={idx}
           className={`calendarHeaderContainer`}
           style={{width: `${100/7}%`, color: `${idx == 0 ? 'red' : (idx === 6 ? 'blue' : 'black')}`}}
         >

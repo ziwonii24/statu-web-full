@@ -36,7 +36,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
 
   const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule?.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
-    return <div className={ width > 768 ? 'board-item' : 'board-item-mobile'}>
+    return <div key={schedule.id} className={ width > 768 ? 'board-item' : 'board-item-mobile'}>
       <ScheduleOverview
         key={schedule.id}
         mainSchedule={schedule}
@@ -49,7 +49,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
 
   const recommendScheduleList = useMemo(() => onGetUserInfo && recommendSchedule?.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
-    return <div className={ width > 768 ? 'board-item' : 'board-item-mobile'}>
+    return <div key={schedule.id} className={ width > 768 ? 'board-item' : 'board-item-mobile'}>
       <ScheduleOverview
         key={schedule.id}
         mainSchedule={schedule}
