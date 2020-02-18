@@ -62,6 +62,7 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
     >
       <CalendarHeaders
         data-test="calendarHeaders"
+        onPage={onPage}
       />
       {renderRows(weeksArray)}
     </div>

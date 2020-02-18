@@ -78,3 +78,46 @@
   background-color:#BE3FD110;
   
 }
+
+///// Overview Calendar /////
+
+.calendarDayContainer-overview {
+  border: 0.5px solid rgb(233, 233, 233);
+  border-left: white;
+  border-right:white;
+  min-height: 5vh;
+  // overflow-wrap: hidden;
+  position: relative;
+  cursor: pointer; 
+}
+
+.calendarNum-overview {
+  display: inline-block;
+  font-size: 0.5rem;
+  // font-weight: 500;
+  position: relative;
+  margin: 0;
+  left: 10%;
+  top: 5%;
+}
+
+.subDataList-overview {
+  position: relative;
+}
+
+.subDataItem-overview {
+  display: inline-block;
+  position: absolute;
+  border-radius: 0.6vh;
+  z-index: 50;
+  color: rgb(15, 15, 15);
+  font-size: 0.5rem;
+  background-repeat:no-repeat;
+}
+
+.dayDataList-overview {
+  display: inline-block;
+  position: relative;
+  z-index: 50;
+  font-size: 0.6rem;
+}

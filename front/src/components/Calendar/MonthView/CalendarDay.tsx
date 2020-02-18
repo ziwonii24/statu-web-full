@@ -215,7 +215,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     <div
       data-test="calendarDayContainer"
       data-test2={`${active}`}
-      className={`calendarDayContainer ${draggedDays} ${active} ${passedDate}`}
+      className={onPage!=='Overview'?`calendarDayContainer ${draggedDays} ${active} ${passedDate}`:'calendarDayContainer-overview'}
       style={{ width: `${100 / 7}%` }}
       onMouseDown={handleMouseDown}
       onMouseOver={handleMouseOver}
@@ -227,7 +227,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       {day && (
         <div
           data-test="calendarNum"
-          className={`calendarNum ${activeNumber}`}
+          className={onPage!=='Overview'?`calendarNum ${activeNumber}`:'calendarNum-overview'}
           style={{color: `${weekendColor}`}}
         >
           {day}{' '}
@@ -240,7 +240,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       {/* subSchedule render */}
       <div
         style={{ height: `${2.5 * subScheduleLength}vh`, width: `${100}%` }}
-        className={`subDataList`}
+        className={onPage!=='Overview' ? `subDataList` : 'subDataList-overview'}
         onMouseOver={handleMouseOver}
       >
         {subData && subData.map(schedule => {
@@ -259,7 +259,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
                   top: `${2.5 * (subData.indexOf(schedule))}vh`,
                   width: `${100 * barLength}%`
                 }}
-                className={`subDataItem ${pointerNone}`}
+                className={onPage!=='Overview' ? `subDataItem ${pointerNone}`:'subDataItem-overview'}
                 onMouseEnter={() => handleMouseEnter(schedule.id)}
                 onMouseLeave={() => handleMouseLeave()}
                 onMouseDown={(e) => handleOpenSubModal(e, schedule)}
@@ -283,7 +283,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
       </div>
 
       {/* daySchedule render */}
-      <div data-test="dayDataList" className={`dayDataList`}>
+      <div 
+        data-test="dayDataList" 
+        className={onPage!=='Overview' ? `dayDataList` : 'dayDataList-overview'}
+      >
         {onPage === 'Overview' ?
         dayData.length !== 0 ? `+${dayData.length}` : ''
         :

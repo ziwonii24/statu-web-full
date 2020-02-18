@@ -21,3 +21,21 @@
   position: relative;
   left: 10%;
 }
+
+///// Overview Calendar /////
+
+.calendarDaysContainer-overview {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+
+  .calendarHeaderContainer {
+    color: black;
+    background-color: white;
+    border: none;
+    font-weight: bolder;
+    font-size: 0.5rem;
+  }
+}

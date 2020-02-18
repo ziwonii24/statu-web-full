@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useMemo, useEffect } from 'react'
+import React, { FunctionComponent, useMemo } from 'react'
 import Calendar from '../Calendar'
 import useUser from '../../hooks/useUser'
 import { MainSchedule, SubSchedule, DaySchedule } from '../../store/schedule'
-import { UserInfo } from '../User/interfaces/UserInfo.interface'
+
+const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
 
 interface InterFace {
   mainSchedule: MainSchedule
@@ -30,12 +31,14 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
   ,[mainSchedule])
 
   const userInfo = useMemo(() => {
-    return targetUserInfo && <div>{targetUserInfo.name}</div>
+    return targetUserInfo && 
+      <div className='board-userinfo'>
+        <img className='board-userinfo-profile' src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
+        <div className='board-userinfo-name'>{targetUserInfo.name}</div>
+      </div>
   }    
   ,[targetUserInfo])
 
-
-  console.log('targetUserInfo, ', targetUserInfo)
   return (
     <div>
       {userInfo}

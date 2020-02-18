@@ -26,6 +26,7 @@ import plus from '../../img/addHashTag.png'
 
 import './styles/Calendar.scss'
 import { getToken } from '../User/authentication';
+import useWindowSize from '../../hooks/useWindowSize';
 
 interface Interface {
   calendarId: number
@@ -54,6 +55,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   } = props
 
   console.log(calendarId, onPage, 'Calendar View')
+  const { width } = useWindowSize()
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const { onPostImportedSchedule, onDeleteImportedSchedule } = useImportedSchedule() 
@@ -291,16 +293,16 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div
       // 모달을 제외한 화면을 클릭했을 때 모달이 종료되도록 조정 필요
-      className={`calendarContainer ${openCalendar}`}>
+      className={ onPage !== 'Overview' ? `calendarContainer ${openCalendar} ` : 'calendarContainer-overview'}>
       {/* 달력 헤더 */}
       <div
-        className="headerContainer"
+        className={onPage !== 'Overview' ? "headerContainer" : 'headerContainer-overview'}
         onClick={handleShowMonth}
       >
-        <div className="calendarHeader">
+        <div className={onPage !== 'Overview' ? "calendarHeader" : "calendarHeader-overview"}>
           <div className={`calendarTitle ${canEdit}`}>
             {!editMode ?
-              <div className="showtitle">
+              <div className={ onPage != 'Overview' ? "showtitle" : 'showtitle-overview'}>
                 {title}
               </div>
               :
@@ -399,8 +401,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   >
                     <img src={import_icon} alt="저장하기" style={{ width: "15px" }} />
                   </div>
-                  }
-                  {importId !== 0 ?
+                }
+                {importId !== 0 ?
                   <div
                     className={`calendarHeaderButton`}
                     onClick={handleDeleteImportedCalendar}
@@ -409,7 +411,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                   </div>
                   :
                   ''
-                  }
+                }
                   </div>
                 </div>
               }
@@ -441,26 +443,31 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
                 }
               {/* {hashTagComponents} */}
               {
-              hashTagList.map((hashTag, idx) =>
-                <div
-                  key={idx}
-                  className={`hashTagItem sub-color`}
-                  onMouseEnter={() => handleMouseEnter(idx)}
-                  onMouseLeave={() => handleMouseLeave()}
-                >
-                  {hashTag}
-                  {hoverState && idx === hoverItemId ?
-                    <div
-                      className={`calendarHeaderButton`}
-                      onClick={(e) => handleDeleteHashtag(e, idx)}
-                    >
-                      <img src={close_ppt} alt="close_ppt" style={{ width: "15px" }} />
-                    </div>
+                hashTagList.map((hashTag, idx) =>
+                  <div
+                    key={idx}
+                    className={'sub-color ' + (onPage === 'Overview' ? 'hashTagItem-overview' : 'hashTagItem')}
+                    onMouseEnter={() => handleMouseEnter(idx)}
+                    onMouseLeave={() => handleMouseLeave()}
+                  >
+                    {/* {onPage === 'Overview' ?
+                      (hashTag.length > 4 ? hashTag.slice(0,4)+'..' : hashTag)
                     :
-                    ''
-                  }
-                </div>)
-              }
+                      hashTag
+                    } */}
+                    {hashTag}
+                    {hoverState && idx === hoverItemId ?
+                      <div
+                        className={`calendarHeaderButton`}
+                        onClick={(e) => handleDeleteHashtag(e, idx)}
+                      >
+                        <img src={close_ppt} alt="close_ppt" style={{ width: "15px" }} />
+                      </div>
+                      :
+                      ''
+                    }
+                  </div>)
+                }
             </div>
         </div>
       <div
@@ -469,7 +476,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
         {showMonth ?
           <>
             {/* 달력 저번달 다음달 전환 버튼 */}
-            <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} />
+            <CalendarNavi targetMonth={targetMonth} onMovePrevMonth={handleMovePrevMonth} onMoveNextMonth={handleMoveNextMonth} onPage={onPage} />
             {/* showMonth 타입에 따른 렌더링 될 달력 선택 */}
             <MonthViewCalendar
               calendarId={calendarId}

@@ -15,7 +15,7 @@ interface Interface {
 const Board: FunctionComponent<Interface> = (props: Interface) => {
   const { width } = useWindowSize()
   const { getMainSchedules, getSubSchedules, getDaySchedules } = props
-  const { onGetUserInfo, onGetTargetUserInfo, onSetTargetUserInfo } = useUser()
+  const { onGetUserInfo, onSetTargetUserInfo } = useUser()
   
   const hotSchedule = useMemo(() => getMainSchedules.sort(function (a, b) {
     if (a.view > b.view) return -1 
@@ -35,7 +35,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
 
   const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
-    return <div className='board-item'>
+    return <div className={ width > 768 ? 'board-item' : 'board-item-mobile'}>
       <ScheduleOverview
         key={schedule.id}
         mainSchedule={schedule}
@@ -44,11 +44,11 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
       />
     </div>
   })
-  ,[hotSchedule])
+  ,[hotSchedule, width])
 
   const recommendScheduleList = useMemo(() => onGetUserInfo && recommendSchedule?.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
-    return <div className='board-item'>
+    return <div className={ width > 768 ? 'board-item' : 'board-item-mobile'}>
       <ScheduleOverview
         key={schedule.id}
         mainSchedule={schedule}
@@ -57,22 +57,20 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
       />
     </div>
   })
-  ,[recommendSchedule])
-
-  // <div className={ width >= 768 ? 'studyBox-right' : 'studyBox-right-mobile'}>
-  // <div className={'studyBox ' + (width < 768 && 'studyBox-mobile')}>
+  ,[recommendSchedule, width])
+  
   return (
     <div>
-      <div className={"board-template " + (width < 768 && 'board-template')}>
+      <div className="board-template">
         <p className="board-title">인기 계획표</p>
-        <div className='board-form'>
+        <div className={'board-form ' + (width < 768 && 'board-form-mobile')}>
           {hotScheduleList}
         </div>
       </div>
 
-      <div className={"board-template " + (width < 768 && 'board-template')}>
+      <div className="board-template">
         <p className="board-title">추천 계획표</p>
-        <div className='board-form'>
+        <div className={'board-form ' + (width < 768 && 'board-form-mobile')}>
           {recommendScheduleList}
         </div>
       </div>

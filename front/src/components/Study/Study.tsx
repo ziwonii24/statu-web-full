@@ -118,7 +118,7 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
   return (
     myRepresentMainSchedule.length === 0 ?
     <div className='emptyStudyBox'>
-      <Link to={myPlanUrl}>시간표를 추가해주세요!</Link>
+      <Link to={myPlanUrl}>대표 시간표를 추가해주세요!</Link>
     </div>
     :
     <div>

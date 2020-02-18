@@ -140,7 +140,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
   return (
     <div
       data-test="calendarRowContainer"
-      className={`calendarRow`}
+      className={ onPage !== 'Overview' ? `calendarRow` : 'calendarRow-overview'}
     >
       {renderRows(week)}
     </div>
