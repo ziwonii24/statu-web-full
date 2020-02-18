@@ -262,6 +262,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       "userId": onGetUserInfo.id
     }
     onPostImportedSchedule(scrapInfo)
+    alert("장바구니 추가 완료!!")
   }
 
   const handleSave = async (e: MouseEvent) => {
@@ -270,6 +271,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
     let editedSchedule = { ...initialMainCalendar, userId: onGetUserInfo.id, represent: false, pb: false }
     onApplyScheduletoMyPlan(editedSchedule)
+    alert("계획표 추가 완료!!")
   }
 
 
