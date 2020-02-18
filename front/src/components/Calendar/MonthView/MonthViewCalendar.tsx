@@ -16,7 +16,8 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
     targetDateString,
     colorActiveDate,
     colorPastDates,
-    isAscending
+    isAscending,
+    onPage
   } = props;
 
   const renderRows = (weeks: string[][]) => {
@@ -41,6 +42,7 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
           isAscending={isAscending}
+          onPage={onPage}
         />
       )
     })

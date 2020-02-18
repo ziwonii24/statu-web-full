@@ -482,6 +482,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               colorActiveDate="palegoldenrod"
               colorPastDates="#F1F1F1"
               isAscending={isAscending}
+              onPage={onPage}
             />
             {/* 모달 */}
             {modalState ?

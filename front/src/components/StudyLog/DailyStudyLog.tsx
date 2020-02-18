@@ -9,7 +9,7 @@ interface InterFace {
 const DailyStudyLog: FunctionComponent<InterFace> = (props: InterFace) => {
   const { dailyLog } = props
   const [achieve, goal] = dailyLog
-  const progress = achieve / goal
+  const progress = (achieve / goal) * 100
 
   return <div
     className='dailyStudyLog third-color'
