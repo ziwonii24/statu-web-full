@@ -13,11 +13,9 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   console.log('SearchResult')
   const { query } = props
   const { getMainSchedules } = useSchedule()
-  const { onSetTargetUserInfo } = useUser()
   const { width } = useWindowSize()
 
   const SearchMainScheduleResults = useMemo(() => {
-    console.log('filter', getMainSchedules)
     return getMainSchedules.filter(schedule => 
       schedule.pb && (schedule.title.includes(query) 
       || schedule.tags.map(tag => tag.includes(query)).includes(true)
@@ -28,7 +26,7 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   
   return (
     <div className={`SearchResult`}>
-    { SearchMainScheduleResults.length !== 0 ? SearchMainScheduleResults.map((schedule, index) => {
+    { SearchMainScheduleResults.length !==0 ? SearchMainScheduleResults.map((schedule, index) => {
       // onSetTargetUserInfo(schedule.id)
       return (
         <div

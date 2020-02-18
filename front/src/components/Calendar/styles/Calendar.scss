@@ -1,6 +1,5 @@
 .calendarContainer {
   background-color: whitesmoke;
-  // padding: 10px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -16,9 +15,6 @@
       display: flex;
       align-items: flex-end;
       max-width: 80%;
-      // height: 40px;
-      // overflow: hidden;
-      // font-size: 30px;
 
       .showtitle {
         position: relative;
@@ -40,7 +36,8 @@
 
     .calendarOption {
       display: flex;
-      align-items: flex-end;
+      align-items: center;
+      justify-content: center;
       height: 40px;
     }
   }
@@ -113,8 +110,45 @@
   border-radius: 1vw;
   padding: 2vw;
   margin-bottom: 10px;
+}
 
-  // .headerContainer {
-  // 
-  // }
+
+///// Overview Calendar /////
+
+.showtitle-overview {
+  font-size: 0.88rem;
+  font-weight: bold;
+}
+
+.calendarContainer-overview {
+  padding: 0.5rem;
+  height: auto;
+  background-color: whitesmoke;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 1vw;
+}
+
+.calendarHeader-overview {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerContainer-overview {
+  padding-bottom: 0.25rem;
+  margin-bottom: 1.2vh;
+  border-bottom: 0.1vh #3f3f4880 solid;
+}
+
+.hashTagItem-overview {
+  display: inline-block;
+  font-size: 0.5rem;
+  font-weight: bold;
+  color: white;
+  margin: 0 1px;
+  padding: 4px 6px;
+  border-radius: 1vh;
 }

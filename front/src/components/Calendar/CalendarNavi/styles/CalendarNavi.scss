@@ -1,7 +1,5 @@
 .arrowBtn {
 	cursor: pointer;
-	// display: flex;
-	// justify-content: center;
 	text-align: center;
 	background-color: white;
 	border-radius: 100px;
@@ -25,4 +23,31 @@
 	display: inline-block;
 	height: 3vh;
 	line-height: 3vh;
+}
+
+///// Overview Calendar /////
+
+.calendarNavi-overview {
+	display: flex;
+    justify-content: center;
+    height: 3vh;
+    margin-bottom: 1vh;
+}
+
+.monthString-overview {
+	display: inline-block;
+	height: 3vh;
+	line-height: 3vh;
+	font-size: x-small;
+}
+
+.arrowBtn-overview {
+	cursor: pointer;
+	text-align: center;
+	background-color: white;
+	border-radius: 100px;
+	width: 2vh;
+	height: 2vh;
+	margin: 2px 2px;
+	padding: auto 0;
 }

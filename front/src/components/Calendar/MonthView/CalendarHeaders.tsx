@@ -4,18 +4,19 @@ import Interface from './interfaces/CalendarHeaders.interface';
 
 import '../styles/CalendarHeaders.scss';
 
-const CalendarHeaders: FunctionComponent<Interface> = () => {
-  // const { daysHeaderContainerClass, daysTitleContainerClass } = props;
-  const CalendarDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const CalendarHeaders: FunctionComponent<Interface> = (props: Interface) => {
+  const { onPage } = props
+  const CalendarDays = onPage !== 'Overview' ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] : ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+  
   return (
     <div
-      className={`calendarDaysContainer`}
+      className={ onPage !== 'Overview' ? `calendarDaysContainer` : 'calendarDaysContainer-overview'}
     >
-      {CalendarDays.map(day => (
+      {CalendarDays.map((day, idx) => (
         <div
           key={day}
           className={`calendarHeaderContainer`}
-          style={{width: `${100/7}%`, color: `${day === 'Sun' ? 'red' : (day === 'Sat' ? 'blue' : 'black')}`}}
+          style={{width: `${100/7}%`, color: `${idx == 0 ? 'red' : (idx === 6 ? 'blue' : 'black')}`}}
         >
           <div
             className={`calendarHeaderString`}

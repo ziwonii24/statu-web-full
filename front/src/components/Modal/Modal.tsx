@@ -61,7 +61,7 @@ const Modal: FunctionComponent<{}> = () => {
         className="Modal"
       >
         <p className="title">계획 추가</p>
-        <hr color="main-color"/>
+        <hr color="gray"/>
         {!isFewDaysSchedule ?
         (<span>
           기간 목표

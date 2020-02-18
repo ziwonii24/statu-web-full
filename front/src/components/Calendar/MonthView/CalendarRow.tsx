@@ -38,7 +38,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         .map(schedule => schedule.id)
 
       subScheduleLengthInWeek = Math.max(subScheduleLengthInWeek, weekSubSchedule.length)
-      // console.log(subScheduleLengthInWeek)
       return day  // arrow function 은 return 값을 기대함
     })
 
@@ -113,7 +112,6 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
         })
         return scheduleOrder
       })
-      // console.log('calendarRow', newSubSchedule)
 
       return (
         <CalendarDay

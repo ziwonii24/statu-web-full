@@ -49,19 +49,14 @@ const MonthViewCalendar: FunctionComponent<Interface> = (props: Interface) => {
   }
   const daysInMonth = dayjs(targetMonth).daysInMonth()
   const startDayInMonth = dayjs(targetMonth).date(1)
-  const targetMonthStartDay = startDayInMonth.day() + 1
-  
-  // console.log('startDayInMonth, daysInMonth, targetMonthStartDay, targetMonthEndDay : ',
-  //   startDayInMonth.day(), daysInMonth, targetMonthStartDay, targetMonthEndDay)
+  const targetMonthStartDay = startDayInMonth.day() + 1  
   const weeksArray: string[][] = daysArray(startDayInMonth, daysInMonth, targetMonthStartDay)
 
   return (
-    <div
-      // data-test="calendarContainer"
-      // className={`calendarContainer ${containerClassName || ''}`}
-    >
+    <div>
       <CalendarHeaders
         data-test="calendarHeaders"
+        onPage={onPage}
       />
       {renderRows(weeksArray)}
     </div>
