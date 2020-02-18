@@ -97,24 +97,22 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   // console.log('userprofile', userProfile)
 
-  const AddButton = useMemo(() =>
-    <>
-      <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
-      <div className="fakeDiv"> </div>
-    </>
-    , [targetUser])
+  // const AddButton = useMemo(() =>
+  //   <>
+  //     <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
+  //     <div className="fakeDiv"> </div>
+  //   </>
+  //   , [targetUser])
 
-  const NullCalendar = useMemo(() => {
-    if (renderMainSchedule.length === 0) {
-      return (
-        <div className="requestCalendar">
-          시간표를 추가해주세요.
-        </div>
-      )
-    } else {
-      return <div></div>
-    }
-  }, [renderMainSchedule])
+  // const NullCalendar = useMemo(() => {
+  //   if (renderMainSchedule.length === 0) {
+  //     return (
+  //    <div></div>
+  //     )
+  //   } else {
+  //     return <div></div>
+  //   }
+  // }, [renderMainSchedule])
 
   const RepresentCalendar = useMemo(() =>
     renderMainSchedule && renderMainSchedule.map(schedule => {
@@ -132,6 +130,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             tags={schedule.tags}
             onPage='MyPlan'
           />
+          
         )
       } else {
         return null
@@ -165,8 +164,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div>
-      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && AddButton}
-      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && NullCalendar}
+      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id)} {/*&& AddButton}*/}
+      
       {/* user profile */}
       <div className="headerOp" >
           <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
@@ -189,10 +188,18 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
       <div className={`RepresentCalendar`}>
         {RepresentCalendar}
       </div>
+      
       <div className={`CalendarList`}>
         {CalendarList}
       </div>
 
+      <div className="req-calendar-wrap" onClick={handleAddCalendar}>
+          <div className="req-calendar-text">
+          시간표를 추가해주세요.
+          </div>
+        </div>
+        
+      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id)}{/* && NullCalendar}*/}
     </div>
   )
 }

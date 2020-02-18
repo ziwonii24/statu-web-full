@@ -4,6 +4,11 @@ import Calendar from '../components/Calendar'
 import useUser from '../hooks/useUser'
 import useSchedule from '../hooks/useSchedule'
 import useImportedSchedule from '../hooks/useImportedSchedule'
+import NoTempForm from '../components/Error/NoTempForm'
+
+
+
+
 
 const StarPage: FunctionComponent = () => {
   // const store = useStore()
@@ -21,12 +26,12 @@ const StarPage: FunctionComponent = () => {
   const importedPlanDiv = useMemo(() =>
   importedSchedules && importedSchedules.map(importedSchedule => {
       const importSchedule = getMainSchedules.filter(schedule => schedule.id === importedSchedule.calendarId)[0]
-      if (!importSchedule) return
-
+      if (!importSchedule) return 
       return (
         <div
           key={importedSchedule.id}
         >
+          
           <Calendar
             calendarId={importSchedule.id}
             importId={importedSchedule.id}
@@ -45,7 +50,17 @@ const StarPage: FunctionComponent = () => {
 
   return (
     <>
-      {importedPlanDiv}
+      {importedSchedules.length === 0 ?
+        <NoTempForm />
+        :
+        <div>
+            <h3 style={{textAlign:'center'}}>가져온 캘린더</h3>
+            <hr/>
+            {importedPlanDiv}
+          </div>
+        
+      }
+
     </>
   )
 }
