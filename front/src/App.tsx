@@ -13,7 +13,7 @@ const App: FunctionComponent<InterFace> = ({ history }: InterFace) => {
   console.log('APP')
 
   const { onGetSchedule } = useSchedule()
-  const { onGetUserInfo, onClearTargetUserInfo } = useUser()
+  const { onGetUserInfo } = useUser()
 
   useEffect(() => {
     console.log('app useEffect', onGetUserInfo)

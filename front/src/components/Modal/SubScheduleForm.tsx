@@ -131,6 +131,7 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
         onChange={handleStartDate}
       />
       <br/>
+      {/* <br/> */}
       <input
         type="date"
         className={`inputBar modalInput`}

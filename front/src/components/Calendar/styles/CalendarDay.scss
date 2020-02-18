@@ -56,14 +56,31 @@
   z-index: 50;
   font-size: 1.5vh;
   font-weight: 400;
+  width: 100%;
+  // overflow: hidden;
+}
+
+.dayDataItem {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+.dayDataContent {
+  display: inline-block;
+  width: 14vh;
+  overflow: hidden;
+  margin-right: 1vh;
 }
 
 .dayListCircle {
   display: inline-block;
-  margin: 0 1vh;
+  flex: 0 0 auto;
+  margin: 0.6vh;
   width: 0.9vh;
   height: 0.9vh;
-  border-radius: 50vh;
+  border-radius: 100vh;
   opacity: 90%;
 }
 

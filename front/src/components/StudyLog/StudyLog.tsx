@@ -13,7 +13,7 @@ const StudyLog: FunctionComponent = () => {
   const startDate = today.add(-dayOfWeek, 'day').add(-78, 'week')
   const logArray = Array(7 * 78 + dayOfWeek + 1).fill(null).map(() => Array(0, 0))
 
-  getMyDaySchedules.map(schedule => schedule.goal &&
+  getMyDaySchedules.map(schedule => (schedule.goal && dayjs(schedule.date).diff(startDate, 'day')+1 < 549) &&
     (logArray[dayjs(schedule.date).diff(startDate, 'day')+1][0] += schedule.achieve,
       logArray[dayjs(schedule.date).diff(startDate, 'day')+1][1] += schedule.goal))
 

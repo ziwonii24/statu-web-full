@@ -125,7 +125,6 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
           )
         })}
         <br />
-        {/* 할 일 입력 */}
         <input
           className="modalInput"
           type="text"

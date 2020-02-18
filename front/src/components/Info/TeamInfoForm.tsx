@@ -7,8 +7,8 @@ const TeamInfo: FunctionComponent = () => {
             <div className='team'>
                 <div>KIM MIN SU</div>
                 <div>KIM YEONG YEON</div>
-                <div>KIM JUNG</div>
-                <div>JO SUNG WON</div>
+                <div>KIM JEONG</div>
+                <div>CHO SUNG WON</div>
                 <div>CHOI JI WON</div>
             </div>
         </div>
