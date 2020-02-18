@@ -32,6 +32,7 @@ interface Interface {
   importId: number
   calendarUserId: number
   defaultTitle: string
+  startMonth: string
   subSchedule: SubSchedule[]
   daySchedule: DaySchedule[]
   represent: boolean
@@ -46,6 +47,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     importId,
     calendarUserId,
     defaultTitle,
+    startMonth,
     subSchedule,
     daySchedule,
     represent,
@@ -53,12 +55,12 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     onPage,
   } = props
 
-  console.log(calendarId, onPage, 'Calendar View')
+  // console.log(calendarId, onPage, 'Calendar View')
   const { onGetUserInfo } = useUser()
   const { startDate, tempDate } = useDrag()
   const { onPostImportedSchedule, onDeleteImportedSchedule } = useImportedSchedule() 
 
-  const targetDate: dayjs.Dayjs = dayjs().locale(localeDe)
+  const targetDate: dayjs.Dayjs = onPage === 'MyPlan' ? dayjs().locale(localeDe) : (startMonth !== '' ? dayjs(startMonth) : dayjs().locale(localeDe))
   const [targetDateString, setTargetDateString] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [targetMonth, setTargetMonth] = useState<string>(targetDate.format('YYYY-MM-DD'))
   const [title, setTitle] = useState<string>(defaultTitle)
@@ -180,13 +182,13 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
   const handleTitleClick = (e: MouseEvent) => {
     e.stopPropagation()
     const editedSchedule = { ...initialMainCalendar, title: title }
-    console.log('edit', editedSchedule)
+    // console.log('edit', editedSchedule)
     onPutMainSchedule(editedSchedule)
     setEditMode(false)
   }
 
   const handleTitleEnter = (e: KeyboardEvent) => {
-    console.log('title')
+    // console.log('title')
     e.stopPropagation()
     if (e.key !== 'Enter') return
     const editedSchedule = { ...initialMainCalendar, title: title }
@@ -260,6 +262,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       "userId": onGetUserInfo.id
     }
     onPostImportedSchedule(scrapInfo)
+    alert("장바구니 추가 완료!!")
   }
 
   const handleSave = async (e: MouseEvent) => {
@@ -268,6 +271,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
     let editedSchedule = { ...initialMainCalendar, userId: onGetUserInfo.id, represent: false, pb: false }
     onApplyScheduletoMyPlan(editedSchedule)
+    alert("계획표 추가 완료!!")
   }
 
 

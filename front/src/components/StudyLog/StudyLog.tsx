@@ -7,14 +7,15 @@ import './styles/StudyLog.scss'
 
 const StudyLog: FunctionComponent = () => {
   const { getMyDaySchedules } = useSchedule()
+  // console.log('getMyDay', getMyDaySchedules)
   const today: dayjs.Dayjs = dayjs()
   const dayOfWeek = today.day()
   const startDate = today.add(-dayOfWeek, 'day').add(-78, 'week')
   const logArray = Array(7 * 78 + dayOfWeek + 1).fill(null).map(() => Array(0, 0))
 
   getMyDaySchedules.map(schedule => schedule.goal &&
-    (logArray[dayjs(schedule.date).diff(startDate, 'day')][0] += schedule.achieve,
-      logArray[dayjs(schedule.date).diff(startDate, 'day')][1] += schedule.goal))
+    (logArray[dayjs(schedule.date).diff(startDate, 'day')+1][0] += schedule.achieve,
+      logArray[dayjs(schedule.date).diff(startDate, 'day')+1][1] += schedule.goal))
 
   const studyLog = []
   for (let i = 0; i < logArray.length; i += 7) {

@@ -14,6 +14,10 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
   const { mainSchedule, subSchedules, daySchedules } = props
   const { onGetTargetUserInfo } = useUser()
   const targetUserInfo = onGetTargetUserInfo.filter(userInfo => userInfo.id === mainSchedule.userId)[0]
+<<<<<<< HEAD
+=======
+  // console.log(onGetTargetUserInfo, mainSchedule)
+>>>>>>> bf6964b1f4dae1de8e6b76394b05a235f352b919
 
   const calendar = useMemo(() => 
     mainSchedule && <Calendar
@@ -21,6 +25,7 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
     importId={0}
     calendarUserId={mainSchedule.userId}
     defaultTitle={mainSchedule.title}
+    startMonth={mainSchedule.startDate}
     subSchedule={subSchedules.filter(subItem => mainSchedule.id === subItem.calendarId)}
     daySchedule={daySchedules.filter(dayItem => mainSchedule.id === dayItem.calendarId)}
     represent={true}

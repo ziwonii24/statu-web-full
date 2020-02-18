@@ -28,8 +28,8 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
   
   return (
     <div className={`SearchResult`}>
-    { SearchMainScheduleResults.length !==0 ? SearchMainScheduleResults.map((schedule, index) => {
-      onSetTargetUserInfo(schedule.id)
+    { SearchMainScheduleResults.length !== 0 ? SearchMainScheduleResults.map((schedule, index) => {
+      // onSetTargetUserInfo(schedule.id)
       return (
         <div
               key={schedule.id}
