@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import ScheduleOverview from '../ScheduleViews/ScheduleOverview'
 import useUser from '../../hooks/useUser'
+import useWindowSize from '../../hooks/useWindowSize'
 import { MainSchedule, SubSchedule, DaySchedule } from '../../store/schedule'
 
 import './style/Board.scss'
@@ -12,6 +13,7 @@ interface Interface {
 }
 
 const Board: FunctionComponent<Interface> = (props: Interface) => {
+  const { width } = useWindowSize()
   const { getMainSchedules, getSubSchedules, getDaySchedules } = props
   const { onGetUserInfo, onGetTargetUserInfo, onSetTargetUserInfo } = useUser()
   
@@ -33,36 +35,46 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
 
   const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
-    return <ScheduleOverview
-      key={schedule.id}
-      mainSchedule={schedule}
-      subSchedules={getSubSchedules}
-      daySchedules={getDaySchedules}
-    />
+    return <div className='board-item'>
+      <ScheduleOverview
+        key={schedule.id}
+        mainSchedule={schedule}
+        subSchedules={getSubSchedules}
+        daySchedules={getDaySchedules}
+      />
+    </div>
   })
   ,[hotSchedule])
 
   const recommendScheduleList = useMemo(() => onGetUserInfo && recommendSchedule?.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
-    return <ScheduleOverview
-      key={schedule.id}
-      mainSchedule={schedule}
-      subSchedules={getSubSchedules}
-      daySchedules={getDaySchedules}
-    />
+    return <div className='board-item'>
+      <ScheduleOverview
+        key={schedule.id}
+        mainSchedule={schedule}
+        subSchedules={getSubSchedules}
+        daySchedules={getDaySchedules}
+      />
+    </div>
   })
   ,[recommendSchedule])
 
+  // <div className={ width >= 768 ? 'studyBox-right' : 'studyBox-right-mobile'}>
+  // <div className={'studyBox ' + (width < 768 && 'studyBox-mobile')}>
   return (
     <div>
-      <div className="board">
-        <p className="boardTitle">인기 계획표</p>
-        {hotScheduleList}
+      <div className={"board-template " + (width < 768 && 'board-template')}>
+        <p className="board-title">인기 계획표</p>
+        <div className='board-form'>
+          {hotScheduleList}
+        </div>
       </div>
 
-      <div className="board">
-        <p className="boardTitle">추천 계획표</p>
-        {recommendScheduleList}
+      <div className={"board-template " + (width < 768 && 'board-template')}>
+        <p className="board-title">추천 계획표</p>
+        <div className='board-form'>
+          {recommendScheduleList}
+        </div>
       </div>
     </div>
   )
