@@ -15,15 +15,16 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
   const { getMainSchedules, getSubSchedules, getDaySchedules } = props
   const { onGetUserInfo, onGetTargetUserInfo, onSetTargetUserInfo } = useUser()
   
-  const hotSchedule = useMemo(() => getMainSchedules.sort(function (a, b) {
-    if (a.view > b.view) return -1 
-    else if (a.view === b.view && a.recommend >= b.recommend) return -1
-    else return 1
-  }).slice(0, 3)
+  const hotSchedule = useMemo(() => onGetUserInfo && getMainSchedules.filter(schedule => schedule.pb === true)
+    .sort(function (a, b) {
+      if (a.view > b.view) return -1 
+      else if (a.view === b.view && a.recommend >= b.recommend) return -1
+      else return 1
+    }).slice(0, 3)
   ,[getMainSchedules]) 
 
   const recommendSchedule = useMemo(() => onGetUserInfo && getMainSchedules.filter(schedule => 
-    onGetUserInfo.category2.map(categoryName => schedule.category2.includes(categoryName)).includes(true))  // 카테고리가 하나라도 일치하면 true
+    schedule.pb === true && onGetUserInfo.category2.map(categoryName => schedule.category2.includes(categoryName)).includes(true))  // 카테고리가 하나라도 일치하면 true
     .sort(function (a, b) {
       if (a.view > b.view) return -1
       else if (a.view === b.view && a.recommend >= b.recommend) return -1
@@ -31,7 +32,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
     }).slice(0, 3)
   ,[getMainSchedules]) 
 
-  const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule.map(schedule => {
+  const hotScheduleList = useMemo(() => onGetUserInfo && hotSchedule?.map(schedule => {
     onSetTargetUserInfo(schedule.userId)
     return <ScheduleOverview
       key={schedule.id}

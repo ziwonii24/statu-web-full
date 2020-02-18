@@ -87,13 +87,32 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   // 화면에 렌더링할 컴포넌트 생성
   const userProfile = useMemo(() => {
-    return onGetTargetUser && 
-    <div className={`userProfile`}>
-      <div>{onGetTargetUser.img}</div>
-      <div>{onGetTargetUser.name}</div>
-      <div>{renderMainSchedule.length}</div>
-    </div>
-  }, [renderMainSchedule])
+    return onGetTargetUser &&
+      <div className="headerOp">
+
+        <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
+        <section className="userInfo">
+          <div className="userName">
+            {onGetTargetUser.name}
+          </div>
+          <div className="userEmail">
+            {onGetTargetUser.email}
+          </div>
+        {/* </section>
+        <section className="userInfo"> */}
+          <div>
+            {onGetTargetUser.category1.map((category, idx) => {
+              return <div key={idx} className="userCategory1 third-color">{category}</div>
+            })}
+          </div>
+          <div>
+            {onGetTargetUser.category2.map((category, idx) => {
+              return <div key={idx} className="userCategory2 fourth-color">{category}</div>
+            })}
+          </div>
+        </section>
+      </div>
+  }, [targetUser])
 
   // console.log('userprofile', userProfile)
 
@@ -126,6 +145,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             importId={0}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
+            startMonth={schedule.startDate}
             subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
             daySchedule={getDaySchedules.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={true}
@@ -149,6 +169,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             importId={0}
             calendarUserId={schedule.userId}
             defaultTitle={schedule.title}
+            startMonth={schedule.startDate}
             subSchedule={getSubSchedules.filter(subItem => schedule.id === subItem.calendarId)}
             daySchedule={getDaySchedules.filter(dayItem => schedule.id === dayItem.calendarId)}
             represent={false}
@@ -167,25 +188,8 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     <div>
       {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && AddButton}
       {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && NullCalendar}
-      {/* user profile */}
-      <div className="headerOp" >
-          <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
-          <section className="userInfo">
-            <div className="userName">
-            {onGetTargetUser.name}
-            </div>
-            <div className="userEmail">
-            {onGetTargetUser.email}
-            </div>
-            <div className="userCategory1">
-            {onGetTargetUser.category1}
-            </div>
-            <div className="userCategory2">
-            {onGetTargetUser.category2}
-            </div>
-          </section>
-          <hr/>
-      </div>
+      {userProfile}
+      <hr/>
       <div className={`RepresentCalendar`}>
         {RepresentCalendar}
       </div>

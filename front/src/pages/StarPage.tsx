@@ -32,6 +32,7 @@ const StarPage: FunctionComponent = () => {
             importId={importedSchedule.id}
             calendarUserId={importSchedule.userId}
             defaultTitle={importSchedule.title}
+            startMonth={importSchedule.startDate}
             subSchedule={getSubSchedules.filter(subItem => importSchedule.id === subItem.calendarId)}
             daySchedule={getDaySchedules.filter(dayItem => importSchedule.id === dayItem.calendarId)}
             represent={true}
