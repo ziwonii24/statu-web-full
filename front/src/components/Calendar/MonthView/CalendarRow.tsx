@@ -21,7 +21,8 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
     daySchedule,
     colorPastDates,
     colorActiveDate,
-    isAscending
+    isAscending,
+    onPage
   } = props
 
   const renderRows = (week: string[]) => {
@@ -131,6 +132,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
           colorPastDates={colorPastDates}
           colorActiveDate={colorActiveDate}
           isAscending={isAscending}
+          onPage={onPage}
         />
       )
     })

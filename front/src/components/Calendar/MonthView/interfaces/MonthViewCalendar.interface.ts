@@ -12,4 +12,5 @@ export default interface Component {
   colorPastDates?: string
   colorActiveDate?: string
   isAscending: boolean
+  onPage: string
 }

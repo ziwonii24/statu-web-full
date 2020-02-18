@@ -21,7 +21,8 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
     subSchedule,
     subScheduleLength,
     daySchedule,
-    isAscending
+    isAscending,
+    onPage
   } = props;
 
   const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -283,7 +284,10 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
 
       {/* daySchedule render */}
       <div data-test="dayDataList" className={`dayDataList`}>
-        {dayData && dayData.map((schedule, idx) => (
+        {onPage === 'Overview' ?
+        dayData.length !== 0 ? `+${dayData.length}` : ''
+        :
+        dayData && dayData.map((schedule, idx) => (
           <div
             data-test="dayDataListItem"
             key={`day-item-${schedule.date}-${uuid()}`}
