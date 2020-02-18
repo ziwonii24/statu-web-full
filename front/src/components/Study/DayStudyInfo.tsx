@@ -31,7 +31,6 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
 
   const handleStopWatchClick = () => {
     onToggleIsRunning()
-    console.log('click', isRunning)
     startStopToggle()
     if (!isRunning) {
       onSetTargetDaySchedule(daySchedule.id)
@@ -40,29 +39,22 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
     }
   }
 
-
   const handleSetTimeElapsed = async (elapsedTime: number) => {
-    // console.log('handle time', isRunning)
     startTime = Date.now()
     onSetTimeElapsed(elapsedTime)
-    // console.log(elapsedTime)
     daySchedule.achieve = daySchedule.achieve + elapsedTime
     onPutDaySchedule(daySchedule)
   }
 
   const startStopToggle = () => {
     startTime = Date.now()
-    // console.log('start toggle', isRunning)
-    let timer = setInterval(() => {
-      if (!isRunning) {
-        handleSetTimeElapsed(Math.floor((Date.now() - startTime) / 60000))
-        console.log('timer')
-      } else {
-        clearInterval(timer)
-        console.log('clearTimer')
-        handleSetTimeElapsed(Math.floor((Date.now() - startTime) / 60000))
-      }
-    }, 60000)
+    const timer = () => setInterval(() => handleSetTimeElapsed(Math.floor((Date.now() - startTime) / 60000)), 60000)
+    if (!isRunning) {
+      timer()
+    } else {
+      clearInterval(timer())
+      handleSetTimeElapsed(Date.now() - startTime)
+    }
   }
 
   const stopWatchBtn = useMemo(() => {
@@ -88,10 +80,6 @@ const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
           className={`progress-bar`}
           value={0} max='100'/>
     )
-  }, [daySchedule.achieve])
-
-  const watchDisplay = useMemo(() => {
-    return <div>{daySchedule.achieve} , {daySchedule.goal}</div>
   }, [daySchedule.achieve])
 
   return (

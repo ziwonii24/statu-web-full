@@ -295,7 +295,7 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
               className='dayListCircle'
               style={{ backgroundColor: dayItemColors[idx] }}
             />
-            {schedule.todo}
+            <div className="dayDataContent">{schedule.todo}</div>
             {
               hoverState && schedule.id === hoverItemId ?
                 <div

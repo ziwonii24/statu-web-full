@@ -53,6 +53,7 @@ const Modal: FunctionComponent<{}> = () => {
     <div
       onKeyDown={(e) => handleESC(e)} 
     >
+      {/* <a href="*"></a> */}
       <div 
         className="Modal-overlay" 
         onClick={handleCloseModal}
@@ -63,7 +64,7 @@ const Modal: FunctionComponent<{}> = () => {
         <p className="title">계획 추가</p>
         <hr color="gray"/>
         {!isFewDaysSchedule ?
-        (<span>
+        (<div className="divTag">
           기간 목표
           <input
             className="checkBox"
@@ -71,10 +72,11 @@ const Modal: FunctionComponent<{}> = () => {
             type="checkbox"
             checked={check}
             onChange={handleCheckboxChange} />
-        </span>)
+        </div>)
         :
         ''
-        }
+      }
+      <hr color="gray"/>
         {scheduleForm}
       </div>
     </div>

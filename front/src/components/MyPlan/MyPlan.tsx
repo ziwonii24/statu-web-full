@@ -3,15 +3,13 @@ import Calendar from '../Calendar'
 import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
 import usePlanPage from '../../hooks/usePlanPage'
+import useWindowSize from '../../hooks/useWindowSize'
 
 import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
 import './styles/MyPlan.scss'
-import plus from '../../img/plus.png'
-import plus_black from '../../img/plus_black.png'
-import plus_white from '../../img/plus_white.png'
 import { history } from '../../configureStore'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
@@ -33,6 +31,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   const { onGetUserInfo } = useUser()
   const { onGetTargetUser, onSetTargetUser } = usePlanPage()
   const { onPostMainSchedule, onGetSubSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
+  const { width } = useWindowSize()
   const targetUser = onGetTargetUser
   const renderMainSchedule = onGetUserInfo ?
     (onGetUserInfo.id === targetUser.id ?
@@ -56,7 +55,6 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
     try {
       const response = await axios.get(SERVER_IP + '/user/name/' + userName)
       onSetTargetUser(response.data)
-
     }
     catch (e) {
       console.log(e)
@@ -86,52 +84,35 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   // 화면에 렌더링할 컴포넌트 생성
+  // widthSize: 'XL' >= 1200 > 'LG' >= 992 > 'MD' >= 768 > 'SM' >= 576 > 'XS'
   const userProfile = useMemo(() => {
     return onGetTargetUser &&
-      <div className="headerOp">
-
+      <div className={width >= 576 ? 'headerOp' : 'headerOp-mobile'}>
         <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
-        <section className="userInfo">
-          <div className="userName">
-            {onGetTargetUser.name}
-          </div>
-          <div className="userEmail">
-            {onGetTargetUser.email}
-          </div>
-        {/* </section>
-        <section className="userInfo"> */}
-          <div>
-            {onGetTargetUser.category1.map((category, idx) => {
-              return <div key={idx} className="userCategory1 third-color">{category}</div>
-            })}
-          </div>
-          <div>
-            {onGetTargetUser.category2.map((category, idx) => {
-              return <div key={idx} className="userCategory2 fourth-color">{category}</div>
-            })}
-          </div>
+        <section className="profile">
+          <section className="userInfo">
+            <div className="userName">
+              {onGetTargetUser.name}
+            </div>
+            <div className="userEmail">
+              {onGetTargetUser.email}
+            </div>
+          </section>
+          <section className="category">
+            <div>
+              {onGetTargetUser.category1.map((category, idx) => {
+                return <div key={idx} className="userCategory1 third-color">{category}</div>
+              })}
+            </div>
+            <div>
+              {onGetTargetUser.category2.map((category, idx) => {
+                return <div key={idx} className="userCategory2 fourth-color">{category}</div>
+              })}
+            </div>
+          </section>
         </section>
       </div>
-  }, [targetUser])
-
-  // console.log('userprofile', userProfile)
-
-  // const AddButton = useMemo(() =>
-  //   <>
-  //     <img onClick={handleAddCalendar} className="addCalendar" src={plus_white} alt="plus" style={{ height: "30px" }} />
-  //     <div className="fakeDiv"> </div>
-  //   </>
-  //   , [targetUser])
-
-  // const NullCalendar = useMemo(() => {
-  //   if (renderMainSchedule.length === 0) {
-  //     return (
-  //    <div></div>
-  //     )
-  //   } else {
-  //     return <div></div>
-  //   }
-  // }, [renderMainSchedule])
+  }, [targetUser, width])
 
   const RepresentCalendar = useMemo(() =>
     renderMainSchedule && renderMainSchedule.map(schedule => {
@@ -150,7 +131,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
             tags={schedule.tags}
             onPage='MyPlan'
           />
-          
+
         )
       } else {
         return null
@@ -185,24 +166,22 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   return (
     <div>
-      {/* {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && AddButton}
-      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) && NullCalendar} */}
       {userProfile}
-      <hr/>
+      <hr />
       <div className={`RepresentCalendar`}>
         {RepresentCalendar}
       </div>
-      
+
       <div className={`CalendarList`}>
         {CalendarList}
       </div>
 
       <div className="req-calendar-wrap" onClick={handleAddCalendar}>
-          <div className="req-calendar-text">
+        <div className="req-calendar-text">
           시간표를 추가해주세요.
           </div>
-        </div>
-        
+      </div>
+
       {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id)}{/* && NullCalendar}*/}
     </div>
   )
