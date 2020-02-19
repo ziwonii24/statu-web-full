@@ -138,12 +138,14 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
     setTargetDateString(targetDateString)
   }
 
-  const handleMovePrevMonth = (now: string) => {
+  const handleMovePrevMonth = (e: MouseEvent, now: string) => {
+    e.stopPropagation()
     const prevMonth = dayjs(now).add(-1, 'month').format('YYYY-MM-DD')
     setTargetMonth(prevMonth)
   }
 
-  const handleMoveNextMonth = (now: string) => {
+  const handleMoveNextMonth = (e: MouseEvent, now: string) => {
+    e.stopPropagation()
     const nextMonth = dayjs(now).add(1, 'month').format('YYYY-MM-DD')
     setTargetMonth(nextMonth)
   }

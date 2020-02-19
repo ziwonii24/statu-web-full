@@ -14,12 +14,12 @@ const CalendarNavi:FunctionComponent<Interface> = (props: Interface) => {
       className={onPage!=='Overview' ? `calendarNavi `:'calendarNavi-overview'}
       // className='calendarNavi'
     >
-      <div className={`arrowBtn`} onClick={() => onMovePrevMonth(targetMonth)}>
+      <div className={`arrowBtn`} onClick={(e) => onMovePrevMonth(e, targetMonth)}>
         {/* &#60; */}
         <img src={left_arrow} alt="왼쪽화살표" className={`arrowImg`} />
       </div>
       <div className={onPage!=='Overview'?`monthString`:'monthString-overview'}>{dayjs(targetMonth).format('YYYY년 MM월')}</div>
-      <div className={`arrowBtn`} onClick={() => onMoveNextMonth(targetMonth)}>
+      <div className={`arrowBtn`} onClick={(e) => onMoveNextMonth(e, targetMonth)}>
         {/* &#62; */}
         <img src={right_arrow} alt="오른쪽화살표" className={`arrowImg`} />
       </div>

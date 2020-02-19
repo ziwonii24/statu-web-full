@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { MainSchedule } from '../../store/schedule'
 import useSchedule from '../../hooks/useSchedule'
-// import useUser from '../../hooks/useUser'
+import useUser from '../../hooks/useUser'
 import { history } from '../../configureStore'
 
 
@@ -14,7 +14,7 @@ interface Interface {
 const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
   const { mainSchedule, } = props
   const { onPutMainSchedule } = useSchedule()
-  // const { onGetTargetUserInfo } = useUser()
+  const { onSetTargetUserInfo } = useUser()
 
   // const userInfo = onGetTargetUserInfo && onGetTargetUserInfo.filter(userInfo => userInfo.id === mainSchedule.userId)[0]
 
@@ -28,6 +28,7 @@ const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
     // console.log('edit', editedSchedule)
     // 검색결과에서 클릭 할 때마다 view + 1
     onPutMainSchedule(editedSchedule)
+    onSetTargetUserInfo(schedule.userId)
     history.push(`/detail/${mainSchedule.id}`)
   }
 
