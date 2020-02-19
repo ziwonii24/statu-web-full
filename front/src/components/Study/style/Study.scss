@@ -167,3 +167,20 @@ progress[value]::-webkit-progress-value {
     border-radius: 2px; 
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }  
+
+.studyLog-example {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    p {
+        font-size: x-small;
+        margin: 5px;
+    }
+}
+
+.studyLog-div-example {
+    width: 12px;
+    height: 12px;
+    margin: 0 1px;
+  }

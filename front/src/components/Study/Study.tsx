@@ -159,6 +159,16 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
         }       
       </div>
       <StudyLog /> 
+      <div className='studyLog-example'>
+        <p>Less</p>
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(211, 211, 211)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(175, 226, 108)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(111, 211, 102)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(0, 150, 25)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(0, 107, 0)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(0, 58, 0)"}} />
+        <p>More</p>
+      </div>
     </div>
   )
 }

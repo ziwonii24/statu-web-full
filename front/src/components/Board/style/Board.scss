@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: white;
     border-radius: 10px;
     width: 100%;
     padding: 2rem 0.5rem;
@@ -13,7 +12,7 @@
 
 .board-title {
     font-weight: bold;
-    font-size: large;
+    font-size: xx-large;
     margin-bottom: 1rem;
 }
 
@@ -24,25 +23,27 @@
 }
 
 .board-form-mobile {
-    justify-content: center;
+    align-items: center;
     flex-direction: column;
 }
 
 .board-item {
+    background-color: white;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     padding: 0.5rem;
-    margin: 0 0.25rem;
+    margin: 0 0.3rem;
     width: 25vw;
     height: auto;
 }
 
 .board-item-mobile {
+    background-color: white;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     padding: 1rem;
     margin: 0.5rem 0.25rem;
-    width: 80vw;
+    width: 85vw;
     height: auto;
 }
 
