@@ -10,7 +10,7 @@ import './styles/Modal.scss'
 const DayScheduleForm: FunctionComponent<{}> = () => {
 
   const { mainSchedule, daySchedule, subSchedules, onCloseModal } = useModal()
-  const { startDate, onSetStartDate, onSetEndDate } = useDrag()
+  const { onSetStartDate, onSetEndDate } = useDrag()
   const { onPutMainSchedule, onPostDaySchedule, onPutDaySchedule, onGetMainTerm } = useSchedule()
   const subSchedule = daySchedule.id !== 0 ? subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)[0] : subSchedules[0]
 

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { MainSchedule } from '../../store/schedule'
 import useSchedule from '../../hooks/useSchedule'
-import useUser from '../../hooks/useUser'
+// import useUser from '../../hooks/useUser'
 import { history } from '../../configureStore'
 
 
@@ -14,9 +14,9 @@ interface Interface {
 const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
   const { mainSchedule, } = props
   const { onPutMainSchedule } = useSchedule()
-  const { onGetTargetUserInfo } = useUser()
+  // const { onGetTargetUserInfo } = useUser()
 
-  const userInfo = onGetTargetUserInfo && onGetTargetUserInfo.filter(userInfo => userInfo.id === mainSchedule.userId)[0]
+  // const userInfo = onGetTargetUserInfo && onGetTargetUserInfo.filter(userInfo => userInfo.id === mainSchedule.userId)[0]
 
   var progress_circle = "0"
   if(mainSchedule.progress != null)
@@ -40,8 +40,8 @@ const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
        
        <div className="card-single-title">{mainSchedule.title}</div>
        <div className="icons">
-       <img src={eye} className="why-text-icon"/>{mainSchedule.view}&nbsp;&nbsp;
-       <img src={chef} className="why-text-icon"/>{mainSchedule.recommend}
+       <img src={eye} className="why-text-icon" alt='eye'/>{mainSchedule.view}&nbsp;&nbsp;
+       <img src={chef} className="why-text-icon" alt='chef'/>{mainSchedule.recommend}
        </div>
        <div className="card-single-date">{mainSchedule.startDate} - {mainSchedule.endDate}</div>
        

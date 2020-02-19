@@ -1,4 +1,4 @@
-import { createBrowserHistory, createPath } from 'history'
+import { createBrowserHistory } from 'history'
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { routerMiddleware } from 'connected-react-router'

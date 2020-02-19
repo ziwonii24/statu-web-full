@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useState, useEffect, useMemo } from 'react'
-import {useStore} from 'react-redux'
+import React, { FunctionComponent, useEffect, useMemo } from 'react'
 import Calendar from '../components/Calendar'
 import useUser from '../hooks/useUser'
 import useSchedule from '../hooks/useSchedule'
@@ -7,12 +6,7 @@ import useImportedSchedule from '../hooks/useImportedSchedule'
 import NoTempForm from '../components/Error/NoTempForm'
 
 
-
-
-
 const StarPage: FunctionComponent = () => {
-  // const store = useStore()
-  // console.log('store', store.getState())
   const { onGetUserInfo } = useUser()
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { importedSchedules, onGetImportedSchedule } = useImportedSchedule()
