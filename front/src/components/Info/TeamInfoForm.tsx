@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react'
 
+import teamLogo from '../../img/민수팀로고.png'
+
 const TeamInfo: FunctionComponent = () => {
     return (
         <div className='teamInfo-template'>
-            <div><h1>MinsuTeam</h1></div>
+            <img className='team-logo' src={teamLogo} alt="temaLogo"/>
             <div className='team'>
                 <div>KIM MIN SU</div>
                 <div>KIM YEONG YEON</div>

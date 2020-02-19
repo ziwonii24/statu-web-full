@@ -22,8 +22,9 @@
     color: white;
     padding: 3rem;
 
-    h1 {
-        font-size: 6rem;
+    .main-logo {
+        width: 50vh;
+        margin-bottom: 3vh;
     }
 }
 
@@ -38,8 +39,9 @@
     padding-right: 3rem;
     padding-bottom: 1.75rem;
 
-    h1 {
-        font-size: 4rem;
+    .main-logo {
+        width: 30vh;
+        margin-bottom: 2vh;
     }
 
     h5 {
@@ -119,6 +121,10 @@
     h1 {
         font-weight: bold;
         color: #527062;
+    }
+
+    .team-logo {
+        width: 30vh;
     }
 }
 
