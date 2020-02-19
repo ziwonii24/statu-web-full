@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux'
 import configureStore, { history } from './configureStore'
 import { getToken, decode, login, logout } from './components/User/authentication'
-import { SET_USERINFO, setUserInfo } from './store/user';
+import { setUserInfo } from './store/user';
 import path from 'path'
 import dotenv from 'dotenv'
 
