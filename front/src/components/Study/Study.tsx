@@ -161,19 +161,12 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
       <StudyLog /> 
       <div className='studyLog-example'>
         <p>Less</p>
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#9982b9"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#fac8bf"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#d0e1f5"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#f3c7a4"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#c6e0ba"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#cbb7a4"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#f7f4bf"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#edecab"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#dad9aa"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#7896ca"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#c6adcf"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#f8becd"}} />
-        <div className='studyLog-div-example third-color' style={{ backgroundColor: "#ee8592"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(211, 211, 211)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(235, 205, 236)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(201, 154, 192)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(167, 93, 154)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(136, 53, 123)"}} />
+        <div className='studyLog-div-example third-color' style={{ backgroundColor: "rgb(100, 7, 92)"}} />
         <p>More</p>
       </div>
     </div>
