@@ -172,13 +172,12 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
         {CalendarList}
       </div>
 
-      <div className="req-calendar-wrap" onClick={handleAddCalendar}>
-        <div className="req-calendar-text">
-          시간표를 추가해주세요.
+      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id) &&
+        <div className="req-calendar-wrap" onClick={handleAddCalendar}>
+          <div className="req-calendar-text">
+            시간표를 추가해주세요.
           </div>
-      </div>
-
-      {(onGetUserInfo && onGetUserInfo.id === onGetTargetUser.id)}{/* && NullCalendar}*/}
+        </div>}
     </div>
   )
 }
