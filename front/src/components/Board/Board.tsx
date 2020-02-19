@@ -72,7 +72,7 @@ const Board: FunctionComponent<Interface> = (props: Interface) => {
       <div className="board-template">
         <p className="board-title">추천 계획표</p>
         <div className={'board-form ' + (width < 768 && 'board-form-mobile')}>
-          {recommendScheduleList}
+          {recommendScheduleList?.length !== 0 ? recommendScheduleList : hotScheduleList}
         </div>
       </div>
     </div>

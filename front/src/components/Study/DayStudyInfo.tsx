@@ -3,7 +3,6 @@ import useStopWatch from '../../hooks/useStopWatch'
 import useSchedule from '../../hooks/useSchedule'
 import { DaySchedule } from '../../store/schedule'
 
-import axios from 'axios'
 import path from 'path'
 import dotenv from 'dotenv'
 
@@ -13,7 +12,6 @@ import play from '../../img/play.png'
 import './style/Study.scss'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
-const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 interface Interface {
   color: string
@@ -23,11 +21,9 @@ interface Interface {
 
 const DayStudyInfo: FunctionComponent<Interface> = (props: Interface) => {
   const { color, daySchedule, studyType } = props
-  const { isRunning, timeElapsed, targetId, onToggleIsRunning, onSetTimeElapsed, onSetTargetDaySchedule } = useStopWatch()
+  const { isRunning, targetId, onToggleIsRunning, onSetTimeElapsed, onSetTargetDaySchedule } = useStopWatch()
   const { onPutDaySchedule } = useSchedule()
   let startTime = Date.now()
-
-  // console.log('dayStudyInfo', daySchedule.todo)
 
   const handleStopWatchClick = () => {
     onToggleIsRunning()

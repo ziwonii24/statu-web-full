@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent } from 'react'
 import Study from '../components/Study'
 import Board from '../components/Board'
 import useSchedule from '../hooks/useSchedule'

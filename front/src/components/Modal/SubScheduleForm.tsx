@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, ChangeEvent, MouseEvent, KeyboardEvent } from 'react'
+import React, { FunctionComponent, useState, ChangeEvent, KeyboardEvent } from 'react'
 import { colors } from '../Calendar/dataSet/dataSet'
 import useModal from '../../hooks/useModal'
 import useDrag from '../../hooks/useDrag'

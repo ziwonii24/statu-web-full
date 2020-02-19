@@ -16,7 +16,6 @@ const App: FunctionComponent<InterFace> = ({ history }: InterFace) => {
   useEffect(() => {
     onGetSchedule(onGetUserInfo ? onGetUserInfo.id : 0)
   }, [])
-  // console.log('history', history)
 
   return (
     <ConnectedRouter history={history}>

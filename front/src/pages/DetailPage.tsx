@@ -36,12 +36,11 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
       console.log(e)
     }
   }
-  console.log(onGetTargetUserInfo)
   const targetUserInfo = onGetTargetUserInfo && onGetTargetUserInfo.filter(userInfo => userInfo.id === seletedSchedule.userId)[0]
   const userInfo = useMemo(() => {
     return targetUserInfo && 
       <div onClick={handleClick} className='board-userinfo'>
-        <img className='board-userinfo-profile' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)} src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
+        <img alt='profile' className='board-userinfo-profile' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)} src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
         <div className='board-userinfo-name' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)}>{targetUserInfo.name}</div>
       </div>
   }    

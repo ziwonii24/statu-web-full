@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useMemo } from 'react'
 import CalendarInfo from './CalendarInfo'
 import useSchedule from '../../hooks/useSchedule'
-import useUser from '../../hooks/useUser'
 import useWindowSize from '../../hooks/useWindowSize'
 import NoResultForm from '../Error/NoResultForm'
 
@@ -10,7 +9,6 @@ interface Interface {
 }
 
 const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
-  console.log('SearchResult')
   const { query } = props
   const { getMainSchedules } = useSchedule()
   const { width } = useWindowSize()

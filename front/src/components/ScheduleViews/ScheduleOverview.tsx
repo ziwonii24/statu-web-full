@@ -35,7 +35,7 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
   const userInfo = useMemo(() => {
     return targetUserInfo && 
       <div className='board-userinfo'>
-        <img className='board-userinfo-profile' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)} src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
+        <img alt='profile' className='board-userinfo-profile' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)} src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
         <div className='board-userinfo-name' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)}>{targetUserInfo.name}</div>
       </div>
   }    

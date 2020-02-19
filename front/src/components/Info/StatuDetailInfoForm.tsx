@@ -5,12 +5,13 @@ import './styles/StatuInfo.scss'
 
 const StatuDetailInfoForm: FunctionComponent = () => {
 
+    const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
     const { width } = useWindowSize()
 
     return (
         <div className={'detailInfo-template ' + (width < 768 && 'detailInfo-template-mobile')}>
             <div className={'detailInfo-itemBox ' + (width < 768 && 'detailInfo-itemBox-mobile')}>
-                <img src='https://picsum.photos/300/300' alt='info1' />
+                <img className={width >= 768 ? 'detailInfo-img' : 'detailInfo-img-mobile'} src={`${SERVER_IMG_IP}/info1`} alt='info1' />
                 <div className={width >= 768 ? 'detailInfo-desc' : 'detailInfo-desc-mobile'}>
                     <h1>공부 계획 세우기</h1>                    
                     <p>
@@ -24,7 +25,7 @@ const StatuDetailInfoForm: FunctionComponent = () => {
                 </div>
             </div>
             <div className={'detailInfo-itemBox ' + (width < 768 && 'detailInfo-itemBox-mobile')}>
-                { width < 768 && <img src='https://picsum.photos/300/300' alt='info2' /> }
+                { width < 768 && <img className={width >= 768 ? 'detailInfo-img' : 'detailInfo-img-mobile'} src={`${SERVER_IMG_IP}/info2`} alt='info2' /> }
                 <div className={width >= 768 ? 'detailInfo-desc' : 'detailInfo-desc-mobile'}>
                     <h1>계획표 공유하고,<br/>다른 계획표 참고하기</h1>
                     <p>
@@ -34,16 +35,16 @@ const StatuDetailInfoForm: FunctionComponent = () => {
                         다른 사람의 공부 계획표를 가져와서 내 계획표에 적용해 볼 수 있어요.<br/>
                     </p>
                 </div>
-                { width >= 768 && <img src='https://picsum.photos/300/300' alt='info2' /> }
+                { width >= 768 && <img className={width >= 768 ? 'detailInfo-img' : 'detailInfo-img-mobile'} src={`${SERVER_IMG_IP}/info2`} alt='info2' /> }
             </div>
             <div className={'detailInfo-itemBox ' + (width < 768 && 'detailInfo-itemBox-mobile')}>
-                <img src='https://picsum.photos/300/300' alt='info3' />
+                <img className={width >= 768 ? 'detailInfo-img' : 'detailInfo-img-mobile'} src={`${SERVER_IMG_IP}/info3`} alt='info3' />
                 <div className={width >= 768 ? 'detailInfo-desc' : 'detailInfo-desc-mobile'}>
                     <h1>목표 달성 하기</h1>
                     <p>
                         타이머를 맞춰놓고 공부하고 목표한 만큼 공부했는지 바로바로 확인할 수 있어요.<br/>
-                        어제 얼마나 공부했는지, 오늘의 목표는 무엇인지 확인하고<br/>
-                        우리 지금 공부하러 갈까요?<br/>
+                        어제 얼마나 공부했는지, 오늘의 목표는 무엇인지 확인하고,<br/>
+                        그럼 이제 우리 공부하러 갈까요?<br/>
                     </p>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, MouseEvent, TouchEvent, DragEvent } from 'react'
+import React, { FunctionComponent, useState, MouseEvent, TouchEvent } from 'react'
 import useModal from '../../../hooks/useModal'
 import useDrag from '../../../hooks/useDrag'
 import useSchedule from '../../../hooks/useSchedule'

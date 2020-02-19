@@ -28,7 +28,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
 
   const { onGetUserInfo } = useUser()
   const { onGetTargetUser, onSetTargetUser } = usePlanPage()
-  const { onPostMainSchedule, onGetSubSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
+  const { onPostMainSchedule, getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { width } = useWindowSize()
   const targetUser = onGetTargetUser
   const renderMainSchedule = onGetUserInfo ?
@@ -84,7 +84,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   const userProfile = useMemo(() => {
     return onGetTargetUser &&
       <div className={width >= 576 ? 'headerOp' : 'headerOp-mobile'}>
-        <img className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
+        <img alt='profile' className='userImg' src={`${SERVER_IMG_IP}/${onGetTargetUser?.img}`} />
         <section className="profile">
           <section className="userInfo">
             <div className="userName">

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { RootState } from '../store'
 import { useDispatch, useSelector } from 'react-redux'
-import schedule, {
+import {
   getSchedule, makeRepresentSchedule, undoRepresentSchedule, makePublicSchedule, applyScheduleToMyPlan, getMainTerm,
   postMainSchedule, putMainSchedule, deleteMainSchedule, 
   getSubSchedule, postSubSchedule, putSubSchedule, deleteSubSchedule, getSubScheduleOnTarget, 
