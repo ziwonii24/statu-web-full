@@ -23,8 +23,10 @@ import close_ppt from '../../img/close_ppt.png'
 import smart_cart from '../../img/smart-cart.png'
 import import_icon from '../../img/import-icon.png'
 import plus from '../../img/addHashTag.png'
+import arrow_right from '../../img/arrow_right.png'
 
 import './styles/Calendar.scss'
+import { history } from '../../configureStore';
 
 interface Interface {
   calendarId: number
@@ -261,7 +263,12 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
       "userId": onGetUserInfo.id
     }
     onPostImportedSchedule(scrapInfo)
-    alert("장바구니 추가 완료!!")
+    alert("가져온 공부에 계획표가 추가되었습니다!!")
+  }
+
+  const handleGoDetail = (e: MouseEvent) => {
+    e.stopPropagation()
+    history.push(`/detail/${calendarId}`)
   }
 
   const handleSave = async (e: MouseEvent) => {
@@ -389,13 +396,22 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
             >
               <div className={`alignRight`}>
                 {onPage !== 'ImportedPlan' ?
+
+                  onPage === 'Overview' ?
+                    <div>
+                      <div className={`calendarHeaderButton`} >
+                        <img src={smart_cart} onClick={handleScrap} alt="장바구니" style={{ width: "15px", margin: '0 3px' }} />
+                        <img src={arrow_right} onClick={handleGoDetail} alt="상세페이지" style={{ width: "15px", margin: '0 3px' }} />
+                      </div>
+                    </div>
+                  :
                   <div
                     className={`calendarHeaderButton`}
                     onClick={handleScrap}
                   >
                     <img src={smart_cart} alt="장바구니" style={{ width: "15px" }} />
                   </div>
-                  :
+                :
                   <div
                     className={`calendarHeaderButton`}
                     onClick={handleSave}
@@ -419,26 +435,26 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
             </div>
               <div className={`hashTagList ${canEdit}`}>
                 {onPage === 'MyPlan' && (onGetUserInfo?.id === calendarUserId && showMonth) ?
-                <div
-                  className={`hashTagInput`}
-                  onClick={handleInputClick}
-                >
-                  <input
-                    className="inputTag"
-                    type="text"
-                    placeholder=" 태그입력"
-                    value={hashTagName}
-                    onChange={handleHashTag}
-                    maxLength={10}
-                    onKeyPress={handleHashTagEnter}
-                  />
                   <div
-                    className={`calendarHeaderButton`}
-                    onClick={handleAddHashtag}
+                    className={`hashTagInput`}
+                    onClick={handleInputClick}
                   >
-                    <img src={plus} alt="추가" style={{ width: "15px" }} />
+                    <input
+                      className="inputTag"
+                      type="text"
+                      placeholder=" 태그입력"
+                      value={hashTagName}
+                      onChange={handleHashTag}
+                      maxLength={10}
+                      onKeyPress={handleHashTagEnter}
+                    />
+                    <div
+                      className={`calendarHeaderButton`}
+                      onClick={handleAddHashtag}
+                    >
+                      <img src={plus} alt="추가" style={{ width: "15px" }} />
+                    </div>
                   </div>
-                </div>
                 :
                 ''
                 }

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent } from 'react'
 import WeeklyStudyLog from './WeeklyStudyLog'
 import useSchedule from '../../hooks/useSchedule'
 import dayjs from 'dayjs'

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useMemo } from 'react'
+import React, { FunctionComponent } from 'react'
 
 import { Dayjs } from 'dayjs'
 import './styles/StudyLog.scss'
@@ -9,10 +9,9 @@ interface InterFace {
 }
 
 const DailyStudyLog: FunctionComponent<InterFace> = (props: InterFace) => {
-  const { dailyLog, startDate } = props
+  const { dailyLog } = props
   const [achieve, goal] = dailyLog
   const progress = (achieve / goal) * 100
-  // console.log(startDate, achieve, goal, progress)
 
   return <div
     className='dailyStudyLog third-color'

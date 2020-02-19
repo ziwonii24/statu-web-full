@@ -99,7 +99,7 @@ const ProfileForm: FunctionComponent = () => {
                         </div>
                         :
                         <div className="file-upload-content">
-                            <img className="file-upload-image" src={imgSrc} />
+                            <img className="file-upload-image" src={imgSrc} alt='프로필' />
                             <div className="image-title-wrap">
                                 <button type="button" className="remove-image" onClick={fileRemoveHandler} >다시 선택하기</button>
                             </div>

@@ -10,7 +10,7 @@ const StatuDetailInfoForm: FunctionComponent = () => {
     return (
         <div className={'detailInfo-template ' + (width < 768 && 'detailInfo-template-mobile')}>
             <div className={'detailInfo-itemBox ' + (width < 768 && 'detailInfo-itemBox-mobile')}>
-                <img src='https://picsum.photos/300/300' />
+                <img src='https://picsum.photos/300/300' alt='info1' />
                 <div className={width >= 768 ? 'detailInfo-desc' : 'detailInfo-desc-mobile'}>
                     <h1>공부 계획 세우기</h1>                    
                     <p>
@@ -24,7 +24,7 @@ const StatuDetailInfoForm: FunctionComponent = () => {
                 </div>
             </div>
             <div className={'detailInfo-itemBox ' + (width < 768 && 'detailInfo-itemBox-mobile')}>
-                { width < 768 && <img src='https://picsum.photos/300/300' /> }
+                { width < 768 && <img src='https://picsum.photos/300/300' alt='info2' /> }
                 <div className={width >= 768 ? 'detailInfo-desc' : 'detailInfo-desc-mobile'}>
                     <h1>계획표 공유하고,<br/>다른 계획표 참고하기</h1>
                     <p>
@@ -34,10 +34,10 @@ const StatuDetailInfoForm: FunctionComponent = () => {
                         다른 사람의 공부 계획표를 가져와서 내 계획표에 적용해 볼 수 있어요.<br/>
                     </p>
                 </div>
-                { width >= 768 && <img src='https://picsum.photos/300/300' /> }
+                { width >= 768 && <img src='https://picsum.photos/300/300' alt='info2' /> }
             </div>
             <div className={'detailInfo-itemBox ' + (width < 768 && 'detailInfo-itemBox-mobile')}>
-                <img src='https://picsum.photos/300/300' />
+                <img src='https://picsum.photos/300/300' alt='info3' />
                 <div className={width >= 768 ? 'detailInfo-desc' : 'detailInfo-desc-mobile'}>
                     <h1>목표 달성 하기</h1>
                     <p>

@@ -2,6 +2,7 @@ import React, { FunctionComponent, useMemo } from 'react'
 import Calendar from '../Calendar'
 import useUser from '../../hooks/useUser'
 import { MainSchedule, SubSchedule, DaySchedule } from '../../store/schedule'
+import { history } from '../../configureStore'
 
 const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
 
@@ -34,8 +35,8 @@ const ScheduleOverview: FunctionComponent<InterFace> = (props: InterFace) => {
   const userInfo = useMemo(() => {
     return targetUserInfo && 
       <div className='board-userinfo'>
-        <img className='board-userinfo-profile' src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
-        <div className='board-userinfo-name'>{targetUserInfo.name}</div>
+        <img className='board-userinfo-profile' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)} src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
+        <div className='board-userinfo-name' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)}>{targetUserInfo.name}</div>
       </div>
   }    
   ,[targetUserInfo])
