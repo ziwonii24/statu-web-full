@@ -71,7 +71,6 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       onGetMainTerm(mainSchedule.id)
     }
     handleCloseModal()
-    // console.log(schedule)
   }
 
   const handleCloseModal = () => {
@@ -106,7 +105,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
 
   return (
-    <div className="totalContent">
+    <div className="modalContent">
       <div
         className="content"
         onKeyPress={(e) => handleKeyDown(e, initialDaySchedule)}
@@ -166,7 +165,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
         />&nbsp;분
       </div>
 
-      <div className="button-wrap">
+      <div className="modal-button">
         <div
           className="selectCancleButton"
           style={{ backgroundColor: "#75a391" }}

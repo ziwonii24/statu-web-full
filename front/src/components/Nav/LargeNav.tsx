@@ -51,7 +51,6 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
 
   const handleClickMyPlan = (e: MouseEvent<HTMLElement>) => {
     onSetTargetUser(user)
-    console.log('user',user)
     history.push(`/plan/${user.name}`)
   }
 

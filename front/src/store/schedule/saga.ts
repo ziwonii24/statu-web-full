@@ -125,29 +125,24 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
     const mainScheduleEndDate = dayjs(mainSchedule.endDate).add(addDays, 'day').format('YYYY-MM-DD')
 
     let editedSchedule = { ...mainSchedule, id: 0, startDate: mainScheduleStartDate, endDate: mainScheduleEndDate }
-    console.log('요일', initialStartDay, todayDay, tuneDayWithOrigin)
 
     // importedplan 을 myplan 에 저장하기
     const postMainResp = yield call([axios, 'post'], SERVER_IP + '/calendar', editedSchedule)
     const mainScheduleId = postMainResp.data.id
     mainSchedules.push({ ...editedSchedule, id: mainScheduleId })
-    console.log('post success', mainSchedules)
 
     // importedplan 에 저장된 subSchedule 가져오기
     const getOriginSubResp = yield call([axios, 'get'], SERVER_IP + '/subtitle/bycalendarid/' + mainSchedule.id)
     originSubSchedules = originSubSchedules.concat(getOriginSubResp.data)
-    console.log('getOriginSubResp success', originSubSchedules)
 
     // myplan에 새로 생긴 subSchedule(기타)가 담긴 array 만들기
     // originSubSchedule 과 newSubSchedule 을 비교하며 dayScheduele 저장할 때 새로운 subScheudule id 부여
     const getNewSubResp = yield call([axios, 'get'], SERVER_IP + '/subtitle/bycalendarid/' + mainScheduleId)
     subSchedules = subSchedules.concat(getNewSubResp.data)
-    console.log('getNewSubResp success', subSchedules)
 
     // importedplan 에 저장된 daySchedule 가져오기
     const getOriginDayResp = yield call([axios, 'get'], SERVER_IP + '/todo/calendarid/' + mainSchedule.id)
     originDaySchedules = originDaySchedules.concat(getOriginDayResp.data)
-    console.log('getOriginDayResp success', originDaySchedules)
 
     // get new subSchedules
     for (let i = 0; i < originSubSchedules.length; i++) {
@@ -156,7 +151,6 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
       const postNewSubResp = yield call([axios, 'post'], SERVER_IP + '/subtitle', editedSubSchedule)
       const subSchduleId = postNewSubResp.data.id
       subSchedules.push({ ...editedSubSchedule, id: subSchduleId })
-      console.log('getNewSubResp success', subSchedules)
 
       for (let j = 0; j < originDaySchedules.length; j++) {
         if (originDaySchedules[j].subTitleId === originSubSchedules[i].id) {
@@ -164,13 +158,11 @@ function* applyScheduleToMyPlanSaga({ payload: mainSchedule }: ReturnType<typeof
           const postNewDayResp = yield call([axios, 'post'], SERVER_IP + '/todo', editedDaySchedule)
           const dayScheduleId = postNewDayResp.data.id
           daySchedules.push({ ...editedDaySchedule, id: dayScheduleId })
-          console.log('success post day', dayScheduleId)
         }
       }
     }
     const myDaySchedules = daySchedules
     const result = yield put(applyScheduleToMyPlan.success({ mainSchedules, subSchedules, daySchedules, myDaySchedules }))
-    console.log('result', result)
   }
   catch (error) {
     yield put(applyScheduleToMyPlan.failure(error))

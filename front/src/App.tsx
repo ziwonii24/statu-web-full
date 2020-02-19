@@ -10,7 +10,6 @@ interface InterFace {
 }
 
 const App: FunctionComponent<InterFace> = ({ history }: InterFace) => {
-
   const { onGetSchedule } = useSchedule()
   const { onGetUserInfo } = useUser()
 

@@ -6,13 +6,10 @@ import useModal from '../../hooks/useModal'
 import path from 'path'
 import dotenv from 'dotenv'
 import './styles/Modal.scss'
-import { useStore } from 'react-redux'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 
 const Modal: FunctionComponent<{}> = () => {
-  const store = useStore()
-  console.log('modal', store.getState())
   const { startDate, endDate, onSetStartDate, onSetEndDate } = useDrag()
   const { daySchedule, subSchedule, onCloseModal } = useModal()
 
@@ -21,13 +18,13 @@ const Modal: FunctionComponent<{}> = () => {
     setCheck(e.target.checked)
   }
 
-  let isFewDaysSchedule: boolean = 
+  let isFewDaysSchedule: boolean =
     daySchedule.id !== 0 ? false :
-    (subSchedule.id !== 0 ? true :
-    (startDate !== endDate ? true : false))
+      (subSchedule.id !== 0 ? true :
+        (startDate !== endDate ? true : false))
 
   const [check, setCheck] = useState<boolean>(isFewDaysSchedule)
-  const choose = check ? "subSchedule" : "daySchedule" 
+  const choose = check ? "subSchedule" : "daySchedule"
 
   // choose schedule form
   const chosenScheduleForm = {
@@ -43,38 +40,39 @@ const Modal: FunctionComponent<{}> = () => {
   }
 
   const handleESC = (e: KeyboardEvent) => {
-    console.log(e.key)
     if (e.key !== 'Escape') return
     handleCloseModal()
-    console.log('escape')
   }
 
   return (
     <div
-      onKeyDown={(e) => handleESC(e)} 
+      onKeyDown={(e) => handleESC(e)}
     >
-      <div 
-        className="Modal-overlay" 
+      {/* <a href="*"></a> */}
+      <div
+        className="Modal-overlay"
         onClick={handleCloseModal}
       />
-      <div 
+      <div
         className="Modal"
       >
-        <p className="title">계획 추가</p>
+        <div className="modalHeader">
+          <p className="title">계획 추가</p>
+          {!isFewDaysSchedule ?
+            (<div className="divTag">
+            기간 목표
+            <input
+              className="checkBox"
+              name="isSubSchedule"
+              type="checkbox"
+              checked={check}
+              onChange={handleCheckboxChange} />
+            </div>)
+          :
+            ''
+          }
         <hr color="gray"/>
-        {!isFewDaysSchedule ?
-        (<span>
-          기간 목표
-          <input
-            className="checkBox"
-            name="isSubSchedule"
-            type="checkbox"
-            checked={check}
-            onChange={handleCheckboxChange} />
-        </span>)
-        :
-        ''
-        }
+        </div>
         {scheduleForm}
       </div>
     </div>

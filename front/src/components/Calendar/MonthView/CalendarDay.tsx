@@ -101,17 +101,20 @@ const CalendarDay: FunctionComponent<Interface> = (props: Interface) => {
   }
 
   const handleTouchStart = (e: TouchEvent) => {
+    // console.log('start', e.touches)
     onSetStartDate(newDate)
     onSetTempDate(newDate)
   }
 
   const handleTouchMove = (e: TouchEvent) => {
+    // console.log('move', e.touches)
     if (startDate !== '') {
       onSetTempDate(newDate)
     }
   }
 
   const handleTouchEnd = async (e: TouchEvent) => {
+    // console.log('end', e.touches)
     onSetEndDate(newDate)
     if (startDate) {
       onOpenModal(mainSchedule, subSchedule, initialSubSchedule, initialDaySchedule)

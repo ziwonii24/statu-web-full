@@ -38,15 +38,12 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   }
   const handleColor = (color: string) => {
     setColor(color)
-    // console.log(color)
   }
   const handleStartDate = (e: ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value)
-    // console.log(startDate)
   }
   const handleEndDate = (e: ChangeEvent<HTMLInputElement>) => {
     setEndDate(e.target.value)
-    // console.log(endDate)
   }
 
   const handleSubmit = (schedule: SubSchedule) => {
@@ -67,9 +64,9 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
     onSetStartDate('')
     onSetEndDate('')
   }
-  
+
   const handleKeyDown = (e: KeyboardEvent, schedule: SubSchedule) => {
-    if (e.key ==='Enter') {
+    if (e.key === 'Enter') {
       handleEnter(e, schedule)
     }
   }
@@ -96,66 +93,68 @@ const SubScheduleForm: FunctionComponent<{}> = () => {
   const isValidInput = hasTitle ? 'validInputBar' : 'invalidInputBar'
 
   return (
-    <div
-      className="content"
-      onKeyPress={(e) => handleKeyDown(e, initialSubSchedule)}
-    >
-      {colors.map(colorIncolors => {
-        const chosenColor = colorIncolors === color ? 'chosenColor' : ''
-        return (
-          <div
-            key={colorIncolors}
-            className={`colorContainer ${chosenColor}`}
-            style={{ backgroundColor: colorIncolors }}
-            onClick={() => {
-              handleColor(colorIncolors)
-            }}
-          />
-        )
-      })
-      }
-      <br />
-      <input
-        type="text"
-        className={`inputBar ${isValidInput} modalInput` }
-        placeholder={hasTitle ? ' 스케쥴' : ' 스케쥴을 입력해주세요!'}
-        value={subTitle}
-        onChange={handleSubTitle}
-      />
-      <hr color="gray"/>
-      <input
-        type="date"
-        className={`inputBar modalInput`}
-        placeholder="시작일자를 선택하세요."
-        value={startDate}
-        onChange={handleStartDate}
-      />
-      <br/>
-      {/* <br/> */}
-      <input
-        type="date"
-        className={`inputBar modalInput`}
-        placeholder="종료일자를 선택하세요."
-        value={endDate}
-        onChange={handleEndDate}
-      />
-         <div className="button-wrap">
-        <div
-          className="selectCancleButton"
-          style={{ backgroundColor: "#75a391" }}
-          onClick={() => {
-            handleSubmit(initialSubSchedule)
-          }}>
-          확인
-          </div>
-        <div
-          className="selectCancleButton cancleBtn"
-          style={{ backgroundColor: "white" }}
-          onClick={handleCloseModal}
-        >
-          취소
-          </div>
+    <div className="modalContent">
+      <div
+        className="content"
+        onKeyPress={(e) => handleKeyDown(e, initialSubSchedule)}
+      >
+        {colors.map(colorIncolors => {
+          const chosenColor = colorIncolors === color ? 'chosenColor' : ''
+          return (
+            <div
+              key={colorIncolors}
+              className={`colorContainer ${chosenColor}`}
+              style={{ backgroundColor: colorIncolors }}
+              onClick={() => {
+                handleColor(colorIncolors)
+              }}
+            />
+          )
+        })
+        }
+        <br />
+        <input
+          type="text"
+          className={`inputBar ${isValidInput} modalInput`}
+          placeholder={hasTitle ? ' 스케쥴' : ' 스케쥴을 입력해주세요!'}
+          value={subTitle}
+          onChange={handleSubTitle}
+        />
+        <hr color="gray" />
+        <input
+          type="date"
+          className={`inputBar modalInput`}
+          placeholder="시작일자를 선택하세요."
+          value={startDate}
+          onChange={handleStartDate}
+        />
+        <br />
+        {/* <br/> */}
+        <input
+          type="date"
+          className={`inputBar modalInput`}
+          placeholder="종료일자를 선택하세요."
+          value={endDate}
+          onChange={handleEndDate}
+        />
       </div>
+      <div className="modal-button">
+          <div
+            className="selectCancleButton"
+            style={{ backgroundColor: "#75a391" }}
+            onClick={() => {
+              handleSubmit(initialSubSchedule)
+            }}>
+            확인
+          </div>
+          <div
+            className="selectCancleButton cancleBtn"
+            style={{ backgroundColor: "white" }}
+            onClick={handleCloseModal}
+          >
+            취소
+          </div>
+        </div>
     </div>
   )
 }

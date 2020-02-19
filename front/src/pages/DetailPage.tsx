@@ -14,7 +14,6 @@ dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
 
 const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (props: RouteComponentProps<{ planId: string }>) => {
-
   const planId = props.match.params.planId
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onSetTargetUser } = usePlanPage()
