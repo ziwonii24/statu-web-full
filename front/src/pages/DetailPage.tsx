@@ -5,6 +5,7 @@ import { history } from '../configureStore';
 import useSchedule from '../hooks/useSchedule'
 import usePlanPage from '../hooks/usePlanPage'
 import useWindowSize from '../hooks/useWindowSize'
+import useUser from '../hooks/useUser'
 
 import axios from 'axios'
 import path from 'path'
@@ -12,12 +13,14 @@ import dotenv from 'dotenv'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
+const SERVER_IMG_IP = process.env.REACT_APP_TEST_SERVER_IMG
 
 const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (props: RouteComponentProps<{ planId: string }>) => {
   const planId = props.match.params.planId
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onSetTargetUser } = usePlanPage()
   const { width } = useWindowSize()
+  const { onGetTargetUserInfo } = useUser()
   const bodyMargin = width >= 992 ? 'lg-body-content' : (width >= 768 ? 'md-body-content' : 'sm-body-content')
 
   const seletedSchedule = getMainSchedules && getMainSchedules.filter(schedule => schedule.id === parseInt(planId))[0]
@@ -33,6 +36,17 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
       console.log(e)
     }
   }
+  console.log(onGetTargetUserInfo)
+  const targetUserInfo = onGetTargetUserInfo && onGetTargetUserInfo.filter(userInfo => userInfo.id === seletedSchedule.userId)[0]
+  const userInfo = useMemo(() => {
+    return targetUserInfo && 
+      <div onClick={handleClick} className='board-userinfo'>
+        <img className='board-userinfo-profile' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)} src={`${SERVER_IMG_IP}/${targetUserInfo.img}`} />
+        <div className='board-userinfo-name' onClick={()=>history.push(`/plan/${targetUserInfo.name}`)}>{targetUserInfo.name}</div>
+      </div>
+  }    
+  ,[targetUserInfo])
+
   const schedule = useMemo(() =>
     seletedSchedule && seletedSchedule.pb ? 
     <Calendar
@@ -53,10 +67,12 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
     
   return (
     <div
-      onClick={handleClick}
       className={bodyMargin}
     >
-      {schedule}
+      <div className='detailPage'>
+        {userInfo}
+        {schedule}
+      </div>
     </div>
   ) 
 }

@@ -1,6 +1,8 @@
+import { MouseEvent } from "react";
+
 export default interface Component {
   targetMonth: string;
-  onMovePrevMonth: (now: string) => void;
-  onMoveNextMonth: (now: string) => void;
+  onMovePrevMonth: (e: MouseEvent, now: string) => void;
+  onMoveNextMonth: (e: MouseEvent, now: string) => void;
   onPage: string
 }

@@ -39,6 +39,32 @@ body {
   .pointerNone { pointer-events: none; }
 
   input:focus { outline:none; }
+
+  .detailPage {
+    background-color: whitesmoke;
+    padding-top: 2vw;
+    border-radius: 1vw;
+
+    .board-userinfo {
+      display: flex;
+      align-items: center;
+      padding: 0 3vh;
+      margin-bottom: 0.5rem;
+
+      .board-userinfo-profile {
+        height: 40px;
+        width: 40px;
+        border-radius: 20px;
+      }
+
+      .board-userinfo-name {
+        margin-left: 0.5rem;
+        font-size: 20px;
+        font-weight: 100;
+      }
+    }
+    
+  }
 }
 
 /* input 기본 스타일 초기화 */
