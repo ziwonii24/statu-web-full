@@ -15,8 +15,7 @@ const DailyStudyLog: FunctionComponent<InterFace> = (props: InterFace) => {
 
   return <div
     className='dailyStudyLog third-color'
-    // style={{ opacity: `${progress >= 100 ? 100 : (progress >= 60 ? 80 : (progress >= 30 ? 60 : (progress >= 1 ? 40 : 12)))}%` }}
-    style={{ backgroundColor: progress >= 95 ? "#003a00" : (progress >= 80 ? "#006b00" : (progress >= 65 ? "#00af1d" : (progress >= 50 ? "#3efc2d" : (progress >= 30 ? "#caf55f" : (progress >= 15 ? "#eaf9b6" : (progress > 0 ? "#f6ffde" : "#d6d6d6"))))))}}
+    style={{ backgroundColor: progress >= 95 ? "rgb(0, 58, 0)" : (progress >= 75 ? "rgb(0, 107, 0)" : (progress >= 50 ? "rgb(0, 150, 25)" : (progress >= 25 ? "rgb(111, 211, 102)" : (progress > 0 ? "rgb(175, 226, 108)" : "rgb(211, 211, 211)"))))}}
   />
 }
 
