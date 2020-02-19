@@ -25,8 +25,15 @@ body {
   .font-weight-bolder	{ font-weight: 800 }
   .font-weight-light { font-weight: 300 }
   
-  .body-content {
+  // widthSize: 'XL' >= 1200 > 'LG' >= 992 > 'MD' >= 768 > 'SM' >= 576 > 'XS'
+  .lg-body-content {
     margin: 0 10vw; 
+  }
+  .md-body-content {
+    margin: 0 5vw; 
+  }
+  .sm-body-content {
+    margin: 0 1vw;
   }
 
   .pointerNone { pointer-events: none; }

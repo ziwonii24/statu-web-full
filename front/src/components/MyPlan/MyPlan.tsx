@@ -42,7 +42,7 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   console.log('mymain', renderMainSchedule)
   console.log('main', getMainSchedules)
   console.log('sub', getSubSchedules)
-  // console.log('day', daySchedule)
+  console.log('day', getDaySchedules)
   // console.log('getUserInfo', onGetUserInfo)
   // console.log('userId', userId)
 

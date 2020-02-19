@@ -15,7 +15,6 @@ import Footer from '../components/Footer/FooterForm'
 const routes = (
   <div>
     <NavBar />
-    <div className='body-content'>
       <Switch>
         <Route exact path="/" component={MainPage} />
         <Route path="/info" component={InfoPage} />
@@ -28,7 +27,6 @@ const routes = (
         <Route path="/error" component={ErrorPage} />
         <Route component={ErrorPage} />
       </Switch>
-    </div>
     <Footer />
   </div>
 )

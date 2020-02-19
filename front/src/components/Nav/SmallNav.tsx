@@ -79,10 +79,10 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
     <div className="navBar main-color">
       <div className="viewOption">
       <div className="leftComponent">
-          <a className="logo" onClick={handleClickLogo}>STATU</a>
+          <a className="sm-logo" onClick={handleClickLogo}></a>
           <div className={`scheduleSearch`}>
             <input
-              className="searchInput"
+              className="sm-searchInput"
               type="text"
               placeholder="시간표 찾기"
               value={query}

@@ -12,7 +12,7 @@ const DailyStudyLog: FunctionComponent<InterFace> = (props: InterFace) => {
   const { dailyLog, startDate } = props
   const [achieve, goal] = dailyLog
   const progress = (achieve / goal) * 100
-  // console.log(startDate, achieve, goal)
+  // console.log(startDate, achieve, goal, progress)
 
   return <div
     className='dailyStudyLog third-color'

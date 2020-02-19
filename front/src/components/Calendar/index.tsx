@@ -418,7 +418,7 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
               }
             </div>
               <div className={`hashTagList ${canEdit}`}>
-                {onPage === 'MyPlan' && showMonth ?
+                {onPage === 'MyPlan' && (onGetUserInfo?.id === calendarUserId && showMonth) ?
                 <div
                   className={`hashTagInput`}
                   onClick={handleInputClick}

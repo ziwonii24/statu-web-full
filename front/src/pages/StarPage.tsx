@@ -4,10 +4,8 @@ import Calendar from '../components/Calendar'
 import useUser from '../hooks/useUser'
 import useSchedule from '../hooks/useSchedule'
 import useImportedSchedule from '../hooks/useImportedSchedule'
+import useWindowSize from '../hooks/useWindowSize'
 import NoTempForm from '../components/Error/NoTempForm'
-
-
-
 
 
 const StarPage: FunctionComponent = () => {
@@ -16,6 +14,8 @@ const StarPage: FunctionComponent = () => {
   const { onGetUserInfo } = useUser()
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { importedSchedules, onGetImportedSchedule } = useImportedSchedule()
+  const { width } = useWindowSize()
+  const bodyMargin = width >= 992 ? 'lg-body-content' : (width >= 768 ? 'md-body-content' : 'sm-body-content')
   const user = onGetUserInfo
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const StarPage: FunctionComponent = () => {
     , [getMainSchedules])
 
   return (
-    <>
+    <div className={bodyMargin}>
       {importedSchedules.length === 0 ?
         <NoTempForm />
         :
@@ -61,8 +61,7 @@ const StarPage: FunctionComponent = () => {
           </div>
         
       }
-
-    </>
+    </div>
   )
 }
 

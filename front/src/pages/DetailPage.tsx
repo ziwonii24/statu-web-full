@@ -4,6 +4,7 @@ import { RouteComponentProps, Redirect } from 'react-router-dom'
 import { history } from '../configureStore';
 import useSchedule from '../hooks/useSchedule'
 import usePlanPage from '../hooks/usePlanPage'
+import useWindowSize from '../hooks/useWindowSize'
 
 import axios from 'axios'
 import path from 'path'
@@ -19,6 +20,8 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
   const planId = props.match.params.planId
   const { getMainSchedules, getSubSchedules, getDaySchedules } = useSchedule()
   const { onSetTargetUser } = usePlanPage()
+  const { width } = useWindowSize()
+  const bodyMargin = width >= 992 ? 'lg-body-content' : (width >= 768 ? 'md-body-content' : 'sm-body-content')
 
   const seletedSchedule = getMainSchedules && getMainSchedules.filter(schedule => schedule.id === parseInt(planId))[0]
 
@@ -45,7 +48,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
       daySchedule={getDaySchedules.filter(dayItem => seletedSchedule.id === dayItem.calendarId)}
       represent={true}
       tags={seletedSchedule.tags}
-      onPage='MyPlan'
+      onPage='DetailPage'
     />
     :
     <Redirect to="/"></Redirect>
@@ -54,6 +57,7 @@ const DetailPage: FunctionComponent<RouteComponentProps<{ planId: string }>> = (
   return (
     <div
       onClick={handleClick}
+      className={bodyMargin}
     >
       {schedule}
     </div>
