@@ -10,13 +10,10 @@ interface InterFace {
 }
 
 const App: FunctionComponent<InterFace> = ({ history }: InterFace) => {
-  console.log('APP')
-
   const { onGetSchedule } = useSchedule()
   const { onGetUserInfo } = useUser()
 
   useEffect(() => {
-    console.log('app useEffect', onGetUserInfo)
     onGetSchedule(onGetUserInfo ? onGetUserInfo.id : 0)
   }, [])
   // console.log('history', history)

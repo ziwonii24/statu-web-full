@@ -45,7 +45,6 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
 
   const handleToggle = () => {
     setShowMenu(!showMenu)
-    console.log('click', showMenu)
   }
 
   const handleClickMyPlan = (e: MouseEvent<HTMLElement>) => {

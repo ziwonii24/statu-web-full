@@ -10,7 +10,7 @@ import './styles/Modal.scss'
 const DayScheduleForm: FunctionComponent<{}> = () => {
 
   const { mainSchedule, daySchedule, subSchedules, onCloseModal } = useModal()
-  const { startDate, onSetStartDate, onSetEndDate } = useDrag()
+  const { onSetStartDate, onSetEndDate } = useDrag()
   const { onPutMainSchedule, onPostDaySchedule, onPutDaySchedule, onGetMainTerm } = useSchedule()
   const subSchedule = daySchedule.id !== 0 ? subSchedules.filter(schedule => schedule.id === daySchedule.subTitleId)[0] : subSchedules[0]
 
@@ -71,7 +71,6 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
       onGetMainTerm(mainSchedule.id)
     }
     handleCloseModal()
-    // console.log(schedule)
   }
 
   const handleCloseModal = () => {
@@ -106,7 +105,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
 
 
   return (
-    <div className="totalContent">
+    <div className="modalContent">
       <div
         className="content"
         onKeyPress={(e) => handleKeyDown(e, initialDaySchedule)}
@@ -166,7 +165,7 @@ const DayScheduleForm: FunctionComponent<{}> = () => {
         />&nbsp;분
       </div>
 
-      <div className="button-wrap">
+      <div className="modal-button">
         <div
           className="selectCancleButton"
           style={{ backgroundColor: "#75a391" }}

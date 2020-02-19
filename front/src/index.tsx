@@ -21,7 +21,6 @@ const hasToken = async () => {
   try {
     // 브라우저의 로컬스토리지에 이미 토큰이 있는지 체크
     const token = getToken()
-    console.log('*시작하자마자 토큰있다: ', token)
     
     // 유효한 토큰이 없으면 아무것도 안함
     if(!token) return
@@ -50,8 +49,6 @@ const hasToken = async () => {
 }
 
 hasToken()
-
-console.log('root index rendering...')
 
 ReactDOM.render(
   <Provider store={store}>

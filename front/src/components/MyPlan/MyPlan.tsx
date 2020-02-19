@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useMemo, useEffect } from 'react'
 import Calendar from '../Calendar'
+import { history } from '../../configureStore'
 import useSchedule from '../../hooks/useSchedule'
 import useUser from '../../hooks/useUser'
 import usePlanPage from '../../hooks/usePlanPage'
@@ -10,7 +11,6 @@ import path from 'path'
 import dotenv from 'dotenv'
 
 import './styles/MyPlan.scss'
-import { history } from '../../configureStore'
 
 dotenv.config({ path: path.join(__dirname, '.env') })
 const SERVER_IP = process.env.REACT_APP_TEST_SERVER
@@ -22,8 +22,6 @@ interface Interface {
 }
 
 const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
-  console.log('myplan')
-
   const {
     userName,
   } = props
@@ -39,10 +37,10 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
       : getMainSchedules.filter(schedule => targetUser.id === schedule.userId).filter(schedule => schedule.pb === true))
     : getMainSchedules.filter(schedule => targetUser.id === schedule.userId).filter(schedule => schedule.pb === true)
 
-  console.log('mymain', renderMainSchedule)
-  console.log('main', getMainSchedules)
-  console.log('sub', getSubSchedules)
-  console.log('day', getDaySchedules)
+  // console.log('mymain', renderMainSchedule)
+  // console.log('main', getMainSchedules)
+  // console.log('sub', getSubSchedules)
+  // console.log('day', getDaySchedules)
   // console.log('getUserInfo', onGetUserInfo)
   // console.log('userId', userId)
 
@@ -57,7 +55,6 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
       onSetTargetUser(response.data)
     }
     catch (e) {
-      console.log(e)
       history.push('/error')
     }
   }
@@ -80,7 +77,6 @@ const MyPlan: FunctionComponent<Interface> = (props: Interface) => {
   // 캘린더 추가 버튼 
   const handleAddCalendar = () => {
     onPostMainSchedule(initialMainSchedule)
-    console.log('subschedules', getSubSchedules)
   }
 
   // 화면에 렌더링할 컴포넌트 생성
