@@ -22,9 +22,12 @@ public class Todo {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sub_title_id")
     @JsonBackReference
+    @JoinColumn(name = "sub_title_id")
     private SubTitle subTitle;
+
+    @Column(name="calendar_id")
+    private Long calendarId;
 
     @Column(name = "date",nullable = false)
     private String date;

@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoDto {
+public class TodoResponseDto {
     private Long id;
     private Long subTitleId;
     private Long calendarId;

@@ -37,11 +37,11 @@ public class SubTitle {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "calendar_id")
     @JsonBackReference
+    @JoinColumn(name = "calendar_id")
     private Calendar calendar;
 
-    @OneToMany(mappedBy="subTitle")
+    @OneToMany(mappedBy="subTitle", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<Todo> todo = new ArrayList<>();
 

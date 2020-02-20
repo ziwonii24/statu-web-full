@@ -13,12 +13,9 @@ import javax.jws.soap.SOAPBinding;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserUpdateDto {
     private Long id;
-    private String email;
-    private String password;
     private String name;
-    private String img;
     private String[] category1;
     private String[] category2;
 }

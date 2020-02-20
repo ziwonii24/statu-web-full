@@ -15,6 +15,10 @@ public interface TodoService {
 
     public Optional<Todo> findById(Long todoId);
 
+    public List<Todo> findByCalendarId(Long calendarId);
+
+    public List<Todo> findByUserId(Long userId);
+
     public List<Todo> findByDateCal(Date date, Long calenderId);
 
 }

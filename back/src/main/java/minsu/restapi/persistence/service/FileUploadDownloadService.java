@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 public class FileUploadDownloadService {
@@ -34,7 +35,7 @@ public class FileUploadDownloadService {
     }
 
     //파일을 저장
-    public String storeFile(MultipartFile file) {
+    public String  storeFile(MultipartFile file) {
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
@@ -42,11 +43,14 @@ public class FileUploadDownloadService {
             if(fileName.contains(".."))
                 throw new FileUploadException("파일명에 부적합 문자가 포함되어 있습니다. " + fileName);
 
-            Path targetLocation = this.fileLocation.resolve(fileName);
+            UUID uuid = UUID.randomUUID(); // 파일 명 랜덤. 중복 파일명으로 기존 파일명이 덮어씌워지는 것을 막기 위함.
+            String savedName = uuid.toString() + "_" + fileName;
+
+            Path targetLocation = this.fileLocation.resolve(savedName);
 
             Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-            return fileName;
+            return savedName;
         }catch(Exception e) {
             throw new FileUploadException("["+fileName+"] 파일 업로드에 실패하였습니다. 다시 시도하십시오.",e);
         }

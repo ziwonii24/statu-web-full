@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.example'
-version = '0.0.3'
+version = '0.0.7'
 sourceCompatibility = '1.8'
 
 configurations {
@@ -37,6 +37,12 @@ dependencies {
     //jwt
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+
+    //auth
+    compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+    compile('org.springframework.session:spring-session-jdbc')
+    testCompile("org.springframework.security:spring-security-test")
+
 
     //security
     implementation 'org.springframework.security:spring-security-crypto:3.1.0.RELEASE'

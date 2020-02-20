@@ -4,12 +4,9 @@ import minsu.restapi.persistence.dao.Category1Repository;
 import minsu.restapi.persistence.dao.Category2Repository;
 import minsu.restapi.persistence.model.Category1;
 import minsu.restapi.persistence.model.Category2;
-import minsu.restapi.persistence.model.Todo;
-import minsu.restapi.persistence.model.User;
 import minsu.restapi.persistence.service.CategoryService;
 import minsu.restapi.web.dto.Category1Dto;
 import minsu.restapi.web.dto.Category2Dto;
-import minsu.restapi.web.dto.TodoDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +26,21 @@ public class CategoryController {
     Category2Repository category2Repository;
     @Autowired
     private ModelMapper modelMapper;
+
+
+    @GetMapping("/categorys")
+    List<Category1> categorys(){
+        List<Category1> list = categoryService.categoryfindAll();
+        return  list;
+    }
+
+    @GetMapping("/subcategorys")
+    List<Category2> subCategories(){
+        List<Category2> list = categoryService.subCategoryfindAll();
+        return  list;
+    }
+
+
     @PostMapping("/category1")
     public Map<String,String> insertCategory1(@RequestBody Category1Dto category1Dto) throws Exception {
 
@@ -70,18 +82,7 @@ public class CategoryController {
         return map;
     }
 
-    @GetMapping("/categorys")
-    List<Category1> categorys(){
-        List<Category1> list = categoryService.categoryfindAll();
-        return  list;
-    }
-
-    @GetMapping("/subcategorys")
-    List<Category2> subCategories(){
-        List<Category2> list = categoryService.subCategoryfindAll();
-        return  list;
-    }
-
+    //mapper
 
     private Category1 convertToEntity1(Category1Dto category1Dto) throws Exception{
         Category1 category1 = modelMapper.map(category1Dto, Category1.class);
