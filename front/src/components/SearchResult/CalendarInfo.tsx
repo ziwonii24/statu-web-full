@@ -47,7 +47,6 @@ const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
        
        <div className="card-single-category-body">
          <div className="card-single-category">
-           대분류
            <div className="tag">
          {mainSchedule.category1.map((category1, idx) => (
            <span key={idx} className="cardCategory1Item">{category1}</span>
@@ -56,7 +55,6 @@ const CalendarInfo: FunctionComponent<Interface> = (props: Interface) => {
          </div>
  
          <div className="card-single-category">
-           소분류
            <div className="tag">
          {mainSchedule.category2.map((category2, idx) => (
            <span key={idx} className="cardCategory2Item">{category2}</span>
