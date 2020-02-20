@@ -80,7 +80,7 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
               className={`xs-button`}
               onClick={handleSearchClick}
             >
-              <img src={serach} alt="검색" style={{ width: "18px" }} />
+              <img src={serach} alt="검색" style={{ width: "18px" }}/>
             </div>
           </div>
         </div>
