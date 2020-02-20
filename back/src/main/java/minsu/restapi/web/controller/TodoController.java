@@ -1,22 +1,15 @@
 package minsu.restapi.web.controller;
 
-import minsu.restapi.persistence.model.Calendar;
-import minsu.restapi.persistence.model.Category1;
-import minsu.restapi.persistence.model.SubTitle;
+import io.swagger.annotations.ApiOperation;
 import minsu.restapi.persistence.model.Todo;
 import minsu.restapi.persistence.service.SubTitleService;
 import minsu.restapi.persistence.service.TodoService;
-import minsu.restapi.web.dto.CalendarDto;
-import minsu.restapi.web.dto.TodoDto;
-import minsu.restapi.web.dto.TodosDto;
+import minsu.restapi.web.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
@@ -32,18 +25,64 @@ public class TodoController {
     private ModelMapper modelMapper;
 
     @GetMapping("/todo")
-    public List<Todo> findAll(){
-        return todoService.findAll();
+    @ApiOperation("모든 할일 가져오기")
+    public List<TodoResponseDto> findAll(){
+
+        List<Todo> todoList= todoService.findAll();
+        List<TodoResponseDto> list = new ArrayList<>();
+
+        for(int i=0; i<todoList.size(); i++){
+            list.add(i,convertToResponseDto(todoList.get(i)));
+        }
+
+        return list;
     }
 
+    @GetMapping("/todo/calendarid/{calendarid}")
+    @ApiOperation("캘린더 아이디로 todo가져오기")
+    public List<TodoResponseDto> findByCalendarId(@PathVariable Long calendarid){
+
+        List<Todo> todoList= todoService.findByCalendarId(calendarid);
+        List<TodoResponseDto> list = new ArrayList<>();
+
+        for(int i=0; i<todoList.size(); i++){
+            list.add(i,convertToResponseDto(todoList.get(i)));
+        }
+
+        return list;
+    }
+
+
+    @GetMapping("/todo/userid/{userid}")
+    @ApiOperation("유저 아이디로 todo가져오기")
+    public List<TodoResponseDto> findByUserId(@PathVariable Long userid){
+
+        List<Todo> todoList= todoService.findByUserId(userid);
+        List<TodoResponseDto> list = new ArrayList<>();
+
+        for(int i=0; i<todoList.size(); i++){
+            list.add(i,convertToResponseDto(todoList.get(i)));
+        }
+
+        return list;
+    }
+
+
     @GetMapping("/todo/{today}/{calenderId}")
-    public List<Todo> findByDateCal(@PathVariable Date date, @PathVariable Long calenderId){
-        return todoService.findByDateCal(date,calenderId);
+    @ApiOperation("캘린더 아이디와 오늘날짜로 todo 가져오기")
+    public List<TodoResponseDto> findByDateCal(@PathVariable Date date, @PathVariable Long calenderId){
+        List<Todo> todoList= todoService.findByDateCal(date,calenderId);
+        List<TodoResponseDto> list = new ArrayList<>();
+
+        for(int i=0; i<todoList.size(); i++){
+            list.add(i,convertToResponseDto(todoList.get(i)));
+        }
+        return list;
     }
 
     @DeleteMapping("/todo/{todoId}")
+    @ApiOperation("할일아이디로 할일 가져오기")
     public Map<String, String> deleteById(@PathVariable Long todoId){
-
         Map<String, String> map = new HashMap<>();
         todoService.deleteById(todoId);
         map.put("result", "success");
@@ -51,64 +90,68 @@ public class TodoController {
     }
 
     @PostMapping("/todo")
-    public Map<String, Long> insertTodo(@RequestBody TodoDto todoDto) throws Exception {
-        Long id;
+    @ApiOperation("할일 저장")
+    public Map<String, Object> save(@RequestBody TodoDto todoDto) throws Exception {
         todoDto.setId(null);
         Todo todo = convertToEntity(todoDto);
-        //SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
-        id = todoService.save(todo);
-        //subTitle.getTodo().add(todo);
-        //subTitleService.save(subTitle);
+        Long id = todoService.save(todo);
 
-        Map<String, Long> map = new HashMap<>();
-        todoService.save(todo);
-        map.put("result", 1L);
+        Map<String, Object> map = new HashMap<>();
+        map.put("result", "success");
         map.put("id",id);
         return map;
 
     }
 
-    @PostMapping("/todos")
-    public Map<String, String> saveTodos(@RequestBody TodosDto todosDto) throws Exception {
-        Map<String, String> map = new HashMap<>();
-        if(todosDto.getTodos()==null){
-            map.put("result", "failed");
-            return map;
-        }
-        int size = todosDto.getTodos().length;
-
-        for(int i=0; i<size; i++) {
-            TodoDto todoDto = todosDto.getTodos()[i];
-            Todo todo = convertToEntity(todoDto);
-            //SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
-            todoService.save(todo);
-            //subTitle.getTodo().add(todo);
-            //subTitleService.save(subTitle);
-            todoService.save(todo);
-        }
-        map.put("result", "success");
-        return map;
-
-    }
-
     @PutMapping("/todo")
+    @ApiOperation("할일 수정")
     public Map<String, String> updateTodo(@RequestBody TodoDto todoDto) throws Exception {
         Todo todo = convertToEntity(todoDto);
-        //SubTitle subTitle = subTitleService.findById(todoDto.getSubTitleId());
         todoService.save(todo);
-        //subTitle.getTodo().add(todo);
-        //subTitleService.save(subTitle);
-
         Map<String, String> map = new HashMap<>();
-        todoService.save(todo);
         map.put("result", "success");
         return map;
 
     }
+
+    //mapper
+
+    private TodoResponseDto convertToResponseDto(Todo todo){
+        TodoResponseDto todoResponseDto = modelMapper.map(todo, TodoResponseDto.class);
+        return todoResponseDto;
+    }
+
 
     private Todo convertToEntity(TodoDto todoDto) throws Exception{
         Todo todo = modelMapper.map(todoDto, Todo.class);
         return todo;
     }
 
+
+    @PostMapping("/plantGrass")
+    @ApiOperation("정원사 김민수")
+    private void plantGrass() throws Exception {
+       TodoDto todoDto = new TodoDto(null,142L, 27L, null,"운동",100, 50);
+        int year = 2018;
+        int month = 8;
+        int day = 20;
+
+        for(int i=0; i<580; i++){
+            if(month>12){month=1;year++;}
+            if(day>31){day=1;month++;}
+            int n = (int) (Math.random() * 100) + 0;
+            String sDay=Integer.toString(day);
+            String sMonth=Integer.toString(month);
+            if(day <10)sDay = "0"+sDay;
+            if(month <10)sMonth = "0"+sMonth;
+
+            String date = Integer.toString(year)+"-"+sMonth+"-"+sDay;
+            day++;
+            todoDto.setAchieve(n);
+            todoDto.setDate(date);
+            Todo todo = convertToEntity(todoDto);
+            todoService.save(todo);
+
+        }
+    }
 }

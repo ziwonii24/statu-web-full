@@ -14,7 +14,7 @@ public interface SubTitleService {
 
     public List<SubTitle> findByCalendarId(Long calendarId);
 
-    public void save(SubTitle subTitle);
+    public Long save(SubTitle subTitle);
 
     public void deleteById(Long subTitleId);
 

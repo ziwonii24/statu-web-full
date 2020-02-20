@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -17,13 +18,17 @@ public class SwaggerConfig {
     @Bean
     public Docket postsApi() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("public-api")
-                .apiInfo(apiInfo()).select().paths(PathSelectors.any()).build();
+                .apiInfo(apiInfo()).select().apis(RequestHandlerSelectors.basePackage("minsu.restapi.web")).paths(PathSelectors.any()).build();
+        /*
+        return new Docket(DocumentationType.SWAGGER_2).groupName("public-api")
+            .apiInfo(apiInfo()).select().paths(PathSelectors.any()).build();
+         */
     }
 
 
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("JavaInUse API")
-                .description("MINSU & ZEROZERO REST API").version("1.0").build();
+                .description("MINSU & ZEROZERO REST API").version("2.0").build();
     }
 }

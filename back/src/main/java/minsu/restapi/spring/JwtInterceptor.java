@@ -8,9 +8,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+/*
+헤더에서 토큰을 꺼내 검사합니다.
+true를 반환하면, 요청에 대한 루틴을 수행하라는 의미이고,
+false는 요청을 수행하지 않고 Exception을 반환합니다.
+ */
 @Component
-
 public class JwtInterceptor implements HandlerInterceptor{
 	
 	@Autowired
@@ -19,20 +22,15 @@ public class JwtInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println(request.getMethod()+":" + request.getServletPath());
 			if(request.getMethod().equals("OPTIONS")) {
-				return true;
-			} else {
-				String token = request.getHeader("jwt-auth-token");
-				if(token != null && token.length() > 0) {
-					jwtService.checkValid(token);
-					
 					return true;
 				} else {
-					throw new RuntimeException("인증토큰이 없습니다. ");
-				}
+					String token = request.getHeader("token");
+					if(token != null && token.length() > 0) {
+						return jwtService.checkValid(token);
+					} else {
+						throw new RuntimeException("인증토큰이 없습니다. ");
+					}
 			}
-	
 	}
-
 }

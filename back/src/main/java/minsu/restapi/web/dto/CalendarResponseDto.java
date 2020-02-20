@@ -20,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 public class CalendarResponseDto {
     private Long id;
+    private Long userId;
     private String title;
     private String startDate;
     private String endDate;
@@ -27,9 +28,8 @@ public class CalendarResponseDto {
     private int view;
     private boolean pb;
     private float progress;
-    private String[] tag;
-    private boolean represen;
-    private List<Category1> category1s = new ArrayList<>();
-    private List<Category2> category2s = new ArrayList<>();
-    private List<SubTitle> subTitles = new ArrayList<>();
+    private String[] tags;
+    private boolean represent;
+    private String[] category1;
+    private String[] category2;
 }

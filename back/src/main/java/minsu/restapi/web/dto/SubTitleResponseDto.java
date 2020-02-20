@@ -9,12 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoDto {
+public class SubTitleResponseDto {
     private Long id;
-    private Long subTitleId;
     private Long calendarId;
-    private String date;
-    private String todo;
-    private int goal;
-    private int achieve;
+    private String subTitle;
+    private String startDate;
+    private String endDate;
+    private String color;
 }

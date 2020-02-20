@@ -2,14 +2,12 @@ package minsu.restapi.persistence.service;
 
 
 import minsu.restapi.persistence.dao.SubTitleRepository;
-import minsu.restapi.persistence.model.Calendar;
 import minsu.restapi.persistence.model.SubTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,8 +32,9 @@ public class SubTitleServiceImpl implements SubTitleService {
     }
 
     @Override
-    public void save(SubTitle subTitle) {
-        subTitleRepository.save(subTitle);
+    public Long save(SubTitle subTitle) {
+        Long id = subTitleRepository.save(subTitle).getId();
+        return id;
     }
 
     @Override

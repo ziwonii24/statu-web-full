@@ -40,6 +40,16 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
+    public List<Todo> findByCalendarId(Long calendarId) {
+        return todoRepository.findByCalendarId(calendarId);
+    }
+
+    @Override
+    public List<Todo> findByUserId(Long userId) {
+        return todoRepository.findByUserId(userId);
+    }
+
+    @Override
     public List<Todo> findByDateCal(Date date, Long calenderId) {
         return todoRepository.findByDateCal(date, calenderId);
     }

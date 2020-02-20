@@ -17,10 +17,12 @@ public class CalendarDto {
     private String title;
     private String startDate;
     private String endDate;
+    private int view;
+    private int recommend;
     private boolean pb;
     private String[] tags;
     private boolean represent;
-    private Long[] category1;
-    private Long[] category2;
+    private String[] category1;
+    private String[] category2;
 
 }
