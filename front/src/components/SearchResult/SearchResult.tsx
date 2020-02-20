@@ -39,7 +39,7 @@ const SearchResult: FunctionComponent<Interface> = (props: Interface) => {
                 className="card-single"
                 style={{
                   width: `${width >= 800 ? 100 / 4 : (width >= 400 ? 100 / 2.2 : 100)}vw`,
-                  border: `${index == 0 ? 'ridge #FFD700 10px' : (index == 1 ? 'ridge #A6A6A6 7px' : (index == 2 ? 'ridge #DA8A67 5px' : 'black'))}`
+                  border: 'black'
                 }}
               >
                 <CalendarInfo
