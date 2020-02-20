@@ -109,6 +109,7 @@ const SmallNavBar: FunctionComponent<Props> = (props: Props) => {
         <div className="toggle">
           <div className="sm-menu main-color"><a onClick={handleClickMyPlan} >내 공부</a></div>
           <div className="sm-menu main-color"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
+          <div className="sm-menu main-color"><a href="http://http://i02a306.p.ssafy.io/" className="findStudy"><big>스</big>터디의<big>발</big>견</a></div>
           <div className="sm-menu main-color"><a onClick={onLogout} >로그아웃</a></div>
           <div className="sm-menu img-menu main-color"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
         </div>

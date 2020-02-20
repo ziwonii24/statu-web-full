@@ -90,6 +90,7 @@ const LargeNavBar: FunctionComponent<Props> = (props: Props) => {
         <div className="menuBox">
           <div className="lg-menu"><a onClick={handleClickMyPlan} >내 공부</a></div>
           <div className="lg-menu"><a onClick={handleClickImportedPlan}>가져온 공부</a></div>
+          <div className="lg-menu"><a href="http://http://i02a306.p.ssafy.io/" className="findStudy"><big>스</big>터디의<big>발</big>견</a></div>
           <div className="lg-menu"><a onClick={onLogout} >로그아웃</a></div>
           <div className="lg-menu"><img className='userImg' src={`${SERVER_IMG_IP}/${user.img}`} onClick={handleClickProfile} /></div>
         </div>

@@ -8,6 +8,12 @@
   z-index: 1000;
   border-bottom: 0.5px solid #8dab9f;
 
+  a:link{ color: whitesmoke; text-decoration: none;}
+  a:visited { color: whitesmoke; text-decoration: none;}
+  a:hover { color: whitesmoke; text-decoration: none;}
+
+
+
   .viewOption {
     display: flex;
     align-items: center;
@@ -141,3 +147,24 @@
     cursor: pointer;
   }
 }
+
+
+@font-face {
+  font-family: 'MapoPeacefull';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoPeacefullA.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+  color: whitesmoke;
+  text-decoration: none;
+  
+}
+
+
+.findStudy{
+  font-family: 'MapoPeacefull';
+  color: whitesmoke;
+  text-decoration: none;
+  outline: none;
+}
+
