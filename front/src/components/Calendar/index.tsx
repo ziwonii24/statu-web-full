@@ -92,7 +92,8 @@ const Calendar: FunctionComponent<Interface> = (props: Interface) => {
 
   // 소목표 데이터 필터링
   const subSchedules = subSchedule
-    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay) || schedule.startDate === '9999-99-99')  // 이번 달에 있는 일정
+    .filter(schedule => !(dayjs(schedule.endDate) < startDay || dayjs(schedule.startDate) > endDay) 
+      || schedule.startDate === '9999-99-99')  // 이번 달에 있는 일정
     .sort(function (a, b) {
       if (sortDate(a.startDate, b.startDate) === 0) {
         return sortDate(b.endDate, a.endDate)

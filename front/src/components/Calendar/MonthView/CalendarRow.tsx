@@ -49,7 +49,7 @@ const CalendarRow: FunctionComponent<Interface> = (props: Interface) => {
 
       // 기존에 추가되어 있는 일정 중에 끝난 일정이 있다면 값을 0으로 변경하여 나중에 스케줄 추가할 때 빈자리에 들어갈 수 있도록 조정
       const newSubScheduleOrder = subScheduleOrder.map(schedule => {
-        if (schedule.startDate === '9999-99-99') {
+        if (schedule.id === 0) {
           return schedule
         }
 

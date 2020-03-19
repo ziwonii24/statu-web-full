@@ -41,7 +41,9 @@
     padding: 3rem;
 
     .main-logo {
-        width: 50vh;
+        max-width: 500px;
+        width: 100%;
+        height: auto;
         margin-bottom: 3vh;
     }
 }
