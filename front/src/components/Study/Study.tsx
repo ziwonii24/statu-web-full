@@ -28,7 +28,7 @@ const Study: FunctionComponent<Interface> = (props: Interface) => {
   const myRepresentMainSchedule = user ?
     getMainSchedules.filter(schedule => schedule.userId === user.id && schedule.represent === true) : []
   const mySubSchedule = myRepresentMainSchedule.length ?
-    getSubSchedules.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id) : []
+    getSubSchedules.filter(schedule => schedule.calendarId === myRepresentMainSchedule[0].id).reverse() : []
 
   const title = useMemo(() => 
     myRepresentMainSchedule.length !== 0 && myRepresentMainSchedule[0].title

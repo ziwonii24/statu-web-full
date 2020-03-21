@@ -182,7 +182,7 @@ function* applyScheduleToMyPlanSaga({
       endDate: mainScheduleEndDate
     };
 
-    // 가져올 캘린더를 내 공부 에 저장하기
+    // 가져올 캘린더를 mainSchedules 에 저장하기
     const postMainResp = yield call(
       [axios, "post"],
       SERVER_IP + "/calendar",
